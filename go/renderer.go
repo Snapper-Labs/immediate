@@ -4,10 +4,6 @@ import (
 	"fmt"
 )
 
-type reconciliationState struct {
-	matches map[*ShadowNode]*RenderNode
-}
-
 // Renderer can be thought of as the data structure that holds the state of a
 // render phase. It is the public-facing API for applications to render content
 // to the host.
