@@ -9,14 +9,12 @@ import (
 
 func SlButton(ui *immgo.Renderer, label string) bool {
 	clicked := immgo.State(ui, false)
-
 	props := map[string]interface{} {
 		"textContent": label,
 		"onclick": func(_event interface{}) {
 			*clicked = true
 		},
 	}
-
 	ui.Render(immgo.NewRenderNode("sl-button", "sl-button", props))
 
 	currState := *clicked
