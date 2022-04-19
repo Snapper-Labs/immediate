@@ -5,6 +5,15 @@ import (
 	"github.com/apkumar/immediate/go"
 )
 
+func Div(ui *immgo.Renderer, opts ...immgo.RenderOption) {
+	allOpts := append([]immgo.RenderOption{ immgo.WithKind("div") }, opts...)
+
+	immgo.Render(
+		ui,
+		allOpts...,
+	)
+}
+
 func Text(ui *immgo.Renderer, content string) {
 	props := map[string]interface{} {
 		"textContent": content,

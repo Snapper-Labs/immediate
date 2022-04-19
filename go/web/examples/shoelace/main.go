@@ -15,7 +15,8 @@ func SlButton(ui *immgo.Renderer, label string) bool {
 			*clicked = true
 		},
 	}
-	ui.Render(immgo.NewRenderNode("sl-button", "sl-button", props))
+
+	immgo.Render(ui, immgo.WithKind("sl-button"), immgo.WithProps(props))
 
 	currState := *clicked
 	*clicked = false

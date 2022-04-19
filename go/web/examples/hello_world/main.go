@@ -26,6 +26,14 @@ func (this *app) Render(ui *immgo.Renderer, doc *immgo_web.Document) {
 		go doc.Alert("Congrats!")
 		*alerted = true
 	}
+
+	immgo_web.Div(ui, immgo.WithOpen())
+	{
+		immgo_web.Text(ui, "This is nested under the div.")
+		immgo.Close(ui)
+	}
+
+	immgo_web.Text(ui, "And this is not.")
 }
 
 func main() {
