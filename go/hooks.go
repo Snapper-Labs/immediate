@@ -121,8 +121,18 @@ func State[T any](ui *Renderer, defaultState T) *T {
 	}
 }
 
-
-
 func Close(ui *Renderer) error {
 	return ui.PopRenderParent(nil)
+}
+
+func Changed[T comparable](ui *Renderer, curr T) bool {
+	last := State(ui, curr)
+	ret := *last == curr
+
+	*last = curr
+	return ret
+}
+
+func FirstRender(ui *Renderer) bool {
+	return Changed(ui, "")
 }

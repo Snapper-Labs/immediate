@@ -4,10 +4,6 @@ import (
 	"fmt"
 )
 
-type reconciliationState struct {
-	matches map[*ShadowNode]*RenderNode
-}
-
 // Renderer can be thought of as the data structure that holds the state of a
 // render phase. It is the public-facing API for applications to render content
 // to the host.
@@ -25,7 +21,7 @@ func NewRenderer(shadowRoot *ShadowNode) *Renderer {
 	reconciliationState := make(map[*ShadowNode]*RenderNode)
 
 	// create a dummy render node to serve as the match for the shadow root. 
-	renderRoot := NewRenderNode("_root_", "_root", Properties{})
+	renderRoot := NewRenderNode("_root_", "_root_", Properties{})
 
 	shadowStack.Push(shadowRoot)
 	renderStack.Push(renderRoot)
@@ -149,7 +145,7 @@ func (this *Renderer) commitAt(shadowNode *ShadowNode, hostNode HostNode, hostTr
 		_, matched := this.reconciliationState[child]
 
 		if !matched {
-			shadowNode.RemoveChildAt(index)
+			shadowNode.RemoveChildAt(index - removed)
 			err := hostTree.RemoveChildAt(hostNode, index - removed)
 			if err != nil {
 				return err
