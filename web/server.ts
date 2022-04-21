@@ -2,6 +2,7 @@ import {Peer} from './rpc';
 
 const SPECIAL_ATTRIBUTES = new Set([
   'textContent',
+  'value',
 ]);
 
 type PropertiesUpdate = {
@@ -49,8 +50,6 @@ export function createDocumentServer(peer: Peer) {
         const evtListener = (event: Event) => {
           const evt = {
             ...extractObject(event),
-            // @ts-ignore
-            targetValue: event.target.value,
           };
           peer.notify('handleEvent', { kind, target: id, event: evt });
         }
@@ -95,8 +94,12 @@ function extractObject(objc: Object, depth=0, maxDepth=2) {
   for (let key in objc) {
     // @ts-ignore
     let value = objc[key];
-    if (value instanceof Node)
+    if (value instanceof Node) {
+      // @ts-ignore
+      obj[`${key}Value`] = value.value;
+
       value = 'Node'
+    }
     else if (value instanceof Window)
       value = 'Window';
     else if (value instanceof Object)

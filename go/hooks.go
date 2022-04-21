@@ -43,6 +43,26 @@ func WithAttributes(attributes Attributes) RenderOption {
 	}
 }
 
+func WithAttribute(key string, val interface{}) RenderOption {
+	return func(opt *renderOptions) {
+		if opt.props.Attributes == nil {
+			opt.props.Attributes = Attributes{}
+		}
+
+		opt.props.Attributes[key] = val
+	}
+}
+
+func WithEventHandler(key string, handler func(interface{})) RenderOption {
+	return func(opt *renderOptions) {
+		if opt.props.EventHandlers == nil {
+			opt.props.EventHandlers = EventHandlers{}
+		}
+
+		opt.props.EventHandlers[key] = handler
+	}
+}
+
 func WithOpen() RenderOption {
 	return func(opt *renderOptions) {
 		opt.push = true;
@@ -67,7 +87,9 @@ func Render(ui *Renderer, opts ...RenderOption) *ShadowNode {
 	shadowNode := ui.Render(renderNode)
 
 	if options.push {
-		ui.PushRenderParent(renderNode)
+		if err := ui.PushRenderParent(renderNode); err != nil {
+			panic("Internal library error")
+		}
 	}
 
 	if options.returnTo != nil {
@@ -101,6 +123,6 @@ func State[T any](ui *Renderer, defaultState T) *T {
 
 
 
-func Close(ui *Renderer) {
-	ui.PopRenderParent(nil)
+func Close(ui *Renderer) error {
+	return ui.PopRenderParent(nil)
 }

@@ -19,12 +19,14 @@ func TestRendererSimple(t *testing.T) {
 	state := &appState{}
 
 	renderFunc := func(ui *Renderer) {
-		state.numRender += 1
+		if state.numRender < 2 {
+			Render(ui, WithKind("div"), WithAttributes(Attributes{ "hello": "world" }))
+			Render(ui, WithKind("div"), WithAttributes(Attributes{ "numRender": state.numRender }), WithOpen())
+			Render(ui, WithKind("div"), WithAttributes(Attributes{ "hello": "child"}))
+			Close(ui)
+		}
 
-		Render(ui, WithKind("div"), WithAttributes(Attributes{ "hello": "world" }))
-		Render(ui, WithKind("div"), WithAttributes(Attributes{ "numRender": state.numRender }), WithOpen())
-		Render(ui, WithKind("div"), WithAttributes(Attributes{ "hello": "child"}))
-		Close(ui)
+		state.numRender += 1
 	}
 
 	hostTree := NewInmemHostTree()
@@ -62,5 +64,12 @@ func TestRendererSimple(t *testing.T) {
 		if childrenBefore[index] != childrenAfter[index] {
 			t.Errorf("Children changed")
 		}
+	}
+
+	// another render should clear out all the children.
+	Update(hostTree, hostRoot, shadowRoot, renderFunc)
+	childrenAfter = hostRootRef.Children()
+	if len(childrenAfter) != 0 {
+		t.Errorf("Expected nodes to be removed; %d", len(childrenAfter))
 	}
 }

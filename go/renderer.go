@@ -91,6 +91,8 @@ func (this *Renderer) PushRenderParent(renderNode *RenderNode) error {
 		if !pushed {
 			this.shadowStack.Push(nil)
 		}
+	} else {
+		this.shadowStack.Push(nil)
 	}
 
 	this.renderStack.Push(renderNode)
@@ -117,7 +119,7 @@ func (this *Renderer) PopRenderParent(renderNode *RenderNode) error {
 // anything reflected in the host tree corresponding to hooks.
 func (this *Renderer) Commit(hostTree HostTree, hostNode HostNode) error {
 	if this.shadowStack.Len() != 1 || this.renderStack.Len() != 1 {
-		return fmt.Errorf("Renderer.Commit: Not all calls to `PushRenderParent` were matched with calls to `PopRenderParent`")
+		return fmt.Errorf("Renderer.Commit: Not all calls to `PushRenderParent` were matched with calls to `PopRenderParent` (shadowStack: %d, renderStack: %d", this.shadowStack.Len(), this.renderStack.Len())
 	}
 
 	shadowRoot := this.shadowStack.Top()
@@ -132,17 +134,29 @@ func (this *Renderer) commitAt(shadowNode *ShadowNode, hostNode HostNode, hostTr
 
 	// update our properties
 	shadowNode.data.properties = renderNode.data.properties
-	hostTree.UpdateNodeProperties(hostNode, shadowNode.data.properties)
+	if err := hostTree.UpdateNodeProperties(hostNode, shadowNode.data.properties); err != nil {
+		return err
+	}
 
 	// delete unmatched children
 	shadowChildren := shadowNode.Children()
+	hostChildren, err := hostTree.GetChildren(hostNode)
+	if err != nil {
+		return err
+	}
+	removed := 0
 	for index, child := range shadowChildren {
 		_, matched := this.reconciliationState[child]
+
 		if !matched {
 			shadowNode.RemoveChildAt(index)
-			hostTree.RemoveChildAt(hostNode, index)
-			hostTree.DestroyNode(hostNode)
-		}
+			err := hostTree.RemoveChildAt(hostNode, index - removed)
+			if err != nil {
+				return err
+			}
+			hostTree.DestroyNode(hostChildren[index])
+			removed += 1
+		} 
 	}
 
 	// reorder children (TODO: We might want to just avoid this in `match`. This
@@ -159,9 +173,15 @@ func (this *Renderer) commitAt(shadowNode *ShadowNode, hostNode HostNode, hostTr
 			this.reconciliationState[newShadowNode] = child
 			shadowNode.InsertChildAt(newShadowNode, index)
 
-			newHostNode, _ := hostTree.CreateNode(child.data.kind)
-			hostTree.InsertChildAt(hostNode, newHostNode, index)
-		}
+			newHostNode, err := hostTree.CreateNode(child.data.kind)
+			if err != nil {
+				return err
+			}
+			err = hostTree.InsertChildAt(hostNode, newHostNode, index)
+			if err != nil {
+				return err
+			}
+		} 
 	}
 
 	// recurse down the shadow tree.
@@ -169,7 +189,10 @@ func (this *Renderer) commitAt(shadowNode *ShadowNode, hostNode HostNode, hostTr
 	// At this point, we expect the shadow tree and host tree to be in sync at
 	// this level.
 	shadowChildren = shadowNode.Children()
-	hostChildren, _ := hostTree.GetChildren(hostNode)
+	hostChildren, err = hostTree.GetChildren(hostNode)
+	if err != nil {
+		return err
+	}
 	if len(shadowChildren) != len(hostChildren) {
 		return fmt.Errorf("Internal Library Error; host tree and shadow tree out of sync.")
 	}

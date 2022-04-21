@@ -61,7 +61,10 @@ func serveWs(w http.ResponseWriter, r *http.Request, app App) {
 
 	go peer.ServeLoop()
 	for {
-		immgo.Update(hostTree, hostRoot, shadowRoot, renderFunc)
+		err := immgo.Update(hostTree, hostRoot, shadowRoot, renderFunc)
+		if err != nil {
+			log.Println("Error updating: ", err)
+		}
 
 		time.Sleep(33 * time.Millisecond)
 	}
