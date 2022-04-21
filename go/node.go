@@ -104,8 +104,16 @@ func (this *Node[T]) LastChild() *Node[T] {
 	}
 }
 
+type Attributes = map[string]interface{}
+type EventHandlers = map[string]func(event interface{})
 
-type Properties = map[string]interface{}
+// Properties include attributes, which are keyed by attribute name and can be
+// any time (though are usually strings), and event handlers, which are keyed by
+// event type.
+type Properties struct {
+	Attributes map[string]interface{}
+	EventHandlers map[string]func(event interface{})
+}
 
 type RenderNodeData struct {
 	key string

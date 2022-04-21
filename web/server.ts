@@ -4,11 +4,12 @@ const SPECIAL_ATTRIBUTES = new Set([
   'textContent',
 ]);
 
-const HANDLER_ATTRIBUTES = new Set([
-  'onclick',
-  'oninput',
-  'onload',
-]);
+type PropertiesUpdate = {
+  newAttributes: Array<{key: string, value: string}>;
+  removedAttributes: Array<string>;
+  newEventHandlers: Array<string>;
+  removedEventHandlers: Array<string>;
+}
 
 export function createDocumentServer(peer: Peer) {
   let elements: Map<number, HTMLElement> = new Map();
@@ -24,11 +25,12 @@ export function createDocumentServer(peer: Peer) {
     elements.delete(id);
   });
 
-  peer.setHandler('updateNodeProperties', async ({ id, properties }: { id: number, properties: { [key: string]: string | null } }) => {
+  peer.setHandler('updateNodeProperties', async ({ id, propertiesUpdate }: { id: number, propertiesUpdate: PropertiesUpdate }) => {
     const elem = elements.get(id);
     if (elem) {
-      Object.keys(properties).forEach(k => {
-        const val = properties[k]
+      propertiesUpdate.newAttributes.forEach(kv => {
+        const k = kv.key;
+        const val = kv.value;
 
         if (SPECIAL_ATTRIBUTES.has(k)) {
           // @ts-ignore
@@ -36,25 +38,33 @@ export function createDocumentServer(peer: Peer) {
           return;
         }
 
-        if (HANDLER_ATTRIBUTES.has(k)) {
-          const kind = k.substring(2);
-          elem.addEventListener(kind, (event: Event) => {
-            console.log(`handling event: ${kind}; ${event}`);
-            const evt = {
-              ...extractObject(event),
-              // @ts-ignore
-              targetValue: event.target.value,
-            };
-            peer.notify('handleEvent', { kind, target: id, event: evt });
-          });
-          return;
+        elem.setAttribute(k, val);
+      })
+
+      propertiesUpdate.removedAttributes.forEach(k => {
+        elem.removeAttribute(k)
+      });
+
+      propertiesUpdate.newEventHandlers.forEach(kind => {
+        const evtListener = (event: Event) => {
+          const evt = {
+            ...extractObject(event),
+            // @ts-ignore
+            targetValue: event.target.value,
+          };
+          peer.notify('handleEvent', { kind, target: id, event: evt });
         }
 
-        if (val == null) {
-          elem.removeAttribute(k);
-        } else {
-          console.log(`setAttribute: ${k}`);
-          elem.setAttribute(k, val);
+        elem.addEventListener(kind, evtListener);
+        // @ts-ignore
+        elem._immediate_evtListener = evtListener
+      });
+
+      propertiesUpdate.removedEventHandlers.forEach(kind => {
+        // @ts-ignore
+        const evtListener = elem._immediate_evtListener;
+        if (evtListener) {
+          elem.removeEventListener(kind, evtListener);
         }
       });
     }

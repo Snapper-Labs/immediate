@@ -14,68 +14,106 @@ func Div(ui *immgo.Renderer, opts ...immgo.RenderOption) {
 	)
 }
 
-func Text(ui *immgo.Renderer, content string) {
-	props := map[string]interface{} {
-		"textContent": content,
-	}
+func Text(ui *immgo.Renderer, content string, opts ...immgo.RenderOption) {
+	allOpts := append(
+		[]immgo.RenderOption{ 
+			immgo.WithKind("div"),
+			immgo.WithAttributes(immgo.Attributes {
+				"textContent": content,
+			}),
+		},
+		opts...
+	)
 
-	divNode := immgo.NewRenderNode("div", "div", props)
-	ui.Render(divNode)
+	immgo.Render(
+		ui,
+		allOpts...
+	)
 }
 
-func Button(ui *immgo.Renderer, label string) bool {
+func Button(ui *immgo.Renderer, label string, opts ...immgo.RenderOption) bool {
 	clicked := immgo.State(ui, false)
 
-	props := map[string]interface{} {
-		"textContent": label,
-		"onclick": func(_event interface{}) {
-			*clicked = true
+	allOpts := append(
+		[]immgo.RenderOption{ 
+			immgo.WithKind("button"),
+			immgo.WithAttributes(immgo.Attributes {
+				"textContent": label,
+			}),
+			immgo.WithEventHandlers(immgo.EventHandlers {
+				"click": func(_event interface{}) {
+					*clicked = true
+				},
+			}),
 		},
-	}
+		opts...
+	)
 
-	ui.Render(immgo.NewRenderNode("button", "button", props))
+	immgo.Render(ui, allOpts...)
 
 	currState := *clicked
 	*clicked = false
 	return currState
 }
 
-func Link(ui *immgo.Renderer, rel, href string) bool {
+func Link(ui *immgo.Renderer, rel, href string, opts ...immgo.RenderOption) bool {
 	loaded := immgo.State(ui, false)
-	props := map[string]interface{} {
-		"rel": rel,
-		"href": href,
-		"onload": func(_event interface{}) {
-			*loaded = true
+	allOpts := append(
+		[]immgo.RenderOption{ 
+			immgo.WithKind("link"),
+			immgo.WithAttributes(immgo.Attributes {
+				"rel": rel,
+				"href": href,
+			}),
+			immgo.WithEventHandlers(immgo.EventHandlers {
+				"load": func(_event interface{}) {
+					*loaded = true
+				},
+			}),
 		},
-	}
+		opts...
+	)
 
-	ui.Render(immgo.NewRenderNode("link", "link", props))
+	immgo.Render(ui, allOpts...)
 	return *loaded
 }
 
-func Script(ui *immgo.Renderer, typ, src string) bool {
+func Script(ui *immgo.Renderer, typ, src string, opts ...immgo.RenderOption) bool {
 	loaded := immgo.State(ui, false)
-	props := map[string]interface{} {
-		"type": typ,
-		"src": src,
-		"onload": func(_event interface{}) {
-			*loaded = true
+	allOpts := append(
+		[]immgo.RenderOption{ 
+			immgo.WithKind("script"),
+			immgo.WithAttributes(immgo.Attributes {
+				"type": typ,
+				"src": src,
+			}),
+			immgo.WithEventHandlers(immgo.EventHandlers {
+				"load": func(_event interface{}) {
+					*loaded = true
+				},
+			}),
 		},
-	}
+		opts...
+	)
 
-	ui.Render(immgo.NewRenderNode("script", "script", props))
+	immgo.Render(ui, allOpts...)
 	return *loaded
 }
 
-func TextInput(ui *immgo.Renderer) string {
+func TextInput(ui *immgo.Renderer, opts ...immgo.RenderOption) string {
 	curr := immgo.State(ui, "")
-	props := map[string]interface{} {
-		"oninput": func(event interface{}) {
-			*curr = event.(map[string]interface{})["targetValue"].(string)
+	allOpts := append(
+		[]immgo.RenderOption{ 
+			immgo.WithKind("input"),
+			immgo.WithEventHandlers(immgo.EventHandlers {
+				"input": func(event interface{}) {
+					*curr = event.(map[string]interface{})["targetValue"].(string)
+				},
+			}),
 		},
-	}
+		opts...
+	)
 
-	ui.Render(immgo.NewRenderNode("textinput", "input", props))
+	immgo.Render(ui, allOpts...)
 	return *curr
 }

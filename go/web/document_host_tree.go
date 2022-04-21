@@ -1,8 +1,6 @@
 package immgo_web
 
 import (
-	"fmt"
-
 	"github.com/apkumar/immediate/go"
 )
 
@@ -14,10 +12,21 @@ type CreateNodeParams struct {
 type DestroyNodeParams struct {
 	Id int `json:"id"`
 }
+type KeyValue struct {
+	Key string `json:"key"`
+	Value string `json:"value"`
+}
+
+type PropertiesUpdate struct {
+	NewAttributes []KeyValue `json:"newAttributes"`
+	RemovedAttributes []string `json:"removedAttributes"`
+	NewEventHandlers []string `json:"newEventHandlers"`
+	RemovedEventHandlers []string `json:"removedEventHandlers"`
+}
 
 type UpdateNodePropertiesParams struct {
 	Id int `json:"id"`
-	Properties map[string]*string `json:"properties"`
+	Properties PropertiesUpdate `json:"propertiesUpdate"`
 }
 
 type RemoveChildAtParams struct {
@@ -119,8 +128,8 @@ func (this *DocumentHostTree) DestroyNode(node immgo.HostNode) error {
 }
 
 func (this *DocumentHostTree) UpdateNodeProperties(node immgo.HostNode, props immgo.Properties) error {
-	properties := this.createPropertiesMapForNode(node, props)
-	if len(properties) > 0 {
+	properties := this.createPropertyUpdateForNode(node, props)
+	if !propertyUpdateIsEmpty(properties) {
 		this.frame = append(this.frame, notify {
 			Method: "updateNodeProperties",
 			Params: UpdateNodePropertiesParams {
@@ -177,16 +186,10 @@ func (this *DocumentHostTree) GetChildren(parent immgo.HostNode) ([]immgo.HostNo
 func (this *DocumentHostTree) TriggerEvent() error {
 	if len(this.events) > 0 {
 		nextEvent := this.events[0]
-		fmt.Println("Triggering event: ", nextEvent)
 		props := this.nodeToProps[immgo.HostNode(nextEvent.Target)]
-		key := fmt.Sprintf("on%s", nextEvent.Kind)
-
-		handler, exists := props[key]
+		handler, exists := props.EventHandlers[nextEvent.Kind]
 		if exists {
-			realHandler, ok := handler.(func(interface{}))
-			if ok {
-				realHandler(nextEvent.Event)
-			}
+			handler(nextEvent.Event)
 		}
 
 		this.events = this.events[1:]
@@ -202,20 +205,23 @@ func (this *DocumentHostTree) getNextId() immgo.HostNode {
 	return r
 }
 
-func (this *DocumentHostTree) createPropertiesMapForNode(node immgo.HostNode, props immgo.Properties) map[string]*string {
+func (this *DocumentHostTree) createPropertyUpdateForNode(node immgo.HostNode, props immgo.Properties) PropertiesUpdate {
 	_, exists := this.nodeToProps[node]
 	if !exists {
 		this.nodeToProps[node] = immgo.Properties {}
 	}
+	update := PropertiesUpdate{
+		NewAttributes: []KeyValue{},
+		RemovedAttributes: []string{},
+		NewEventHandlers: []string{},
+		RemovedEventHandlers: []string{},
+	}
 
 	currProps := this.nodeToProps[node]
-
-	var dummy string
-	r := make(map[string]*string)
-	for k,v := range props {
+	for k,v := range props.Attributes {
 		switch tv := v.(type) {
 		case string:
-			curr, exists := currProps[k]
+			curr, exists := currProps.Attributes[k]
 			if exists {
 				currString, ok := curr.(string)
 				if ok {
@@ -225,25 +231,39 @@ func (this *DocumentHostTree) createPropertiesMapForNode(node immgo.HostNode, pr
 				}
 			}
 
-			r[k] = &tv
+			update.NewAttributes = append(update.NewAttributes, KeyValue{Key:k, Value:tv})
 		default:
-			_, exists := currProps[k]
-			if exists {
-				continue
-			}
-
-			r[k] = &dummy
+			// pass
 		}
 	}
 
-	for k := range currProps {
-		_, exists := props[k]
+	for k := range currProps.Attributes {
+		_, exists := props.Attributes[k]
 		if !exists {
-			r[k] = nil
+			update.RemovedAttributes = append(update.RemovedAttributes, k)
 		}
 	}
+
+	for k := range props.EventHandlers {
+		_, exists := currProps.EventHandlers[k]
+		if !exists {
+			update.NewEventHandlers = append(update.NewEventHandlers, k)
+		}
+	}
+
+	for k := range currProps.EventHandlers {
+		_, exists := props.EventHandlers[k]
+		if !exists {
+			update.RemovedEventHandlers = append(update.RemovedEventHandlers, k)
+		}
+	}
+
 
 	this.nodeToProps[node] = props
 
-	return r
+	return update
+}
+
+func propertyUpdateIsEmpty(upd PropertiesUpdate) bool {
+	return len(upd.NewAttributes) == 0 && len(upd.RemovedAttributes) == 0 && len(upd.NewEventHandlers) == 0 && len(upd.RemovedEventHandlers) == 0
 }

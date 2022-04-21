@@ -21,25 +21,17 @@ func TestRendererSimple(t *testing.T) {
 	renderFunc := func(ui *Renderer) {
 		state.numRender += 1
 
-		ui.Render(
-			NewRenderNode("div", "div", Properties { "hello": "world" }),
-		)
-
-		divNode := NewRenderNode("div", "div", Properties { "numRender": state.numRender })
-		ui.Render(divNode)
-		
-		ui.PushRenderParent(divNode)
-		ui.Render(
-			NewRenderNode("div", "div", Properties { "hello": "child" }),
-		)
-		ui.PopRenderParent(divNode)
+		Render(ui, WithKind("div"), WithAttributes(Attributes{ "hello": "world" }))
+		Render(ui, WithKind("div"), WithAttributes(Attributes{ "numRender": state.numRender }), WithOpen())
+		Render(ui, WithKind("div"), WithAttributes(Attributes{ "hello": "child"}))
+		Close(ui)
 	}
 
 	hostTree := NewInmemHostTree()
 	hostRoot, err := hostTree.CreateNode("root")
 	check(err)
 
-	shadowRoot := NewShadowNode("root", "root", nil)
+	shadowRoot := NewShadowNode("root", "root", Properties{})
 
 	Update(hostTree, hostRoot, shadowRoot, renderFunc)
 

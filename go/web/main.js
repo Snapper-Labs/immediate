@@ -144,11 +144,6 @@
   var SPECIAL_ATTRIBUTES = /* @__PURE__ */ new Set([
     "textContent"
   ]);
-  var HANDLER_ATTRIBUTES = /* @__PURE__ */ new Set([
-    "onclick",
-    "oninput",
-    "onload"
-  ]);
   function createDocumentServer(peer) {
     let elements = /* @__PURE__ */ new Map();
     elements.set(-1, document.body);
@@ -160,31 +155,35 @@
     peer.setHandler("destroyNode", (_0) => __async(this, [_0], function* ({ id }) {
       elements.delete(id);
     }));
-    peer.setHandler("updateNodeProperties", (_0) => __async(this, [_0], function* ({ id, properties }) {
+    peer.setHandler("updateNodeProperties", (_0) => __async(this, [_0], function* ({ id, propertiesUpdate }) {
       const elem = elements.get(id);
       if (elem) {
-        Object.keys(properties).forEach((k) => {
-          const val = properties[k];
+        propertiesUpdate.newAttributes.forEach((kv) => {
+          const k = kv.key;
+          const val = kv.value;
           if (SPECIAL_ATTRIBUTES.has(k)) {
             elem[k] = val;
             return;
           }
-          if (HANDLER_ATTRIBUTES.has(k)) {
-            const kind = k.substring(2);
-            elem.addEventListener(kind, (event) => {
-              console.log(`handling event: ${kind}; ${event}`);
-              const evt = __spreadProps(__spreadValues({}, extractObject(event)), {
-                targetValue: event.target.value
-              });
-              peer.notify("handleEvent", { kind, target: id, event: evt });
+          elem.setAttribute(k, val);
+        });
+        propertiesUpdate.removedAttributes.forEach((k) => {
+          elem.removeAttribute(k);
+        });
+        propertiesUpdate.newEventHandlers.forEach((kind) => {
+          const evtListener = (event) => {
+            const evt = __spreadProps(__spreadValues({}, extractObject(event)), {
+              targetValue: event.target.value
             });
-            return;
-          }
-          if (val == null) {
-            elem.removeAttribute(k);
-          } else {
-            console.log(`setAttribute: ${k}`);
-            elem.setAttribute(k, val);
+            peer.notify("handleEvent", { kind, target: id, event: evt });
+          };
+          elem.addEventListener(kind, evtListener);
+          elem._immediate_evtListener = evtListener;
+        });
+        propertiesUpdate.removedEventHandlers.forEach((kind) => {
+          const evtListener = elem._immediate_evtListener;
+          if (evtListener) {
+            elem.removeEventListener(kind, evtListener);
           }
         });
       }

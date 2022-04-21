@@ -53,7 +53,7 @@ func serveWs(w http.ResponseWriter, r *http.Request, app App) {
 	hostRoot, _ := hostTree.CreateNode("root")
 	hostTree.InsertChildAt(immgo.HostNode(-1), hostRoot, 0)
 	hostTree.EndFrame()
-	shadowRoot := immgo.NewShadowNode("root", "root", nil)
+	shadowRoot := immgo.NewShadowNode("root", "root", immgo.Properties{})
 
 	renderFunc := func(ui *immgo.Renderer) {
 		app.Render(ui, doc)

@@ -25,7 +25,7 @@ func NewRenderer(shadowRoot *ShadowNode) *Renderer {
 	reconciliationState := make(map[*ShadowNode]*RenderNode)
 
 	// create a dummy render node to serve as the match for the shadow root. 
-	renderRoot := NewRenderNode("_root_", "_root", nil)
+	renderRoot := NewRenderNode("_root_", "_root", Properties{})
 
 	shadowStack.Push(shadowRoot)
 	renderStack.Push(renderRoot)
