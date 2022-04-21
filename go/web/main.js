@@ -186,12 +186,16 @@
     }));
     peer.setHandler("removeChildAt", (_0) => __async(this, [_0], function* ({ parentId, index }) {
       const elemParent = elements.get(parentId);
-      elemParent && elemParent.removeChild(elemParent.children.item(index));
+      if (elemParent) {
+        elemParent && elemParent.removeChild(elemParent.children.item(index));
+      }
     }));
     peer.setHandler("insertChildAt", (_0) => __async(this, [_0], function* ({ parentId, childId, index }) {
       const elemParent = elements.get(parentId);
       const elemChild = elements.get(childId);
-      elemParent && elemChild && elemParent.insertBefore(elemChild, elemParent.children.item(index + 1));
+      if (elemParent && elemChild) {
+        elemParent.insertBefore(elemChild, elemParent.children.item(index));
+      }
     }));
     peer.setHandler("alert", (_0) => __async(this, [_0], function* ({ message }) {
       alert(message);

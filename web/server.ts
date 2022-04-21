@@ -71,13 +71,17 @@ export function createDocumentServer(peer: Peer) {
 
   peer.setHandler('removeChildAt', async ({ parentId, index }: { parentId: number, index: number }) => {
     const elemParent = elements.get(parentId);
-    elemParent && elemParent.removeChild(elemParent.children.item(index)!)
+    if (elemParent) {
+      elemParent && elemParent.removeChild(elemParent.children.item(index)!)
+    }
   });
 
   peer.setHandler('insertChildAt', async ({ parentId, childId, index }: { parentId: number, childId: number, index: number }) => {
     const elemParent = elements.get(parentId);
     const elemChild = elements.get(childId);
-    elemParent && elemChild && elemParent.insertBefore(elemChild, elemParent.children.item(index+1));
+    if (elemParent && elemChild) {
+      elemParent.insertBefore(elemChild, elemParent.children.item(index));
+    }
   });
 
   peer.setHandler('alert', async ({ message }: { message: string }) => {
