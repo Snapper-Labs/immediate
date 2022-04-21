@@ -21,7 +21,7 @@ type UpdateNodePropertiesParams struct {
 }
 
 type RemoveChildAtParams struct {
-	ParentId int `json:"id"`
+	ParentId int `json:"parentId"`
 	Index int `json:"index"`
 }
 
