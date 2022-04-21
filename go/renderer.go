@@ -101,7 +101,7 @@ func (this *Renderer) PopRenderParent(renderNode *RenderNode) error {
 	renderParent := this.renderStack.Top()
 
 	// Validate that this is the render parent.
-	if renderParent != renderNode {
+	if renderNode != nil && renderParent != renderNode {
 		return fmt.Errorf("Renderer.PopRenderParent: argument `renderNode` is not the current render parent.")
 	}
 
