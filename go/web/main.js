@@ -1,7 +1,5 @@
 (() => {
   var __defProp = Object.defineProperty;
-  var __defProps = Object.defineProperties;
-  var __getOwnPropDescs = Object.getOwnPropertyDescriptors;
   var __getOwnPropSymbols = Object.getOwnPropertySymbols;
   var __hasOwnProp = Object.prototype.hasOwnProperty;
   var __propIsEnum = Object.prototype.propertyIsEnumerable;
@@ -17,7 +15,6 @@
       }
     return a;
   };
-  var __spreadProps = (a, b) => __defProps(a, __getOwnPropDescs(b));
   var __async = (__this, __arguments, generator) => {
     return new Promise((resolve, reject) => {
       var fulfilled = (value) => {
@@ -142,7 +139,8 @@
 
   // server.ts
   var SPECIAL_ATTRIBUTES = /* @__PURE__ */ new Set([
-    "textContent"
+    "textContent",
+    "value"
   ]);
   function createDocumentServer(peer) {
     let elements = /* @__PURE__ */ new Map();
@@ -172,9 +170,7 @@
         });
         propertiesUpdate.newEventHandlers.forEach((kind) => {
           const evtListener = (event) => {
-            const evt = __spreadProps(__spreadValues({}, extractObject(event)), {
-              targetValue: event.target.value
-            });
+            const evt = __spreadValues({}, extractObject(event));
             peer.notify("handleEvent", { kind, target: id, event: evt });
           };
           elem.addEventListener(kind, evtListener);
@@ -207,9 +203,10 @@
     const obj = {};
     for (let key in objc) {
       let value = objc[key];
-      if (value instanceof Node)
+      if (value instanceof Node) {
+        obj[`${key}Value`] = value.value;
         value = "Node";
-      else if (value instanceof Window)
+      } else if (value instanceof Window)
         value = "Window";
       else if (value instanceof Object)
         value = extractObject(value, depth + 1, maxDepth);
