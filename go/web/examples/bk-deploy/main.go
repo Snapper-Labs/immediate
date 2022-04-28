@@ -26,14 +26,14 @@ func useDeployableCommits(ui *immgo.Renderer) *[]string {
 	return *commits
 }
 
-func commitDropdown(ui *immgo.Renderer) {
+func commitDropdown(ui *immgo.Renderer) string {
 	choices := useDeployableCommits(ui)
 	if choices == nil {
 		immgo_web.Text(ui, "Loading commits...")
-		return 
+		return  ""
 	}
 
-	Dropdown(ui, *choices)
+	return Dropdown(ui, *choices)
 }
 
 func (this *app) Render(ui *immgo.Renderer, doc *immgo_web.Document) {
@@ -42,7 +42,8 @@ func (this *app) Render(ui *immgo.Renderer, doc *immgo_web.Document) {
 		return 
 	}
 
-	commitDropdown(ui)
+	choice := commitDropdown(ui)
+	immgo_web.Text(ui, choice)
 }
 
 func main() {
