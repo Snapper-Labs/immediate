@@ -159,6 +159,7 @@ func (this *Peer) ServeLoop() {
 		err := this.Serve()
 		if err != nil {
 			log.Println("Error serving: ", err)
+			return
 		}
 	}
 }

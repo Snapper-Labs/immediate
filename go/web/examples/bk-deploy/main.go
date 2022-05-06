@@ -2,48 +2,85 @@ package main
 
 import (
 	_"log"
+	"fmt"
 	"time"
+
+	"github.com/buildkite/go-buildkite/v3/buildkite"
 
 	"github.com/apkumar/immediate/go"
 	"github.com/apkumar/immediate/go/web"
 )
 
-type app struct {
-}
-
-// nil while fetching.
-func useDeployableCommits(ui *immgo.Renderer) *[]string {
-	commits := immgo.State[*[]string](ui, nil)
-	if immgo.FirstRender(ui) {
-		go func() {
-			// pretend we're fetching commits from BK
-			time.Sleep(300 * time.Millisecond)
-
-			*commits = &[]string{"One", "Two", "Three"}
-		}()
+func must(err error) {
+	if err != nil {
+		panic(err)
 	}
-
-	return *commits
 }
 
-func commitDropdown(ui *immgo.Renderer) string {
-	choices := useDeployableCommits(ui)
-	if choices == nil {
-		immgo_web.Text(ui, "Loading commits...")
-		return  ""
+func createClient() *buildkite.Client {
+	apiToken := "3f74c5067590eed9fec5021bc4a85518f0806657"
+	config, err := buildkite.NewTokenConfig(apiToken, false)
+	must(err)
+
+	client := buildkite.NewClient(config.Client())
+	return client
+}
+
+// TODO: Extract somewhere.
+type Result[T any] struct {
+	Value T
+	Err error
+}
+
+func fetchBuilds(cli *buildkite.Client) chan Result[[]buildkite.Build] {
+	ch := make(chan Result[[]buildkite.Build])
+	go func() {
+		builds, _, err := cli.Builds.ListByPipeline("snapper-labs", "build", nil)
+		ch <- Result[[]buildkite.Build]{Value: builds, Err: err}
+	}()
+	return ch
+}
+
+
+// TODO: Extract somewhere.
+func future[T any](ch chan T) chan T {
+	fut := make(chan T)
+	go func() {
+		val := <-ch
+		for {
+			fut <- val
+		}
+	}()
+	return fut
+}
+
+// TODO: Extract somewhere.
+func getChannel[T any](ch chan T, timeout time.Duration) (T, bool) {
+	var def T
+	select {
+	case v := <- ch:
+		return v, true
+	case <-time.After(timeout):
+		return def, false
 	}
-
-	return Dropdown(ui, *choices)
 }
+
+type app struct{}
 
 func (this *app) Render(ui *immgo.Renderer, doc *immgo_web.Document) {
-	if loaded := ShoelaceAssets(ui); !loaded {
-		immgo_web.Text(ui, "loading...")
-		return 
-	}
+	client := immgo.StateF(ui, createClient)
+	buildsCh := immgo.StateF(ui, func()chan Result[[]buildkite.Build] { return future(fetchBuilds(client)) })
 
-	choice := commitDropdown(ui)
-	immgo_web.Text(ui, choice)
+	builds, ok := getChannel(buildsCh, 0)
+	if !ok {
+		immgo_web.Text(ui, "Loading...")
+		return
+	} 
+
+	immgo_web.Text(ui, fmt.Sprintf("Got %d builds", len(builds.Value)))
+	for _, build := range builds.Value {
+		immgo_web.Text(ui, fmt.Sprintf("Build commit: %s, branch: %s", *build.Commit, *build.Branch))
+	}
 }
 
 func main() {

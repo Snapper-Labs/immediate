@@ -145,6 +145,12 @@ func (this *Renderer) commitAt(shadowNode *ShadowNode, hostNode HostNode, hostTr
 		_, matched := this.reconciliationState[child]
 
 		if !matched {
+			// clean up shadow node
+			f, exists := shadowNode.data.properties.EventHandlers["_immgo_unmount"]
+			if exists {
+				f(struct{}{})
+			}
+			
 			shadowNode.RemoveChildAt(index - removed)
 			err := hostTree.RemoveChildAt(hostNode, index - removed)
 			if err != nil {
