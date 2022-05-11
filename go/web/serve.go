@@ -59,15 +59,26 @@ func serveWs(w http.ResponseWriter, r *http.Request, app App) {
 		app.Render(ui, doc)
 	}
 
-	go peer.ServeLoop()
-	for {
-		err := immgo.Update(hostTree, hostRoot, shadowRoot, renderFunc)
-		if err != nil {
-			log.Println("Error updating: ", err)
-		}
+	doneCh := make(chan struct{})
+	go func() {
+		for {
+			select {
+			case <-doneCh:
+				log.Println("Done serving ws.")
+				return
+			default:
+				err := immgo.Update(hostTree, hostRoot, shadowRoot, renderFunc)
+				if err != nil {
+					log.Println("Error updating: ", err)
+				}
 
-		time.Sleep(33 * time.Millisecond)
-	}
+				time.Sleep(33 * time.Millisecond)
+			}
+		}
+	}()
+
+	peer.ServeLoop()
+	doneCh <- struct{}{}
 }
 
 
