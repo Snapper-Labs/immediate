@@ -14,6 +14,19 @@ func Div(ui *immgo.Renderer, opts ...immgo.RenderOption) {
 	)
 }
 
+func Row(ui *immgo.Renderer, opts ...immgo.RenderOption) {
+	allOpts := append([]immgo.RenderOption{ 
+		immgo.WithKind("div"),
+		immgo.WithAttributes(immgo.Attributes {
+			// TODO: Need to do styling better.
+			"style": "display:flex;flex-direction:row",
+		}),
+		immgo.WithOpen(),
+	}, opts...)
+
+	immgo.Render(ui, allOpts...)
+}
+
 func Text(ui *immgo.Renderer, content string, opts ...immgo.RenderOption) {
 	allOpts := append(
 		[]immgo.RenderOption{ 

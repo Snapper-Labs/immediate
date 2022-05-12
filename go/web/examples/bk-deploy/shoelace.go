@@ -5,6 +5,15 @@ import (
 	"github.com/apkumar/immediate/go/web"
 )
 
+func Spinner(ui *immgo.Renderer, opts ...immgo.RenderOption) {
+	immgo.Render(
+		ui, 
+		append([]immgo.RenderOption {
+			immgo.WithKind("sl-spinner"),
+		}, opts...)...,
+	)
+}
+
 func WithSlot(slot string) immgo.RenderOption {
 	return immgo.WithAttribute("slot", slot)
 }

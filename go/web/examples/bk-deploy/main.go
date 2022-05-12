@@ -1,8 +1,6 @@
 package main
 
 import (
-	_"log"
-	"fmt"
 	"time"
 
 	"github.com/buildkite/go-buildkite/v3/buildkite"
@@ -65,22 +63,22 @@ func getChannel[T any](ch chan T, timeout time.Duration) (T, bool) {
 	}
 }
 
-type app struct{}
+type app struct {
+	isDeploying bool
+}
 
 func (this *app) Render(ui *immgo.Renderer, doc *immgo_web.Document) {
 	client := immgo.StateF(ui, createClient)
 	buildsCh := immgo.StateF(ui, func()chan Result[[]buildkite.Build] { return future(fetchBuilds(client)) })
 
-	builds, ok := getChannel(buildsCh, 0)
-	if !ok {
+	shoelaceLoaded := ShoelaceAssets(ui)
+	builds, ok := getChannel(buildsCh, 1 * time.Millisecond)
+	if !ok || !shoelaceLoaded{
 		immgo_web.Text(ui, "Loading...")
 		return
 	} 
 
-	immgo_web.Text(ui, fmt.Sprintf("Got %d builds", len(builds.Value)))
-	for _, build := range builds.Value {
-		immgo_web.Text(ui, fmt.Sprintf("Build commit: %s, branch: %s", *build.Commit, *build.Branch))
-	}
+	HistoryTable(ui, builds.Value, &this.isDeploying)
 }
 
 func main() {
