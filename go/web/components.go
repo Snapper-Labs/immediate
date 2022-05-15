@@ -5,16 +5,6 @@ import (
 	"github.com/apkumar/immediate/go"
 )
 
-func Select(ui *immgo.Renderer, opts ...immgo.RenderOption) {
-	allOpts := append([]immgo.RenderOption{ immgo.WithKind("div") }, opts...)
-
-	immgo.Render(
-		ui,
-		allOpts...,
-	)
-}
-
-
 func Div(ui *immgo.Renderer, opts ...immgo.RenderOption) {
 	allOpts := append([]immgo.RenderOption{ immgo.WithKind("div") }, opts...)
 
