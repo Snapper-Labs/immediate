@@ -22,6 +22,15 @@ func Render(ui *Renderer, opts ...RenderOption) (*ShadowNode, *RenderNode) {
 	renderNode := NewRenderNode(options.key, options.kind, options.props)
 	shadowNode := ui.Render(renderNode)
 
+	if options.childFunc != nil {
+		if err := ui.PushRenderParent(renderNode); err != nil {
+			panic("Internal library error")
+		}
+
+		options.childFunc()
+		ui.PopRenderParent(renderNode)
+	}
+
 	if options.push {
 		if err := ui.PushRenderParent(renderNode); err != nil {
 			panic("Internal library error")
@@ -36,9 +45,16 @@ type renderOptions struct {
 	kind string
 	props Properties
 	push bool
+	childFunc func()
 }
 
 type RenderOption func(*renderOptions)
+
+func WithChildren(f func()) RenderOption {
+	return func(opt *renderOptions) {
+		opt.childFunc = f
+	}
+}
 
 func WithKind(kind string) RenderOption {
 	return func(opt *renderOptions) {
@@ -160,4 +176,17 @@ func StateF[T any](ui *Renderer, f func()T, opts ...RenderOption) T {
 
 func Close(ui *Renderer) {
 	ui.PopRenderParent(nil)
+}
+
+func Changed[T comparable](ui *Renderer, val T) bool {
+	state := State(ui, val)
+	curr := *state
+	*state = val
+
+	if curr == val {
+		return true
+	} else {
+		return false
+	}
+
 }

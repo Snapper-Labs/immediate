@@ -232,6 +232,25 @@ func (this *DocumentHostTree) createPropertyUpdateForNode(node immgo.HostNode, p
 			}
 
 			update.NewAttributes = append(update.NewAttributes, KeyValue{Key:k, Value:tv})
+		case bool:
+			// bools are translated into the existence or not of an attribute.
+
+			curr, exists := currProps.Attributes[k]
+			if exists {
+				currBool, ok := curr.(bool)
+				if ok {
+					if currBool == tv {
+						continue
+					}
+				}
+			}
+
+			if tv {
+				update.NewAttributes = append(update.NewAttributes, KeyValue{Key:k, Value:""})
+			} else {
+				update.RemovedAttributes = append(update.RemovedAttributes, k)
+			}
+
 		default:
 			// pass
 		}

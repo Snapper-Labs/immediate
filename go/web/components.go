@@ -5,6 +5,16 @@ import (
 	"github.com/apkumar/immediate/go"
 )
 
+func Select(ui *immgo.Renderer, opts ...immgo.RenderOption) {
+	allOpts := append([]immgo.RenderOption{ immgo.WithKind("div") }, opts...)
+
+	immgo.Render(
+		ui,
+		allOpts...,
+	)
+}
+
+
 func Div(ui *immgo.Renderer, opts ...immgo.RenderOption) {
 	allOpts := append([]immgo.RenderOption{ immgo.WithKind("div") }, opts...)
 
@@ -26,6 +36,18 @@ func Row(ui *immgo.Renderer, opts ...immgo.RenderOption) {
 
 	immgo.Render(ui, allOpts...)
 }
+
+func Col(ui *immgo.Renderer, opts ...immgo.RenderOption) {
+	allOpts := append([]immgo.RenderOption{ 
+		immgo.WithKind("div"),
+		immgo.WithAttributes(immgo.Attributes {
+			"style": "display:flex;flex-direction:column;width:400px",
+		}),
+	}, opts...)
+
+	immgo.Render(ui, allOpts...)
+}
+
 
 func Text(ui *immgo.Renderer, content string, opts ...immgo.RenderOption) {
 	allOpts := append(
