@@ -1,10 +1,10 @@
 package immgo
 
-type RenderFunc = func(ui *Renderer)
+func Update(hostTree HostTree, hostRoot HostNode, shadowRoot *ShadowNode, render RenderFunc2) error {
 
-// Update brings together all of the various phases that go into a single
-// update.
-func Update(hostTree HostTree, hostNode HostNode, shadowNode *ShadowNode, render RenderFunc) error {
+	renderRoot := NewRenderNode("root", "root", Properties{})
+	renderRoot.data.match = shadowRoot
+
 	// trigger at most one event
 	err := hostTree.TriggerEvent()
 	if err != nil {
@@ -12,12 +12,11 @@ func Update(hostTree HostTree, hostNode HostNode, shadowNode *ShadowNode, render
 	}
 
 	// render
-	renderer := NewRenderer(shadowNode)
-	render(renderer)
+	render(renderRoot)
 
 	// commit
 	hostTree.BeginFrame()
-	err = renderer.Commit(hostTree, hostNode)
+	err = Commit(renderRoot, hostRoot, hostTree)
 	if err != nil {
 		return err
 	}

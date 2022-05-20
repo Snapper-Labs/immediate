@@ -115,10 +115,15 @@ type Properties struct {
 	EventHandlers map[string]func(event interface{})
 }
 
+type ElementDescription struct {
+	Key string
+	Kind string
+	Properties Properties
+}
+
 type RenderNodeData struct {
-	key string
-	kind string
-	properties Properties
+	description ElementDescription
+	match *ShadowNode
 }
 
 type RenderNode = Node[RenderNodeData]
@@ -126,27 +131,25 @@ type RenderNode = Node[RenderNodeData]
 func NewRenderNode(key, kind string, properties Properties) *RenderNode {
 	node := NewNode[RenderNodeData]()
 	node.data = RenderNodeData {
-		key: key,
-		kind: kind,
-		properties: properties,
+		description: ElementDescription {
+			Key: key,
+			Kind: kind,
+			Properties: properties,
+		},
+		match: nil,
 	}
 
 	return node
 }
 
-// ShadowNodeData is the same as RenderNodeData, but we define a different type
-// so that elsewhere in the code it's clear which tree we're talking about
-// (shadow tree or render tree).
-type ShadowNodeData RenderNodeData
-
-type ShadowNode = Node[ShadowNodeData]
+type ShadowNode = Node[ElementDescription]
 
 func NewShadowNode(key, kind string, properties Properties) *ShadowNode {
-	node := NewNode[ShadowNodeData]()
-	node.data = ShadowNodeData {
-		key: key,
-		kind: kind,
-		properties: properties,
+	node := NewNode[ElementDescription]()
+	node.data = ElementDescription {
+		Key: key,
+		Kind: kind,
+		Properties: properties,
 	}
 
 	return node
@@ -154,9 +157,9 @@ func NewShadowNode(key, kind string, properties Properties) *ShadowNode {
 
 func NewShadowNodeForRenderNode(renderNode *RenderNode) *ShadowNode {
 	return NewShadowNode(
-		renderNode.data.key,
-		renderNode.data.kind,
-		renderNode.data.properties,
+		renderNode.data.description.Key,
+		renderNode.data.description.Kind,
+		renderNode.data.description.Properties,
 	)
 }
 

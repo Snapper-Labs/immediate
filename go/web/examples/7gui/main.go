@@ -9,43 +9,29 @@ var (
 	tasks = []string{"none", "counter", "temperature converter", "flight booker"}
 )
 
-func Dropdown(ui *immgo.Renderer, choices []string) string {
-	choice := immgo.State(ui, choices[0])
+func Dropdown(ui *immgo.RenderNode, choices []string) string {
+	immgo_web.Text(ui, immgo_web.TextOptions{ Content: "Choose a 7gui task:"})
 
-	immgo_web.Text(ui, "Choose a 7gui task:")
-	immgo.Render(
-		ui,
-		immgo.WithKind("select"),
-		immgo.WithEventHandler("change", func(evt interface{}) {
-			*choice = evt.(map[string]interface{})["targetValue"].(string)
-		}),
-		immgo.WithOpen(),
-	)
+	_, choice := immgo_web.Select(ui, immgo_web.SelectOptions {
+		Choices: choices,
+	})
 
-	for _, c := range choices {
-		immgo.Render(
-			ui,
-			immgo.WithKind("option"),
-			immgo.WithAttribute("textContent", c),
-		)
-	}
 
-	immgo.Close(ui)
-	return *choice
+	return choice
 }
 
 type app struct {}
 
-func (this *app) Render(ui *immgo.Renderer, doc *immgo_web.Document) {
+func (this *app) Render(ui *immgo.RenderNode, doc *immgo_web.Document) {
 	choice := Dropdown(ui, tasks)
 
 	switch choice {
 	case "counter":
-		Counter(ui)
+		Counter(immgo.Keyspace(ui, "counter"))
 	case "temperature converter":
-		TemperatureConverter(ui)
+		TemperatureConverter(immgo.Keyspace(ui, "temp"))
 	case "flight booker":
-		FlightBooker(ui)
+		FlightBooker(immgo.Keyspace(ui, "flight"))
 	}
 }
 

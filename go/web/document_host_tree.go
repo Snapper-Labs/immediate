@@ -250,6 +250,19 @@ func (this *DocumentHostTree) createPropertyUpdateForNode(node immgo.HostNode, p
 			} else {
 				update.RemovedAttributes = append(update.RemovedAttributes, k)
 			}
+		case Style:
+			curr, exists := currProps.Attributes[k]
+			if exists {
+				currStyle, ok := curr.(Style)
+				if ok {
+					if currStyle == tv {
+						continue
+					}
+				}
+			}
+
+			update.NewAttributes = append(update.NewAttributes, KeyValue{Key:k, Value:tv.String()})
+
 
 		default:
 			// pass
