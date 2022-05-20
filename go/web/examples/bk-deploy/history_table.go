@@ -6,13 +6,13 @@ import (
 
 	"github.com/buildkite/go-buildkite/v3/buildkite"
 
-	"github.com/apkumar/immediate/go"
-	"github.com/apkumar/immediate/go/web"
+	immgo "github.com/apkumar/immediate/go"
+	immgo_web "github.com/apkumar/immediate/go/web"
 )
 
 func HistoryTableRow(ui *immgo.Renderer, build buildkite.Build, isDeploying *bool) {
 	immgo_web.Row(ui)
-	immgo_web.Text(ui, fmt.Sprintf("commit: branch: %s", *build.Branch))
+	immgo_web.Text(ui, fmt.Sprintf("%s @ %s", (*build.Commit)[:8], *build.Branch))
 	if *isDeploying {
 		Spinner(ui)
 	} else {
@@ -20,7 +20,7 @@ func HistoryTableRow(ui *immgo.Renderer, build buildkite.Build, isDeploying *boo
 			go func() {
 				fmt.Println("Deploy now!!!")
 				*isDeploying = true
-				time.Sleep(1*time.Second)
+				time.Sleep(1 * time.Second)
 				*isDeploying = false
 			}()
 		}
@@ -32,9 +32,8 @@ func HistoryTableRow(ui *immgo.Renderer, build buildkite.Build, isDeploying *boo
 // HistoryTable renders the list of past builds, along with a button for each
 // build that deploys it.
 func HistoryTable(ui *immgo.Renderer, builds []buildkite.Build, isDeploying *bool) {
-	immgo_web.Text(ui, "History of deploys")
+	immgo_web.TextStyle(ui, "Candidate Builds", "padding: 2px")
 	for _, build := range builds {
 		HistoryTableRow(ui, build, isDeploying)
 	}
 }
-

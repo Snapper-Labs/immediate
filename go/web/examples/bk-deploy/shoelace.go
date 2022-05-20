@@ -1,14 +1,16 @@
 package main
 
 import (
-	"github.com/apkumar/immediate/go"
-	"github.com/apkumar/immediate/go/web"
+	"fmt"
+
+	immgo "github.com/apkumar/immediate/go"
+	immgo_web "github.com/apkumar/immediate/go/web"
 )
 
 func Spinner(ui *immgo.Renderer, opts ...immgo.RenderOption) {
 	immgo.Render(
-		ui, 
-		append([]immgo.RenderOption {
+		ui,
+		append([]immgo.RenderOption{
 			immgo.WithKind("sl-spinner"),
 		}, opts...)...,
 	)
@@ -30,16 +32,16 @@ func Dropdown(ui *immgo.Renderer, choices []string, opts ...immgo.RenderOption) 
 			immgo.WithEventHandler("sl-select", func(evt interface{}) {
 				*choice = evt.(map[string]interface{})["detail"].(map[string]interface{})["itemValue"].(string)
 			}),
-		}, opts...)...
+		}, opts...)...,
 	)
 
 	Button(ui, WithSlot("trigger"), immgo.WithAttribute("textContent", "Dropdown"))
 	immgo.Render(ui, immgo.WithKind("sl-menu"), immgo.WithOpen())
 	for _, choice := range choices {
 		immgo.Render(
-			ui, 
-			immgo.WithKind("sl-menu-item"), 
-			immgo.WithKey(choice), 
+			ui,
+			immgo.WithKind("sl-menu-item"),
+			immgo.WithKey(choice),
 			immgo.WithAttribute("textContent", choice),
 			immgo.WithAttribute("value", choice),
 		)
@@ -57,18 +59,18 @@ func Button(ui *immgo.Renderer, opts ...immgo.RenderOption) bool {
 	allOpts := append(
 		[]immgo.RenderOption{
 			immgo.WithKind("sl-button"),
-			immgo.WithEventHandlers(immgo.EventHandlers {
+			immgo.WithEventHandlers(immgo.EventHandlers{
 				"click": func(_event interface{}) {
 					*state = true
 				},
 			}),
 		},
-		opts...
+		opts...,
 	)
 
 	immgo.Render(
 		ui,
-		allOpts...
+		allOpts...,
 	)
 
 	r := *state
@@ -78,7 +80,9 @@ func Button(ui *immgo.Renderer, opts ...immgo.RenderOption) bool {
 
 func ShoelaceAssets(ui *immgo.Renderer) bool {
 	cssLoaded := immgo_web.Link(ui, "stylesheet", "https://cdn.jsdelivr.net/npm/@shoelace-style/shoelace@2.0.0-beta.73/dist/themes/light.css")
-	scriptLoaded := immgo_web.Script(ui, "module","https://cdn.jsdelivr.net/npm/@shoelace-style/shoelace@2.0.0-beta.73/dist/shoelace.js")
+	scriptLoaded := immgo_web.Script(ui, "module", "https://cdn.jsdelivr.net/npm/@shoelace-style/shoelace@2.0.0-beta.73/dist/shoelace.js")
+
+	fmt.Printf("%v %v\n", cssLoaded, scriptLoaded)
 
 	return cssLoaded && scriptLoaded
 }

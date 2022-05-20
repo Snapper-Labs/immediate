@@ -1,6 +1,7 @@
 package main
 
 import (
+	"fmt"
 	"time"
 
 	"github.com/buildkite/go-buildkite/v3/buildkite"
@@ -34,6 +35,7 @@ func fetchBuilds(cli *buildkite.Client) chan Result[[]buildkite.Build] {
 	ch := make(chan Result[[]buildkite.Build])
 	go func() {
 		builds, _, err := cli.Builds.ListByPipeline("snapper-labs", "build", nil)
+		fmt.Printf("%#v\n", builds)
 		ch <- Result[[]buildkite.Build]{Value: builds, Err: err}
 	}()
 	return ch
@@ -72,13 +74,14 @@ func (this *app) Render(ui *immgo.Renderer, doc *immgo_web.Document) {
 	buildsCh := immgo.StateF(ui, func()chan Result[[]buildkite.Build] { return future(fetchBuilds(client)) })
 
 	shoelaceLoaded := ShoelaceAssets(ui)
-	builds, ok := getChannel(buildsCh, 1 * time.Millisecond)
-	if !ok || !shoelaceLoaded{
-		immgo_web.Text(ui, "Loading...")
+	builds, ok := getChannel(buildsCh, 10 * time.Second)
+	if !ok {
+		immgo_web.Text(ui, fmt.Sprintf("Loading %v %v...\n", shoelaceLoaded, ok))
 		return
 	} 
-
+	immgo_web.Container(ui)
 	HistoryTable(ui, builds.Value, &this.isDeploying)
+	immgo.Close(ui)
 }
 
 func main() {
