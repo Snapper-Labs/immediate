@@ -16,14 +16,15 @@ func fToC(f float64) float64 {
 	return (f - 32)*5/9.
 }
 
-func TemperatureConverter(ui *immgo.Renderer) {
-	currentC := immgo.State(ui, "")
-	currentF := immgo.State(ui, "")
+func TemperatureConverter(ui *immgo.RenderNode) {
+	currentC := immgo.State(ui, "", immgo.StateOptions{})
+	currentF := immgo.State(ui, "", immgo.StateOptions{})
 
-	immgo_web.Row(ui)
-	cInput := immgo_web.TextInput(ui, immgo.WithAttribute("value", *currentC))
+	row := immgo_web.Row(ui, immgo_web.RowOptions{})
+	cInput := immgo_web.TextInput(row, immgo_web.TextInputOptions{Value: *currentC})
+
 	// NOTE: This, versus an event/callback driven API?
-	if immgo.Changed(ui, cInput) {
+	if immgo.Changed(row, cInput, immgo.ChangedOptions{}) {
 		c, err := strconv.ParseFloat(cInput, 64)
 		if err == nil {
 			// Just change the other type, so that typing is unencumbered.
@@ -31,15 +32,15 @@ func TemperatureConverter(ui *immgo.Renderer) {
 		}
 	}
 
-	immgo_web.Text(ui, "Celsius = ")
-	fInput := immgo_web.TextInput(ui, immgo.WithAttribute("value", *currentF))
-	if immgo.Changed(ui, fInput) {
+	immgo_web.Text(row, immgo_web.TextOptions{Content:"Celsius = "})
+	fInput := immgo_web.TextInput(row, immgo_web.TextInputOptions{Value: *currentF})
+
+	if immgo.Changed(row, fInput, immgo.ChangedOptions{}) {
 		f, err := strconv.ParseFloat(fInput, 64)
 		if err == nil {
 			*currentC = fmt.Sprintf("%.2f", fToC(f))
 		}
 	}
 
-	immgo_web.Text(ui, " Fahrenheit")
-	immgo.Close(ui)
+	immgo_web.Text(row, immgo_web.TextOptions{Content:" Fahrenheit"})
 }

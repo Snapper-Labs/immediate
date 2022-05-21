@@ -3,6 +3,7 @@ module github.com/apkumar/immediate/go
 go 1.18
 
 require (
+	github.com/apkumar/gox v0.0.0-20220514174555-cb07877be3bf // indirect
 	github.com/buildkite/go-buildkite/v3 v3.0.1 // indirect
 	github.com/cenkalti/backoff v1.1.1-0.20171020064038-309aa717adbf // indirect
 	github.com/google/go-querystring v1.0.0 // indirect

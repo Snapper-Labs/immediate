@@ -18,12 +18,11 @@ func TestRendererSimple(t *testing.T) {
 	// state
 	state := &appState{}
 
-	renderFunc := func(ui *Renderer) {
+	renderFunc := func(parent *RenderNode) {
 		if state.numRender < 2 {
-			Render(ui, WithKind("div"), WithAttributes(Attributes{ "hello": "world" }))
-			Render(ui, WithKind("div"), WithAttributes(Attributes{ "numRender": state.numRender }), WithOpen())
-			Render(ui, WithKind("div"), WithAttributes(Attributes{ "hello": "child"}))
-			Close(ui)
+			Render(parent, ElementDescription { Kind: "div", Properties: Properties { Attributes: Attributes { "hello": "world" } } })
+			node := Render(parent, ElementDescription { Kind: "div", Properties: Properties { Attributes: Attributes { "numRender": state.numRender } } })
+			Render(node, ElementDescription { Kind: "div", Properties: Properties { Attributes: Attributes { "hello": "world" } } })
 		}
 
 		state.numRender += 1
@@ -42,7 +41,7 @@ func TestRendererSimple(t *testing.T) {
 
 	// 2 children (the two divs)
 	if len(hostRootRef.Children()) != 2 {
-		t.Errorf("Expected 2 children")
+		t.Errorf("Expected 2 children, got %d", len(hostRootRef.Children()))
 	}
 
 	// the second div should have one children and the first should have none.

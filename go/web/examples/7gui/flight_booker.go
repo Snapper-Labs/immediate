@@ -14,24 +14,20 @@ func isValidDate(date string) bool {
 	return true
 }
 
-func FlightBooker(ui *immgo.Renderer) {
-	immgo_web.Col(ui, immgo.WithChildren(func() {
-		choice := Dropdown(ui, []string{ONE_WAY_FLIGHT, RETURN_FLIGHT})
-		startDate := immgo.State(ui, "2014-11-12")
-		endDate := immgo.State(ui, "2014-11-12")
+func FlightBooker(ui *immgo.RenderNode) {
+	col := immgo_web.Col(ui, immgo_web.ColOptions {})
 
-		endDateEnabled := choice == RETURN_FLIGHT
-		bookEnabled := *endDate >= *startDate
+	choice := Dropdown(col, []string{ONE_WAY_FLIGHT, RETURN_FLIGHT})
+	startDate := immgo.State(col, "2014-11-12", immgo.StateOptions{})
+	endDate := immgo.State(col, "2014-11-12", immgo.StateOptions{})
 
-		if s := immgo_web.TextInput(ui, immgo.WithAttribute("value", *startDate)); s != "" {
-			*startDate = s
-		}
-		if e := immgo_web.TextInput(ui, immgo.WithAttribute("value", *endDate), immgo.WithAttribute("disabled", !endDateEnabled)); e != "" {
-			*endDate = e
-		}
+	endDateEnabled := choice == RETURN_FLIGHT
+	bookEnabled := *endDate >= *startDate
 
-		if immgo_web.Button(ui, "Book", immgo.WithAttribute("disabled", !bookEnabled)) {
-			// button clicked.
-		}
-	}))
+	*startDate = immgo_web.TextInput(col, immgo_web.TextInputOptions{Value: *startDate})
+	*endDate = immgo_web.TextInput(col, immgo_web.TextInputOptions{Value: *endDate, Disabled: !endDateEnabled})
+
+	if immgo_web.Button(ui, immgo_web.ButtonOptions{Label:"Book", Disabled: !bookEnabled}) {
+		// button clicked.
+	}
 }

@@ -1,8 +1,8 @@
 package immgo_web
 
 import (
+	"context"
 	_ "embed"
-	"time"
 	"log"
 	"net/http"
 	"text/template"
@@ -16,7 +16,7 @@ import (
 var jsScript string
 
 type App interface {
-	Render(ui *immgo.Renderer, doc *Document)
+	Render(root *immgo.RenderNode, doc *Document)
 }
 
 func Serve(addr string, app App) {
@@ -49,36 +49,15 @@ func serveWs(w http.ResponseWriter, r *http.Request, app App) {
 	doc := NewDocument(peer)
 	hostTree := NewDocumentHostTree(peer)
 
-	hostTree.BeginFrame()
-	hostRoot, _ := hostTree.CreateNode("root")
-	hostTree.InsertChildAt(immgo.HostNode(-1), hostRoot, 0)
-	hostTree.EndFrame()
-	shadowRoot := immgo.NewShadowNode("root", "root", immgo.Properties{})
-
-	renderFunc := func(ui *immgo.Renderer) {
-		app.Render(ui, doc)
+	renderFunc := func(root *immgo.RenderNode) {
+		app.Render(root, doc)
 	}
 
-	doneCh := make(chan struct{})
-	go func() {
-		for {
-			select {
-			case <-doneCh:
-				log.Println("Done serving ws.")
-				return
-			default:
-				err := immgo.Update(hostTree, hostRoot, shadowRoot, renderFunc)
-				if err != nil {
-					log.Println("Error updating: ", err)
-				}
-
-				time.Sleep(33 * time.Millisecond)
-			}
-		}
-	}()
+	ctx, cancel := context.WithCancel(context.Background())
+	go immgo.Run(ctx, hostTree, renderFunc)
 
 	peer.ServeLoop()
-	doneCh <- struct{}{}
+	cancel()
 }
 
 

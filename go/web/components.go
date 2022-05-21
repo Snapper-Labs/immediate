@@ -1,144 +1,169 @@
 package immgo_web
 
-
 import (
+	"github.com/apkumar/gox/option"
+
 	"github.com/apkumar/immediate/go"
 )
 
-func Div(ui *immgo.Renderer, opts ...immgo.RenderOption) {
-	allOpts := append([]immgo.RenderOption{ immgo.WithKind("div") }, opts...)
-
-	immgo.Render(
-		ui,
-		allOpts...,
-	)
+type DivOptions struct {
+	Style Style
+	Key string
 }
 
-func Row(ui *immgo.Renderer, opts ...immgo.RenderOption) {
-	allOpts := append([]immgo.RenderOption{ 
-		immgo.WithKind("div"),
-		immgo.WithAttributes(immgo.Attributes {
-			// TODO: Need to do styling better.
-			"style": "display:flex;flex-direction:row",
-		}),
-		immgo.WithOpen(),
-	}, opts...)
-
-	immgo.Render(ui, allOpts...)
-}
-
-func Col(ui *immgo.Renderer, opts ...immgo.RenderOption) {
-	allOpts := append([]immgo.RenderOption{ 
-		immgo.WithKind("div"),
-		immgo.WithAttributes(immgo.Attributes {
-			"style": "display:flex;flex-direction:column;width:400px",
-		}),
-	}, opts...)
-
-	immgo.Render(ui, allOpts...)
-}
-
-
-func Text(ui *immgo.Renderer, content string, opts ...immgo.RenderOption) {
-	allOpts := append(
-		[]immgo.RenderOption{ 
-			immgo.WithKind("div"),
-			immgo.WithAttributes(immgo.Attributes {
-				"textContent": content,
-			}),
+func Div(parent *immgo.RenderNode, opts DivOptions) *immgo.RenderNode {
+	desc := immgo.ElementDescription {
+		Kind: "div",
+		Key: opts.Key,
+		Properties: immgo.Properties {
+			Attributes: immgo.Attributes {
+				"style": opts.Style,
+			},
 		},
-		opts...
-	)
-
-	immgo.Render(
-		ui,
-		allOpts...
-	)
+	}
+	return immgo.Render(parent, desc)
 }
 
-func Button(ui *immgo.Renderer, label string, opts ...immgo.RenderOption) bool {
-	clicked := immgo.State(ui, false)
+type RowOptions struct {
+	Style Style
+	Key string
+}
 
-	allOpts := append(
-		[]immgo.RenderOption{ 
-			immgo.WithKind("button"),
-			immgo.WithAttributes(immgo.Attributes {
-				"textContent": label,
-			}),
-			immgo.WithEventHandlers(immgo.EventHandlers {
-				"click": func(_event interface{}) {
+func Row(parent *immgo.RenderNode, opts RowOptions) *immgo.RenderNode {
+	style := opts.Style
+	style.Display = option.Some("flex")
+	style.FlexDirection = option.Some("row")
+
+	divOpts := DivOptions { style, opts.Key }
+	return Div(parent, divOpts)
+}
+
+type ColOptions struct {
+	Style Style
+	Key string
+}
+
+func Col(parent *immgo.RenderNode, opts ColOptions) *immgo.RenderNode {
+	style := opts.Style
+	style.Display = option.Some("flex")
+	style.FlexDirection = option.Some("column")
+
+	divOpts := DivOptions { style, opts.Key }
+	return Div(parent, divOpts)
+}
+
+type TextOptions struct {
+	Content string
+	Style Style
+	Key string
+}
+
+func Text(parent *immgo.RenderNode, opts TextOptions) *immgo.RenderNode {
+	desc := immgo.ElementDescription {
+		Kind: "div",
+		Properties: immgo.Properties {
+			Attributes: immgo.Attributes {
+				"textContent": opts.Content,
+			},
+		},
+		Key: opts.Key,
+	}
+
+	return immgo.Render(parent, desc)
+}
+
+type SelectOptions struct {
+	Style Style
+	Key string
+	Choices []string
+}
+
+func Select(parent *immgo.RenderNode, opts SelectOptions) (*immgo.RenderNode, string) {
+	choice := immgo.State(parent, opts.Choices[0], immgo.StateOptions{})
+
+	desc := immgo.ElementDescription {
+		Kind: "select",
+		Properties: immgo.Properties {
+			EventHandlers: immgo.EventHandlers {
+				"change": func(evt interface{}) {
+					*choice = evt.(map[string]interface{})["targetValue"].(string)
+				},
+			},
+		},
+	}
+
+	selectNode := immgo.Render(parent, desc)
+
+	for _, c := range opts.Choices {
+		immgo.Render(selectNode, immgo.ElementDescription {
+			Kind: "option",
+			Properties: immgo.Properties {
+				Attributes: immgo.Attributes {
+					"textContent": c,
+					"style": opts.Style,
+				},
+			},
+		})
+	}
+
+	return selectNode, *choice
+}
+
+type ButtonOptions struct {
+	Label string
+	Disabled bool
+	Style Style
+	Key string
+}
+
+func Button(parent *immgo.RenderNode, opts ButtonOptions) bool {
+	clicked := immgo.State(parent, false, immgo.StateOptions{})
+
+	immgo.Render(parent, immgo.ElementDescription {
+		Kind: "button",
+		Properties: immgo.Properties {
+			Attributes: immgo.Attributes {
+				"textContent": opts.Label,
+				"disabled": opts.Disabled,
+				"style": opts.Style,
+			},
+			EventHandlers: immgo.EventHandlers {
+				"click": func(evt interface{}) {
 					*clicked = true
 				},
-			}),
+			},
 		},
-		opts...
-	)
+	})
 
-	immgo.Render(ui, allOpts...)
-
-	currState := *clicked
+	r := *clicked
 	*clicked = false
-	return currState
+
+	return r
 }
 
-func Link(ui *immgo.Renderer, rel, href string, opts ...immgo.RenderOption) bool {
-	loaded := immgo.State(ui, false)
-	allOpts := append(
-		[]immgo.RenderOption{ 
-			immgo.WithKind("link"),
-			immgo.WithAttributes(immgo.Attributes {
-				"rel": rel,
-				"href": href,
-			}),
-			immgo.WithEventHandlers(immgo.EventHandlers {
-				"load": func(_event interface{}) {
-					*loaded = true
-				},
-			}),
-		},
-		opts...
-	)
-
-	immgo.Render(ui, allOpts...)
-	return *loaded
+type TextInputOptions struct {
+	Value string
+	Disabled bool
+	// todo
 }
 
-func Script(ui *immgo.Renderer, typ, src string, opts ...immgo.RenderOption) bool {
-	loaded := immgo.State(ui, false)
-	allOpts := append(
-		[]immgo.RenderOption{ 
-			immgo.WithKind("script"),
-			immgo.WithAttributes(immgo.Attributes {
-				"type": typ,
-				"src": src,
-			}),
-			immgo.WithEventHandlers(immgo.EventHandlers {
-				"load": func(_event interface{}) {
-					*loaded = true
-				},
-			}),
-		},
-		opts...
-	)
+func TextInput(parent *immgo.RenderNode, opts TextInputOptions) string {
+	curr := immgo.State(parent, opts.Value, immgo.StateOptions{})
 
-	immgo.Render(ui, allOpts...)
-	return *loaded
-}
-
-func TextInput(ui *immgo.Renderer, opts ...immgo.RenderOption) string {
-	curr := immgo.State(ui, "")
-	allOpts := append(
-		[]immgo.RenderOption{ 
-			immgo.WithKind("input"),
-			immgo.WithEventHandlers(immgo.EventHandlers {
+	immgo.Render(parent, immgo.ElementDescription {
+		Kind: "input",
+		Properties: immgo.Properties {
+			Attributes: immgo.Attributes { 
+				"value": opts.Value,
+				"disabled": opts.Disabled,
+			},
+			EventHandlers: immgo.EventHandlers {
 				"input": func(event interface{}) {
 					*curr = event.(map[string]interface{})["targetValue"].(string)
 				},
-			}),
+			},
 		},
-		opts...
-	)
+	})
 
-	immgo.Render(ui, allOpts...)
 	return *curr
 }
