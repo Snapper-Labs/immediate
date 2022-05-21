@@ -144,7 +144,13 @@
   ]);
   function createDocumentServer(peer) {
     let elements = /* @__PURE__ */ new Map();
-    elements.set(-1, document.body);
+    const root = document.createElement("div");
+    document.body.appendChild(root);
+    elements.set(-1, root);
+    const cleanup = () => {
+      console.log(`CLEANING UP!!!`);
+      document.body.removeChild(root);
+    };
     peer.setHandler("createNode", (_0) => __async(this, [_0], function* ({ kind, id }) {
       const elem = document.createElement(kind);
       elem.id = `${id}`;
@@ -200,6 +206,7 @@
     peer.setHandler("alert", (_0) => __async(this, [_0], function* ({ message }) {
       alert(message);
     }));
+    return cleanup;
   }
   function extractObject(objc, depth = 0, maxDepth = 2) {
     if (depth > maxDepth)
@@ -222,14 +229,29 @@
   // main.ts
   function serveWebSocket(ws) {
     const peer = new Peer(createWebSocketTransport(ws));
-    createDocumentServer(peer);
+    const cleanup = createDocumentServer(peer);
     peer.start();
+    return cleanup;
   }
-  function setup(endpoint) {
+  function setup(endpoint, onOpen, backoffTime) {
     const socket = new WebSocket(endpoint);
+    let currCleanup = onOpen;
     socket.addEventListener("open", function() {
-      serveWebSocket(socket);
+      console.log(`open WS`);
+      onOpen();
+      currCleanup = serveWebSocket(socket);
+    });
+    socket.addEventListener("close", function(event) {
+      console.log(`currCleanup: ${currCleanup}`);
+      setTimeout(() => {
+        setup(endpoint, currCleanup, Math.min(1e3 * 10, backoffTime * 2));
+      }, backoffTime);
+      console.log(`close: ${event}`);
+    });
+    socket.addEventListener("error", function(event) {
+      console.log(`error: ${event}`);
     });
   }
-  setup("ws://localhost:8080/ws");
+  setup("ws://localhost:8080/ws", () => {
+  }, 100);
 })();

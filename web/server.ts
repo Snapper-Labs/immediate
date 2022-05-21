@@ -12,9 +12,17 @@ type PropertiesUpdate = {
   removedEventHandlers: Array<string>;
 }
 
-export function createDocumentServer(peer: Peer) {
+// returns a "cleanup" function.
+export function createDocumentServer(peer: Peer): () => void {
   let elements: Map<number, HTMLElement> = new Map();
-  elements.set(-1, document.body);
+  const root = document.createElement('div');
+  document.body.appendChild(root);
+  elements.set(-1, root);
+
+  const cleanup = () => {
+    console.log(`CLEANING UP!!!`);
+    document.body.removeChild(root)
+  };
 
   peer.setHandler('createNode', async ({ kind, id }: { kind: string, id: number }) => {
     const elem = document.createElement(kind);
@@ -87,6 +95,8 @@ export function createDocumentServer(peer: Peer) {
   peer.setHandler('alert', async ({ message }: { message: string }) => {
     alert(message);
   });
+
+  return cleanup;
 }
 
 function extractObject(objc: Object, depth=0, maxDepth=2) {
