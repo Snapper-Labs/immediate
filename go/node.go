@@ -119,6 +119,10 @@ type ElementDescription struct {
 	Key string
 	Kind string
 	Properties Properties
+
+	// set by the framework
+	// todo: move to rendernodedata
+	fullkey string
 }
 
 type RenderNodeData struct {
@@ -156,10 +160,12 @@ func NewShadowNode(key, kind string, properties Properties) *ShadowNode {
 }
 
 func NewShadowNodeForRenderNode(renderNode *RenderNode) *ShadowNode {
-	return NewShadowNode(
+	r := NewShadowNode(
 		renderNode.data.description.Key,
 		renderNode.data.description.Kind,
 		renderNode.data.description.Properties,
 	)
+	r.data.fullkey = renderNode.data.description.fullkey
+	return r
 }
 

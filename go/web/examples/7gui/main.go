@@ -27,11 +27,11 @@ func (this *app) Render(ui *immgo.RenderNode, doc *immgo_web.Document) {
 
 	switch choice {
 	case "counter":
-		Counter(immgo.Keyspace(ui, "counter"))
+		Counter(ui)
 	case "temperature converter":
-		TemperatureConverter(immgo.Keyspace(ui, "temp"))
+		TemperatureConverter(ui)
 	case "flight booker":
-		FlightBooker(immgo.Keyspace(ui, "flight"))
+		FlightBooker(ui)
 	}
 }
 

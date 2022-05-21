@@ -2,9 +2,13 @@ package immgo
 
 import (
 	"fmt"
+	"runtime"
+	"strings"
 )
 
 func Render(parentNode *RenderNode, description ElementDescription) *RenderNode {
+	description.fullkey = getFullKey(description)
+
 	renderNode := &RenderNode{}
 	renderNode.data.description = description
 	renderNode.data.match = match(parentNode, renderNode)
@@ -29,7 +33,9 @@ func match(parentNode *RenderNode, renderNode *RenderNode) *ShadowNode {
 			}
 		}
 
-		if !hasMatch && getFullKey(shadowChild.data) == getFullKey(renderNode.data.description) {
+		keyOne := shadowChild.data.fullkey
+		keyTwo := renderNode.data.description.fullkey
+		if !hasMatch && keyOne == keyTwo {
 			return shadowChild
 		}
 	}
@@ -38,5 +44,23 @@ func match(parentNode *RenderNode, renderNode *RenderNode) *ShadowNode {
 }
 
 func getFullKey(desc ElementDescription) string {
-	return fmt.Sprintf("%s-%s", desc.Kind, desc.Key)
+	keyParts := []string{desc.Kind, desc.Key}
+
+	maxFrames := 10
+	frameBuff := make([]uintptr, maxFrames)
+	// skip Callers, getFullKey, and Render.
+	nCallers := runtime.Callers(3, frameBuff)
+
+	frames := runtime.CallersFrames(frameBuff[:nCallers])
+	for {
+		frame, more := frames.Next()
+		keyParts = append(keyParts, frame.Function, frame.File, fmt.Sprint(frame.Line))
+
+		if !more {
+			break
+		}
+	}
+
+	key := strings.Join(keyParts, "-")
+	return key
 }
