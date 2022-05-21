@@ -8,9 +8,9 @@ import (
 )
 
 func Counter(ui *immgo.RenderNode) {
-	count := immgo.State(ui, 0, immgo.StateOptions{})
+	count := immgo.State(ui, 0)
 
-	row := immgo_web.Row(ui, immgo_web.RowOptions{})
+	row := immgo_web.Row(ui)
 	immgo_web.Text(row, immgo_web.TextOptions { Content: fmt.Sprintf("%d", *count) })
 	if immgo_web.Button(row, immgo_web.ButtonOptions { Label: "Count" }) {
 		*count += 1

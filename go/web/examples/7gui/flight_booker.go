@@ -15,11 +15,11 @@ func isValidDate(date string) bool {
 }
 
 func FlightBooker(ui *immgo.RenderNode) {
-	col := immgo_web.Col(ui, immgo_web.ColOptions {})
+	col := immgo_web.Col(ui)
 
 	choice := Dropdown(col, []string{ONE_WAY_FLIGHT, RETURN_FLIGHT})
-	startDate := immgo.State(col, "2014-11-12", immgo.StateOptions{})
-	endDate := immgo.State(col, "2014-11-12", immgo.StateOptions{})
+	startDate := immgo.State(col, "2014-11-12")
+	endDate := immgo.State(col, "2014-11-12")
 
 	endDateEnabled := choice == RETURN_FLIGHT
 	bookEnabled := *endDate >= *startDate

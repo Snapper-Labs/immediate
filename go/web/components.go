@@ -11,7 +11,9 @@ type DivOptions struct {
 	Key string
 }
 
-func Div(parent *immgo.RenderNode, opts DivOptions) *immgo.RenderNode {
+func Div(parent *immgo.RenderNode, options ...DivOptions) *immgo.RenderNode {
+	opts := option.Merge(options...)
+
 	desc := immgo.ElementDescription {
 		Kind: "div",
 		Key: opts.Key,
@@ -29,7 +31,9 @@ type RowOptions struct {
 	Key string
 }
 
-func Row(parent *immgo.RenderNode, opts RowOptions) *immgo.RenderNode {
+func Row(parent *immgo.RenderNode, options ...RowOptions) *immgo.RenderNode {
+	opts := option.Merge(options...)
+
 	style := opts.Style
 	style.Display = option.Some("flex")
 	style.FlexDirection = option.Some("row")
@@ -43,7 +47,9 @@ type ColOptions struct {
 	Key string
 }
 
-func Col(parent *immgo.RenderNode, opts ColOptions) *immgo.RenderNode {
+func Col(parent *immgo.RenderNode, options ...ColOptions) *immgo.RenderNode {
+	opts := option.Merge(options...)
+
 	style := opts.Style
 	style.Display = option.Some("flex")
 	style.FlexDirection = option.Some("column")
@@ -58,7 +64,9 @@ type TextOptions struct {
 	Key string
 }
 
-func Text(parent *immgo.RenderNode, opts TextOptions) *immgo.RenderNode {
+func Text(parent *immgo.RenderNode, options ...TextOptions) *immgo.RenderNode {
+	opts := option.Merge(options...)
+
 	desc := immgo.ElementDescription {
 		Kind: "div",
 		Properties: immgo.Properties {
@@ -78,8 +86,9 @@ type SelectOptions struct {
 	Choices []string
 }
 
-func Select(parent *immgo.RenderNode, opts SelectOptions) (*immgo.RenderNode, string) {
-	choice := immgo.State(parent, opts.Choices[0], immgo.StateOptions{})
+func Select(parent *immgo.RenderNode, options ...SelectOptions) (*immgo.RenderNode, string) {
+	opts := option.Merge(options...)
+	choice := immgo.State(parent, opts.Choices[0])
 
 	desc := immgo.ElementDescription {
 		Kind: "select",
@@ -116,8 +125,10 @@ type ButtonOptions struct {
 	Key string
 }
 
-func Button(parent *immgo.RenderNode, opts ButtonOptions) bool {
-	clicked := immgo.State(parent, false, immgo.StateOptions{})
+func Button(parent *immgo.RenderNode, options ...ButtonOptions) bool {
+	opts := option.Merge(options...)
+
+	clicked := immgo.State(parent, false)
 
 	immgo.Render(parent, immgo.ElementDescription {
 		Kind: "button",
@@ -147,8 +158,9 @@ type TextInputOptions struct {
 	// todo
 }
 
-func TextInput(parent *immgo.RenderNode, opts TextInputOptions) string {
-	curr := immgo.State(parent, opts.Value, immgo.StateOptions{})
+func TextInput(parent *immgo.RenderNode, options ...TextInputOptions) string {
+	opts := option.Merge(options...)
+	curr := immgo.State(parent, opts.Value)
 
 	immgo.Render(parent, immgo.ElementDescription {
 		Kind: "input",
