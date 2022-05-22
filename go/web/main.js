@@ -252,6 +252,18 @@
       console.log(`error: ${event}`);
     });
   }
-  setup("ws://localhost:8080/ws", () => {
+  function getWsEndpoint() {
+    const loc = window.location;
+    let endpoint = "";
+    if (loc.protocol === "https:") {
+      endpoint = "wss:";
+    } else {
+      endpoint = "ws:";
+    }
+    endpoint += "//" + loc.host;
+    endpoint += "/ws";
+    return endpoint;
+  }
+  setup(getWsEndpoint(), () => {
   }, 100);
 })();

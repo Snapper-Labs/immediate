@@ -14,22 +14,28 @@ function setup(endpoint: string, onOpen: () => void, backoffTime: number) {
   let currCleanup = onOpen;
 
   socket.addEventListener('open', function() {
-    console.log(`open WS`);
     onOpen();
     currCleanup = serveWebSocket(socket);
   });
 
-  socket.addEventListener('close', function(event) {
-    console.log(`currCleanup: ${currCleanup}`);
+  socket.addEventListener('close', function() {
     setTimeout(() => {
       setup(endpoint, currCleanup, Math.min(1000 * 10, backoffTime * 2));
     }, backoffTime);
-    console.log(`close: ${event}`);
-  });
-
-  socket.addEventListener('error', function(event) {
-    console.log(`error: ${event}`);
   });
 }
 
-setup('ws://localhost:8080/ws', () => {}, 100);
+function getWsEndpoint() {
+  const loc = window.location;
+  let endpoint = "";
+  if (loc.protocol === "https:") {
+    endpoint = "wss:";
+  } else {
+    endpoint = "ws:";
+  }
+  endpoint += "//" + loc.host;
+  endpoint += "/ws";
+
+  return endpoint;
+}
+setup(getWsEndpoint(), () => {}, 100);

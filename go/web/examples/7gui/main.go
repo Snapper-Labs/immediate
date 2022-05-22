@@ -36,5 +36,5 @@ func (this *app) Render(ui *immgo.RenderNode, doc *immgo_web.Document) {
 }
 
 func main() {
-	immgo_web.Serve("localhost:8080", &app{})
+	immgo_web.Serve("localhost:8081", &app{})
 }
