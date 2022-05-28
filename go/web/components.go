@@ -6,6 +6,27 @@ import (
 	"github.com/apkumar/immediate/go"
 )
 
+type FormOptions struct {
+	Style Style
+	Key string
+}
+
+func Form(parent *immgo.RenderNode, options ...TextOptions) *immgo.RenderNode {
+	opts := option.Merge(options...)
+
+	desc := immgo.ElementDescription {
+		Kind: "form",
+		Properties: immgo.Properties {
+			Attributes: immgo.Attributes {
+				"style": opts.Style,
+			},
+		},
+		Key: opts.Key,
+	}
+
+	return immgo.Render(parent, desc)
+}
+
 type DivOptions struct {
 	Style Style
 	Key string
@@ -152,7 +173,30 @@ func Button(parent *immgo.RenderNode, options ...ButtonOptions) bool {
 	return r
 }
 
+type LabelOptions struct {
+	Label string
+	Key string
+}
+
+func Label(parent *immgo.RenderNode, options ...LabelOptions) *immgo.RenderNode {
+	opts := option.Merge(options...)
+
+	desc := immgo.ElementDescription {
+		Kind: "label",
+		Properties: immgo.Properties {
+			Attributes: immgo.Attributes {
+				"textContent": opts.Label,
+			},
+		},
+		Key: opts.Key,
+	}
+
+	return immgo.Render(parent, desc)
+}
+
+
 type TextInputOptions struct {
+	Label string
 	Value string
 	Disabled bool
 	// todo
@@ -161,6 +205,10 @@ type TextInputOptions struct {
 func TextInput(parent *immgo.RenderNode, options ...TextInputOptions) string {
 	opts := option.Merge(options...)
 	curr := immgo.State(parent, opts.Value)
+
+	if opts.Label != "" {
+		Label(parent, LabelOptions { Label: opts.Label })
+	}
 
 	immgo.Render(parent, immgo.ElementDescription {
 		Kind: "input",
