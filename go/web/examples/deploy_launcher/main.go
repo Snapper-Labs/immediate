@@ -1,0 +1,82 @@
+package main
+
+import (
+	"flag"
+	"fmt"
+	"log"
+	"os"
+	"time"
+
+	immgo "github.com/apkumar/immediate/go"
+	immgo_web "github.com/apkumar/immediate/go/web"
+	"github.com/buildkite/go-buildkite/v3/buildkite"
+)
+
+// submit simulates a network call to a backend.
+func submit() {
+	time.Sleep(5000 * time.Millisecond)
+	log.Println("Deployed")
+}
+
+type app struct{}
+
+func (this *app) Render(root *immgo.RenderNode, doc *immgo_web.Document) {
+	immgo_web.H1(root, immgo_web.H1Options{Content: "Deploy: core/production"})
+
+	container := immgo_web.Container(root)
+
+	immgo_web.H2(container, immgo_web.H2Options{Content: "Select version to deploy"})
+
+	selectRow := immgo_web.Row(container)
+	immgo_web.Select(selectRow, immgo_web.SelectOptions{Choices: []string{"e281c5147c324da646b47a3742416138747f1be0", "b281c5147c324da646b47a37424def58747f1be0"}})
+
+	deploying := immgo.State(root, false)
+	if immgo_web.Button(selectRow, immgo_web.ButtonOptions{Label: "Deploy", Disabled: *deploying}) {
+		go func() {
+			*deploying = true
+			submit()
+			*deploying = false
+		}()
+	}
+
+	immgo_web.H2(container, immgo_web.H2Options{Content: "History"})
+	for _, build := range *builds {
+		row := immgo_web.Row(container)
+
+		// TODO: ideally this would be a link - the markdown type in streamlit is a good solution i think
+		immgo_web.Text(row, immgo_web.TextOptions{Content: *build.Commit})
+		immgo_web.Text(row, immgo_web.TextOptions{Content: build.CreatedAt.String()})
+	}
+}
+
+var buildkiteAPIToken string
+var buildkiteClient *buildkite.Client
+var builds *[]buildkite.Build
+
+func main() {
+	flag.StringVar(&buildkiteAPIToken, "buildkite-api-token", os.Getenv("BUILDKITE_API_TOKEN"), "API token for buildkite")
+
+	if len(buildkiteAPIToken) == 0 {
+		fmt.Fprintln(os.Stderr, "Buildkite API token is missing")
+	}
+
+	buildkiteConfig, err := buildkite.NewTokenConfig(buildkiteAPIToken, false)
+	if err != nil {
+		fmt.Fprintln(os.Stderr, "Failed to create config")
+	}
+
+	buildkiteClient = buildkite.NewClient(buildkiteConfig.Client())
+
+	// TODO: hack - i just dont want this to continually refresh
+	// but also note ideally it would refresh when:
+	// a) i tell it to after launching a deploy (to get the latest in progress deploy)
+	// b) periodically in case something changes in the background
+	b, _, err := buildkiteClient.Builds.ListByPipeline("anchor-labs", "deploy-core-production", &buildkite.BuildsListOptions{State: []string{"passed"}})
+	if err != nil {
+		fmt.Fprintln(os.Stderr, "Failed to create config")
+		//immgo_web.Text(container, immgo_web.TextOptions{Content: "Error fetching builds"})
+	}
+	builds = &b
+
+	immgo_web.Serve("localhost:8081", &app{})
+}
