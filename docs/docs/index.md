@@ -2,10 +2,14 @@
 
 Immediate is an architecture and a set of libraries for building rich, reactive
 user interfaces. It can be used to render to many different targets, but the
-motivating use case is websites. Immediate does not require communication with
-the rendering target to be synchronous, making it easy to write interactive
-applications that run entirely on a server, despite rendering to a client (e.g a
-browser).
+primary use case is websites. Immediate does not require communication with the
+rendering target to be synchronous, making it possible to write applications
+that run entirely on a server, despite rendering to a client (e.g a browser).
+
+Immediate was created to be the simplest and most productive way to build
+**internal tools**, and that use case guides many of the design decisions.
+However, the resulting concepts and libraries can be used for a variety of
+applications.
 
 Major features include:
 
@@ -26,3 +30,7 @@ Major features include:
 - Server-side application support: Implement interactive applications running
   entirely on the server, in your language of choice, avoiding the need to stand
   up an API boundary.
+
+- A library of high-quality widgets for internal tools: Quickly build simple
+  tools using our high-level widgets, while retaining the flexibility to
+  customize your application when needed.
