@@ -1,6 +1,8 @@
 package immgo
 
 import (
+	"context"
+
 	"github.com/apkumar/gox/option"
 )
 
@@ -64,4 +66,15 @@ func Keyspace(parent *RenderNode, key string) *RenderNode {
 		Key: key,
 		Properties: Properties{},
 	})
+}
+
+func Do(root *RenderNode, f func(context.Context)) {
+	ctx := State(root, context.Background())
+	running := State(root, false)
+	if !*running {
+		go f(*ctx)
+	}
+	// todo; defer
+
+	*running = true
 }

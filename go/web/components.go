@@ -1,6 +1,9 @@
 package immgo_web
 
 import (
+	"fmt"
+	"encoding/base64"
+
 	"github.com/apkumar/gox/option"
 
 	"github.com/apkumar/immediate/go"
@@ -59,19 +62,18 @@ func Col(parent *immgo.RenderNode, options ...ColOptions) *immgo.RenderNode {
 }
 
 type TextOptions struct {
-	Content string
 	Style Style
 	Key string
 }
 
-func Text(parent *immgo.RenderNode, options ...TextOptions) *immgo.RenderNode {
+func Text(parent *immgo.RenderNode, content string, options ...TextOptions) *immgo.RenderNode {
 	opts := option.Merge(options...)
 
 	desc := immgo.ElementDescription {
 		Kind: "div",
 		Properties: immgo.Properties {
 			Attributes: immgo.Attributes {
-				"textContent": opts.Content,
+				"textContent": content,
 			},
 		},
 		Key: opts.Key,
@@ -178,4 +180,25 @@ func TextInput(parent *immgo.RenderNode, options ...TextInputOptions) string {
 	})
 
 	return *curr
+}
+
+func Script(root *immgo.RenderNode, src string) bool {
+	loaded := immgo.State(root, false)
+
+	immgo.Render(root, immgo.ElementDescription {
+		Kind: "script",
+		Properties: immgo.Properties {
+			Attributes: immgo.Attributes {
+				"src": fmt.Sprintf("data:text/javascript;base64,%s", base64.StdEncoding.EncodeToString([]byte(src))),
+				"type": "module",
+			},
+			EventHandlers: immgo.EventHandlers {
+				"load": func(_ interface{}) {
+					*loaded = true
+				},
+			},
+		},
+	})
+
+	return *loaded
 }
