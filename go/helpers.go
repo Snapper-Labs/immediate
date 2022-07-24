@@ -57,11 +57,3 @@ func Changed[T comparable](parent *RenderNode, val T, options ...ChangedOptions)
 		return false
 	}
 }
-
-func Keyspace(parent *RenderNode, key string) *RenderNode {
-	return Render(parent, ElementDescription {
-		Kind: "hook",
-		Key: key,
-		Properties: Properties{},
-	})
-}

@@ -1,8 +1,8 @@
 package main
 
 import (
-	"github.com/apkumar/immediate/go"
-	"github.com/apkumar/immediate/go/web"
+	"github.com/snapper-labs/immediate/go"
+	"github.com/snapper-labs/immediate/go/web"
 )
 
 var (
