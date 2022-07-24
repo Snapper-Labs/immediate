@@ -22,22 +22,21 @@ func submit() {
 type app struct{}
 
 func (this *app) Render(root *immgo.RenderNode, doc *immgo_web.Document) {
-	immgo_web.H1(root, immgo_web.H1Options{Content: "Deploy: core/production"})
-
 	container := immgo_web.Container(root)
-
+	immgo_web.H1(container, immgo_web.H1Options{Content: "Deploy: core/production"})
 	immgo_web.H2(container, immgo_web.H2Options{Content: "Select version to deploy"})
 
-	selectRow := immgo_web.Row(container)
-
+	grid := immgo_web.Grid(container)
+	selectRow := immgo_web.GridRow(grid)
+	selectCol := immgo_web.GridColumn(selectRow)
 	choices := []string{}
 	for _, rc := range *rcs {
 		choices = append(choices, rc.Label)
 	}
-	immgo_web.Select(selectRow, immgo_web.SelectOptions{Choices: choices})
-
+	immgo_web.Select(selectCol, immgo_web.SelectOptions{Choices: choices})
+	buttonCol := immgo_web.GridColumn(selectRow)
 	deploying := immgo.State(root, false)
-	if immgo_web.Button(selectRow, immgo_web.ButtonOptions{Label: "Deploy", Disabled: *deploying}) {
+	if immgo_web.Button(buttonCol, immgo_web.ButtonOptions{Label: "Deploy", Disabled: *deploying}) {
 		go func() {
 			*deploying = true
 			submit()
@@ -46,12 +45,15 @@ func (this *app) Render(root *immgo.RenderNode, doc *immgo_web.Document) {
 	}
 
 	immgo_web.H2(container, immgo_web.H2Options{Content: "History"})
+	historyGrid := immgo_web.Grid(container)
 	for _, build := range *builds {
-		row := immgo_web.Row(container)
+		historyRow := immgo_web.GridRow(historyGrid)
 
 		// TODO: ideally this would be a link - the markdown type in streamlit is a good solution i think
-		immgo_web.Text(row, immgo_web.TextOptions{Content: *build.Commit})
-		immgo_web.Text(row, immgo_web.TextOptions{Content: build.CreatedAt.String()})
+		shaCol := immgo_web.GridColumn(historyRow)
+		immgo_web.Text(shaCol, immgo_web.TextOptions{Content: *build.Commit})
+		dateCol := immgo_web.GridColumn(historyRow)
+		immgo_web.Text(dateCol, immgo_web.TextOptions{Content: build.CreatedAt.String()})
 	}
 }
 

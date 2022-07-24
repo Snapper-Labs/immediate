@@ -55,19 +55,16 @@ type ContainerOptions struct {
 func Container(parent *immgo.RenderNode, options ...ContainerOptions) *immgo.RenderNode {
 	opts := option.Merge(options...)
 
-	wrStyle := Style{}
-	wrStyle.Width = option.Some("100%")
-
-	wrOpts := DivOptions{wrStyle, opts.Key}
-	wrapper := Div(parent, wrOpts)
-
-	style := opts.Style
-	style.MaxWidth = option.Some("600px")
-	style.MinWidth = option.Some("600px")
-	style.Width = option.Some("100%")
-
-	divOpts := DivOptions{style, opts.Key}
-	return Div(wrapper, divOpts)
+	desc := immgo.ElementDescription{
+		Kind: "div",
+		Key:  opts.Key,
+		Properties: immgo.Properties{
+			Attributes: immgo.Attributes{
+				"class": "container-md",
+			},
+		},
+	}
+	return immgo.Render(parent, desc)
 }
 
 type RowOptions struct {
@@ -180,12 +177,15 @@ func Select(parent *immgo.RenderNode, options ...SelectOptions) (*immgo.RenderNo
 	choice := immgo.State(parent, opts.Choices[0])
 
 	desc := immgo.ElementDescription{
-		Kind: "select",
+		Kind: "sl-select",
 		Properties: immgo.Properties{
 			EventHandlers: immgo.EventHandlers{
 				"change": func(evt interface{}) {
 					*choice = evt.(map[string]interface{})["targetValue"].(string)
 				},
+			},
+			Attributes: immgo.Attributes{
+				"value": opts.Choices[0],
 			},
 		},
 	}
@@ -194,11 +194,12 @@ func Select(parent *immgo.RenderNode, options ...SelectOptions) (*immgo.RenderNo
 
 	for _, c := range opts.Choices {
 		immgo.Render(selectNode, immgo.ElementDescription{
-			Kind: "option",
+			Kind: "sl-menu-item",
 			Properties: immgo.Properties{
 				Attributes: immgo.Attributes{
 					"textContent": c,
 					"style":       opts.Style,
+					"value":       c,
 				},
 			},
 		})
@@ -220,7 +221,7 @@ func Button(parent *immgo.RenderNode, options ...ButtonOptions) bool {
 	clicked := immgo.State(parent, false)
 
 	immgo.Render(parent, immgo.ElementDescription{
-		Kind: "button",
+		Kind: "sl-button",
 		Properties: immgo.Properties{
 			Attributes: immgo.Attributes{
 				"textContent": opts.Label,
@@ -293,4 +294,46 @@ func TextInput(parent *immgo.RenderNode, options ...TextInputOptions) string {
 	})
 
 	return *curr
+}
+
+type GridOptions struct {
+}
+
+func Grid(parent *immgo.RenderNode, options ...GridOptions) *immgo.RenderNode {
+	return immgo.Render(parent, immgo.ElementDescription{
+		Kind: "div",
+		Properties: immgo.Properties{
+			Attributes: immgo.Attributes{
+				"class": "container",
+			},
+		},
+	})
+}
+
+type GridRowOptions struct {
+}
+
+func GridRow(parent *immgo.RenderNode, options ...GridRowOptions) *immgo.RenderNode {
+	return immgo.Render(parent, immgo.ElementDescription{
+		Kind: "div",
+		Properties: immgo.Properties{
+			Attributes: immgo.Attributes{
+				"class": "row",
+			},
+		},
+	})
+}
+
+type GridColumnOptions struct {
+}
+
+func GridColumn(parent *immgo.RenderNode, options ...GridColumnOptions) *immgo.RenderNode {
+	return immgo.Render(parent, immgo.ElementDescription{
+		Kind: "div",
+		Properties: immgo.Properties{
+			Attributes: immgo.Attributes{
+				"class": "col",
+			},
+		},
+	})
 }
