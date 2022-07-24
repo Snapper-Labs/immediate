@@ -9,7 +9,7 @@ import (
 
 	"github.com/gorilla/websocket"
 
-	"github.com/apkumar/immediate/go"
+	"github.com/snapper-labs/immediate/go"
 )
 
 //go:embed main.js
