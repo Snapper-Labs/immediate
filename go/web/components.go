@@ -122,6 +122,27 @@ func Text(parent *immgo.RenderNode, options ...TextOptions) *immgo.RenderNode {
 	return immgo.Render(parent, desc)
 }
 
+type MarkdownOptions struct {
+	Content string
+	Key     string
+}
+
+func Markdown(parent *immgo.RenderNode, options ...MarkdownOptions) *immgo.RenderNode {
+	opts := option.Merge(options...)
+
+	desc := immgo.ElementDescription{
+		Kind: "md-span",
+		Properties: immgo.Properties{
+			Attributes: immgo.Attributes{
+				"textContent": opts.Content,
+			},
+		},
+		Key: opts.Key,
+	}
+
+	return immgo.Render(parent, desc)
+}
+
 type H1Options struct {
 	Content string
 	Style   Style
