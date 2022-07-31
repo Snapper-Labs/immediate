@@ -9,12 +9,8 @@ import (
 
 type Style struct {
 	// TODO: enums?
-	Display        option.Option[string]
-	FlexDirection  option.Option[string]
-	JustifyContent option.Option[string]
-	MaxWidth       option.Option[string]
-	MinWidth       option.Option[string]
-	Width          option.Option[string]
+	Display option.Option[string]
+	FlexDirection option.Option[string]
 }
 
 func (this *Style) String() string {
@@ -31,21 +27,6 @@ func (this *Style) String() string {
 		addStyleAttribute("flex-direction", val)
 	}
 
-	if val, exists := this.JustifyContent.Get(); exists {
-		addStyleAttribute("justify-content", val)
-	}
-
-	if val, exists := this.MaxWidth.Get(); exists {
-		addStyleAttribute("max-width", val)
-	}
-
-	if val, exists := this.MinWidth.Get(); exists {
-		addStyleAttribute("min-width", val)
-	}
-
-	if val, exists := this.Width.Get(); exists {
-		addStyleAttribute("width", val)
-	}
 
 	return strings.Join(attrs, ";")
 }
