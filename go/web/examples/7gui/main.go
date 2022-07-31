@@ -1,6 +1,8 @@
 package main
 
 import (
+	log "github.com/sirupsen/logrus"
+
 	"github.com/snapper-labs/immediate/go"
 	"github.com/snapper-labs/immediate/go/web"
 )
@@ -36,5 +38,6 @@ func (this *app) Render(ui *immgo.RenderNode, doc *immgo_web.Document) {
 }
 
 func main() {
+	log.SetLevel(log.TraceLevel)
 	immgo_web.Serve("localhost:8081", &app{})
 }

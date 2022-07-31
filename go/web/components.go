@@ -88,14 +88,15 @@ type SelectOptions struct {
 
 func Select(parent *immgo.RenderNode, options ...SelectOptions) (*immgo.RenderNode, string) {
 	opts := option.Merge(options...)
-	choice := immgo.State(parent, opts.Choices[0])
+	choice, setChoice := immgo.State(parent, opts.Choices[0])
 
 	desc := immgo.ElementDescription {
 		Kind: "select",
 		Properties: immgo.Properties {
 			EventHandlers: immgo.EventHandlers {
 				"change": func(evt interface{}) {
-					*choice = evt.(map[string]interface{})["targetValue"].(string)
+					ch := evt.(map[string]interface{})["targetValue"].(string)
+					setChoice(ch)
 				},
 			},
 		},
@@ -128,7 +129,7 @@ type ButtonOptions struct {
 func Button(parent *immgo.RenderNode, options ...ButtonOptions) bool {
 	opts := option.Merge(options...)
 
-	clicked := immgo.State(parent, false)
+	clicked, setClicked := immgo.State(parent, false)
 
 	immgo.Render(parent, immgo.ElementDescription {
 		Kind: "button",
@@ -140,7 +141,7 @@ func Button(parent *immgo.RenderNode, options ...ButtonOptions) bool {
 			},
 			EventHandlers: immgo.EventHandlers {
 				"click": func(evt interface{}) {
-					*clicked = true
+					setClicked(true)
 				},
 			},
 		},
@@ -160,7 +161,7 @@ type TextInputOptions struct {
 
 func TextInput(parent *immgo.RenderNode, options ...TextInputOptions) string {
 	opts := option.Merge(options...)
-	curr := immgo.State(parent, opts.Value)
+	curr, setCurr := immgo.State(parent, opts.Value)
 
 	immgo.Render(parent, immgo.ElementDescription {
 		Kind: "input",
@@ -171,7 +172,7 @@ func TextInput(parent *immgo.RenderNode, options ...TextInputOptions) string {
 			},
 			EventHandlers: immgo.EventHandlers {
 				"input": func(event interface{}) {
-					*curr = event.(map[string]interface{})["targetValue"].(string)
+					setCurr(event.(map[string]interface{})["targetValue"].(string))
 				},
 			},
 		},
