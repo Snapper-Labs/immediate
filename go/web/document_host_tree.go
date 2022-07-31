@@ -1,7 +1,7 @@
 package immgo_web
 
 import (
-	"github.com/apkumar/immediate/go"
+	"github.com/snapper-labs/immediate/go"
 )
 
 type CreateNodeParams struct {

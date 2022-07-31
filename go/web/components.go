@@ -3,7 +3,7 @@ package immgo_web
 import (
 	"github.com/apkumar/gox/option"
 
-	immgo "github.com/apkumar/immediate/go"
+	immgo "github.com/snapper-labs/immediate/go"
 )
 
 type FormOptions struct {

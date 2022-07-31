@@ -1,4 +1,4 @@
-module github.com/apkumar/immediate/go
+module github.com/snapper-labs/immediate/go
 
 go 1.18
 
