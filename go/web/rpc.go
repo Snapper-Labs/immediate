@@ -1,10 +1,10 @@
 package immgo_web
 
 import (
-	"log"
 	"encoding/json"
 	"errors"
 
+	log "github.com/sirupsen/logrus"
 	"github.com/gorilla/websocket"
 )
 
@@ -158,7 +158,7 @@ func (this *Peer) ServeLoop() {
 	for {
 		err := this.Serve()
 		if err != nil {
-			log.Println("Error serving: ", err)
+			log.Debug("Error serving: ", err)
 			return
 		}
 	}
@@ -242,7 +242,7 @@ func (this WebsocketTransport) Read() ([]byte, error) {
 }
 
 func (this WebsocketTransport) Write(data []byte) error {
-	log.Println(string(data))
+	log.Trace(string(data))
 	return this.conn.WriteMessage(websocket.TextMessage, data)
 }
 
