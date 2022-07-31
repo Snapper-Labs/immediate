@@ -255,7 +255,6 @@
     } else {
       endpoint = "ws:";
     }
-    console.log("foo " + loc.pathname);
     endpoint += "//" + loc.host;
     endpoint += loc.pathname.substring(0, loc.pathname.length - 1);
     endpoint += "/ws";
