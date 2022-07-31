@@ -18,11 +18,15 @@ var jsScript string
 
 type App interface {
 	Render(root *immgo.RenderNode, doc *Document)
+	GetToolkit() Toolkit
+}
+
+type Toolkit interface {
 	GetScriptTags() []string
 	GetLinkTags() []string
 }
 
-type IndexTemplateArgs struct {
+type indexTemplateArgs struct {
 	Script     string
 	ScriptTags []string
 	LinkTags   []string
@@ -32,11 +36,14 @@ func Handle(path string, app App) {
 	realServeWs := func(w http.ResponseWriter, r *http.Request) {
 		serveWs(w, r, app)
 	}
+
+	toolkit := app.GetToolkit()
+
 	http.HandleFunc(fmt.Sprintf("/%s/", path), func(w http.ResponseWriter, r *http.Request) {
-		indexTemplate.Execute(w, IndexTemplateArgs{
+		indexTemplate.Execute(w, indexTemplateArgs{
 			Script:     jsScript,
-			LinkTags:   app.GetLinkTags(),
-			ScriptTags: app.GetScriptTags(),
+			LinkTags:   toolkit.GetLinkTags(),
+			ScriptTags: toolkit.GetScriptTags(),
 		})
 	})
 	http.HandleFunc(fmt.Sprintf("/%s/ws", path), realServeWs)

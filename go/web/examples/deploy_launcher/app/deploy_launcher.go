@@ -11,24 +11,25 @@ import (
 	"github.com/buildkite/go-buildkite/v3/buildkite"
 	immgo "github.com/snapper-labs/immediate/go"
 	immgo_web "github.com/snapper-labs/immediate/go/web"
+	"github.com/snapper-labs/immediate/go/web/intool"
 )
 
 func (this *App) Render(root *immgo.RenderNode, doc *immgo_web.Document) {
-	container := immgo_web.Container(root)
-	immgo_web.H1(container, immgo_web.H1Options{Content: "Deploy: core/development"})
-	immgo_web.H2(container, immgo_web.H2Options{Content: "Select version to deploy"})
+	container := intool.Container(root)
+	intool.Markdown(container, intool.MarkdownOptions{Content: "# Deploy: core/development"})
+	intool.Markdown(container, intool.MarkdownOptions{Content: "## Select version to deploy"})
 
-	grid := immgo_web.Grid(container)
-	selectRow := immgo_web.GridRow(grid)
-	selectCol := immgo_web.GridColumn(selectRow)
+	grid := intool.Grid(container)
+	selectRow := intool.GridRow(grid)
+	selectCol := intool.GridColumn(selectRow)
 	choices := []string{}
 	for _, rc := range *this.rcs {
 		choices = append(choices, rc.Label)
 	}
-	immgo_web.Select(selectCol, immgo_web.SelectOptions{Choices: choices})
-	buttonCol := immgo_web.GridColumn(selectRow)
+	intool.Select(selectCol, intool.SelectOptions{Choices: choices})
+	buttonCol := intool.GridColumn(selectRow)
 	deploying := immgo.State(root, false)
-	if immgo_web.Button(buttonCol, immgo_web.ButtonOptions{Label: "Deploy", Disabled: *deploying}) {
+	if intool.Button(buttonCol, intool.ButtonOptions{Label: "Deploy", Disabled: *deploying}) {
 		go func() {
 			*deploying = true
 			submit()
@@ -36,28 +37,28 @@ func (this *App) Render(root *immgo.RenderNode, doc *immgo_web.Document) {
 		}()
 	}
 
-	immgo_web.H2(container, immgo_web.H2Options{Content: "History"})
-	historyGrid := immgo_web.Grid(container)
+	intool.Markdown(container, intool.MarkdownOptions{Content: "## History"})
+	historyGrid := intool.Grid(container)
 	for i, build := range *this.builds {
 		if i == 0 {
-			headerRow := immgo_web.GridRow(historyGrid)
-			shaCol := immgo_web.GridColumn(headerRow)
-			authorCol := immgo_web.GridColumn(headerRow)
-			dateCol := immgo_web.GridColumn(headerRow)
+			headerRow := intool.GridRow(historyGrid)
+			shaCol := intool.GridColumn(headerRow)
+			authorCol := intool.GridColumn(headerRow)
+			dateCol := intool.GridColumn(headerRow)
 
-			immgo_web.Markdown(shaCol, immgo_web.MarkdownOptions{Content: "**Commit**"})
-			immgo_web.Markdown(authorCol, immgo_web.MarkdownOptions{Content: "**Deployer**"})
-			immgo_web.Markdown(dateCol, immgo_web.MarkdownOptions{Content: "**Date**"})
+			intool.Markdown(shaCol, intool.MarkdownOptions{Content: "**Commit**"})
+			intool.Markdown(authorCol, intool.MarkdownOptions{Content: "**Deployer**"})
+			intool.Markdown(dateCol, intool.MarkdownOptions{Content: "**Date**"})
 		}
 
 		if i == len(*this.builds)-1 {
 			break
 		}
 
-		historyRow := immgo_web.GridRow(historyGrid)
-		shaCol := immgo_web.GridColumn(historyRow)
-		authorCol := immgo_web.GridColumn(historyRow)
-		dateCol := immgo_web.GridColumn(historyRow)
+		historyRow := intool.GridRow(historyGrid)
+		shaCol := intool.GridColumn(historyRow)
+		authorCol := intool.GridColumn(historyRow)
+		dateCol := intool.GridColumn(historyRow)
 
 		author := ""
 		if build.Source != nil {
@@ -73,7 +74,7 @@ func (this *App) Render(root *immgo.RenderNode, doc *immgo_web.Document) {
 		diffURL := fmt.Sprintf("https://github.com/anchorlabsinc/anchorage/compare/%s..%s", commit, prevCommit)
 
 		shaColContents := fmt.Sprintf("[%s](%s) @ %s", (*build.Commit)[:7], diffURL, branch)
-		immgo_web.Markdown(shaCol, immgo_web.MarkdownOptions{Content: shaColContents})
+		intool.Markdown(shaCol, intool.MarkdownOptions{Content: shaColContents})
 		immgo_web.Text(authorCol, immgo_web.TextOptions{Content: author})
 		immgo_web.Text(dateCol, immgo_web.TextOptions{Content: build.CreatedAt.Format("2006-01-02 15:04:05")})
 	}
@@ -90,18 +91,8 @@ type App struct {
 	rcs    *[]ReleaseCandidate
 }
 
-func (this *App) GetScriptTags() []string {
-	return []string{
-		`<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0/dist/js/bootstrap.bundle.min.js" integrity="sha384-A3rJD856KowSb7dwlZdYEkO39Gagi7vIsF0jrRAoQmDKKtQBHUuLZ9AsSv4jD4Xa" crossorigin="anonymous"></script>`,
-		`<script type="module" src="https://md-block.verou.me/md-block.js"></script>`,
-		`<script type="module" src="https://cdn.jsdelivr.net/npm/@shoelace-style/shoelace@2.0.0-beta.78/dist/shoelace.js"></script>	`,
-	}
-}
-func (this *App) GetLinkTags() []string {
-	return []string{
-		`<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-gH2yIJqKdNHPEq0n4Mqa/HGKIhSkIHeL5AyhkYV8i59U5AR6csBvApHHNl/vI1Bx" crossorigin="anonymous">`,
-		`<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@shoelace-style/shoelace@2.0.0-beta.78/dist/themes/light.css" />`,
-	}
+func (*App) GetToolkit() immgo_web.Toolkit {
+	return &intool.Toolkit{}
 }
 
 func NewApp(buildkiteAPIToken string) (*App, error) {

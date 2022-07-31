@@ -6,27 +6,6 @@ import (
 	immgo "github.com/snapper-labs/immediate/go"
 )
 
-type FormOptions struct {
-	Style Style
-	Key   string
-}
-
-func Form(parent *immgo.RenderNode, options ...TextOptions) *immgo.RenderNode {
-	opts := option.Merge(options...)
-
-	desc := immgo.ElementDescription{
-		Kind: "form",
-		Properties: immgo.Properties{
-			Attributes: immgo.Attributes{
-				"style": opts.Style,
-			},
-		},
-		Key: opts.Key,
-	}
-
-	return immgo.Render(parent, desc)
-}
-
 type DivOptions struct {
 	Style Style
 	Key   string
@@ -47,26 +26,6 @@ func Div(parent *immgo.RenderNode, options ...DivOptions) *immgo.RenderNode {
 	return immgo.Render(parent, desc)
 }
 
-type ContainerOptions struct {
-	Style Style
-	Key   string
-}
-
-func Container(parent *immgo.RenderNode, options ...ContainerOptions) *immgo.RenderNode {
-	opts := option.Merge(options...)
-
-	desc := immgo.ElementDescription{
-		Kind: "div",
-		Key:  opts.Key,
-		Properties: immgo.Properties{
-			Attributes: immgo.Attributes{
-				"class": "container-md",
-			},
-		},
-	}
-	return immgo.Render(parent, desc)
-}
-
 type RowOptions struct {
 	Style Style
 	Key   string
@@ -78,7 +37,6 @@ func Row(parent *immgo.RenderNode, options ...RowOptions) *immgo.RenderNode {
 	style := opts.Style
 	style.Display = option.Some("flex")
 	style.FlexDirection = option.Some("row")
-	style.JustifyContent = option.Some("space-between")
 
 	divOpts := DivOptions{style, opts.Key}
 	return Div(parent, divOpts)
@@ -122,71 +80,6 @@ func Text(parent *immgo.RenderNode, options ...TextOptions) *immgo.RenderNode {
 	return immgo.Render(parent, desc)
 }
 
-type MarkdownOptions struct {
-	Content string
-	Key     string
-}
-
-func Markdown(parent *immgo.RenderNode, options ...MarkdownOptions) *immgo.RenderNode {
-	opts := option.Merge(options...)
-
-	desc := immgo.ElementDescription{
-		Kind: "md-span",
-		Properties: immgo.Properties{
-			Attributes: immgo.Attributes{
-				"textContent": opts.Content,
-			},
-		},
-		Key: opts.Key,
-	}
-
-	return immgo.Render(parent, desc)
-}
-
-type H1Options struct {
-	Content string
-	Style   Style
-	Key     string
-}
-
-func H1(parent *immgo.RenderNode, options ...H1Options) *immgo.RenderNode {
-	opts := option.Merge(options...)
-
-	desc := immgo.ElementDescription{
-		Kind: "h1",
-		Properties: immgo.Properties{
-			Attributes: immgo.Attributes{
-				"textContent": opts.Content,
-			},
-		},
-		Key: opts.Key,
-	}
-
-	return immgo.Render(parent, desc)
-}
-
-type H2Options struct {
-	Content string
-	Style   Style
-	Key     string
-}
-
-func H2(parent *immgo.RenderNode, options ...H2Options) *immgo.RenderNode {
-	opts := option.Merge(options...)
-
-	desc := immgo.ElementDescription{
-		Kind: "h2",
-		Properties: immgo.Properties{
-			Attributes: immgo.Attributes{
-				"textContent": opts.Content,
-			},
-		},
-		Key: opts.Key,
-	}
-
-	return immgo.Render(parent, desc)
-}
-
 type SelectOptions struct {
 	Style   Style
 	Key     string
@@ -198,15 +91,12 @@ func Select(parent *immgo.RenderNode, options ...SelectOptions) (*immgo.RenderNo
 	choice := immgo.State(parent, opts.Choices[0])
 
 	desc := immgo.ElementDescription{
-		Kind: "sl-select",
+		Kind: "select",
 		Properties: immgo.Properties{
 			EventHandlers: immgo.EventHandlers{
 				"change": func(evt interface{}) {
 					*choice = evt.(map[string]interface{})["targetValue"].(string)
 				},
-			},
-			Attributes: immgo.Attributes{
-				"value": opts.Choices[0],
 			},
 		},
 	}
@@ -215,12 +105,11 @@ func Select(parent *immgo.RenderNode, options ...SelectOptions) (*immgo.RenderNo
 
 	for _, c := range opts.Choices {
 		immgo.Render(selectNode, immgo.ElementDescription{
-			Kind: "sl-menu-item",
+			Kind: "option",
 			Properties: immgo.Properties{
 				Attributes: immgo.Attributes{
 					"textContent": c,
 					"style":       opts.Style,
-					"value":       c,
 				},
 			},
 		})
@@ -242,7 +131,7 @@ func Button(parent *immgo.RenderNode, options ...ButtonOptions) bool {
 	clicked := immgo.State(parent, false)
 
 	immgo.Render(parent, immgo.ElementDescription{
-		Kind: "sl-button",
+		Kind: "button",
 		Properties: immgo.Properties{
 			Attributes: immgo.Attributes{
 				"textContent": opts.Label,
@@ -263,29 +152,7 @@ func Button(parent *immgo.RenderNode, options ...ButtonOptions) bool {
 	return r
 }
 
-type LabelOptions struct {
-	Label string
-	Key   string
-}
-
-func Label(parent *immgo.RenderNode, options ...LabelOptions) *immgo.RenderNode {
-	opts := option.Merge(options...)
-
-	desc := immgo.ElementDescription{
-		Kind: "label",
-		Properties: immgo.Properties{
-			Attributes: immgo.Attributes{
-				"textContent": opts.Label,
-			},
-		},
-		Key: opts.Key,
-	}
-
-	return immgo.Render(parent, desc)
-}
-
 type TextInputOptions struct {
-	Label    string
 	Value    string
 	Disabled bool
 	// todo
@@ -294,10 +161,6 @@ type TextInputOptions struct {
 func TextInput(parent *immgo.RenderNode, options ...TextInputOptions) string {
 	opts := option.Merge(options...)
 	curr := immgo.State(parent, opts.Value)
-
-	if opts.Label != "" {
-		Label(parent, LabelOptions{Label: opts.Label})
-	}
 
 	immgo.Render(parent, immgo.ElementDescription{
 		Kind: "input",
@@ -317,44 +180,12 @@ func TextInput(parent *immgo.RenderNode, options ...TextInputOptions) string {
 	return *curr
 }
 
-type GridOptions struct {
+type DefaultToolkit struct {
 }
 
-func Grid(parent *immgo.RenderNode, options ...GridOptions) *immgo.RenderNode {
-	return immgo.Render(parent, immgo.ElementDescription{
-		Kind: "div",
-		Properties: immgo.Properties{
-			Attributes: immgo.Attributes{
-				"class": "container",
-			},
-		},
-	})
+func (*DefaultToolkit) GetScriptTags() []string {
+	return []string{}
 }
-
-type GridRowOptions struct {
-}
-
-func GridRow(parent *immgo.RenderNode, options ...GridRowOptions) *immgo.RenderNode {
-	return immgo.Render(parent, immgo.ElementDescription{
-		Kind: "div",
-		Properties: immgo.Properties{
-			Attributes: immgo.Attributes{
-				"class": "row",
-			},
-		},
-	})
-}
-
-type GridColumnOptions struct {
-}
-
-func GridColumn(parent *immgo.RenderNode, options ...GridColumnOptions) *immgo.RenderNode {
-	return immgo.Render(parent, immgo.ElementDescription{
-		Kind: "div",
-		Properties: immgo.Properties{
-			Attributes: immgo.Attributes{
-				"class": "col",
-			},
-		},
-	})
+func (*DefaultToolkit) GetLinkTags() []string {
+	return []string{}
 }
