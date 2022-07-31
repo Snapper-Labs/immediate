@@ -3,6 +3,7 @@ package immgo_web
 import (
 	"context"
 	_ "embed"
+	"fmt"
 	"log"
 	"net/http"
 	"text/template"
@@ -19,13 +20,16 @@ type App interface {
 	Render(root *immgo.RenderNode, doc *Document)
 }
 
-func Serve(addr string, app App) {
+func Handle(path string, app App) {
 	realServeWs := func(w http.ResponseWriter, r *http.Request) {
 		serveWs(w, r, app)
 	}
 
-	http.HandleFunc("/", serveIndex)
-	http.HandleFunc("/ws", realServeWs)
+	http.HandleFunc(fmt.Sprintf("/%s/", path), serveIndex)
+	http.HandleFunc(fmt.Sprintf("/%s/ws", path), realServeWs)
+}
+
+func Serve(addr string) {
 	log.Println("Listening...")
 	log.Fatal(http.ListenAndServe(addr, nil))
 }

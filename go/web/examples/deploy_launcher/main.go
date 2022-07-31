@@ -8,9 +8,9 @@ import (
 	"os"
 	"time"
 
-	immgo "github.com/apkumar/immediate/go"
-	immgo_web "github.com/apkumar/immediate/go/web"
 	"github.com/buildkite/go-buildkite/v3/buildkite"
+	immgo "github.com/snapper-labs/immediate/go"
+	immgo_web "github.com/snapper-labs/immediate/go/web"
 )
 
 // submit simulates a network call to a backend.
@@ -135,5 +135,6 @@ func main() {
 	}
 	builds = &b
 
-	immgo_web.Serve("localhost:8081", &app{})
+	immgo_web.Handle("deploy", &app{})
+	immgo_web.Serve("localhost:8081")
 }
