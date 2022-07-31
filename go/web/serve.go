@@ -3,10 +3,10 @@ package immgo_web
 import (
 	"context"
 	_ "embed"
-	"log"
 	"net/http"
 	"text/template"
 
+	log "github.com/sirupsen/logrus"
 	"github.com/gorilla/websocket"
 
 	"github.com/snapper-labs/immediate/go"
@@ -26,7 +26,7 @@ func Serve(addr string, app App) {
 
 	http.HandleFunc("/", serveIndex)
 	http.HandleFunc("/ws", realServeWs)
-	log.Println("Listening...")
+	log.Info("Listening...")
 	log.Fatal(http.ListenAndServe(addr, nil))
 }
 
@@ -37,10 +37,10 @@ func serveIndex(w http.ResponseWriter, r *http.Request) {
 var upgrader = websocket.Upgrader{} // use default options
 
 func serveWs(w http.ResponseWriter, r *http.Request, app App) {
-	log.Print("Got a ws conn...")
+	log.Debug("Got a websocket connection.")
 	c, err := upgrader.Upgrade(w, r, nil)
 	if err != nil {
-		log.Print("upgrade:", err)
+		log.Debug("Error upgrading websocket connection; ignoring:", err)
 		return
 	}
 
