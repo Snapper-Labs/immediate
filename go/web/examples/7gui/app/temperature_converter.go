@@ -1,11 +1,11 @@
-package main
+package app
 
 import (
 	"fmt"
 	"strconv"
 
-	"github.com/snapper-labs/immediate/go"
-	"github.com/snapper-labs/immediate/go/web"
+	immgo "github.com/snapper-labs/immediate/go"
+	immgo_web "github.com/snapper-labs/immediate/go/web"
 )
 
 func cToF(c float64) float64 {
@@ -13,7 +13,7 @@ func cToF(c float64) float64 {
 }
 
 func fToC(f float64) float64 {
-	return (f - 32)*5/9.
+	return (f - 32) * 5 / 9.
 }
 
 func TemperatureConverter(ui *immgo.RenderNode) {
@@ -32,7 +32,7 @@ func TemperatureConverter(ui *immgo.RenderNode) {
 		}
 	}
 
-	immgo_web.Text(row, immgo_web.TextOptions{Content:"Celsius = "})
+	immgo_web.Text(row, immgo_web.TextOptions{Content: "Celsius = "})
 	fInput := immgo_web.TextInput(row, immgo_web.TextInputOptions{Value: *currentF})
 
 	if immgo.Changed(row, fInput, immgo.ChangedOptions{}) {
@@ -42,5 +42,5 @@ func TemperatureConverter(ui *immgo.RenderNode) {
 		}
 	}
 
-	immgo_web.Text(row, immgo_web.TextOptions{Content:" Fahrenheit"})
+	immgo_web.Text(row, immgo_web.TextOptions{Content: " Fahrenheit"})
 }

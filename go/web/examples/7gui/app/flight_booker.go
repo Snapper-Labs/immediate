@@ -1,13 +1,13 @@
-package main
+package app
 
 import (
-	"github.com/snapper-labs/immediate/go"
-	"github.com/snapper-labs/immediate/go/web"
+	immgo "github.com/snapper-labs/immediate/go"
+	immgo_web "github.com/snapper-labs/immediate/go/web"
 )
 
 var (
 	ONE_WAY_FLIGHT = "one-way flight"
-	RETURN_FLIGHT = "return flight"
+	RETURN_FLIGHT  = "return flight"
 )
 
 func isValidDate(date string) bool {
@@ -27,7 +27,7 @@ func FlightBooker(ui *immgo.RenderNode) {
 	*startDate = immgo_web.TextInput(col, immgo_web.TextInputOptions{Value: *startDate})
 	*endDate = immgo_web.TextInput(col, immgo_web.TextInputOptions{Value: *endDate, Disabled: !endDateEnabled})
 
-	if immgo_web.Button(ui, immgo_web.ButtonOptions{Label:"Book", Disabled: !bookEnabled}) {
+	if immgo_web.Button(ui, immgo_web.ButtonOptions{Label: "Book", Disabled: !bookEnabled}) {
 		// button clicked.
 	}
 }

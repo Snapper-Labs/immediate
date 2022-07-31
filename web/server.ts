@@ -56,6 +56,7 @@ export function createDocumentServer(peer: Peer): () => void {
 
       propertiesUpdate.newEventHandlers.forEach(kind => {
         const evtListener = (event: Event) => {
+          event.preventDefault();
           const evt = {
             ...extractObject(event),
           };
