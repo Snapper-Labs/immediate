@@ -179,3 +179,13 @@ func TextInput(parent *immgo.RenderNode, options ...TextInputOptions) string {
 
 	return *curr
 }
+
+type DefaultToolkit struct {
+}
+
+func (*DefaultToolkit) GetScriptTags() []string {
+	return []string{}
+}
+func (*DefaultToolkit) GetLinkTags() []string {
+	return []string{}
+}

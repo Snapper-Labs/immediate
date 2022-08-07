@@ -176,6 +176,7 @@
         });
         propertiesUpdate.newEventHandlers.forEach((kind) => {
           const evtListener = (event) => {
+            event.preventDefault();
             const evt = __spreadValues({}, extractObject(event));
             peer.notify("handleEvent", { kind, target: id, event: evt });
           };
@@ -237,19 +238,13 @@
     const socket = new WebSocket(endpoint);
     let currCleanup = onOpen;
     socket.addEventListener("open", function() {
-      console.log(`open WS`);
       onOpen();
       currCleanup = serveWebSocket(socket);
     });
-    socket.addEventListener("close", function(event) {
-      console.log(`currCleanup: ${currCleanup}`);
+    socket.addEventListener("close", function() {
       setTimeout(() => {
         setup(endpoint, currCleanup, Math.min(1e3 * 10, backoffTime * 2));
       }, backoffTime);
-      console.log(`close: ${event}`);
-    });
-    socket.addEventListener("error", function(event) {
-      console.log(`error: ${event}`);
     });
   }
   function getWsEndpoint() {
@@ -261,6 +256,7 @@
       endpoint = "ws:";
     }
     endpoint += "//" + loc.host;
+    endpoint += loc.pathname.substring(0, loc.pathname.length - 1);
     endpoint += "/ws";
     return endpoint;
   }
