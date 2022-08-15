@@ -47,7 +47,7 @@ func rerender(hostTree HostTree, hostRoot HostNode, shadowRoot *ShadowNode, rend
 }
 
 
-func Update(hostTree HostTree, hostRoot HostNode, shadowRoot *ShadowNode, render RenderFunc) error {
+func Update(hostTree HostTree, hostRoot HostNode, shadowRoot *ShadowNode, render RenderFunc, forceRender bool) error {
 	// Handle events.
 	err := hostTree.TriggerEvent()
 	if err != nil {
@@ -62,7 +62,7 @@ func Update(hostTree HostTree, hostRoot HostNode, shadowRoot *ShadowNode, render
 	}
 
 	// If there were any effects, re-render the tree.
-	if len(effects) > 0 {
+	if len(effects) > 0 || forceRender {
 		if err := rerender(hostTree, hostRoot, shadowRoot, render); err != nil {
 			return err
 		}
@@ -80,19 +80,18 @@ func Run(ctx context.Context, hostTree HostTree, render RenderFunc) error {
 
 	shadowRoot := NewShadowNode("root", "root", Properties{})
 
-	if err := rerender(hostTree, hostRoot, shadowRoot, render); err != nil {
-		return err
-	}
+	forceRender := true
 
 	for {
 		select {
 		case <-ctx.Done():
 			return ctx.Err()
 		default:
-			if err := Update(hostTree, hostRoot, shadowRoot, render); err != nil {
+			if err := Update(hostTree, hostRoot, shadowRoot, render, forceRender); err != nil {
 				return err
 			}
 
+			forceRender = false
 			time.Sleep(33 * time.Millisecond)
 		}
 	}

@@ -46,7 +46,7 @@ func match(parentNode *RenderNode, renderNode *RenderNode) *ShadowNode {
 func getFullKey(desc ElementDescription) string {
 	keyParts := []string{desc.Kind, desc.Key}
 
-	maxFrames := 2
+	maxFrames := 10 
 	frameBuff := make([]uintptr, maxFrames)
 	// skip Callers, getFullKey, and Render.
 	nCallers := runtime.Callers(3, frameBuff)
