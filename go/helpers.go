@@ -1,6 +1,8 @@
 package immgo
 
 import (
+	"fmt"
+
 	"github.com/apkumar/gox/option"
 )
 
@@ -87,13 +89,13 @@ type ChangedOptions struct {
 func Changed[T comparable](parent *RenderNode, val T, options ...ChangedOptions) bool {
 	opts := option.Merge(options...)
 
-	state, _ := State(parent, val, StateOptions { opts.Key })
+	state, setState := State(parent, val, StateOptions { opts.Key })
 	curr := *state
-	*state = val
+	setState(val)
 
 	if curr == val {
-		return true
-	} else {
 		return false
+	} else {
+		return true
 	}
 }
