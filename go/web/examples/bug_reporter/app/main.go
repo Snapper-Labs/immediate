@@ -45,7 +45,7 @@ func (this *App) Render(root *immgo.RenderNode, doc *immgo_web.Document) {
 	// different than other rendering functions; they follow the same matching
 	// rules, and are implemented under the hood as "stateholder" elements that
 	// are not reflected in the underlying DOM.
-	submitting := immgo.State(root, false)
+	submitting, setSubmitting := immgo.State(root, false)
 
 	if immgo_web.Button(form, immgo_web.ButtonOptions{Label: "Submit", Disabled: *submitting}) {
 		// Here, we directly write to the `submitting` variable in a goroutine.
@@ -55,9 +55,9 @@ func (this *App) Render(root *immgo.RenderNode, doc *immgo_web.Document) {
 		// more complicated parallelism, we could use standard Go techniques to
 		// ensure safety.
 		go func() {
-			*submitting = true
+			setSubmitting(true)
 			submit(author, bugType)
-			*submitting = false
+			setSubmitting(false)
 		}()
 	}
 }
