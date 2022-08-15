@@ -1,8 +1,6 @@
 package immgo
 
 import (
-	"fmt"
-
 	"github.com/apkumar/gox/option"
 )
 
