@@ -34,6 +34,7 @@ function getWsEndpoint() {
     endpoint = "ws:";
   }
   endpoint += "//" + loc.host;
+  endpoint += loc.pathname.substring(0, loc.pathname.length-1);
   endpoint += "/ws";
 
   return endpoint;

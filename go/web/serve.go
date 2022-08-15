@@ -3,13 +3,14 @@ package immgo_web
 import (
 	"context"
 	_ "embed"
+	"fmt"
 	"net/http"
 	"text/template"
 
-	log "github.com/sirupsen/logrus"
 	"github.com/gorilla/websocket"
+	log "github.com/sirupsen/logrus"
 
-	"github.com/snapper-labs/immediate/go"
+	immgo "github.com/snapper-labs/immediate/go"
 )
 
 //go:embed main.js
@@ -17,16 +18,39 @@ var jsScript string
 
 type App interface {
 	Render(root *immgo.RenderNode, doc *Document)
+	GetToolkit() Toolkit
 }
 
-func Serve(addr string, app App) {
+type Toolkit interface {
+	GetScriptTags() []string
+	GetLinkTags() []string
+}
+
+type indexTemplateArgs struct {
+	Script     string
+	ScriptTags []string
+	LinkTags   []string
+}
+
+func Handle(path string, app App) {
 	realServeWs := func(w http.ResponseWriter, r *http.Request) {
 		serveWs(w, r, app)
 	}
 
-	http.HandleFunc("/", serveIndex)
-	http.HandleFunc("/ws", realServeWs)
-	log.Info("Listening...")
+	toolkit := app.GetToolkit()
+
+	http.HandleFunc(fmt.Sprintf("/%s/", path), func(w http.ResponseWriter, r *http.Request) {
+		indexTemplate.Execute(w, indexTemplateArgs{
+			Script:     jsScript,
+			LinkTags:   toolkit.GetLinkTags(),
+			ScriptTags: toolkit.GetScriptTags(),
+		})
+	})
+	http.HandleFunc(fmt.Sprintf("/%s/ws", path), realServeWs)
+}
+
+func Serve(addr string) {
+	log.Println("Listening...")
 	log.Fatal(http.ListenAndServe(addr, nil))
 }
 
@@ -44,7 +68,7 @@ func serveWs(w http.ResponseWriter, r *http.Request, app App) {
 		return
 	}
 
-	transport := WebsocketTransport {conn: c}
+	transport := WebsocketTransport{conn: c}
 	peer := NewPeer(transport)
 	doc := NewDocument(peer)
 	hostTree := NewDocumentHostTree(peer)
@@ -60,16 +84,17 @@ func serveWs(w http.ResponseWriter, r *http.Request, app App) {
 	cancel()
 }
 
-
 var indexTemplate = template.Must(template.New("").Parse(`
 <!DOCTYPE html>
 <html>
 <head>
 <meta charset="utf-8">
+{{range .LinkTags}} {{.}} {{end}}
 </head>
 <body>
-<script>  
-{{.}}
+{{range .ScriptTags}} {{.}} {{end}}
+<script> 
+{{.Script}}
 </script>
 </body>
 </html>
