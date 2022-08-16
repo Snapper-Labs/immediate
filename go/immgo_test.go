@@ -61,8 +61,7 @@ func TestRendererSimple(t *testing.T) {
 
 	for index := range childrenBefore {
 		if childrenBefore[index] != childrenAfter[index] {
-			// FIXME
-			// t.Errorf("Children changed (%d, %v vs %v)", index, childrenBefore[index], childrenAfter[index])
+			t.Errorf("Children changed (%d, %v vs %v)", index, childrenBefore[index], childrenAfter[index])
 		}
 	}
 

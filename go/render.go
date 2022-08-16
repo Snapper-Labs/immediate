@@ -54,6 +54,10 @@ func getFullKey(desc ElementDescription) string {
 	frames := runtime.CallersFrames(frameBuff[:nCallers])
 	for {
 		frame, more := frames.Next()
+		if frame.Function == "github.com/snapper-labs/immediate/go.Update" {
+			break
+		}
+
 		keyParts = append(keyParts, frame.Function, frame.File, fmt.Sprint(frame.Line))
 
 		if !more {
