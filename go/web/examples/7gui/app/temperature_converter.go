@@ -17,18 +17,19 @@ func fToC(f float64) float64 {
 }
 
 func TemperatureConverter(ui *immgo.RenderNode) {
-	currentC := immgo.State(ui, "", immgo.StateOptions{})
-	currentF := immgo.State(ui, "", immgo.StateOptions{})
+	currentC, setCurrentC := immgo.State(ui, "", immgo.StateOptions{})
+	currentF, setCurrentF := immgo.State(ui, "", immgo.StateOptions{})
 
 	row := immgo_web.Row(ui, immgo_web.RowOptions{})
 	cInput := immgo_web.TextInput(row, immgo_web.TextInputOptions{Value: *currentC})
 
 	// NOTE: This, versus an event/callback driven API?
 	if immgo.Changed(row, cInput, immgo.ChangedOptions{}) {
+		fmt.Println("Detected cInput change: ", cInput)
 		c, err := strconv.ParseFloat(cInput, 64)
 		if err == nil {
 			// Just change the other type, so that typing is unencumbered.
-			*currentF = fmt.Sprintf("%.2f", cToF(c))
+			setCurrentF(fmt.Sprintf("%.2f", cToF(c)))
 		}
 	}
 
@@ -36,9 +37,10 @@ func TemperatureConverter(ui *immgo.RenderNode) {
 	fInput := immgo_web.TextInput(row, immgo_web.TextInputOptions{Value: *currentF})
 
 	if immgo.Changed(row, fInput, immgo.ChangedOptions{}) {
+		fmt.Println("Detected fInput change: ", fInput)
 		f, err := strconv.ParseFloat(fInput, 64)
 		if err == nil {
-			*currentC = fmt.Sprintf("%.2f", fToC(f))
+			setCurrentC(fmt.Sprintf("%.2f", fToC(f)))
 		}
 	}
 

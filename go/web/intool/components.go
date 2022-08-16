@@ -60,14 +60,14 @@ type SelectOptions struct {
 
 func Select(parent *immgo.RenderNode, options ...SelectOptions) (*immgo.RenderNode, string) {
 	opts := option.Merge(options...)
-	choice := immgo.State(parent, opts.Choices[0])
+	choice, setChoice := immgo.State(parent, opts.Choices[0])
 
 	desc := immgo.ElementDescription{
 		Kind: "sl-select",
 		Properties: immgo.Properties{
 			EventHandlers: immgo.EventHandlers{
 				"change": func(evt interface{}) {
-					*choice = evt.(map[string]interface{})["targetValue"].(string)
+					setChoice(evt.(map[string]interface{})["targetValue"].(string))
 				},
 			},
 			Attributes: immgo.Attributes{
@@ -102,7 +102,7 @@ type ButtonOptions struct {
 func Button(parent *immgo.RenderNode, options ...ButtonOptions) bool {
 	opts := option.Merge(options...)
 
-	clicked := immgo.State(parent, false)
+	clicked, setClicked := immgo.State(parent, false)
 
 	immgo.Render(parent, immgo.ElementDescription{
 		Kind: "sl-button",
@@ -113,14 +113,14 @@ func Button(parent *immgo.RenderNode, options ...ButtonOptions) bool {
 			},
 			EventHandlers: immgo.EventHandlers{
 				"click": func(evt interface{}) {
-					*clicked = true
+					setClicked(true)
 				},
 			},
 		},
 	})
 
 	r := *clicked
-	*clicked = false
+	setClicked(false)
 
 	return r
 }

@@ -18,6 +18,17 @@ func NewNode[T any]() *Node[T] {
 	return &Node[T] {}
 }
 
+// Traverse this node and all children, calling `f` on each.
+func (this *Node[T]) Traverse(f func(*Node[T])) {
+	f(this)
+
+	children := this.Children()
+
+	for _, child := range children {
+		child.Traverse(f)
+	}
+}
+
 func (this *Node[T]) Children() []*Node[T] {
 	r := []*Node[T]{}
 
