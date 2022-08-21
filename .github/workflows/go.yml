@@ -1,4 +1,4 @@
-name: Go
+name: Immediate
 
 on:
   push:
@@ -18,10 +18,14 @@ jobs:
       with:
         go-version: 1.18
 
-    - name: Build
+    - name: Build Go
       working-directory: go
       run: go build -v ./...
 
-    - name: Test
+    - name: Test Go
       working-directory: go
       run: go test -v ./...
+
+    - name: Build Example Docker Image
+      working-directory: go
+      run: make build-examples-docker
