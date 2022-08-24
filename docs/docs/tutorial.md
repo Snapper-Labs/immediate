@@ -135,7 +135,10 @@ Notice how we store the render node returned by `Div` in the variable
 
 Element descriptions are immutable. To update the UI, you don't explicitly
 modify an element; instead, you produce a new render tree, with new element
-descriptions, that describes what you want your new UI to look like.
+descriptions, that describes what you want your new UI to look like. In order to
+produce a new render tree, we have to inform the Immediate runtime that
+something has changed and that we would like our Render function to be called
+again.
 
 We can modify our Text call in the following way:
 
@@ -144,24 +147,30 @@ immgo_web.Text(
 	backgroundDiv,
 	fmt.Sprintf("Hello, it is %s", time.Now().Format(time.UnixDate)),
 )
+
+schedule := immgo.Scheduler(backgroundDiv)
+
+// Inform Immediate that we want a re-render soon.
+go func() {
+  time.Sleep(33 * time.Millisecond)
+  schedule(func(){})
+}()
 ```
 
 When you run this code, you should see a ticking timer! 
 
-This brings us to an important design decision in immediate: **your application
-is constantly re-rendered.** Immediate will ensure that only what has changed is
-actually updated. You don't have to inform immediate in any way that your app
-has changed.
-
 !!! note
-    Some readers may be concerned about the performance implications of
-    their application constantly re-rendering. We have found that most tools
-    that are well-suited to be built with immediate are not performance
-    intensive enough for this to be an issue, even with many concurrent clients. 
 
-    If your application does have performance issues, you can use `___`s
-    -- but this comes with the complexity of having to inform immediate of the
-    need to re-render, so we suggest starting with the simpler approach.
+    We are showing this use of `immgo.Scheduler` to give a sense of how the
+    Immediate runtime works under the hood. In practice, we don't expect users
+    to have to use `immgo.Scheduler` directly; as we proceed, we'll see how the
+    framework provides higher-level abstractions that schedule updates
+    appropriately.
+
+## Reconciliation
+
+TODO
+
 
 
 ## Handling Events
@@ -170,35 +179,28 @@ So far, we have described how your application can render content _to_ the UI; w
 also need to receive and handle input _from_ the UI. 
 
 We do this by adding _event listeners_ to elements. Let's add a button to our
-application, and print whether or not the user has clicked it an odd or even
+application, and display whether the user has clicked the button an odd or even
 number of times.
 
 ``` golang
 func HelloWorld(root *immgo.RenderNode, clicked *int) {
-	backgroundDiv := immgo_web.Div(root, immgo_web.DivOptions {
-		Style: immgo_web.Style {
-			BackgroundColor: option.Some("green"),
-		},
-	})
-
-        oddOrEven := "odd"
-        if *clicked % 2 == 0 {
-                oddOrEven = "even"
-        }
-	immgo_web.Text(
-		backgroundDiv,
-		fmt.Sprintf("Hello, it is %s. You have clicked the button an %s number of times.", time.Now().Format(time.UnixDate), oddOrEven),
-	)
-
-        onClick := func() {
+	onClick := func() {
+		fmt.Println("User clicked on button.")
 		*clicked += 1
-        }
+	}
 
-	immgo_web.Button(root, onClick)
+	oddOrEven := "odd"
+	if *clicked % 2 == 0 {
+		oddOrEven = "even"
+	}
+
+	immgo_web.Text(root, oddOrEven)
+	immgo_web.Button(root, onClick, immgo_web.ButtonOptions { Label: "Click Me" })
 }
 
+
 type app struct {
-	clicked int
+        int clicked
 }
 
 func (this *app) Render(root *immgo.RenderNode, doc *immgo_web.Document) {
@@ -221,21 +223,23 @@ getting to the function that needs it. Additionally, any state that should
 _semantically_ be "internal" to some part of your app must nonetheless be
 hoisted up to the top, so that it can be threaded through as well.
 
-Immediate allows you to write encapsulated components that _hide_ their internal
-state, _render_ content to the render tree, and _return_ exposed state. In this
-case, we want a component that stores how many times the user has clicked the
-button as internal state, renders a button, and returns whether or not the user
-has clicked the button an even number of times as exposed state. We can do that
-as follows, using `immgo.State`:
+To alleviate these issues, Immediate allows you to write encapsulated components
+that _hide_ their internal state, _render_ content to the render tree, and
+_return_ exposed state. In this case, we want a component that stores how many
+times the user has clicked the button as internal state, renders a button, and
+returns whether or not the user has clicked the button an even number of times
+as exposed state. We can do that using `immgo.State`:
 
 ``` golang
 func CounterButton(root *immgo.RenderNode) string {
-	clicked := immgo.State(0)
+	clicked, setClicked := immgo.State(root, 0)
 
 	onClick := func() {
-		*clicked += 1
+		fmt.Println("User clicked on button.")
+		setClicked(*clicked + 1)
 	}
-	immgo_web.Button(root, onClick)
+
+	immgo_web.Button(root, onClick, immgo_web.ButtonOptions { Label: "Click me" })
 
 	oddOrEven := "odd"
 	if *clicked % 2 == 0 {
@@ -246,29 +250,33 @@ func CounterButton(root *immgo.RenderNode) string {
 }
 
 func HelloWorld(root *immgo.RenderNode, clicked *int) {
-        ...
-        str := CounterButton(root)
-	immgo_web.Text(
-		backgroundDiv,
-		fmt.Sprintf("Hello, it is %s. You have clicked the button an %s number of times.", time.Now().Format(time.UnixDate), str),
-	)
+	oddOrEven := CounterButton(root)
+	immgo_web.Text(root, oddOrEven)
 }
 ```
 
 Note that we are able to simply _return_ the exposed state, rather than having
-to hoist it up via callbacks. This is the main thing we gain by choosing to
-render elements by calling `Render` rather than by returning element
-descriptions.
-
-This allows us to implement, for example, a Button API that will be familiar to
-those used to immediate-mode GUI:
+to hoist it up via callbacks. This allows us to implement, for example, a Button
+API that will be familiar to those used to immediate-mode GUI:
 
 ``` golang
-	if immgo_web.Button(root) {
-                *clicked += 1
-        }
+func ImmediateButton(root *immgo.RenderNode, options ...immgo_web.ButtonOptions) bool {
+	clicked, setClicked := immgo.State(root, false)
+
+	onClick := func() {
+		setClicked(true)
+	}
+
+	immgo_web.Button(root, onClick, options...)
+
+	returnValue := *clicked
+	setClicked(false)
+
+	return returnValue
+}
 ```
 
-In fact, many of the built-in components like Button expose this sort of API,
-while also taking an event handler as an argument, allowing you to pick which
-form you prefer.
+Most of the low-level built-in components like Button prefer the event-handler
+style API, since that's closer to how Immediate works under the hood; but it is
+easy to create immediate-mode APIs such as `ImmediateButton` above if you
+prefer.
