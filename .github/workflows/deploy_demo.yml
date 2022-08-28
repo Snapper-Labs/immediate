@@ -1,0 +1,26 @@
+name: Immediate Demo CI
+
+on:
+  push:
+    branches: ["main"]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+
+      - name: Build Example Docker Image
+        working-directory: demo/go-app
+        run: make build-docker
+
+      # https://github.com/google-github-actions/auth#setting-up-workload-identity-federation
+      - id: "auth"
+        uses: "google-github-actions/auth@v0"
+        with:
+          workload_identity_provider: "projects/454055752992/locations/global/workloadIdentityPools/immediate-demo-pool/providers/default-provider"
+          service_account: "immediate-demo-deploy@snapper-326913.iam.gserviceaccount.com"
+
+      - id: "deploy"
+        uses: "google-github-actions/deploy-appengine@v0"
+        image_url: "gcr.io/snapper-326913/immediate_demo:latest"

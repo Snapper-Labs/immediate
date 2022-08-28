@@ -1,2 +1,3 @@
+service: immediate-demo
 runtime: custom
 env: flex
