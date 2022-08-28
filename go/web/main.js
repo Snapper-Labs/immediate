@@ -207,6 +207,9 @@
     peer.setHandler("alert", (_0) => __async(this, [_0], function* ({ message }) {
       alert(message);
     }));
+    peer.setHandler("getURL", () => __async(this, null, function* () {
+      return { url: document.URL };
+    }));
     return cleanup;
   }
   function extractObject(objc, depth = 0, maxDepth = 2) {
@@ -255,9 +258,7 @@
     } else {
       endpoint = "ws:";
     }
-    endpoint += "//" + loc.host;
-    endpoint += loc.pathname.substring(0, loc.pathname.length - 1);
-    endpoint += "/ws";
+    endpoint += "//" + loc.host + "/ws";
     return endpoint;
   }
   setup(getWsEndpoint(), () => {

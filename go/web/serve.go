@@ -3,8 +3,8 @@ package immgo_web
 import (
 	"context"
 	_ "embed"
-	"fmt"
 	"net/http"
+	"net/url"
 	"text/template"
 
 	"github.com/gorilla/websocket"
@@ -25,17 +25,24 @@ type indexTemplateArgs struct {
 	Script     string
 }
 
-func Handle(path string, app App) {
+func Handle(path string, app App) error {
 	realServeWs := func(w http.ResponseWriter, r *http.Request) {
 		serveWs(w, r, app)
 	}
 
-	http.HandleFunc(fmt.Sprintf("/%s/", path), func(w http.ResponseWriter, r *http.Request) {
+	http.HandleFunc(path, func(w http.ResponseWriter, r *http.Request) {
 		indexTemplate.Execute(w, indexTemplateArgs{
 			Script:     jsScript,
 		})
 	})
-	http.HandleFunc(fmt.Sprintf("/%s/ws", path), realServeWs)
+	p, err := url.JoinPath(path, "ws")
+	if err != nil {
+		return err
+	}
+
+	http.HandleFunc(p, realServeWs)
+
+	return nil
 }
 
 func Serve(addr string) {
@@ -57,7 +64,7 @@ func serveWs(w http.ResponseWriter, r *http.Request, app App) {
 		return
 	}
 
-	transport := WebsocketTransport{conn: c}
+	transport := NewWebsocketTransport(c)
 	peer := NewPeer(transport)
 	doc := NewDocument(peer)
 	hostTree := NewDocumentHostTree(peer)

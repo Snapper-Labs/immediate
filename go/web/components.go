@@ -59,19 +59,18 @@ func Col(parent *immgo.RenderNode, options ...ColOptions) *immgo.RenderNode {
 }
 
 type TextOptions struct {
-	Content string
 	Style Style
 	Key string
 }
 
-func Text(parent *immgo.RenderNode, options ...TextOptions) *immgo.RenderNode {
+func Text(parent *immgo.RenderNode, content string, options ...TextOptions) *immgo.RenderNode {
 	opts := option.Merge(options...)
 
 	desc := immgo.ElementDescription {
 		Kind: "div",
 		Properties: immgo.Properties {
 			Attributes: immgo.Attributes {
-				"textContent": opts.Content,
+				"textContent": content,
 			},
 		},
 		Key: opts.Key,

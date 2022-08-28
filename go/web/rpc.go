@@ -234,19 +234,35 @@ func (this *Peer) Serve() error {
 
 type WebsocketTransport struct {
 	conn *websocket.Conn
+	writeCh chan []byte
 }
 
-func (this WebsocketTransport) Read() ([]byte, error) {
+func NewWebsocketTransport(conn *websocket.Conn) *WebsocketTransport {
+	wst := &WebsocketTransport{conn: conn, writeCh: make(chan []byte)}
+	wst.Start()
+
+	return wst
+}
+
+func (this *WebsocketTransport) Read() ([]byte, error) {
 	_, msg, err := this.conn.ReadMessage()
 	return msg, err
 }
 
-func (this WebsocketTransport) Write(data []byte) error {
+func (this *WebsocketTransport) Write(data []byte) error {
 	log.Trace(string(data))
-	return this.conn.WriteMessage(websocket.TextMessage, data)
+	this.writeCh <- data
+	return nil
 }
 
-func (this WebsocketTransport) Close() error {
+func (this *WebsocketTransport) Close() error {
 	return this.conn.Close()
 }
 
+func (this *WebsocketTransport) Start() {
+	go func() {
+		for data := range this.writeCh {
+			this.conn.WriteMessage(websocket.TextMessage, data)
+		}
+	}()
+}
