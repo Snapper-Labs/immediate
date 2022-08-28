@@ -181,6 +181,68 @@ func TextInput(parent *immgo.RenderNode, options ...TextInputOptions) string {
 	return *curr
 }
 
+type ScriptOptions struct {
+	Integrity string
+	Crossorigin string
+	Type string
+	Onload func()
+}
+
+func Script(ui *immgo.RenderNode, src string, options ...ScriptOptions) {
+	opts := option.Merge(options...)
+
+	immgo.Render(ui, immgo.ElementDescription {
+		Kind: "script",
+		Properties: immgo.Properties {
+			Attributes: immgo.Attributes {
+				"src": src,
+				"integrity": opts.Integrity,
+				"crossorigin": opts.Crossorigin,
+				"type": opts.Type,
+			},
+			EventHandlers: immgo.EventHandlers {
+				"load": func(event interface{}) {
+					if opts.Onload != nil {
+						opts.Onload()
+					}
+				},
+			},
+		},
+	})
+}
+
+type LinkOptions struct {
+	Integrity string
+	Crossorigin string
+	Onload func()
+	Rel string
+}
+
+
+func Link(ui *immgo.RenderNode, href string, options ...LinkOptions) {
+	opts := option.Merge(options...)
+
+	immgo.Render(ui, immgo.ElementDescription {
+		Kind: "link",
+		Properties: immgo.Properties {
+			Attributes: immgo.Attributes {
+				"href": href,
+				"integrity": opts.Integrity,
+				"crossorigin": opts.Crossorigin,
+				"rel": opts.Rel,
+			},
+			EventHandlers: immgo.EventHandlers {
+				"load": func(event interface{}) {
+					if opts.Onload != nil {
+						opts.Onload()
+					}
+				},
+			},
+		},
+	})
+}
+
+
 type DefaultToolkit struct {
 }
 

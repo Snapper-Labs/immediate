@@ -5,7 +5,8 @@ import (
 
 	"github.com/apkumar/gox/option"
 
-	immgo "github.com/snapper-labs/immediate/go"
+	"github.com/snapper-labs/immediate/go"
+	"github.com/snapper-labs/immediate/go/web"
 )
 
 type ContainerOptions struct {
@@ -172,18 +173,18 @@ func GridColumn(parent *immgo.RenderNode, options ...GridColumnOptions) *immgo.R
 	})
 }
 
-type Toolkit struct{}
+func InitializeIntool(ui *immgo.RenderNode) bool {
+	numLoaded, setNumLoaded := immgo.State(ui, 0)
 
-func (*Toolkit) GetScriptTags() []string {
-	return []string{
-		`<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0/dist/js/bootstrap.bundle.min.js" integrity="sha384-A3rJD856KowSb7dwlZdYEkO39Gagi7vIsF0jrRAoQmDKKtQBHUuLZ9AsSv4jD4Xa" crossorigin="anonymous"></script>`,
-		`<script type="module" src="https://md-block.verou.me/md-block.js"></script>`,
-		`<script type="module" src="https://cdn.jsdelivr.net/npm/@shoelace-style/shoelace@2.0.0-beta.78/dist/shoelace.js"></script>	`,
+	onLoad := func() {
+		setNumLoaded(*numLoaded + 1)
 	}
-}
-func (*Toolkit) GetLinkTags() []string {
-	return []string{
-		`<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-gH2yIJqKdNHPEq0n4Mqa/HGKIhSkIHeL5AyhkYV8i59U5AR6csBvApHHNl/vI1Bx" crossorigin="anonymous">`,
-		`<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@shoelace-style/shoelace@2.0.0-beta.78/dist/themes/light.css" />`,
-	}
+
+	immgo_web.Script(ui, "https://cdn.jsdelivr.net/npm/bootstrap@5.2.0/dist/js/bootstrap.bundle.min.js", immgo_web.ScriptOptions { Integrity: "sha384-A3rJD856KowSb7dwlZdYEkO39Gagi7vIsF0jrRAoQmDKKtQBHUuLZ9AsSv4jD4Xa", Crossorigin: "anonymous", Onload: onLoad })
+	immgo_web.Script(ui, "https://md-block.verou.me/md-block.js", immgo_web.ScriptOptions { Onload: onLoad, Type: "module" })
+	immgo_web.Script(ui, "https://cdn.jsdelivr.net/npm/@shoelace-style/shoelace@2.0.0-beta.78/dist/shoelace.js", immgo_web.ScriptOptions { Onload: onLoad, Type: "module" })
+	immgo_web.Link(ui, "https://cdn.jsdelivr.net/npm/bootstrap@5.2.0/dist/css/bootstrap.min.css", immgo_web.LinkOptions { Integrity: "sha384-gH2yIJqKdNHPEq0n4Mqa/HGKIhSkIHeL5AyhkYV8i59U5AR6csBvApHHNl/vI1Bx", Crossorigin: "anonymous", Rel: "stylesheet" })
+	immgo_web.Link(ui, "https://cdn.jsdelivr.net/npm/@shoelace-style/shoelace@2.0.0-beta.78/dist/themes/light.css", immgo_web.LinkOptions { Integrity: "sha384-gH2yIJqKdNHPEq0n4Mqa/HGKIhSkIHeL5AyhkYV8i59U5AR6csBvApHHNl/vI1Bx", Rel: "stylesheet" })
+
+	return *numLoaded == 5
 }

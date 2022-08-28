@@ -21,10 +21,6 @@ func Dropdown(ui *immgo.RenderNode, choices []string) string {
 
 type App struct{}
 
-func (*App) GetToolkit() immgo_web.Toolkit {
-	return &immgo_web.DefaultToolkit{}
-}
-
 func (this *App) Render(ui *immgo.RenderNode, doc *immgo_web.Document) {
 	choice := Dropdown(ui, tasks)
 

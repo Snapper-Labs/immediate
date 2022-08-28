@@ -17,10 +17,6 @@ func submit(author, bugType string) {
 
 type App struct{}
 
-func (*App) GetToolkit() immgo_web.Toolkit {
-	return &immgo_web.DefaultToolkit{}
-}
-
 func (this *App) Render(root *immgo.RenderNode, doc *immgo_web.Document) {
 	immgo_web.Text(root, immgo_web.TextOptions{Content: "This app shows how immgo can be used to easily create simple forms that write data to some backend."})
 
