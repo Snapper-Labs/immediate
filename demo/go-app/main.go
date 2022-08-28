@@ -9,5 +9,5 @@ import (
 func main() {
 	immgo_web.Handle("7gui", &sevenGui.App{})
 	immgo_web.Handle("bug_reporter", &bugReporter.App{})
-	immgo_web.Serve("0.0.0.0:8081")
+	immgo_web.Serve("0.0.0.0:80")
 }
