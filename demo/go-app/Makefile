@@ -12,3 +12,6 @@ stop-docker:
 
 ngrok:
 	ngrok http 8081
+
+deploy-latest:
+	gcloud app deploy --image-url gcr.io/snapper-326913/immediate_demo:latest
