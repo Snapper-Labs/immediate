@@ -1,4 +1,4 @@
-package app
+package sevengui
 
 import (
 	"fmt"
@@ -33,7 +33,7 @@ func TemperatureConverter(ui *immgo.RenderNode) {
 		}
 	}
 
-	immgo_web.Text(row, immgo_web.TextOptions{Content: "Celsius = "})
+	immgo_web.Text(row, "Celsius = ")
 	fInput := immgo_web.TextInput(row, immgo_web.TextInputOptions{Value: *currentF})
 
 	if immgo.Changed(row, fInput, immgo.ChangedOptions{}) {
@@ -44,5 +44,5 @@ func TemperatureConverter(ui *immgo.RenderNode) {
 		}
 	}
 
-	immgo_web.Text(row, immgo_web.TextOptions{Content: " Fahrenheit"})
+	immgo_web.Text(row, " Fahrenheit")
 }

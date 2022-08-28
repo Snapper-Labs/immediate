@@ -1,4 +1,4 @@
-package app
+package sevengui
 
 import (
 	immgo "github.com/snapper-labs/immediate/go"
@@ -10,7 +10,7 @@ var (
 )
 
 func Dropdown(ui *immgo.RenderNode, choices []string) string {
-	immgo_web.Text(ui, immgo_web.TextOptions{Content: "Choose a 7gui task:"})
+	immgo_web.Text(ui, "Choose a 7gui task:")
 
 	_, choice := immgo_web.Select(ui, immgo_web.SelectOptions{
 		Choices: choices,
@@ -19,9 +19,7 @@ func Dropdown(ui *immgo.RenderNode, choices []string) string {
 	return choice
 }
 
-type App struct{}
-
-func (this *App) Render(ui *immgo.RenderNode, doc *immgo_web.Document) {
+func Render(ui *immgo.RenderNode) {
 	choice := Dropdown(ui, tasks)
 
 	switch choice {

@@ -1,4 +1,4 @@
-package app
+package sevengui
 
 import (
 	immgo "github.com/snapper-labs/immediate/go"

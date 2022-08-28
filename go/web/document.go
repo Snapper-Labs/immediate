@@ -1,5 +1,9 @@
 package immgo_web
 
+import (
+	"net/url"
+)
+
 type Document struct {
 	peer *Peer
 }
@@ -22,4 +26,20 @@ func (this *Document) Alert(message string) error {
 	})
 	<- ch
 	return err
+}
+
+type GetURLParams struct {}
+
+type GetURLResponse struct {
+	URL string `json:"url"`
+}
+
+func (this *Document) GetURL() (*url.URL, error) {
+	ch, err := Request[GetURLParams, GetURLResponse](this.peer, "getURL", GetURLParams {})
+
+	resp := <- ch
+
+	u, err := url.Parse(resp.URL)
+
+	return u, err
 }

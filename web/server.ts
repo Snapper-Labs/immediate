@@ -97,6 +97,10 @@ export function createDocumentServer(peer: Peer): () => void {
     alert(message);
   });
 
+  peer.setHandler('getURL', async () => {
+    return { url: document.URL };
+  });
+
   return cleanup;
 }
 
