@@ -1,7 +1,7 @@
 package immgo
 
 import (
-	"github.com/apkumar/gox/option"
+	"github.com/apkumar/go-option"
 )
 
 

@@ -4,7 +4,7 @@ import (
 	"fmt"
 	"strings"
 
-	"github.com/apkumar/gox/option"
+	"github.com/apkumar/go-option"
 )
 
 type Style struct {

@@ -3,7 +3,7 @@ package intool
 import (
 	"strings"
 
-	"github.com/apkumar/gox/option"
+	"github.com/apkumar/go-option"
 
 	"github.com/snapper-labs/immediate/go"
 	"github.com/snapper-labs/immediate/go/web"

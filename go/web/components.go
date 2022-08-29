@@ -1,7 +1,7 @@
 package web
 
 import (
-	"github.com/apkumar/gox/option"
+	"github.com/apkumar/go-option"
 
 	"github.com/snapper-labs/immediate/go"
 )

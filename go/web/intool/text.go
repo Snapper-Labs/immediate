@@ -1,7 +1,7 @@
 package intool
 
 import (
-	"github.com/apkumar/gox/option"
+	"github.com/apkumar/go-option"
 
 	"github.com/snapper-labs/immediate/go"
 	web "github.com/snapper-labs/immediate/go/web"
