@@ -13,7 +13,9 @@ func Counter(ui *immgo.RenderNode) {
 
 	row := intool.Row(ui)
 	intool.Text(row, fmt.Sprintf("%d", *count))
-	if immgo_web.Button(row, immgo_web.ButtonOptions{Label: "Count"}) {
-		setCount(*count+1)
+	onClick := func() {
+		setCount(*count + 1)
 	}
+
+	immgo_web.Button(row, immgo_web.ButtonOptions{TextContent: "Count", OnClick: onClick})
 }

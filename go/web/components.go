@@ -40,37 +40,33 @@ func Div(parent *immgo.RenderNode, options ...DivOptions) *immgo.RenderNode {
 }
 
 type ButtonOptions struct {
-	Label string
+	OnClick func()
+	TextContent string
 	Disabled bool
 	Style Style
 	Key string
 }
 
-func Button(parent *immgo.RenderNode, options ...ButtonOptions) bool {
+func Button(parent *immgo.RenderNode, options ...ButtonOptions) *immgo.RenderNode {
 	opts := option.Merge(options...)
 
-	clicked, setClicked := immgo.State(parent, false)
-
-	immgo.Render(parent, immgo.ElementDescription {
+	return immgo.Render(parent, immgo.ElementDescription {
 		Kind: "button",
 		Properties: immgo.Properties {
 			Attributes: immgo.Attributes {
-				"textContent": opts.Label,
+				"textContent": opts.TextContent,
 				"disabled": opts.Disabled,
 				"style": opts.Style,
 			},
 			EventHandlers: immgo.EventHandlers {
 				"click": func(evt interface{}) {
-					setClicked(true)
+					if opts.OnClick != nil {
+						opts.OnClick()
+					}
 				},
 			},
 		},
 	})
-
-	r := *clicked
-	*clicked = false
-
-	return r
 }
 
 type TextInputOptions struct {
