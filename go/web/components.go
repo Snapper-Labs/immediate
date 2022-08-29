@@ -69,17 +69,16 @@ func Button(parent *immgo.RenderNode, options ...ButtonOptions) *immgo.RenderNod
 	})
 }
 
-type TextInputOptions struct {
+type InputOptions struct {
 	Value string
 	Disabled bool
-	// todo
+	OnInput func(interface{})
 }
 
-func TextInput(parent *immgo.RenderNode, options ...TextInputOptions) string {
+func Input(parent *immgo.RenderNode, options ...InputOptions) *immgo.RenderNode {
 	opts := option.Merge(options...)
-	curr, setCurr := immgo.State(parent, opts.Value)
 
-	immgo.Render(parent, immgo.ElementDescription {
+	return immgo.Render(parent, immgo.ElementDescription {
 		Kind: "input",
 		Properties: immgo.Properties {
 			Attributes: immgo.Attributes { 
@@ -88,13 +87,13 @@ func TextInput(parent *immgo.RenderNode, options ...TextInputOptions) string {
 			},
 			EventHandlers: immgo.EventHandlers {
 				"input": func(event interface{}) {
-					setCurr(event.(map[string]interface{})["targetValue"].(string))
+					if opts.OnInput != nil {
+						opts.OnInput(event.(map[string]interface{})["targetValue"])
+					}
 				},
 			},
 		},
 	})
-
-	return *curr
 }
 
 type ScriptOptions struct {

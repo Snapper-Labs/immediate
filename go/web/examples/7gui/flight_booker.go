@@ -25,8 +25,16 @@ func FlightBooker(ui *immgo.RenderNode) {
 	endDateEnabled := choice == RETURN_FLIGHT
 	bookEnabled := *endDate >= *startDate
 
-	setStartDate(immgo_web.TextInput(col, immgo_web.TextInputOptions{Value: *startDate}))
-	setEndDate(immgo_web.TextInput(col, immgo_web.TextInputOptions{Value: *endDate, Disabled: !endDateEnabled}))
+	onStartDateInput := func(v interface{}) {
+		setStartDate(v.(string))
+	}
+
+	onEndDateInput := func(v interface{}) {
+		setEndDate(v.(string))
+	}
+
+	immgo_web.Input(col, immgo_web.InputOptions{OnInput: onStartDateInput, Value: *startDate})
+	immgo_web.Input(col, immgo_web.InputOptions{OnInput: onEndDateInput, Value: *endDate, Disabled: !endDateEnabled})
 
 	immgo_web.Button(ui, immgo_web.ButtonOptions{TextContent: "Book", Disabled: !bookEnabled})
 }

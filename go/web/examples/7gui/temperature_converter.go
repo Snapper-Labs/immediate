@@ -21,12 +21,9 @@ func TemperatureConverter(ui *immgo.RenderNode) {
 	currentC, setCurrentC := immgo.State(ui, "", immgo.StateOptions{})
 	currentF, setCurrentF := immgo.State(ui, "", immgo.StateOptions{})
 
-	row := intool.Row(ui, intool.RowOptions{})
-	cInput := immgo_web.TextInput(row, immgo_web.TextInputOptions{Value: *currentC})
-
 	// NOTE: This, versus an event/callback driven API?
-	if immgo.Changed(row, cInput, immgo.ChangedOptions{}) {
-		fmt.Println("Detected cInput change: ", cInput)
+	onCChanged := func(v interface{}) {
+		cInput := v.(string)
 		c, err := strconv.ParseFloat(cInput, 64)
 		if err == nil {
 			// Just change the other type, so that typing is unencumbered.
@@ -34,10 +31,8 @@ func TemperatureConverter(ui *immgo.RenderNode) {
 		}
 	}
 
-	intool.Text(row, "Celsius = ")
-	fInput := immgo_web.TextInput(row, immgo_web.TextInputOptions{Value: *currentF})
-
-	if immgo.Changed(row, fInput, immgo.ChangedOptions{}) {
+	onFChanged := func(v interface{}) {
+		fInput := v.(string)
 		fmt.Println("Detected fInput change: ", fInput)
 		f, err := strconv.ParseFloat(fInput, 64)
 		if err == nil {
@@ -45,5 +40,10 @@ func TemperatureConverter(ui *immgo.RenderNode) {
 		}
 	}
 
+
+	row := intool.Row(ui, intool.RowOptions{})
+	immgo_web.Input(row, immgo_web.InputOptions{OnInput: onCChanged, Value: *currentC})
+	intool.Text(row, "Celsius = ")
+	immgo_web.Input(row, immgo_web.InputOptions{OnInput: onFChanged, Value: *currentF})
 	intool.Text(row, " Fahrenheit")
 }
