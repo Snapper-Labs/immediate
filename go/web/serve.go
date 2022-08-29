@@ -46,8 +46,13 @@ func Handle(path string, app App) error {
 }
 
 func Serve(addr string) {
-	log.Println("Listening...")
+	log.Println("Listening on", addr, "...")
 	log.Fatal(http.ListenAndServe(addr, nil))
+}
+
+func Mount(addr string, app App) {
+	Handle("/", app)
+	Serve(addr)
 }
 
 func serveIndex(w http.ResponseWriter, r *http.Request) {

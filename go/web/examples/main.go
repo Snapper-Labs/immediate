@@ -36,6 +36,5 @@ func (this *app) Render(ui *immgo.RenderNode, doc *web.Document) {
 }
 
 func main() {
-	web.Handle("/", &app{})
-	web.Serve("0.0.0.0:8081")
+	web.Mount("0.0.0.0:8081", &app{})
 }
