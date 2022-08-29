@@ -3,6 +3,7 @@ package sevengui
 import (
 	immgo "github.com/snapper-labs/immediate/go"
 	immgo_web "github.com/snapper-labs/immediate/go/web"
+	"github.com/snapper-labs/immediate/go/web/intool"
 )
 
 var (
@@ -15,7 +16,7 @@ func isValidDate(date string) bool {
 }
 
 func FlightBooker(ui *immgo.RenderNode) {
-	col := immgo_web.Col(ui)
+	col := intool.Col(ui)
 
 	choice := Dropdown(col, []string{ONE_WAY_FLIGHT, RETURN_FLIGHT})
 	startDate, setStartDate := immgo.State(col, "2014-11-12")
@@ -24,10 +25,16 @@ func FlightBooker(ui *immgo.RenderNode) {
 	endDateEnabled := choice == RETURN_FLIGHT
 	bookEnabled := *endDate >= *startDate
 
-	setStartDate(immgo_web.TextInput(col, immgo_web.TextInputOptions{Value: *startDate}))
-	setEndDate(immgo_web.TextInput(col, immgo_web.TextInputOptions{Value: *endDate, Disabled: !endDateEnabled}))
-
-	if immgo_web.Button(ui, immgo_web.ButtonOptions{Label: "Book", Disabled: !bookEnabled}) {
-		// button clicked.
+	onStartDateInput := func(v interface{}) {
+		setStartDate(v.(string))
 	}
+
+	onEndDateInput := func(v interface{}) {
+		setEndDate(v.(string))
+	}
+
+	immgo_web.Input(col, immgo_web.InputOptions{OnInput: onStartDateInput, Value: *startDate})
+	immgo_web.Input(col, immgo_web.InputOptions{OnInput: onEndDateInput, Value: *endDate, Disabled: !endDateEnabled})
+
+	immgo_web.Button(ui, immgo_web.ButtonOptions{TextContent: "Book", Disabled: !bookEnabled})
 }

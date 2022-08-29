@@ -67,7 +67,7 @@ func Select(parent *immgo.RenderNode, options ...SelectOptions) (*immgo.RenderNo
 		Kind: "sl-select",
 		Properties: immgo.Properties{
 			EventHandlers: immgo.EventHandlers{
-				"change": func(evt interface{}) {
+				"sl-change": func(evt interface{}) {
 					setChoice(evt.(map[string]interface{})["targetValue"].(string))
 				},
 			},
@@ -173,18 +173,18 @@ func GridColumn(parent *immgo.RenderNode, options ...GridColumnOptions) *immgo.R
 	})
 }
 
-func InitializeIntool(ui *immgo.RenderNode) bool {
+func Initialize(ui *immgo.RenderNode) bool {
 	numLoaded, setNumLoaded := immgo.State(ui, 0)
 
 	onLoad := func() {
 		setNumLoaded(*numLoaded + 1)
 	}
 
-	immgo_web.Script(ui, "https://cdn.jsdelivr.net/npm/bootstrap@5.2.0/dist/js/bootstrap.bundle.min.js", immgo_web.ScriptOptions { Integrity: "sha384-A3rJD856KowSb7dwlZdYEkO39Gagi7vIsF0jrRAoQmDKKtQBHUuLZ9AsSv4jD4Xa", Crossorigin: "anonymous", Onload: onLoad })
-	immgo_web.Script(ui, "https://md-block.verou.me/md-block.js", immgo_web.ScriptOptions { Onload: onLoad, Type: "module" })
-	immgo_web.Script(ui, "https://cdn.jsdelivr.net/npm/@shoelace-style/shoelace@2.0.0-beta.78/dist/shoelace.js", immgo_web.ScriptOptions { Onload: onLoad, Type: "module" })
-	immgo_web.Link(ui, "https://cdn.jsdelivr.net/npm/bootstrap@5.2.0/dist/css/bootstrap.min.css", immgo_web.LinkOptions { Integrity: "sha384-gH2yIJqKdNHPEq0n4Mqa/HGKIhSkIHeL5AyhkYV8i59U5AR6csBvApHHNl/vI1Bx", Crossorigin: "anonymous", Rel: "stylesheet" })
-	immgo_web.Link(ui, "https://cdn.jsdelivr.net/npm/@shoelace-style/shoelace@2.0.0-beta.78/dist/themes/light.css", immgo_web.LinkOptions { Integrity: "sha384-gH2yIJqKdNHPEq0n4Mqa/HGKIhSkIHeL5AyhkYV8i59U5AR6csBvApHHNl/vI1Bx", Rel: "stylesheet" })
+	immgo_web.Script(ui, "https://cdn.jsdelivr.net/npm/bootstrap@5.2.0/dist/js/bootstrap.bundle.min.js", immgo_web.ScriptOptions { Integrity: "sha384-A3rJD856KowSb7dwlZdYEkO39Gagi7vIsF0jrRAoQmDKKtQBHUuLZ9AsSv4jD4Xa", Crossorigin: "anonymous", OnLoad: onLoad })
+	immgo_web.Script(ui, "https://md-block.verou.me/md-block.js", immgo_web.ScriptOptions { OnLoad: onLoad, Type: "module" })
+	immgo_web.Script(ui, "https://cdn.jsdelivr.net/npm/@shoelace-style/shoelace@2.0.0-beta.78/dist/shoelace.js", immgo_web.ScriptOptions { OnLoad: onLoad, Type: "module" })
+	immgo_web.Link(ui, "https://cdn.jsdelivr.net/npm/bootstrap@5.2.0/dist/css/bootstrap.min.css", immgo_web.LinkOptions { Integrity: "sha384-gH2yIJqKdNHPEq0n4Mqa/HGKIhSkIHeL5AyhkYV8i59U5AR6csBvApHHNl/vI1Bx", Crossorigin: "anonymous", Rel: "stylesheet", OnLoad: onLoad })
+	immgo_web.Link(ui, "https://cdn.jsdelivr.net/npm/@shoelace-style/shoelace@2.0.0-beta.78/dist/themes/light.css", immgo_web.LinkOptions { Rel: "stylesheet", OnLoad: onLoad })
 
 	return *numLoaded == 5
 }

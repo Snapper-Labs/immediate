@@ -6,6 +6,19 @@ import (
 	"github.com/snapper-labs/immediate/go"
 )
 
+// The functions in this file are intended to be essentially pass-through
+// wrappers to DOM elements. The pattern for their API is as follows:
+//
+// - All functions take the parent *immgo.RenderNode as their first argument.
+// - Attributes that are required for the DOM element should be passed in as
+// positional arguments.
+// - Attributes that are optional for the DOM element should be collected into
+// an `Options` struct and passed in using ...Options.
+// - Event handlers should be preferred over an immediate-mode API (a component
+// library built on top of these components could adopt an immediate-mode API).
+// - Every component should take an optional Key in the Options struct.
+
+
 type DivOptions struct {
 	Style Style
 	Key string
@@ -26,143 +39,46 @@ func Div(parent *immgo.RenderNode, options ...DivOptions) *immgo.RenderNode {
 	return immgo.Render(parent, desc)
 }
 
-type RowOptions struct {
-	Style Style
-	Key string
-}
-
-func Row(parent *immgo.RenderNode, options ...RowOptions) *immgo.RenderNode {
-	opts := option.Merge(options...)
-
-	style := opts.Style
-	style.Display = option.Some("flex")
-	style.FlexDirection = option.Some("row")
-
-	divOpts := DivOptions { style, opts.Key }
-	return Div(parent, divOpts)
-}
-
-type ColOptions struct {
-	Style Style
-	Key string
-}
-
-func Col(parent *immgo.RenderNode, options ...ColOptions) *immgo.RenderNode {
-	opts := option.Merge(options...)
-
-	style := opts.Style
-	style.Display = option.Some("flex")
-	style.FlexDirection = option.Some("column")
-
-	divOpts := DivOptions { style, opts.Key }
-	return Div(parent, divOpts)
-}
-
-type TextOptions struct {
-	Style Style
-	Key string
-}
-
-func Text(parent *immgo.RenderNode, content string, options ...TextOptions) *immgo.RenderNode {
-	opts := option.Merge(options...)
-
-	desc := immgo.ElementDescription {
-		Kind: "div",
-		Properties: immgo.Properties {
-			Attributes: immgo.Attributes {
-				"textContent": content,
-			},
-		},
-		Key: opts.Key,
-	}
-
-	return immgo.Render(parent, desc)
-}
-
-type SelectOptions struct {
-	Style Style
-	Key string
-	Choices []string
-}
-
-func Select(parent *immgo.RenderNode, options ...SelectOptions) (*immgo.RenderNode, string) {
-	opts := option.Merge(options...)
-	choice, setChoice := immgo.State(parent, opts.Choices[0])
-
-	desc := immgo.ElementDescription {
-		Kind: "select",
-		Properties: immgo.Properties {
-			EventHandlers: immgo.EventHandlers {
-				"change": func(evt interface{}) {
-					ch := evt.(map[string]interface{})["targetValue"].(string)
-					setChoice(ch)
-				},
-			},
-		},
-	}
-
-	selectNode := immgo.Render(parent, desc)
-
-	for _, c := range opts.Choices {
-		immgo.Render(selectNode, immgo.ElementDescription {
-			Kind: "option",
-			Properties: immgo.Properties {
-				Attributes: immgo.Attributes {
-					"textContent": c,
-					"style": opts.Style,
-				},
-			},
-		})
-	}
-
-	return selectNode, *choice
-}
-
 type ButtonOptions struct {
-	Label string
+	OnClick func()
+	TextContent string
 	Disabled bool
 	Style Style
 	Key string
 }
 
-func Button(parent *immgo.RenderNode, options ...ButtonOptions) bool {
+func Button(parent *immgo.RenderNode, options ...ButtonOptions) *immgo.RenderNode {
 	opts := option.Merge(options...)
 
-	clicked, setClicked := immgo.State(parent, false)
-
-	immgo.Render(parent, immgo.ElementDescription {
+	return immgo.Render(parent, immgo.ElementDescription {
 		Kind: "button",
 		Properties: immgo.Properties {
 			Attributes: immgo.Attributes {
-				"textContent": opts.Label,
+				"textContent": opts.TextContent,
 				"disabled": opts.Disabled,
 				"style": opts.Style,
 			},
 			EventHandlers: immgo.EventHandlers {
 				"click": func(evt interface{}) {
-					setClicked(true)
+					if opts.OnClick != nil {
+						opts.OnClick()
+					}
 				},
 			},
 		},
 	})
-
-	r := *clicked
-	*clicked = false
-
-	return r
 }
 
-type TextInputOptions struct {
+type InputOptions struct {
 	Value string
 	Disabled bool
-	// todo
+	OnInput func(interface{})
 }
 
-func TextInput(parent *immgo.RenderNode, options ...TextInputOptions) string {
+func Input(parent *immgo.RenderNode, options ...InputOptions) *immgo.RenderNode {
 	opts := option.Merge(options...)
-	curr, setCurr := immgo.State(parent, opts.Value)
 
-	immgo.Render(parent, immgo.ElementDescription {
+	return immgo.Render(parent, immgo.ElementDescription {
 		Kind: "input",
 		Properties: immgo.Properties {
 			Attributes: immgo.Attributes { 
@@ -171,20 +87,20 @@ func TextInput(parent *immgo.RenderNode, options ...TextInputOptions) string {
 			},
 			EventHandlers: immgo.EventHandlers {
 				"input": func(event interface{}) {
-					setCurr(event.(map[string]interface{})["targetValue"].(string))
+					if opts.OnInput != nil {
+						opts.OnInput(event.(map[string]interface{})["targetValue"])
+					}
 				},
 			},
 		},
 	})
-
-	return *curr
 }
 
 type ScriptOptions struct {
 	Integrity string
 	Crossorigin string
 	Type string
-	Onload func()
+	OnLoad func()
 }
 
 func Script(ui *immgo.RenderNode, src string, options ...ScriptOptions) {
@@ -201,8 +117,8 @@ func Script(ui *immgo.RenderNode, src string, options ...ScriptOptions) {
 			},
 			EventHandlers: immgo.EventHandlers {
 				"load": func(event interface{}) {
-					if opts.Onload != nil {
-						opts.Onload()
+					if opts.OnLoad != nil {
+						opts.OnLoad()
 					}
 				},
 			},
@@ -213,7 +129,7 @@ func Script(ui *immgo.RenderNode, src string, options ...ScriptOptions) {
 type LinkOptions struct {
 	Integrity string
 	Crossorigin string
-	Onload func()
+	OnLoad func()
 	Rel string
 }
 
@@ -232,8 +148,8 @@ func Link(ui *immgo.RenderNode, href string, options ...LinkOptions) {
 			},
 			EventHandlers: immgo.EventHandlers {
 				"load": func(event interface{}) {
-					if opts.Onload != nil {
-						opts.Onload()
+					if opts.OnLoad != nil {
+						opts.OnLoad()
 					}
 				},
 			},
