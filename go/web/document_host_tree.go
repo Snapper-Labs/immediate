@@ -1,4 +1,4 @@
-package immgo_web
+package web
 
 import (
 	"github.com/snapper-labs/immediate/go"
