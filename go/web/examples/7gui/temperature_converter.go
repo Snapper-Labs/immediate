@@ -5,7 +5,7 @@ import (
 	"strconv"
 
 	immgo "github.com/snapper-labs/immediate/go"
-	immgo_web "github.com/snapper-labs/immediate/go/web"
+	web "github.com/snapper-labs/immediate/go/web"
 )
 
 func cToF(c float64) float64 {
@@ -20,8 +20,8 @@ func TemperatureConverter(ui *immgo.RenderNode) {
 	currentC, setCurrentC := immgo.State(ui, "", immgo.StateOptions{})
 	currentF, setCurrentF := immgo.State(ui, "", immgo.StateOptions{})
 
-	row := immgo_web.Row(ui, immgo_web.RowOptions{})
-	cInput := immgo_web.TextInput(row, immgo_web.TextInputOptions{Value: *currentC})
+	row := web.Row(ui, web.RowOptions{})
+	cInput := web.TextInput(row, web.TextInputOptions{Value: *currentC})
 
 	// NOTE: This, versus an event/callback driven API?
 	if immgo.Changed(row, cInput, immgo.ChangedOptions{}) {
@@ -33,8 +33,8 @@ func TemperatureConverter(ui *immgo.RenderNode) {
 		}
 	}
 
-	immgo_web.Text(row, "Celsius = ")
-	fInput := immgo_web.TextInput(row, immgo_web.TextInputOptions{Value: *currentF})
+	web.Text(row, "Celsius = ")
+	fInput := web.TextInput(row, web.TextInputOptions{Value: *currentF})
 
 	if immgo.Changed(row, fInput, immgo.ChangedOptions{}) {
 		fmt.Println("Detected fInput change: ", fInput)
@@ -44,5 +44,5 @@ func TemperatureConverter(ui *immgo.RenderNode) {
 		}
 	}
 
-	immgo_web.Text(row, " Fahrenheit")
+	web.Text(row, " Fahrenheit")
 }

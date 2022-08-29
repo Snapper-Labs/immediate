@@ -16,10 +16,10 @@ func submit(author, bugType string) {
 }
 
 func Render(root *immgo.RenderNode) {
-	immgo_web.Text(root, "This app shows how immgo can be used to easily create simple forms that write data to some backend.")
+	web.Text(root, "This app shows how immgo can be used to easily create simple forms that write data to some backend.")
 
 	// FIXME
-	form := immgo_web.Div(root)
+	form := web.Div(root)
 
 	// To render a form, we need to nest child elements underneath the form. We
 	// do so by simply rendering to the `form` render node, rather than the root
@@ -27,13 +27,13 @@ func Render(root *immgo.RenderNode) {
 
 	// Layout primitives are similar. Here, we create a Row, so that the
 	// following two inputs are rendered horizontally rather than vertically.
-	row := immgo_web.Row(form)
+	row := web.Row(form)
 
 	// Rendering functions can return state via return values. Here, we get the
 	// current state of our various inputs.
-	author := immgo_web.TextInput(row, immgo_web.TextInputOptions{})
+	author := web.TextInput(row, web.TextInputOptions{})
 	// TODO: selectbox, etc
-	bugType := immgo_web.TextInput(row, immgo_web.TextInputOptions{})
+	bugType := web.TextInput(row, web.TextInputOptions{})
 
 	// immgo also comes with helpers to manage state. These helpers are no
 	// different than other rendering functions; they follow the same matching
@@ -41,7 +41,7 @@ func Render(root *immgo.RenderNode) {
 	// are not reflected in the underlying DOM.
 	submitting, setSubmitting := immgo.State(root, false)
 
-	if immgo_web.Button(form, immgo_web.ButtonOptions{Label: "Submit", Disabled: *submitting}) {
+	if web.Button(form, web.ButtonOptions{Label: "Submit", Disabled: *submitting}) {
 		// Here, we directly write to the `submitting` variable in a goroutine.
 		// immgo runs all of the app logic for a client in a single goroutine,
 		// so the developer only needs to ensure their own code is threadsafe.

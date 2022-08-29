@@ -2,7 +2,7 @@ package sevengui
 
 import (
 	immgo "github.com/snapper-labs/immediate/go"
-	immgo_web "github.com/snapper-labs/immediate/go/web"
+	web "github.com/snapper-labs/immediate/go/web"
 )
 
 var (
@@ -10,9 +10,9 @@ var (
 )
 
 func Dropdown(ui *immgo.RenderNode, choices []string) string {
-	immgo_web.Text(ui, "Choose a 7gui task:")
+	web.Text(ui, "Choose a 7gui task:")
 
-	_, choice := immgo_web.Select(ui, immgo_web.SelectOptions{
+	_, choice := web.Select(ui, web.SelectOptions{
 		Choices: choices,
 	})
 

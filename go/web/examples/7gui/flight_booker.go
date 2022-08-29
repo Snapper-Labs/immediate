@@ -2,7 +2,7 @@ package sevengui
 
 import (
 	immgo "github.com/snapper-labs/immediate/go"
-	immgo_web "github.com/snapper-labs/immediate/go/web"
+	web "github.com/snapper-labs/immediate/go/web"
 )
 
 var (
@@ -15,7 +15,7 @@ func isValidDate(date string) bool {
 }
 
 func FlightBooker(ui *immgo.RenderNode) {
-	col := immgo_web.Col(ui)
+	col := web.Col(ui)
 
 	choice := Dropdown(col, []string{ONE_WAY_FLIGHT, RETURN_FLIGHT})
 	startDate, setStartDate := immgo.State(col, "2014-11-12")
@@ -24,10 +24,10 @@ func FlightBooker(ui *immgo.RenderNode) {
 	endDateEnabled := choice == RETURN_FLIGHT
 	bookEnabled := *endDate >= *startDate
 
-	setStartDate(immgo_web.TextInput(col, immgo_web.TextInputOptions{Value: *startDate}))
-	setEndDate(immgo_web.TextInput(col, immgo_web.TextInputOptions{Value: *endDate, Disabled: !endDateEnabled}))
+	setStartDate(web.TextInput(col, web.TextInputOptions{Value: *startDate}))
+	setEndDate(web.TextInput(col, web.TextInputOptions{Value: *endDate, Disabled: !endDateEnabled}))
 
-	if immgo_web.Button(ui, immgo_web.ButtonOptions{Label: "Book", Disabled: !bookEnabled}) {
+	if web.Button(ui, web.ButtonOptions{Label: "Book", Disabled: !bookEnabled}) {
 		// button clicked.
 	}
 }

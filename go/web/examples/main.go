@@ -11,7 +11,7 @@ import (
 
 type app struct {}
 
-func (this *app) Render(ui *immgo.RenderNode, doc *immgo_web.Document) {
+func (this *app) Render(ui *immgo.RenderNode, doc *web.Document) {
 	path, setPath := immgo.State(ui, "")
 
 	go func() {
@@ -28,11 +28,11 @@ func (this *app) Render(ui *immgo.RenderNode, doc *immgo_web.Document) {
 	case "/bug_reporter":
 		bugreporter.Render(ui)
 	default:
-		immgo_web.Text(ui, fmt.Sprintf("Unknown path: %s", *path))
+		web.Text(ui, fmt.Sprintf("Unknown path: %s", *path))
 	}
 }
 
 func main() {
-	immgo_web.Handle("/", &app{})
-	immgo_web.Serve("0.0.0.0:8081")
+	web.Handle("/", &app{})
+	web.Serve("0.0.0.0:8081")
 }
