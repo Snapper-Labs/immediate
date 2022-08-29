@@ -2,7 +2,7 @@ package sevengui
 
 import (
 	immgo "github.com/snapper-labs/immediate/go"
-	immgo_web "github.com/snapper-labs/immediate/go/web"
+	web "github.com/snapper-labs/immediate/go/web"
 	"github.com/snapper-labs/immediate/go/web/intool"
 )
 
@@ -33,8 +33,8 @@ func FlightBooker(ui *immgo.RenderNode) {
 		setEndDate(v.(string))
 	}
 
-	immgo_web.Input(col, immgo_web.InputOptions{OnInput: onStartDateInput, Value: *startDate})
-	immgo_web.Input(col, immgo_web.InputOptions{OnInput: onEndDateInput, Value: *endDate, Disabled: !endDateEnabled})
+	web.Input(col, web.InputOptions{OnInput: onStartDateInput, Value: *startDate})
+	web.Input(col, web.InputOptions{OnInput: onEndDateInput, Value: *endDate, Disabled: !endDateEnabled})
 
-	immgo_web.Button(ui, immgo_web.ButtonOptions{TextContent: "Book", Disabled: !bookEnabled})
+	web.Button(ui, web.ButtonOptions{TextContent: "Book", Disabled: !bookEnabled})
 }

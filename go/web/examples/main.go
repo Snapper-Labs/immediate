@@ -11,7 +11,7 @@ import (
 
 type app struct {}
 
-func (this *app) Render(ui *immgo.RenderNode, doc *immgo_web.Document) {
+func (this *app) Render(ui *immgo.RenderNode, doc *web.Document) {
 	if !intool.Initialize(ui) {
 		intool.Text(ui, "Loading...")
 		return
@@ -36,6 +36,6 @@ func (this *app) Render(ui *immgo.RenderNode, doc *immgo_web.Document) {
 }
 
 func main() {
-	immgo_web.Handle("/", &app{})
-	immgo_web.Serve("0.0.0.0:8081")
+	web.Handle("/", &app{})
+	web.Serve("0.0.0.0:8081")
 }

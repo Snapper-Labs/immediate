@@ -4,7 +4,7 @@ import (
 	"fmt"
 
 	immgo "github.com/snapper-labs/immediate/go"
-	immgo_web "github.com/snapper-labs/immediate/go/web"
+	web "github.com/snapper-labs/immediate/go/web"
 	"github.com/snapper-labs/immediate/go/web/intool"
 )
 
@@ -17,5 +17,5 @@ func Counter(ui *immgo.RenderNode) {
 		setCount(*count + 1)
 	}
 
-	immgo_web.Button(row, immgo_web.ButtonOptions{TextContent: "Count", OnClick: onClick})
+	web.Button(row, web.ButtonOptions{TextContent: "Count", OnClick: onClick})
 }
