@@ -39,45 +39,6 @@ func Div(parent *immgo.RenderNode, options ...DivOptions) *immgo.RenderNode {
 	return immgo.Render(parent, desc)
 }
 
-type SelectOptions struct {
-	Style Style
-	Key string
-	Choices []string
-}
-
-func Select(parent *immgo.RenderNode, options ...SelectOptions) (*immgo.RenderNode, string) {
-	opts := option.Merge(options...)
-	choice, setChoice := immgo.State(parent, opts.Choices[0])
-
-	desc := immgo.ElementDescription {
-		Kind: "select",
-		Properties: immgo.Properties {
-			EventHandlers: immgo.EventHandlers {
-				"change": func(evt interface{}) {
-					ch := evt.(map[string]interface{})["targetValue"].(string)
-					setChoice(ch)
-				},
-			},
-		},
-	}
-
-	selectNode := immgo.Render(parent, desc)
-
-	for _, c := range opts.Choices {
-		immgo.Render(selectNode, immgo.ElementDescription {
-			Kind: "option",
-			Properties: immgo.Properties {
-				Attributes: immgo.Attributes {
-					"textContent": c,
-					"style": opts.Style,
-				},
-			},
-		})
-	}
-
-	return selectNode, *choice
-}
-
 type ButtonOptions struct {
 	Label string
 	Disabled bool
