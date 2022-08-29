@@ -3,6 +3,7 @@ package sevengui
 import (
 	immgo "github.com/snapper-labs/immediate/go"
 	immgo_web "github.com/snapper-labs/immediate/go/web"
+	"github.com/snapper-labs/immediate/go/web/intool"
 )
 
 var (
@@ -15,7 +16,7 @@ func isValidDate(date string) bool {
 }
 
 func FlightBooker(ui *immgo.RenderNode) {
-	col := immgo_web.Col(ui)
+	col := intool.Col(ui)
 
 	choice := Dropdown(col, []string{ONE_WAY_FLIGHT, RETURN_FLIGHT})
 	startDate, setStartDate := immgo.State(col, "2014-11-12")

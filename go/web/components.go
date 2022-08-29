@@ -6,6 +6,19 @@ import (
 	"github.com/snapper-labs/immediate/go"
 )
 
+// The functions in this file are intended to be essentially pass-through
+// wrappers to DOM elements. The pattern for their API is as follows:
+//
+// - All functions take the parent *immgo.RenderNode as their first argument.
+// - Attributes that are required for the DOM element should be passed in as
+// positional arguments.
+// - Attributes that are optional for the DOM element should be collected into
+// an `Options` struct and passed in using ...Options.
+// - Event handlers should be preferred over an immediate-mode API (a component
+// library built on top of these components could adopt an immediate-mode API).
+// - Every component should take an optional Key in the Options struct.
+
+
 type DivOptions struct {
 	Style Style
 	Key string
@@ -24,38 +37,6 @@ func Div(parent *immgo.RenderNode, options ...DivOptions) *immgo.RenderNode {
 		},
 	}
 	return immgo.Render(parent, desc)
-}
-
-type RowOptions struct {
-	Style Style
-	Key string
-}
-
-func Row(parent *immgo.RenderNode, options ...RowOptions) *immgo.RenderNode {
-	opts := option.Merge(options...)
-
-	style := opts.Style
-	style.Display = option.Some("flex")
-	style.FlexDirection = option.Some("row")
-
-	divOpts := DivOptions { style, opts.Key }
-	return Div(parent, divOpts)
-}
-
-type ColOptions struct {
-	Style Style
-	Key string
-}
-
-func Col(parent *immgo.RenderNode, options ...ColOptions) *immgo.RenderNode {
-	opts := option.Merge(options...)
-
-	style := opts.Style
-	style.Display = option.Some("flex")
-	style.FlexDirection = option.Some("column")
-
-	divOpts := DivOptions { style, opts.Key }
-	return Div(parent, divOpts)
 }
 
 type TextOptions struct {

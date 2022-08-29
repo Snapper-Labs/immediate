@@ -6,6 +6,7 @@ import (
 
 	immgo "github.com/snapper-labs/immediate/go"
 	immgo_web "github.com/snapper-labs/immediate/go/web"
+	"github.com/snapper-labs/immediate/go/web/intool"
 )
 
 func cToF(c float64) float64 {
@@ -20,7 +21,7 @@ func TemperatureConverter(ui *immgo.RenderNode) {
 	currentC, setCurrentC := immgo.State(ui, "", immgo.StateOptions{})
 	currentF, setCurrentF := immgo.State(ui, "", immgo.StateOptions{})
 
-	row := immgo_web.Row(ui, immgo_web.RowOptions{})
+	row := intool.Row(ui, intool.RowOptions{})
 	cInput := immgo_web.TextInput(row, immgo_web.TextInputOptions{Value: *currentC})
 
 	// NOTE: This, versus an event/callback driven API?
