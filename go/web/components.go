@@ -20,6 +20,7 @@ import (
 
 
 type DivOptions struct {
+	TextContent string
 	Style Style
 	Key string
 }
@@ -32,6 +33,7 @@ func Div(parent *immgo.RenderNode, options ...DivOptions) *immgo.RenderNode {
 		Key: opts.Key,
 		Properties: immgo.Properties {
 			Attributes: immgo.Attributes {
+				"textContent": opts.TextContent,
 				"style": opts.Style,
 			},
 		},
