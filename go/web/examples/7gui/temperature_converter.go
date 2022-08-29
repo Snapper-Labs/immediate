@@ -33,7 +33,6 @@ func TemperatureConverter(ui *immgo.RenderNode) {
 
 	onFChanged := func(v interface{}) {
 		fInput := v.(string)
-		fmt.Println("Detected fInput change: ", fInput)
 		f, err := strconv.ParseFloat(fInput, 64)
 		if err == nil {
 			setCurrentC(fmt.Sprintf("%.2f", fToC(f)))

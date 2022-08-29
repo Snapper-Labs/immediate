@@ -12,6 +12,11 @@ import (
 type app struct {}
 
 func (this *app) Render(ui *immgo.RenderNode, doc *immgo_web.Document) {
+	if !intool.Initialize(ui) {
+		intool.Text(ui, "Loading...")
+		return
+	}
+
 	path, setPath := immgo.State(ui, "")
 
 	go func() {

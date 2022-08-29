@@ -100,7 +100,7 @@ type ScriptOptions struct {
 	Integrity string
 	Crossorigin string
 	Type string
-	Onload func()
+	OnLoad func()
 }
 
 func Script(ui *immgo.RenderNode, src string, options ...ScriptOptions) {
@@ -117,8 +117,8 @@ func Script(ui *immgo.RenderNode, src string, options ...ScriptOptions) {
 			},
 			EventHandlers: immgo.EventHandlers {
 				"load": func(event interface{}) {
-					if opts.Onload != nil {
-						opts.Onload()
+					if opts.OnLoad != nil {
+						opts.OnLoad()
 					}
 				},
 			},
@@ -129,7 +129,7 @@ func Script(ui *immgo.RenderNode, src string, options ...ScriptOptions) {
 type LinkOptions struct {
 	Integrity string
 	Crossorigin string
-	Onload func()
+	OnLoad func()
 	Rel string
 }
 
@@ -148,8 +148,8 @@ func Link(ui *immgo.RenderNode, href string, options ...LinkOptions) {
 			},
 			EventHandlers: immgo.EventHandlers {
 				"load": func(event interface{}) {
-					if opts.Onload != nil {
-						opts.Onload()
+					if opts.OnLoad != nil {
+						opts.OnLoad()
 					}
 				},
 			},
