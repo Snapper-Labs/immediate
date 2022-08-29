@@ -39,27 +39,6 @@ func Div(parent *immgo.RenderNode, options ...DivOptions) *immgo.RenderNode {
 	return immgo.Render(parent, desc)
 }
 
-type TextOptions struct {
-	Style Style
-	Key string
-}
-
-func Text(parent *immgo.RenderNode, content string, options ...TextOptions) *immgo.RenderNode {
-	opts := option.Merge(options...)
-
-	desc := immgo.ElementDescription {
-		Kind: "div",
-		Properties: immgo.Properties {
-			Attributes: immgo.Attributes {
-				"textContent": content,
-			},
-		},
-		Key: opts.Key,
-	}
-
-	return immgo.Render(parent, desc)
-}
-
 type SelectOptions struct {
 	Style Style
 	Key string

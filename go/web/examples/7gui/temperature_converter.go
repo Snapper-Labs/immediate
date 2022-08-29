@@ -34,7 +34,7 @@ func TemperatureConverter(ui *immgo.RenderNode) {
 		}
 	}
 
-	immgo_web.Text(row, "Celsius = ")
+	intool.Text(row, "Celsius = ")
 	fInput := immgo_web.TextInput(row, immgo_web.TextInputOptions{Value: *currentF})
 
 	if immgo.Changed(row, fInput, immgo.ChangedOptions{}) {
@@ -45,5 +45,5 @@ func TemperatureConverter(ui *immgo.RenderNode) {
 		}
 	}
 
-	immgo_web.Text(row, " Fahrenheit")
+	intool.Text(row, " Fahrenheit")
 }

@@ -5,6 +5,7 @@ import (
 
 	"github.com/snapper-labs/immediate/go"
 	"github.com/snapper-labs/immediate/go/web"
+	"github.com/snapper-labs/immediate/go/web/intool"
 	"github.com/snapper-labs/immediate/go/web/examples/7gui"
 )
 
@@ -25,7 +26,7 @@ func (this *app) Render(ui *immgo.RenderNode, doc *immgo_web.Document) {
 	case "/7gui":
 		sevengui.Render(ui)
 	default:
-		immgo_web.Text(ui, fmt.Sprintf("Unknown path: %s", *path))
+		intool.Text(ui, fmt.Sprintf("Unknown path: %s", *path))
 	}
 }
 
