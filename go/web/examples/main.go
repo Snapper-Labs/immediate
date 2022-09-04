@@ -7,6 +7,7 @@ import (
 	"github.com/snapper-labs/immediate/go/web"
 	"github.com/snapper-labs/immediate/go/web/intool"
 	"github.com/snapper-labs/immediate/go/web/examples/7gui"
+	"github.com/snapper-labs/immediate/go/web/examples/toolkit-demo"
 )
 
 type app struct {}
@@ -26,10 +27,11 @@ func (this *app) Render(ui *immgo.RenderNode, doc *web.Document) {
 		}
 	}()
 
-
 	switch *path {
 	case "/7gui":
 		sevengui.Render(ui)
+	case "/toolkit":
+		toolkitdemo.Render(ui)
 	default:
 		intool.Text(ui, fmt.Sprintf("Unknown path: %s", *path))
 	}

@@ -13,6 +13,7 @@
     "typescript": "^4.8.2"
   },
   "scripts": {
-    "demo": "yarn esbuild demo.ts --bundle --outfile=www/main.js --servedir=www"
+    "demo": "yarn esbuild demo.ts --bundle --outfile=www/main.js --servedir=www",
+    "build":  "yarn esbuild src/index.ts --bundle --outfile=dist/bundle.js"
   }
 }

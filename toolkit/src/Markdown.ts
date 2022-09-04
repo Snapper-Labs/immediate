@@ -13,6 +13,7 @@ export class Markdown extends LitElement {
   // Render the UI as a function of component state
   render() {
     const rawHtml = new showdown.Converter().makeHtml(this.markdown);
+    console.log(`rawHtml is: ${rawHtml}`);
 
     return html`${unsafeHTML(rawHtml)}`;
   }
