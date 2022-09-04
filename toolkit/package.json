@@ -1,0 +1,16 @@
+{
+  "name": "toolkit",
+  "version": "1.0.0",
+  "main": "index.js",
+  "license": "MIT",
+  "dependencies": {
+    "lit": "^2.3.1"
+  },
+  "devDependencies": {
+    "esbuild": "^0.15.7",
+    "typescript": "^4.8.2"
+  },
+  "scripts": {
+    "demo": "yarn esbuild demo.ts --bundle --outfile=www/main.js --servedir=www"
+  }
+}
