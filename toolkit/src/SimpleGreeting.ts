@@ -11,6 +11,7 @@ export class SimpleGreeting extends LitElement {
   `;
 
   // Declare reactive properties
+  @property()
   name?: string = 'World';
 
   // Render the UI as a function of component state
