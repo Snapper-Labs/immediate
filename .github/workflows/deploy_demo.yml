@@ -23,4 +23,6 @@ jobs:
 
       - id: "deploy"
         uses: "google-github-actions/deploy-appengine@v0"
-        image_url: "gcr.io/snapper-326913/immediate_demo:latest"
+        with:
+          project_id: snapper-326913
+          image_url: "gcr.io/snapper-326913/immediate_demo:latest"
