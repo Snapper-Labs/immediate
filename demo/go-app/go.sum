@@ -1,3 +1,5 @@
+github.com/apkumar/go-option v0.0.0-20220829145321-93a4cb5abd46 h1:OwyyapmMHpMaJrXHbZ2TK1gIIBynL0iHK43yGPmkwkA=
+github.com/apkumar/go-option v0.0.0-20220829145321-93a4cb5abd46/go.mod h1:gevof2qdIqKkfkEECNBvn60ZeX754X6T3qidSrstiPk=
 github.com/apkumar/gox v0.0.0-20220521045346-c0d14dfdbbf0 h1:MZb4unKHbLboHien3sMG8imDcY4gPiwJ8otmw1+CW1I=
 github.com/apkumar/gox v0.0.0-20220521045346-c0d14dfdbbf0/go.mod h1:Y4XlVzOWG4yQY83M7HtGNVJ2tYqcu4oFl15oMFj1NgI=
 github.com/davecgh/go-spew v1.1.0/go.mod h1:J7Y8YcW2NihsgmVo/mv3lAwl/skON4iLHjSsI+c5H38=

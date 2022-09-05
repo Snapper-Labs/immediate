@@ -24,3 +24,7 @@ jobs:
       - name: Test Go
         working-directory: go
         run: go test -v ./...
+
+      - name: Build Example Docker Image
+        working-directory: demo/go-app
+        run: make build-docker
