@@ -27,7 +27,7 @@ func (this *app) Render(ui *immgo.RenderNode, doc *web.Document) {
 	}()
 
 	switch *path {
-	case "/7gui":
+	case "/7gui", "/7gui/":
 		sevengui.Render(ui)
 	default:
 		intool.Text(ui, fmt.Sprintf("Unknown path: %s", *path))
