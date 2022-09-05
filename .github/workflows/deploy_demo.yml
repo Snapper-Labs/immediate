@@ -26,6 +26,12 @@ jobs:
           workload_identity_provider: "projects/454055752992/locations/global/workloadIdentityPools/immediate-demo-pool/providers/default-provider"
           service_account: "immediate-demo-deploy@snapper-326913.iam.gserviceaccount.com"
 
+      - name: Push image
+        working-directory: demo/go-app
+        run: |-
+          docker build -t gcr.io/snapper-326913/immediate_demo:latest -f Dockerfile ../..
+          docker push gcr.io/snapper-326913/immediate_demo:latest
+
       - id: "deploy"
         uses: "google-github-actions/deploy-appengine@v0"
         with:
