@@ -26,9 +26,13 @@ jobs:
           workload_identity_provider: "projects/454055752992/locations/global/workloadIdentityPools/immediate-demo-pool/providers/default-provider"
           service_account: "immediate-demo-deploy@snapper-326913.iam.gserviceaccount.com"
 
+      - name: "Set up Cloud SDK"
+        uses: "google-github-actions/setup-gcloud@v0"
+
       - name: Push image
         working-directory: demo/go-app
         run: |-
+          gcloud auth configure-docker -q
           docker build -t gcr.io/snapper-326913/immediate_demo:latest -f Dockerfile ../..
           docker push gcr.io/snapper-326913/immediate_demo:latest
 
