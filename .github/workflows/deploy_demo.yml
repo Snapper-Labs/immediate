@@ -31,3 +31,4 @@ jobs:
         with:
           project_id: snapper-326913
           image_url: "gcr.io/snapper-326913/immediate_demo:latest"
+          working_directory: "demo/go-app"
