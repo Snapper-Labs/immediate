@@ -5,12 +5,9 @@ import showdown from 'showdown';
 
 @customElement('itk-markdown')
 export class Markdown extends LitElement {
-
-  // Declare reactive properties
   @property()
   markdown: string = '# Test';
 
-  // Render the UI as a function of component state
   render() {
     const rawHtml = new showdown.Converter().makeHtml(this.markdown);
     console.log(`rawHtml is: ${rawHtml}`);

@@ -3684,16 +3684,6 @@
     }
   };
   var r = (t4) => new o("string" == typeof t4 ? t4 : t4 + "", void 0, s);
-  var i = (t4, ...e9) => {
-    const n6 = 1 === t4.length ? t4[0] : e9.reduce((e10, s5, n7) => e10 + ((t5) => {
-      if (true === t5._$cssResult$)
-        return t5.cssText;
-      if ("number" == typeof t5)
-        return t5;
-      throw Error("Value passed to 'css' function must be a 'css' function result: " + t5 + ". Use 'unsafeCSS' to pass non-literal values, but take care to ensure page security.");
-    })(s5) + t4[n7 + 1], t4[0]);
-    return new o(n6, t4, s);
-  };
   var S = (s5, n6) => {
     e ? s5.adoptedStyleSheets = n6.map((t4) => t4 instanceof CSSStyleSheet ? t4 : t4.styleSheet) : n6.forEach((e9) => {
       const n7 = document.createElement("style"), o7 = t.litNonce;
@@ -4270,28 +4260,6 @@
   var n5;
   var e6 = null != (null === (n5 = window.HTMLSlotElement) || void 0 === n5 ? void 0 : n5.prototype.assignedElements) ? (o7, n6) => o7.assignedElements(n6) : (o7, n6) => o7.assignedNodes(n6).filter((o8) => o8.nodeType === Node.ELEMENT_NODE);
 
-  // src/SimpleGreeting.ts
-  var SimpleGreeting = class extends s4 {
-    constructor() {
-      super(...arguments);
-      this.name = "World";
-    }
-    render() {
-      return y`<p>Hello, ${this.name}!</p>`;
-    }
-  };
-  SimpleGreeting.styles = i`
-    :host {
-      color: blue;
-    }
-  `;
-  __decorateClass([
-    e5()
-  ], SimpleGreeting.prototype, "name", 2);
-  SimpleGreeting = __decorateClass([
-    e4("simple-greeting")
-  ], SimpleGreeting);
-
   // node_modules/lit-html/directive.js
   var t3 = { ATTRIBUTE: 1, CHILD: 2, PROPERTY: 3, BOOLEAN_ATTRIBUTE: 4, EVENT: 5, ELEMENT: 6 };
   var e7 = (t4) => (...e9) => ({ _$litDirective$: t4, values: e9 });
@@ -4354,6 +4322,26 @@
   Markdown = __decorateClass([
     e4("itk-markdown")
   ], Markdown);
+
+  // src/Button.ts
+  var Button = class extends s4 {
+    constructor() {
+      super(...arguments);
+      this.label = "";
+    }
+    render() {
+      return y`<button @click=${this._onClick}>${this.label}</button>`;
+    }
+    _onClick(e9) {
+      this.dispatchEvent(e9);
+    }
+  };
+  __decorateClass([
+    e5()
+  ], Button.prototype, "label", 2);
+  Button = __decorateClass([
+    e4("itk-button")
+  ], Button);
 })();
 /*! showdown v 2.1.0 - 21-04-2022 */
 /**
