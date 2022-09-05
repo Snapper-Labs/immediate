@@ -5,7 +5,6 @@ import (
 	"strconv"
 
 	immgo "github.com/snapper-labs/immediate/go"
-	web "github.com/snapper-labs/immediate/go/web"
 	"github.com/snapper-labs/immediate/go/web/intool"
 )
 
@@ -39,10 +38,11 @@ func TemperatureConverter(ui *immgo.RenderNode) {
 		}
 	}
 
-
 	row := intool.Row(ui, intool.RowOptions{})
-	web.Input(row, web.InputOptions{OnInput: onCChanged, Value: *currentC})
-	intool.Text(row, "Celsius = ")
-	web.Input(row, web.InputOptions{OnInput: onFChanged, Value: *currentF})
-	intool.Text(row, " Fahrenheit")
+
+	currentCValue := intool.Input(row, intool.InputOptions{Value: *currentC, Label: "Celsius"})
+	onCChanged(currentCValue)
+
+	currentFValue := intool.Input(row, intool.InputOptions{Value: *currentF, Label: "Fahrenheit"})
+	onFChanged(currentFValue)
 }

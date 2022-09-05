@@ -20,14 +20,15 @@ func Dropdown(ui *immgo.RenderNode, choices []string) string {
 }
 
 func Render(ui *immgo.RenderNode) {
-	choice := Dropdown(ui, tasks)
+	container := intool.Container(ui)
+	choice := Dropdown(container, tasks)
 
 	switch choice {
 	case "counter":
-		Counter(ui)
+		Counter(container)
 	case "temperature converter":
-		TemperatureConverter(ui)
+		TemperatureConverter(container)
 	case "flight booker":
-		FlightBooker(ui)
+		FlightBooker(container)
 	}
 }

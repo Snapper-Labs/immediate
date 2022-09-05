@@ -5,8 +5,8 @@ import (
 
 	"github.com/apkumar/go-option"
 
-	"github.com/snapper-labs/immediate/go"
-	"github.com/snapper-labs/immediate/go/web"
+	immgo "github.com/snapper-labs/immediate/go"
+	immgo_web "github.com/snapper-labs/immediate/go/web"
 )
 
 type ContainerOptions struct {
@@ -92,6 +92,38 @@ func Select(parent *immgo.RenderNode, options ...SelectOptions) (*immgo.RenderNo
 	}
 
 	return selectNode, *choice
+}
+
+type InputOptions struct {
+	Key      string
+	Label    string
+	Value    string
+	Disabled bool
+}
+
+func Input(parent *immgo.RenderNode, options ...InputOptions) string {
+	opts := option.Merge(options...)
+	value, setValue := immgo.State(parent, opts.Value)
+
+	desc := immgo.ElementDescription{
+		Kind: "sl-input",
+		Properties: immgo.Properties{
+			EventHandlers: immgo.EventHandlers{
+				"sl-change": func(evt interface{}) {
+					setValue(evt.(map[string]interface{})["targetValue"].(string))
+				},
+			},
+			Attributes: immgo.Attributes{
+				"label":    opts.Label,
+				"disabled": opts.Disabled,
+				"value":    opts.Value,
+			},
+		},
+	}
+
+	immgo.Render(parent, desc)
+
+	return *value
 }
 
 type ButtonOptions struct {
@@ -180,11 +212,12 @@ func Initialize(ui *immgo.RenderNode) bool {
 		setNumLoaded(*numLoaded + 1)
 	}
 
-	web.Script(ui, "https://cdn.jsdelivr.net/npm/bootstrap@5.2.0/dist/js/bootstrap.bundle.min.js", web.ScriptOptions { Integrity: "sha384-A3rJD856KowSb7dwlZdYEkO39Gagi7vIsF0jrRAoQmDKKtQBHUuLZ9AsSv4jD4Xa", Crossorigin: "anonymous", OnLoad: onLoad })
-	web.Script(ui, "https://md-block.verou.me/md-block.js", web.ScriptOptions { OnLoad: onLoad, Type: "module" })
-	web.Script(ui, "https://cdn.jsdelivr.net/npm/@shoelace-style/shoelace@2.0.0-beta.78/dist/shoelace.js", web.ScriptOptions { OnLoad: onLoad, Type: "module" })
-	web.Link(ui, "https://cdn.jsdelivr.net/npm/bootstrap@5.2.0/dist/css/bootstrap.min.css", web.LinkOptions { Integrity: "sha384-gH2yIJqKdNHPEq0n4Mqa/HGKIhSkIHeL5AyhkYV8i59U5AR6csBvApHHNl/vI1Bx", Crossorigin: "anonymous", Rel: "stylesheet", OnLoad: onLoad })
-	web.Link(ui, "https://cdn.jsdelivr.net/npm/@shoelace-style/shoelace@2.0.0-beta.78/dist/themes/light.css", web.LinkOptions { Rel: "stylesheet", OnLoad: onLoad })
+	immgo_web.Script(ui, "https://cdn.jsdelivr.net/npm/bootstrap@5.2.0/dist/js/bootstrap.bundle.min.js", immgo_web.ScriptOptions{Integrity: "sha384-A3rJD856KowSb7dwlZdYEkO39Gagi7vIsF0jrRAoQmDKKtQBHUuLZ9AsSv4jD4Xa", Crossorigin: "anonymous", OnLoad: onLoad})
+	immgo_web.Script(ui, "https://md-block.verou.me/md-block.js", immgo_web.ScriptOptions{OnLoad: onLoad, Type: "module"})
+	immgo_web.Script(ui, "https://cdn.jsdelivr.net/npm/@shoelace-style/shoelace@2.0.0-beta.78/dist/shoelace.js", immgo_web.ScriptOptions{OnLoad: onLoad, Type: "module"})
+	immgo_web.Link(ui, "https://cdn.jsdelivr.net/npm/bootstrap@5.2.0/dist/css/bootstrap.min.css", immgo_web.LinkOptions{Integrity: "sha384-gH2yIJqKdNHPEq0n4Mqa/HGKIhSkIHeL5AyhkYV8i59U5AR6csBvApHHNl/vI1Bx", Crossorigin: "anonymous", Rel: "stylesheet", OnLoad: onLoad})
+	immgo_web.Link(ui, "https://cdn.jsdelivr.net/npm/@shoelace-style/shoelace@2.0.0-beta.78/dist/themes/light.css", immgo_web.LinkOptions{Rel: "stylesheet", OnLoad: onLoad})
 
 	return *numLoaded == 5
+	return true
 }
