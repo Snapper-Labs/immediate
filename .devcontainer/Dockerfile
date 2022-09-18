@@ -16,4 +16,4 @@ RUN if [ "${NODE_VERSION}" != "none" ]; then su vscode -c "umask 0002 && . /usr/
 # USER vscode
 # RUN go get -x <your-dependency-or-tool>
 
-RUN su vscode -c "source /usr/local/share/nvm/nvm.sh && npm install -g graphite" 2>&1
+RUN su vscode -c "source /usr/local/share/nvm/nvm.sh && npm install -g @withgraphite/graphite-cli" 2>&1
