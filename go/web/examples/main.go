@@ -3,14 +3,15 @@ package main
 import (
 	"fmt"
 
-	"github.com/snapper-labs/immediate/go"
+	immgo "github.com/snapper-labs/immediate/go"
 	"github.com/snapper-labs/immediate/go/web"
+	sevengui "github.com/snapper-labs/immediate/go/web/examples/7gui"
+	prdiff "github.com/snapper-labs/immediate/go/web/examples/pr_diff"
+	toolkitdemo "github.com/snapper-labs/immediate/go/web/examples/toolkit-demo"
 	"github.com/snapper-labs/immediate/go/web/intool"
-	"github.com/snapper-labs/immediate/go/web/examples/7gui"
-	"github.com/snapper-labs/immediate/go/web/examples/toolkit-demo"
 )
 
-type app struct {}
+type app struct{}
 
 func (this *app) Render(ui *immgo.RenderNode, doc *web.Document) {
 	if !intool.Initialize(ui) {
@@ -32,6 +33,8 @@ func (this *app) Render(ui *immgo.RenderNode, doc *web.Document) {
 		sevengui.Render(ui)
 	case "/toolkit":
 		toolkitdemo.Render(ui)
+	case "/pr-diff":
+		prdiff.Render(ui)
 	default:
 		intool.Text(ui, fmt.Sprintf("Unknown path: %s", *path))
 	}

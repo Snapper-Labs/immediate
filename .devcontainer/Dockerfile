@@ -16,4 +16,9 @@ RUN if [ "${NODE_VERSION}" != "none" ]; then su vscode -c "umask 0002 && . /usr/
 # USER vscode
 # RUN go get -x <your-dependency-or-tool>
 
+# Install npm apps
 RUN su vscode -c "source /usr/local/share/nvm/nvm.sh && npm install -g @withgraphite/graphite-cli" 2>&1
+
+# Install ngrok
+RUN curl https://bin.equinox.io/c/bNyj1mQVY4c/ngrok-v3-stable-linux-amd64.tgz -o ngrok-v3-stable-linux-amd64.tgz \
+    && sudo tar xvzf ngrok-v3-stable-linux-amd64.tgz -C /usr/local/bin
