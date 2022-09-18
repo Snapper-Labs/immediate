@@ -53,7 +53,7 @@ func GetCommitInfo() []*CommitWithPulls {
 		endSha := "9343a90abdfd7ac813c6e119618736e62fd5c3df"
 
 		ts := oauth2.StaticTokenSource(
-			&oauth2.Token{AccessToken: "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"},
+			&oauth2.Token{AccessToken: ""},
 		)
 		tc := oauth2.NewClient(context.TODO(), ts)
 		client := github.NewClient(tc)
