@@ -3,6 +3,7 @@ package toolkitdemo
 import (
 	"context"
 	"fmt"
+	"os"
 	"strings"
 
 	"github.com/google/go-github/v47/github"
@@ -53,7 +54,7 @@ func GetCommitInfo() []*CommitWithPulls {
 		endSha := "9343a90abdfd7ac813c6e119618736e62fd5c3df"
 
 		ts := oauth2.StaticTokenSource(
-			&oauth2.Token{AccessToken: ""},
+			&oauth2.Token{AccessToken: os.Getenv("GITHUB_API_KEY")},
 		)
 		tc := oauth2.NewClient(context.TODO(), ts)
 		client := github.NewClient(tc)
