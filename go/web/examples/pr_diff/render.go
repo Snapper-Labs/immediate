@@ -13,7 +13,7 @@ import (
 	intool "github.com/snapper-labs/immediate/go/web/intool"
 )
 
-func Render(ui *immgo.RenderNode) {
+func Render(ui *immgo.RenderNode, startSha string, endSha string) {
 	intool.Initialize(ui)
 	container := intool.Container(ui)
 	intool.Markdown(container, intool.MarkdownOptions{Content: "## PR Diff"})
@@ -23,7 +23,7 @@ func Render(ui *immgo.RenderNode) {
 	intool.Markdown(intool.GridColumn(headerRow), intool.MarkdownOptions{Content: "**PR**"})
 	intool.Markdown(intool.GridColumn(headerRow), intool.MarkdownOptions{Content: "**Description**"})
 
-	commits := GetCommitInfo()
+	commits := GetCommitInfo(startSha, endSha)
 	for _, c := range commits {
 		r := intool.GridRow(grid)
 
@@ -48,11 +48,8 @@ type CommitWithPulls struct {
 
 var commitInfo []*CommitWithPulls
 
-func GetCommitInfo() []*CommitWithPulls {
+func GetCommitInfo(startSha string, endSha string) []*CommitWithPulls {
 	if commitInfo == nil {
-		startSha := "10b254194b1758d6cccd5df4125da7e28fa8f3bd"
-		endSha := "9343a90abdfd7ac813c6e119618736e62fd5c3df"
-
 		ts := oauth2.StaticTokenSource(
 			&oauth2.Token{AccessToken: os.Getenv("GITHUB_API_KEY")},
 		)

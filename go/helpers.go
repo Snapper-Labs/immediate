@@ -4,7 +4,6 @@ import (
 	"github.com/apkumar/go-option"
 )
 
-
 // helpers.go contains a set of helper methods that provides ergonomic
 // implementations of common needs.
 //
@@ -20,11 +19,11 @@ func Scheduler(node *RenderNode) func(f EffectFunc) {
 		effects.Add(f)
 	}
 
-	desc := ElementDescription {
+	desc := ElementDescription{
 		Kind: "hook",
-		Key: "", // TODO
-		Properties: Properties {
-			Attributes: Attributes {
+		Key:  "", // TODO
+		Properties: Properties{
+			Attributes: Attributes{
 				"_immgo_effects": effects,
 			},
 		},
@@ -43,14 +42,14 @@ type StateOptions struct {
 func State[T any](node *RenderNode, defaultState T, options ...StateOptions) (*T, func(newValue T)) {
 	opts := option.Merge(options...)
 
-	desc := ElementDescription {
-		Kind: "hook",
-		Key: opts.Key,
+	desc := ElementDescription{
+		Kind:       "hook",
+		Key:        opts.Key,
 		Properties: Properties{Attributes: Attributes{}},
 	}
-	
+
 	schedule := Scheduler(node)
-	
+
 	renderNode := Render(node, desc)
 	shadowNode := renderNode.data.match
 
@@ -87,7 +86,7 @@ type ChangedOptions struct {
 func Changed[T comparable](parent *RenderNode, val T, options ...ChangedOptions) bool {
 	opts := option.Merge(options...)
 
-	state, setState := State(parent, val, StateOptions { opts.Key })
+	state, setState := State(parent, val, StateOptions{opts.Key})
 	curr := *state
 	setState(val)
 
