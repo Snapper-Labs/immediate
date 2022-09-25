@@ -2,6 +2,7 @@ package main
 
 import (
 	"fmt"
+	"net/url"
 
 	immgo "github.com/snapper-labs/immediate/go"
 	"github.com/snapper-labs/immediate/go/web"
@@ -19,24 +20,26 @@ func (this *app) Render(ui *immgo.RenderNode, doc *web.Document) {
 		return
 	}
 
-	path, setPath := immgo.State(ui, "")
+	currentURL, setURL := immgo.State(ui, url.URL{})
 
 	go func() {
-		url, err := doc.GetURL()
-		if err == nil && *path != url.Path {
-			setPath(url.Path)
+		latestURL, err := doc.GetURL()
+		if err == nil && latestURL != currentURL {
+			setURL(*latestURL)
 		}
 	}()
 
-	switch *path {
+	switch currentURL.Path {
 	case "/7gui":
 		sevengui.Render(ui)
 	case "/toolkit":
 		toolkitdemo.Render(ui)
 	case "/pr-diff":
-		prdiff.Render(ui)
+		startSha := currentURL.Query().Get("startSha")
+		endSha := currentURL.Query().Get("endSha")
+		prdiff.Render(ui, startSha, endSha)
 	default:
-		intool.Text(ui, fmt.Sprintf("Unknown path: %s", *path))
+		intool.Text(ui, fmt.Sprintf("Unknown path: %s", currentURL.Path))
 	}
 }
 

@@ -199,7 +199,7 @@ func GridColumn(parent *immgo.RenderNode, options ...GridColumnOptions) *immgo.R
 		Kind: "div",
 		Properties: immgo.Properties{
 			Attributes: immgo.Attributes{
-				"class": "col",
+				"class": "col-sm",
 			},
 		},
 	})
@@ -219,5 +219,4 @@ func Initialize(ui *immgo.RenderNode) bool {
 	immgo_web.Link(ui, "https://cdn.jsdelivr.net/npm/@shoelace-style/shoelace@2.0.0-beta.78/dist/themes/light.css", immgo_web.LinkOptions{Rel: "stylesheet", OnLoad: onLoad})
 
 	return *numLoaded == 5
-	return true
 }
