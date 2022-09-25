@@ -16,7 +16,7 @@ import (
 func Render(ui *immgo.RenderNode) {
 	intool.Initialize(ui)
 	container := intool.Container(ui)
-	intool.Markdown(container, intool.MarkdownOptions{Content: "# PR Diff"})
+	intool.Markdown(container, intool.MarkdownOptions{Content: "## PR Diff"})
 	grid := intool.Grid(container)
 	headerRow := intool.GridRow(grid)
 	intool.Markdown(intool.GridColumn(headerRow), intool.MarkdownOptions{Content: "**SHA**"})
@@ -25,7 +25,7 @@ func Render(ui *immgo.RenderNode) {
 
 	commits := GetCommitInfo()
 	for _, c := range commits {
-		r := intool.GridRow(container)
+		r := intool.GridRow(grid)
 
 		prNum := ""
 		descr := messagePrefix(*c.Commit.Commit.Message, 10)
@@ -35,7 +35,7 @@ func Render(ui *immgo.RenderNode) {
 			descr = *c.Pulls[0].Title
 		}
 
-		intool.Markdown(intool.GridColumn(r), intool.MarkdownOptions{Content: sha})
+		intool.Markdown(intool.GridColumn(r), intool.MarkdownOptions{Content: sha[:8]})
 		intool.Markdown(intool.GridColumn(r), intool.MarkdownOptions{Content: prNum})
 		intool.Markdown(intool.GridColumn(r), intool.MarkdownOptions{Content: descr})
 	}
