@@ -38,6 +38,7 @@ func mustConvertToUint32(s string) uint32 {
 var command = flag.String("c", "", "command to run")
 var innerPorts = flag.String("inner-ports", "7777,7778", "underlying ports, comma-separated (e.g. 7777,7778)")
 var addr = flag.String("addr", "localhost:8080", "address to listen on")
+var watch = flag.String("w", ".", "directory to watch for changes (recursively)")
 
 func main() {
 	flag.Parse()
@@ -106,7 +107,7 @@ func main() {
 	// SetMaxEvents is something like a debounce.
 	w.SetMaxEvents(1)
 
-	err := w.AddRecursive(".")
+	err := w.AddRecursive(*watch)
 	check(err)
 
 	reloadChan := make(chan struct{})
