@@ -1,6 +1,9 @@
 package main
 
 import (
+	"strconv"
+	"strings"
+	"flag"
 	"log"
 	"os"
 	"os/signal"
@@ -26,12 +29,32 @@ func mustParseUrl(s string) *url.URL {
 	return u
 }
 
+func mustConvertToUint32(s string) uint32 {
+	i, err := strconv.ParseUint(s, 10, 32)
+	check(err)
+	return uint32(i)
+}
+
+var command = flag.String("c", "", "command to run")
+var innerPorts = flag.String("inner-ports", "7777,7778", "underlying ports, comma-separated (e.g. 7777,7778)")
+var addr = flag.String("addr", "localhost:8080", "address to listen on")
+
 func main() {
+	flag.Parse()
+
+	if *command == "" {
+		log.Fatal("command must be specified")
+	}
+
 	// Maintain two reverse proxies, one for the current command, and one for
 	// the next.
-	ports := []uint32{7777, 7778}
+	splits := strings.Split(*innerPorts, ",")
+	if len(splits) != 2 {
+		log.Fatal("Expected two ports, got ", len(splits))
+	}
+
+	ports := []uint32{mustConvertToUint32(splits[0]), mustConvertToUint32(splits[1])}
 	currIndex := 0
-	command := "go run ."
 
 	var cmd *Command
 	var proxy *httputil.ReverseProxy
@@ -45,7 +68,7 @@ func main() {
 
 		// Spawn the command at the next index
 		nextIndex := (currIndex + 1) % len(ports)
-		cmd = NewCommand(ports[nextIndex], command)
+		cmd = NewCommand(ports[nextIndex], *command)
 
 		if err := cmd.Start(5 * time.Second); err != nil {
 			return err
@@ -139,6 +162,6 @@ func main() {
     }()
 
 
-	log.Println("Listening on :8080...")
-	http.ListenAndServe(":8080", nil)
+	log.Println("Listening on", *addr)
+	http.ListenAndServe(*addr, nil)
 }
