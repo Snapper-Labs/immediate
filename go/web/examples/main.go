@@ -1,6 +1,7 @@
 package main
 
 import (
+	"os"
 	"fmt"
 	"net/url"
 
@@ -44,5 +45,10 @@ func (this *app) Render(ui *immgo.RenderNode, doc *web.Document) {
 }
 
 func main() {
-	web.Mount("0.0.0.0:8081", &app{})
+	port := os.Getenv("PORT")
+	if port == "" {
+		port = "8081"
+	}
+
+	web.Mount(fmt.Sprintf("0.0.0.0:%s", port), &app{})
 }

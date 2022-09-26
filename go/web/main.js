@@ -263,4 +263,8 @@
   }
   setup(getWsEndpoint(), () => {
   }, 100);
+  var events = new EventSource("/events");
+  events.addEventListener("reload", () => {
+    window.location.reload();
+  });
 })();

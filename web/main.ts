@@ -38,3 +38,10 @@ function getWsEndpoint() {
   return endpoint;
 }
 setup(getWsEndpoint(), () => {}, 100);
+
+
+// live reload
+const events = new EventSource("/events");
+events.addEventListener("reload", () => {
+  window.location.reload();
+});
