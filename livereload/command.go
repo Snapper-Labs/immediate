@@ -1,7 +1,6 @@
 package main
 
 import (
-	"log"
 	"fmt"
 	"os/exec"
 	"os"
@@ -9,6 +8,7 @@ import (
 	"time"
 	"syscall"
 
+	log "github.com/sirupsen/logrus"
 	"github.com/google/shlex"
 )
 
@@ -30,7 +30,7 @@ func NewCommand(port uint32, command string) *Command {
 }
 
 func (this *Command) Start(timeout time.Duration) error {
-	log.Printf("Starting command: %s on port: %d", this.command, this.port)
+	log.Debugf("Starting command: %s on port: %d", this.command, this.port)
 	splits, err := shlex.Split(this.command)
 	if err != nil {
 		return err
