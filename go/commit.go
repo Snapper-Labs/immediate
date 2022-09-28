@@ -50,8 +50,8 @@ func Commit(renderNode *RenderNode, hostNode HostNode, hostTree HostTree) error 
 		} 
 	}
 
-	// reorder children (TODO: We might want to just avoid this in `match`. This
-	// is currently a bug!)
+	// note that we do not need to consider re-ordering of children here, as the
+	// functionality in `match` never allows it.
 
 	// create new children
 	for index, child := range renderChildren {

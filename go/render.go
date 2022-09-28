@@ -17,6 +17,11 @@ func Render(parentNode *RenderNode, description ElementDescription) *RenderNode 
 	return renderNode
 }
 
+// match finds a shadow node in the children of `parentNode`'s match that has
+// the same key as the given `renderNode`.
+//
+// Only shadow nodes _after_ the last matched child are considered. This means
+// that matching can never force a re-ordering of shadow nodes.
 func match(parentNode *RenderNode, renderNode *RenderNode) *ShadowNode {
 	if parentNode.data.match == nil {
 		return nil
@@ -25,7 +30,8 @@ func match(parentNode *RenderNode, renderNode *RenderNode) *ShadowNode {
 	shadowChildren := parentNode.data.match.Children()
 	renderChildren := parentNode.Children()
 
-	for _, shadowChild := range shadowChildren {
+	firstEligibleIndex := 0
+	for idx, shadowChild := range shadowChildren  {
 		hasMatch := false
 		for _, renderChild := range renderChildren {
 			if renderChild.data.match == shadowChild {
@@ -33,9 +39,20 @@ func match(parentNode *RenderNode, renderNode *RenderNode) *ShadowNode {
 			}
 		}
 
+		if hasMatch {
+			firstEligibleIndex = idx + 1
+		}
+	}
+
+	if firstEligibleIndex >= len(shadowChildren) {
+		return nil
+	}
+
+
+	for _, shadowChild := range shadowChildren[firstEligibleIndex:] {
 		keyOne := shadowChild.data.fullkey
 		keyTwo := renderNode.data.description.fullkey
-		if !hasMatch && keyOne == keyTwo {
+		if keyOne == keyTwo {
 			return shadowChild
 		}
 	}
