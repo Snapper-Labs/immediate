@@ -24,7 +24,7 @@ func Scheduler(node *RenderNode) func(f EffectFunc) {
 		Key:  "", // TODO
 		Properties: Properties{
 			Attributes: Attributes{
-				"_immgo_effects": effects,
+				ImmgoEffects: effects,
 			},
 		},
 	}

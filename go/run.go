@@ -12,7 +12,7 @@ type RenderFunc = func(node *RenderNode)
 func findEffects(shadowRoot *ShadowNode) []EffectFunc {
 	effects := []EffectFunc{}
 	traverseFunc := func(node *ShadowNode) {
-		nodeEffects, ok := node.data.Properties.Attributes["_immgo_effects"]
+		nodeEffects, ok := node.data.Properties.Attributes[ImmgoEffects]
 		if ok {
 			eff, isArr := nodeEffects.(*Effects)
 			if !isArr {

@@ -35,7 +35,7 @@ func Commit(renderNode *RenderNode, hostNode HostNode, hostTree HostTree) error 
 
 		if !matched {
 			// clean up shadow node
-			f, exists := shadowNode.data.Properties.EventHandlers["_immgo_unmount"]
+			f, exists := shadowNode.data.Properties.EventHandlers[ImmgoUnmount]
 			if exists {
 				f(struct{}{})
 			}
