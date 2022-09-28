@@ -4,7 +4,6 @@ import (
 	"strconv"
 	"strings"
 	"flag"
-	"log"
 	"os"
 	"os/signal"
 	"syscall"
@@ -14,6 +13,7 @@ import (
 	"net/http/httputil"
 	"net/url"
 
+	log "github.com/sirupsen/logrus"
 	"github.com/radovskyb/watcher"
 )
 
@@ -39,9 +39,16 @@ var command = flag.String("c", "", "command to run")
 var innerPorts = flag.String("inner-ports", "7777,7778", "underlying ports, comma-separated (e.g. 7777,7778)")
 var addr = flag.String("addr", "localhost:8080", "address to listen on")
 var watch = flag.String("w", ".", "directory to watch for changes (recursively)")
+var verbose = flag.Bool("v", false, "verbose logging")
 
 func main() {
 	flag.Parse()
+
+	if *verbose == true {
+		log.SetLevel(log.DebugLevel)
+	} else {
+		log.SetLevel(log.InfoLevel)
+	}
 
 	if *command == "" {
 		log.Fatal("command must be specified")
@@ -163,6 +170,6 @@ func main() {
     }()
 
 
-	log.Println("Listening on", *addr)
+	log.Infoln("Listening on", *addr)
 	http.ListenAndServe(*addr, nil)
 }
