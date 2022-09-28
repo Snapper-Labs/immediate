@@ -14,9 +14,9 @@ func findEffects(shadowRoot *ShadowNode) []EffectFunc {
 	traverseFunc := func(node *ShadowNode) {
 		nodeEffects, ok := node.data.Properties.Attributes[ImmgoEffects]
 		if ok {
-			eff, isArr := nodeEffects.(*Effects)
-			if !isArr {
-				log.Debug("_immgo_effects attribute was not a function array.")
+			eff, ok := nodeEffects.(*Effects)
+			if !ok {
+				log.Debug("_immgo_effects attribute was not an instance of *immgo.Effects.")
 				return
 			}
 			effects = append(effects, eff.Get()...)
