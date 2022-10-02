@@ -158,14 +158,3 @@ func Link(ui *immgo.RenderNode, href string, options ...LinkOptions) {
 		},
 	})
 }
-
-
-type DefaultToolkit struct {
-}
-
-func (*DefaultToolkit) GetScriptTags() []string {
-	return []string{}
-}
-func (*DefaultToolkit) GetLinkTags() []string {
-	return []string{}
-}

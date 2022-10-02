@@ -12,11 +12,11 @@ type RenderFunc = func(node *RenderNode)
 func findEffects(shadowRoot *ShadowNode) []EffectFunc {
 	effects := []EffectFunc{}
 	traverseFunc := func(node *ShadowNode) {
-		nodeEffects, ok := node.data.Properties.Attributes["_immgo_effects"]
+		nodeEffects, ok := node.data.Properties.Attributes[ImmgoEffects]
 		if ok {
-			eff, isArr := nodeEffects.(*Effects)
-			if !isArr {
-				log.Debug("_immgo_effects attribute was not a function array.")
+			eff, ok := nodeEffects.(*Effects)
+			if !ok {
+				log.Debug("_immgo_effects attribute was not an instance of *immgo.Effects.")
 				return
 			}
 			effects = append(effects, eff.Get()...)
