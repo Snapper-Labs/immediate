@@ -5,6 +5,9 @@
   "license": "MIT",
   "dependencies": {
     "@types/showdown": "^2.0.0",
+    "@vaadin/form-layout": "^23.2.2",
+    "@vaadin/grid": "^23.2.2",
+    "@vaadin/vertical-layout": "^23.2.2",
     "lit": "^2.3.1",
     "showdown": "^2.1.0"
   },
@@ -14,6 +17,6 @@
   },
   "scripts": {
     "demo": "yarn esbuild demo.ts --bundle --outfile=www/main.js --servedir=www",
-    "build":  "yarn esbuild src/index.ts --bundle --outfile=dist/bundle.js"
+    "build": "yarn esbuild src/index.ts --bundle --outfile=dist/bundle.js"
   }
 }
