@@ -11,10 +11,14 @@ import (
 
 	immgo "github.com/snapper-labs/immediate/go"
 	intool "github.com/snapper-labs/immediate/go/web/intool"
+	toolkit "github.com/snapper-labs/immediate/go/web/toolkit"
 )
 
 func Render(ui *immgo.RenderNode, startSha string, endSha string) {
 	intool.Initialize(ui)
+
+	toolkit.Initialize(ui, func() {})
+
 	container := intool.Container(ui)
 	intool.Markdown(container, intool.MarkdownOptions{Content: "## PR Diff"})
 	grid := intool.Grid(container)
@@ -39,6 +43,8 @@ func Render(ui *immgo.RenderNode, startSha string, endSha string) {
 		intool.Markdown(intool.GridColumn(r), intool.MarkdownOptions{Content: prNum})
 		intool.Markdown(intool.GridColumn(r), intool.MarkdownOptions{Content: descr})
 	}
+
+	toolkit.Grid(container, toolkit.GridOptions{})
 }
 
 type CommitWithPulls struct {
