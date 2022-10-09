@@ -11,15 +11,29 @@ import '@vaadin/grid/vaadin-grid-tree-column.js';
 @customElement('itk-grid')
 export class Grid extends LitElement {
   @property()
-  itemsJson: string = '';
+  gridOptsJson: string = '';
 
   render() {
-    const items = JSON.parse(this.itemsJson)
+    console.log("json:");
+    console.dir(this.gridOptsJson);
+
+    const gridOpts = JSON.parse(this.gridOptsJson);
+    const cols = (gridOpts.Columns as string[]);
+    const items = gridOpts.Rows.map((row: string[]) => {
+      const rowMap: { [path: string]: string } = {}
+      row.forEach((cellValue: string, i: number) => {
+        const col = cols[i];
+        rowMap[col] = cellValue;
+      })
+      return rowMap;
+    })
+
+    console.log("items:");
+    console.dir(items);
+
     return html`
     <vaadin-grid .items="${items}">
-      <vaadin-grid-column path="SHA"></vaadin-grid-column>
-      <vaadin-grid-column path="PR"></vaadin-grid-column>
-      <vaadin-grid-column path="Description"></vaadin-grid-column>
+      ${cols.map(col => html`<vaadin-grid-column path="${col}"></vaadin-grid-column>`)}
     </vaadin-grid>`
   }
 }

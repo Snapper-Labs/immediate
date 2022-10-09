@@ -17734,21 +17734,32 @@ Please use <label slot="label"> wrapper or the label property instead.`
   var Grid2 = class extends s4 {
     constructor() {
       super(...arguments);
-      this.itemsJson = "";
+      this.gridOptsJson = "";
     }
     render() {
-      const items = JSON.parse(this.itemsJson);
+      console.log("json:");
+      console.dir(this.gridOptsJson);
+      const gridOpts = JSON.parse(this.gridOptsJson);
+      const cols = gridOpts.Columns;
+      const items = gridOpts.Rows.map((row) => {
+        const rowMap = {};
+        row.forEach((cellValue, i5) => {
+          const col = cols[i5];
+          rowMap[col] = cellValue;
+        });
+        return rowMap;
+      });
+      console.log("items:");
+      console.dir(items);
       return y`
     <vaadin-grid .items="${items}">
-      <vaadin-grid-column path="SHA"></vaadin-grid-column>
-      <vaadin-grid-column path="PR"></vaadin-grid-column>
-      <vaadin-grid-column path="Description"></vaadin-grid-column>
+      ${cols.map((col) => y`<vaadin-grid-column path="${col}"></vaadin-grid-column>`)}
     </vaadin-grid>`;
     }
   };
   __decorateClass([
     e5()
-  ], Grid2.prototype, "itemsJson", 2);
+  ], Grid2.prototype, "gridOptsJson", 2);
   Grid2 = __decorateClass([
     e4("itk-grid")
   ], Grid2);
