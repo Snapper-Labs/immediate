@@ -8805,12 +8805,12 @@
       document.body.removeChild(dummy);
       return cachedType;
     }
-    static getNormalizedScrollLeft(scrollType2, direction, element) {
+    static getNormalizedScrollLeft(scrollType3, direction, element) {
       const { scrollLeft } = element;
-      if (direction !== "rtl" || !scrollType2) {
+      if (direction !== "rtl" || !scrollType3) {
         return scrollLeft;
       }
-      switch (scrollType2) {
+      switch (scrollType3) {
         case "negative":
           return element.scrollWidth - element.clientWidth + scrollLeft;
         case "reverse":
@@ -8819,12 +8819,12 @@
           return scrollLeft;
       }
     }
-    static setNormalizedScrollLeft(scrollType2, direction, element, scrollLeft) {
-      if (direction !== "rtl" || !scrollType2) {
+    static setNormalizedScrollLeft(scrollType3, direction, element, scrollLeft) {
+      if (direction !== "rtl" || !scrollType3) {
         element.scrollLeft = scrollLeft;
         return;
       }
-      switch (scrollType2) {
+      switch (scrollType3) {
         case "negative":
           element.scrollLeft = element.clientWidth - element.scrollWidth + scrollLeft;
           break;
@@ -15438,7 +15438,7 @@ Please use <label slot="label"> wrapper or the label property instead.`
   };
   customElements.define(GridColumnGroup.is, GridColumnGroup);
 
-  // node_modules/@vaadin/input-container/theme/lumo/vaadin-input-container-styles.js
+  // node_modules/@vaadin/grid/node_modules/@vaadin/input-container/theme/lumo/vaadin-input-container-styles.js
   registerStyles(
     "vaadin-input-container",
     i`
@@ -15599,7 +15599,7 @@ Please use <label slot="label"> wrapper or the label property instead.`
     { moduleId: "lumo-input-container" }
   );
 
-  // node_modules/@vaadin/input-container/src/vaadin-input-container.js
+  // node_modules/@vaadin/grid/node_modules/@vaadin/input-container/src/vaadin-input-container.js
   var InputContainer = class extends ThemableMixin(DirMixin(PolymerElement)) {
     static get is() {
       return "vaadin-input-container";
@@ -15998,7 +15998,7 @@ Please use <label slot="label"> wrapper or the label property instead.`
     moduleId: "lumo-input-field-shared-styles"
   });
 
-  // node_modules/@vaadin/text-field/theme/lumo/vaadin-text-field-styles.js
+  // node_modules/@vaadin/grid/node_modules/@vaadin/text-field/theme/lumo/vaadin-text-field-styles.js
   registerStyles("vaadin-text-field", inputFieldShared, {
     moduleId: "lumo-text-field-styles"
   });
@@ -16813,7 +16813,7 @@ Please use <label slot="label"> wrapper or the label property instead.`
   // node_modules/@vaadin/field-base/src/styles/input-field-shared-styles.js
   var inputFieldShared2 = [fieldShared, inputFieldContainer, clearButton];
 
-  // node_modules/@vaadin/text-field/src/vaadin-text-field.js
+  // node_modules/@vaadin/grid/node_modules/@vaadin/text-field/src/vaadin-text-field.js
   registerStyles("vaadin-text-field", inputFieldShared2, { moduleId: "vaadin-text-field-styles" });
   var TextField = class extends PatternMixin(InputFieldMixin(ThemableMixin(ElementMixin2(PolymerElement)))) {
     static get is() {
@@ -17763,6 +17763,821 @@ Please use <label slot="label"> wrapper or the label property instead.`
   Grid2 = __decorateClass([
     e4("itk-grid")
   ], Grid2);
+
+  // node_modules/@vaadin/form-layout/node_modules/@vaadin/vaadin-lumo-styles/version.js
+  var Lumo2 = class extends HTMLElement {
+    static get version() {
+      return "23.2.3";
+    }
+  };
+  customElements.define("vaadin-lumo-styles", Lumo2);
+
+  // node_modules/@vaadin/form-layout/node_modules/@vaadin/vaadin-themable-mixin/vaadin-theme-property-mixin.js
+  var ThemePropertyMixin2 = (superClass) => class VaadinThemePropertyMixin extends superClass {
+    static get properties() {
+      return {
+        theme: {
+          type: String,
+          reflectToAttribute: true,
+          observer: "__deprecatedThemePropertyChanged"
+        },
+        _theme: {
+          type: String,
+          readOnly: true
+        }
+      };
+    }
+    __deprecatedThemePropertyChanged(theme) {
+      this._set_theme(theme);
+    }
+  };
+
+  // node_modules/@vaadin/form-layout/node_modules/@vaadin/vaadin-themable-mixin/vaadin-themable-mixin.js
+  var themeRegistry2 = [];
+  function registerStyles2(themeFor, styles, options = {}) {
+    if (themeFor) {
+      if (hasThemes2(themeFor)) {
+        console.warn(`The custom element definition for "${themeFor}"
+      was finalized before a style module was registered.
+      Make sure to add component specific style modules before
+      importing the corresponding custom element.`);
+      }
+    }
+    styles = flattenStyles2(styles);
+    if (window.Vaadin && window.Vaadin.styleModules) {
+      window.Vaadin.styleModules.registerStyles(themeFor, styles, options);
+    } else {
+      themeRegistry2.push({
+        themeFor,
+        styles,
+        include: options.include,
+        moduleId: options.moduleId
+      });
+    }
+  }
+  function getAllThemes2() {
+    if (window.Vaadin && window.Vaadin.styleModules) {
+      return window.Vaadin.styleModules.getAllThemes();
+    }
+    return themeRegistry2;
+  }
+  function matchesThemeFor2(themeFor, tagName) {
+    return (themeFor || "").split(" ").some((themeForToken) => {
+      return new RegExp(`^${themeForToken.split("*").join(".*")}$`).test(tagName);
+    });
+  }
+  function getIncludePriority2(moduleName = "") {
+    let includePriority = 0;
+    if (moduleName.startsWith("lumo-") || moduleName.startsWith("material-")) {
+      includePriority = 1;
+    } else if (moduleName.startsWith("vaadin-")) {
+      includePriority = 2;
+    }
+    return includePriority;
+  }
+  function flattenStyles2(styles = []) {
+    return [styles].flat(Infinity).filter((style2) => {
+      if (style2 instanceof o) {
+        return true;
+      }
+      console.warn("An item in styles is not of type CSSResult. Use `unsafeCSS` or `css`.");
+      return false;
+    });
+  }
+  function getIncludedStyles2(theme) {
+    const includedStyles = [];
+    if (theme.include) {
+      [].concat(theme.include).forEach((includeModuleId) => {
+        const includedTheme = getAllThemes2().find((s5) => s5.moduleId === includeModuleId);
+        if (includedTheme) {
+          includedStyles.push(...getIncludedStyles2(includedTheme), ...includedTheme.styles);
+        } else {
+          console.warn(`Included moduleId ${includeModuleId} not found in style registry`);
+        }
+      }, theme.styles);
+    }
+    return includedStyles;
+  }
+  function addStylesToTemplate2(styles, template4) {
+    const styleEl = document.createElement("style");
+    styleEl.innerHTML = styles.map((style2) => style2.cssText).join("\n");
+    template4.content.appendChild(styleEl);
+  }
+  function getThemes2(tagName) {
+    const defaultModuleName = `${tagName}-default-theme`;
+    const themes = getAllThemes2().filter((theme) => theme.moduleId !== defaultModuleName && matchesThemeFor2(theme.themeFor, tagName)).map((theme) => ({
+      ...theme,
+      styles: [...getIncludedStyles2(theme), ...theme.styles],
+      includePriority: getIncludePriority2(theme.moduleId)
+    })).sort((themeA, themeB) => themeB.includePriority - themeA.includePriority);
+    if (themes.length > 0) {
+      return themes;
+    }
+    return getAllThemes2().filter((theme) => theme.moduleId === defaultModuleName);
+  }
+  function hasThemes2(tagName) {
+    return classHasThemes2(customElements.get(tagName));
+  }
+  function classHasThemes2(elementClass) {
+    return elementClass && Object.prototype.hasOwnProperty.call(elementClass, "__themes");
+  }
+  var ThemableMixin2 = (superClass) => class VaadinThemableMixin extends ThemePropertyMixin2(superClass) {
+    static finalize() {
+      super.finalize();
+      if (this.elementStyles) {
+        return;
+      }
+      const template4 = this.prototype._template;
+      if (!template4 || classHasThemes2(this)) {
+        return;
+      }
+      addStylesToTemplate2(this.getStylesForThis(), template4);
+    }
+    static finalizeStyles(styles) {
+      const themeStyles = this.getStylesForThis();
+      return styles ? [...super.finalizeStyles(styles), ...themeStyles] : themeStyles;
+    }
+    static getStylesForThis() {
+      const parent = Object.getPrototypeOf(this.prototype);
+      const inheritedThemes = (parent ? parent.constructor.__themes : []) || [];
+      this.__themes = [...inheritedThemes, ...getThemes2(this.is)];
+      const themeStyles = this.__themes.flatMap((theme) => theme.styles);
+      return themeStyles.filter((style2, index) => index === themeStyles.lastIndexOf(style2));
+    }
+  };
+
+  // node_modules/@vaadin/form-layout/node_modules/@vaadin/vaadin-lumo-styles/spacing.js
+  var spacing2 = i`
+  :host {
+    /* Square */
+    --lumo-space-xs: 0.25rem;
+    --lumo-space-s: 0.5rem;
+    --lumo-space-m: 1rem;
+    --lumo-space-l: 1.5rem;
+    --lumo-space-xl: 2.5rem;
+
+    /* Wide */
+    --lumo-space-wide-xs: calc(var(--lumo-space-xs) / 2) var(--lumo-space-xs);
+    --lumo-space-wide-s: calc(var(--lumo-space-s) / 2) var(--lumo-space-s);
+    --lumo-space-wide-m: calc(var(--lumo-space-m) / 2) var(--lumo-space-m);
+    --lumo-space-wide-l: calc(var(--lumo-space-l) / 2) var(--lumo-space-l);
+    --lumo-space-wide-xl: calc(var(--lumo-space-xl) / 2) var(--lumo-space-xl);
+
+    /* Tall */
+    --lumo-space-tall-xs: var(--lumo-space-xs) calc(var(--lumo-space-xs) / 2);
+    --lumo-space-tall-s: var(--lumo-space-s) calc(var(--lumo-space-s) / 2);
+    --lumo-space-tall-m: var(--lumo-space-m) calc(var(--lumo-space-m) / 2);
+    --lumo-space-tall-l: var(--lumo-space-l) calc(var(--lumo-space-l) / 2);
+    --lumo-space-tall-xl: var(--lumo-space-xl) calc(var(--lumo-space-xl) / 2);
+  }
+`;
+  var $tpl6 = document.createElement("template");
+  $tpl6.innerHTML = `<style>${spacing2.toString().replace(":host", "html")}</style>`;
+  document.head.appendChild($tpl6.content);
+
+  // node_modules/@vaadin/form-layout/theme/lumo/vaadin-form-layout-styles.js
+  registerStyles2(
+    "vaadin-form-layout",
+    i`
+    :host {
+      --vaadin-form-layout-column-spacing: var(--lumo-space-l);
+    }
+  `,
+    { moduleId: "lumo-form-layout" }
+  );
+
+  // node_modules/@vaadin/form-layout/node_modules/@vaadin/component-base/src/async.js
+  var microtaskLastHandle3 = 0;
+  var microtaskCallbacks3 = [];
+  var microtaskScheduled3 = false;
+  var microtaskNode3 = document.createTextNode("");
+  new window.MutationObserver(microtaskFlush3).observe(microtaskNode3, { characterData: true });
+  function microtaskFlush3() {
+    microtaskScheduled3 = false;
+    const len = microtaskCallbacks3.length;
+    for (let i5 = 0; i5 < len; i5++) {
+      const cb = microtaskCallbacks3[i5];
+      if (cb) {
+        try {
+          cb();
+        } catch (e9) {
+          setTimeout(() => {
+            throw e9;
+          });
+        }
+      }
+    }
+    microtaskCallbacks3.splice(0, len);
+    microtaskLastHandle3 += len;
+  }
+  var idlePeriod2 = {
+    run(fn) {
+      return window.requestIdleCallback ? window.requestIdleCallback(fn) : window.setTimeout(fn, 16);
+    },
+    cancel(handle) {
+      if (window.cancelIdleCallback) {
+        window.cancelIdleCallback(handle);
+      } else {
+        window.clearTimeout(handle);
+      }
+    }
+  };
+
+  // node_modules/@vaadin/form-layout/node_modules/@vaadin/component-base/src/debounce.js
+  var Debouncer2 = class {
+    static debounce(debouncer, asyncModule, callback) {
+      if (debouncer instanceof Debouncer2) {
+        debouncer._cancelAsync();
+      } else {
+        debouncer = new Debouncer2();
+      }
+      debouncer.setConfig(asyncModule, callback);
+      return debouncer;
+    }
+    constructor() {
+      this._asyncModule = null;
+      this._callback = null;
+      this._timer = null;
+    }
+    setConfig(asyncModule, callback) {
+      this._asyncModule = asyncModule;
+      this._callback = callback;
+      this._timer = this._asyncModule.run(() => {
+        this._timer = null;
+        debouncerQueue2.delete(this);
+        this._callback();
+      });
+    }
+    cancel() {
+      if (this.isActive()) {
+        this._cancelAsync();
+        debouncerQueue2.delete(this);
+      }
+    }
+    _cancelAsync() {
+      if (this.isActive()) {
+        this._asyncModule.cancel(this._timer);
+        this._timer = null;
+      }
+    }
+    flush() {
+      if (this.isActive()) {
+        this.cancel();
+        this._callback();
+      }
+    }
+    isActive() {
+      return this._timer != null;
+    }
+  };
+  var debouncerQueue2 = /* @__PURE__ */ new Set();
+  function enqueueDebouncer2(debouncer) {
+    debouncerQueue2.add(debouncer);
+  }
+
+  // node_modules/@vaadin/form-layout/node_modules/@vaadin/component-base/src/dir-helper.js
+  var DirHelper2 = class {
+    static detectScrollType() {
+      const dummy = document.createElement("div");
+      dummy.textContent = "ABCD";
+      dummy.dir = "rtl";
+      dummy.style.fontSize = "14px";
+      dummy.style.width = "4px";
+      dummy.style.height = "1px";
+      dummy.style.position = "absolute";
+      dummy.style.top = "-1000px";
+      dummy.style.overflow = "scroll";
+      document.body.appendChild(dummy);
+      let cachedType = "reverse";
+      if (dummy.scrollLeft > 0) {
+        cachedType = "default";
+      } else {
+        dummy.scrollLeft = 2;
+        if (dummy.scrollLeft < 2) {
+          cachedType = "negative";
+        }
+      }
+      document.body.removeChild(dummy);
+      return cachedType;
+    }
+    static getNormalizedScrollLeft(scrollType3, direction, element) {
+      const { scrollLeft } = element;
+      if (direction !== "rtl" || !scrollType3) {
+        return scrollLeft;
+      }
+      switch (scrollType3) {
+        case "negative":
+          return element.scrollWidth - element.clientWidth + scrollLeft;
+        case "reverse":
+          return element.scrollWidth - element.clientWidth - scrollLeft;
+        default:
+          return scrollLeft;
+      }
+    }
+    static setNormalizedScrollLeft(scrollType3, direction, element, scrollLeft) {
+      if (direction !== "rtl" || !scrollType3) {
+        element.scrollLeft = scrollLeft;
+        return;
+      }
+      switch (scrollType3) {
+        case "negative":
+          element.scrollLeft = element.clientWidth - element.scrollWidth + scrollLeft;
+          break;
+        case "reverse":
+          element.scrollLeft = element.scrollWidth - element.clientWidth - scrollLeft;
+          break;
+        default:
+          element.scrollLeft = scrollLeft;
+          break;
+      }
+    }
+  };
+
+  // node_modules/@vaadin/form-layout/node_modules/@vaadin/component-base/src/dir-mixin.js
+  var directionSubscribers2 = [];
+  function directionUpdater2() {
+    const documentDir = getDocumentDir2();
+    directionSubscribers2.forEach((element) => {
+      alignDirs2(element, documentDir);
+    });
+  }
+  var scrollType2;
+  var directionObserver2 = new MutationObserver(directionUpdater2);
+  directionObserver2.observe(document.documentElement, { attributes: true, attributeFilter: ["dir"] });
+  function alignDirs2(element, documentDir, elementDir = element.getAttribute("dir")) {
+    if (documentDir) {
+      element.setAttribute("dir", documentDir);
+    } else if (elementDir != null) {
+      element.removeAttribute("dir");
+    }
+  }
+  function getDocumentDir2() {
+    return document.documentElement.getAttribute("dir");
+  }
+  var DirMixin2 = (superClass) => class VaadinDirMixin extends superClass {
+    static get properties() {
+      return {
+        dir: {
+          type: String,
+          value: "",
+          reflectToAttribute: true,
+          converter: {
+            fromAttribute: (attr) => {
+              return !attr ? "" : attr;
+            },
+            toAttribute: (prop) => {
+              return prop === "" ? null : prop;
+            }
+          }
+        }
+      };
+    }
+    static finalize() {
+      super.finalize();
+      if (!scrollType2) {
+        scrollType2 = DirHelper2.detectScrollType();
+      }
+    }
+    connectedCallback() {
+      super.connectedCallback();
+      if (!this.hasAttribute("dir")) {
+        this.__subscribe();
+        alignDirs2(this, getDocumentDir2(), null);
+      }
+    }
+    attributeChangedCallback(name, oldValue, newValue) {
+      super.attributeChangedCallback(name, oldValue, newValue);
+      if (name !== "dir") {
+        return;
+      }
+      const documentDir = getDocumentDir2();
+      const newValueEqlDocDir = newValue === documentDir && directionSubscribers2.indexOf(this) === -1;
+      const newValueEmptied = !newValue && oldValue && directionSubscribers2.indexOf(this) === -1;
+      const newDiffValue = newValue !== documentDir && oldValue === documentDir;
+      if (newValueEqlDocDir || newValueEmptied) {
+        this.__subscribe();
+        alignDirs2(this, documentDir, newValue);
+      } else if (newDiffValue) {
+        this.__subscribe(false);
+      }
+    }
+    disconnectedCallback() {
+      super.disconnectedCallback();
+      this.__subscribe(false);
+      this.removeAttribute("dir");
+    }
+    _valueToNodeAttribute(node, value, attribute) {
+      if (attribute === "dir" && value === "" && !node.hasAttribute("dir")) {
+        return;
+      }
+      super._valueToNodeAttribute(node, value, attribute);
+    }
+    _attributeToProperty(attribute, value, type) {
+      if (attribute === "dir" && !value) {
+        this.dir = "";
+      } else {
+        super._attributeToProperty(attribute, value, type);
+      }
+    }
+    __subscribe(push = true) {
+      if (push) {
+        if (!directionSubscribers2.includes(this)) {
+          directionSubscribers2.push(this);
+        }
+      } else if (directionSubscribers2.includes(this)) {
+        directionSubscribers2.splice(directionSubscribers2.indexOf(this), 1);
+      }
+    }
+    __getNormalizedScrollLeft(element) {
+      return DirHelper2.getNormalizedScrollLeft(scrollType2, this.getAttribute("dir") || "ltr", element);
+    }
+    __setNormalizedScrollLeft(element, scrollLeft) {
+      return DirHelper2.setNormalizedScrollLeft(scrollType2, this.getAttribute("dir") || "ltr", element, scrollLeft);
+    }
+  };
+
+  // node_modules/@vaadin/form-layout/node_modules/@vaadin/component-base/src/element-mixin.js
+  setCancelSyntheticClickEvents(false);
+  window.Vaadin = window.Vaadin || {};
+  window.Vaadin.registrations = window.Vaadin.registrations || [];
+  window.Vaadin.developmentModeCallback = window.Vaadin.developmentModeCallback || {};
+  window.Vaadin.developmentModeCallback["vaadin-usage-statistics"] = function() {
+    usageStatistics();
+  };
+  var statsJob2;
+  var registered2 = /* @__PURE__ */ new Set();
+  var ElementMixin3 = (superClass) => class VaadinElementMixin extends DirMixin2(superClass) {
+    static get version() {
+      return "23.2.3";
+    }
+    static finalize() {
+      super.finalize();
+      const { is } = this;
+      if (is && !registered2.has(is)) {
+        window.Vaadin.registrations.push(this);
+        registered2.add(is);
+        if (window.Vaadin.developmentModeCallback) {
+          statsJob2 = Debouncer2.debounce(statsJob2, idlePeriod2, () => {
+            window.Vaadin.developmentModeCallback["vaadin-usage-statistics"]();
+          });
+          enqueueDebouncer2(statsJob2);
+        }
+      }
+    }
+    constructor() {
+      super();
+      if (document.doctype === null) {
+        console.warn(
+          'Vaadin components require the "standards mode" declaration. Please add <!DOCTYPE html> to the HTML document.'
+        );
+      }
+    }
+  };
+
+  // node_modules/@vaadin/form-layout/node_modules/@vaadin/component-base/src/resize-mixin.js
+  var observer2 = new ResizeObserver((entries) => {
+    setTimeout(() => {
+      entries.forEach((entry) => {
+        if (entry.target.resizables) {
+          entry.target.resizables.forEach((resizable) => {
+            resizable._onResize(entry.contentRect);
+          });
+        } else {
+          entry.target._onResize(entry.contentRect);
+        }
+      });
+    });
+  });
+  var ResizeMixin2 = dedupingMixin(
+    (superclass) => class ResizeMixinClass extends superclass {
+      connectedCallback() {
+        super.connectedCallback();
+        observer2.observe(this);
+        if (this._observeParent) {
+          const parent = this.parentNode instanceof ShadowRoot ? this.parentNode.host : this.parentNode;
+          if (!parent.resizables) {
+            parent.resizables = /* @__PURE__ */ new Set();
+            observer2.observe(parent);
+          }
+          parent.resizables.add(this);
+          this.__parent = parent;
+        }
+      }
+      disconnectedCallback() {
+        super.disconnectedCallback();
+        observer2.unobserve(this);
+        const parent = this.__parent;
+        if (this._observeParent && parent) {
+          const resizables = parent.resizables;
+          if (resizables) {
+            resizables.delete(this);
+            if (resizables.size === 0) {
+              observer2.unobserve(parent);
+            }
+          }
+          this.__parent = null;
+        }
+      }
+      get _observeParent() {
+        return false;
+      }
+      _onResize(_contentRect) {
+      }
+      notifyResize() {
+        console.warn(
+          `WARNING: Since Vaadin 23, notifyResize() is deprecated. The component uses a ResizeObserver internally and doesn't need to be explicitly notified of resizes.`
+        );
+      }
+    }
+  );
+
+  // node_modules/@vaadin/form-layout/src/vaadin-form-layout.js
+  var FormLayout = class extends ResizeMixin2(ElementMixin3(ThemableMixin2(PolymerElement))) {
+    static get template() {
+      return html`
+      <style>
+        :host {
+          display: block;
+          max-width: 100%;
+          animation: 1ms vaadin-form-layout-appear;
+          /* CSS API for host */
+          --vaadin-form-item-label-width: 8em;
+          --vaadin-form-item-label-spacing: 1em;
+          --vaadin-form-item-row-spacing: 1em;
+          --vaadin-form-layout-column-spacing: 2em; /* (default) */
+          align-self: stretch;
+        }
+
+        @keyframes vaadin-form-layout-appear {
+          to {
+            opacity: 1 !important; /* stylelint-disable-line keyframe-declaration-no-important */
+          }
+        }
+
+        :host([hidden]) {
+          display: none !important;
+        }
+
+        #layout {
+          display: flex;
+
+          align-items: baseline; /* default \`stretch\` is not appropriate */
+
+          flex-wrap: wrap; /* the items should wrap */
+        }
+
+        #layout ::slotted(*) {
+          /* Items should neither grow nor shrink. */
+          flex-grow: 0;
+          flex-shrink: 0;
+
+          /* Margins make spacing between the columns */
+          margin-left: calc(0.5 * var(--vaadin-form-layout-column-spacing));
+          margin-right: calc(0.5 * var(--vaadin-form-layout-column-spacing));
+        }
+
+        #layout ::slotted(br) {
+          display: none;
+        }
+      </style>
+      <div id="layout">
+        <slot id="slot"></slot>
+      </div>
+    `;
+    }
+    static get is() {
+      return "vaadin-form-layout";
+    }
+    static get properties() {
+      return {
+        responsiveSteps: {
+          type: Array,
+          value() {
+            return [
+              { minWidth: 0, columns: 1, labelsPosition: "top" },
+              { minWidth: "20em", columns: 1 },
+              { minWidth: "40em", columns: 2 }
+            ];
+          },
+          observer: "_responsiveStepsChanged"
+        },
+        _columnCount: {
+          type: Number
+        },
+        _labelsOnTop: {
+          type: Boolean
+        }
+      };
+    }
+    static get observers() {
+      return ["_invokeUpdateLayout(_columnCount, _labelsOnTop)"];
+    }
+    ready() {
+      this._styleElement = document.createElement("style");
+      this.appendChild(this._styleElement);
+      this._styleElement.textContent = " ";
+      super.ready();
+      this.addEventListener("animationend", this.__onAnimationEnd);
+    }
+    connectedCallback() {
+      super.connectedCallback();
+      requestAnimationFrame(() => this._selectResponsiveStep());
+      requestAnimationFrame(() => this._updateLayout());
+      this._observeChildrenColspanChange();
+    }
+    disconnectedCallback() {
+      super.disconnectedCallback();
+      this.__mutationObserver.disconnect();
+      this.__childObserver.disconnect();
+    }
+    _observeChildrenColspanChange() {
+      const mutationObserverConfig = { attributes: true };
+      this.__mutationObserver = new MutationObserver((mutationRecord) => {
+        mutationRecord.forEach((mutation) => {
+          if (mutation.type === "attributes" && (mutation.attributeName === "colspan" || mutation.attributeName === "hidden")) {
+            this._updateLayout();
+          }
+        });
+      });
+      this.__childObserver = new FlattenedNodesObserver(this, (info) => {
+        const addedNodes = this._getObservableNodes(info.addedNodes);
+        const removedNodes = this._getObservableNodes(info.removedNodes);
+        addedNodes.forEach((child) => {
+          this.__mutationObserver.observe(child, mutationObserverConfig);
+        });
+        if (addedNodes.length > 0 || removedNodes.length > 0) {
+          this._updateLayout();
+        }
+      });
+    }
+    _getObservableNodes(nodeList) {
+      const ignore = ["template", "style", "dom-repeat", "dom-if"];
+      return Array.from(nodeList).filter(
+        (node) => node.nodeType === Node.ELEMENT_NODE && ignore.indexOf(node.localName.toLowerCase()) === -1
+      );
+    }
+    _naturalNumberOrOne(n6) {
+      if (typeof n6 === "number" && n6 >= 1 && n6 < Infinity) {
+        return Math.floor(n6);
+      }
+      return 1;
+    }
+    _isValidCSSLength(value) {
+      if (value === "inherit" || value === "normal") {
+        return false;
+      }
+      this._styleElement.firstChild.nodeValue = `#styleElement { word-spacing: ${value}; }`;
+      if (!this._styleElement.sheet) {
+        return true;
+      }
+      return ["", null].indexOf(this._styleElement.sheet.cssRules[0].style.getPropertyValue("word-spacing")) < 0;
+    }
+    _responsiveStepsChanged(responsiveSteps, oldResponsiveSteps) {
+      try {
+        if (!Array.isArray(responsiveSteps)) {
+          throw new Error('Invalid "responsiveSteps" type, an Array is required.');
+        }
+        if (responsiveSteps.length < 1) {
+          throw new Error('Invalid empty "responsiveSteps" array, at least one item is required.');
+        }
+        responsiveSteps.forEach((step) => {
+          if (this._naturalNumberOrOne(step.columns) !== step.columns) {
+            throw new Error(`Invalid 'columns' value of ${step.columns}, a natural number is required.`);
+          }
+          if (step.minWidth !== void 0 && !this._isValidCSSLength(step.minWidth)) {
+            throw new Error(`Invalid 'minWidth' value of ${step.minWidth}, a valid CSS length required.`);
+          }
+          if (step.labelsPosition !== void 0 && ["aside", "top"].indexOf(step.labelsPosition) === -1) {
+            throw new Error(
+              `Invalid 'labelsPosition' value of ${step.labelsPosition}, 'aside' or 'top' string is required.`
+            );
+          }
+        });
+      } catch (e9) {
+        if (oldResponsiveSteps && oldResponsiveSteps !== responsiveSteps) {
+          console.warn(`${e9.message} Using previously set 'responsiveSteps' instead.`);
+          this.responsiveSteps = oldResponsiveSteps;
+        } else {
+          console.warn(`${e9.message} Using default 'responsiveSteps' instead.`);
+          this.responsiveSteps = [
+            { minWidth: 0, columns: 1, labelsPosition: "top" },
+            { minWidth: "20em", columns: 1 },
+            { minWidth: "40em", columns: 2 }
+          ];
+        }
+      }
+      this._selectResponsiveStep();
+    }
+    __onAnimationEnd(e9) {
+      if (e9.animationName.indexOf("vaadin-form-layout-appear") === 0) {
+        this._selectResponsiveStep();
+      }
+    }
+    _selectResponsiveStep() {
+      let selectedStep;
+      const tmpStyleProp = "background-position";
+      this.responsiveSteps.forEach((step) => {
+        this.$.layout.style.setProperty(tmpStyleProp, step.minWidth);
+        const stepMinWidthPx = parseFloat(getComputedStyle(this.$.layout).getPropertyValue(tmpStyleProp));
+        if (stepMinWidthPx <= this.offsetWidth) {
+          selectedStep = step;
+        }
+      });
+      this.$.layout.style.removeProperty(tmpStyleProp);
+      if (selectedStep) {
+        this._columnCount = selectedStep.columns;
+        this._labelsOnTop = selectedStep.labelsPosition === "top";
+      }
+    }
+    _invokeUpdateLayout() {
+      this._updateLayout();
+    }
+    updateStyles(properties = {}) {
+      console.warn(
+        `WARNING: Since Vaadin 23, updateStyles() is deprecated. Use the native element.style.setProperty API to set custom CSS property values.`
+      );
+      Object.entries(properties).forEach(([key, value]) => {
+        this.style.setProperty(key, value);
+      });
+      this._updateLayout();
+    }
+    _updateLayout() {
+      const style2 = getComputedStyle(this);
+      const columnSpacing = style2.getPropertyValue("--vaadin-form-layout-column-spacing");
+      const direction = style2.direction;
+      const marginStartProp = `margin-${direction === "ltr" ? "left" : "right"}`;
+      const marginEndProp = `margin-${direction === "ltr" ? "right" : "left"}`;
+      const containerWidth = this.offsetWidth;
+      let col = 0;
+      Array.from(this.children).filter((child) => child.localName === "br" || getComputedStyle(child).display !== "none").forEach((child, index, children) => {
+        if (child.localName === "br") {
+          col = 0;
+          return;
+        }
+        let colspan;
+        colspan = this._naturalNumberOrOne(parseFloat(child.getAttribute("colspan")));
+        colspan = Math.min(colspan, this._columnCount);
+        const childRatio = colspan / this._columnCount;
+        child.style.width = `calc(${childRatio * 99.9}% - ${1 - childRatio} * ${columnSpacing})`;
+        if (col + colspan > this._columnCount) {
+          col = 0;
+        }
+        if (col === 0) {
+          child.style.setProperty(marginStartProp, "0px");
+        } else {
+          child.style.removeProperty(marginStartProp);
+        }
+        const nextIndex = index + 1;
+        const nextLineBreak = nextIndex < children.length && children[nextIndex].localName === "br";
+        if (col + colspan === this._columnCount) {
+          child.style.setProperty(marginEndProp, "0px");
+        } else if (nextLineBreak) {
+          const colspanRatio = (this._columnCount - col - colspan) / this._columnCount;
+          child.style.setProperty(
+            marginEndProp,
+            `calc(${colspanRatio * containerWidth}px + ${colspanRatio} * ${columnSpacing})`
+          );
+        } else {
+          child.style.removeProperty(marginEndProp);
+        }
+        col = (col + colspan) % this._columnCount;
+        if (child.localName === "vaadin-form-item") {
+          if (this._labelsOnTop) {
+            if (child.getAttribute("label-position") !== "top") {
+              child.__useLayoutLabelPosition = true;
+              child.setAttribute("label-position", "top");
+            }
+          } else if (child.__useLayoutLabelPosition) {
+            delete child.__useLayoutLabelPosition;
+            child.removeAttribute("label-position");
+          }
+        }
+      });
+    }
+    _onResize() {
+      this._selectResponsiveStep();
+    }
+  };
+  customElements.define(FormLayout.is, FormLayout);
+
+  // src/FormLayout.ts
+  var FormLayout2 = class extends s4 {
+    constructor() {
+      super(...arguments);
+      this.responsiveSteps = [
+        { minWidth: 0, columns: 1 },
+        { minWidth: "500px", columns: 2 }
+      ];
+    }
+    render() {
+      return y`
+    <vaadin-form-layout .responsiveSteps="${this.responsiveSteps}">
+    </vaadin-form-layout>`;
+    }
+  };
+  FormLayout2 = __decorateClass([
+    e4("itk-form-layout")
+  ], FormLayout2);
 })();
 /*! showdown v 2.1.0 - 21-04-2022 */
 /**

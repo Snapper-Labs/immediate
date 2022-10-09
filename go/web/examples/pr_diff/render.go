@@ -22,6 +22,10 @@ func Render(ui *immgo.RenderNode, startSha string, endSha string) {
 	container := intool.Container(ui)
 	intool.Markdown(container, intool.MarkdownOptions{Content: "## PR Diff"})
 
+	formLayout := toolkit.FormLayout(container)
+	toolkit.TextField(formLayout, "Start Commit")
+	toolkit.TextField(formLayout, "End Commit")
+
 	rowsData := [][]string{}
 	commits := GetCommitInfo(startSha, endSha)
 	for _, c := range commits {
