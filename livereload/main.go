@@ -95,6 +95,18 @@ func main() {
 		return nil
 	}
 
+	// Watch for when we are killed, and kill the current command if it's
+	// running.
+	c := make(chan os.Signal)
+    signal.Notify(c, os.Interrupt, syscall.SIGTERM)
+    go func() {
+        <-c
+		if cmd != nil {
+			cmd.Kill()
+		}
+        os.Exit(1)
+    }()
+
 	restartCommand()
 
 	// Set up the http handler.
@@ -156,19 +168,6 @@ func main() {
 			}
 		}
 	})
-
-	// Watch for when we are killed, and kill the current command if it's
-	// running.
-	c := make(chan os.Signal)
-    signal.Notify(c, os.Interrupt, syscall.SIGTERM)
-    go func() {
-        <-c
-		if cmd != nil {
-			cmd.Kill()
-		}
-        os.Exit(1)
-    }()
-
 
 	log.Infoln("Listening on", *addr)
 	http.ListenAndServe(*addr, nil)
