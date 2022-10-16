@@ -11,22 +11,20 @@ import (
 
 	immgo "github.com/snapper-labs/immediate/go"
 	intool "github.com/snapper-labs/immediate/go/web/intool"
+	toolkit "github.com/snapper-labs/immediate/go/web/toolkit"
 )
 
 func Render(ui *immgo.RenderNode, startSha string, endSha string) {
 	intool.Initialize(ui)
+
+	toolkit.Initialize(ui, func() {})
+
 	container := intool.Container(ui)
 	intool.Markdown(container, intool.MarkdownOptions{Content: "## PR Diff"})
-	grid := intool.Grid(container)
-	headerRow := intool.GridRow(grid)
-	intool.Markdown(intool.GridColumn(headerRow), intool.MarkdownOptions{Content: "**SHA**"})
-	intool.Markdown(intool.GridColumn(headerRow), intool.MarkdownOptions{Content: "**PR**"})
-	intool.Markdown(intool.GridColumn(headerRow), intool.MarkdownOptions{Content: "**Description**"})
 
+	rowsData := [][]string{}
 	commits := GetCommitInfo(startSha, endSha)
 	for _, c := range commits {
-		r := intool.GridRow(grid)
-
 		prNum := ""
 		descr := messagePrefix(*c.Commit.Commit.Message, 10)
 		sha := *c.Commit.SHA
@@ -34,11 +32,14 @@ func Render(ui *immgo.RenderNode, startSha string, endSha string) {
 			prNum = fmt.Sprintf("%d", *c.Pulls[0].Number)
 			descr = *c.Pulls[0].Title
 		}
-
-		intool.Markdown(intool.GridColumn(r), intool.MarkdownOptions{Content: sha[:8]})
-		intool.Markdown(intool.GridColumn(r), intool.MarkdownOptions{Content: prNum})
-		intool.Markdown(intool.GridColumn(r), intool.MarkdownOptions{Content: descr})
+		rowData := []string{sha[:8], prNum, descr}
+		rowsData = append(rowsData, rowData)
 	}
+
+	toolkit.Grid(container, toolkit.GridOptions{
+		Columns: []string{"SHA", "PR", "Description"},
+		Rows:    rowsData,
+	})
 }
 
 type CommitWithPulls struct {

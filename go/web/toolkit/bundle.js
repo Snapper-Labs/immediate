@@ -2637,8 +2637,8 @@
         showdown2.subParser("hashHTMLSpans", function(text, options, globals) {
           "use strict";
           text = globals.converter._dispatch("hashHTMLSpans.before", text, options, globals);
-          function hashHTMLSpan(html) {
-            return "\xA8C" + (globals.gHtmlSpans.push(html) - 1) + "C";
+          function hashHTMLSpan(html3) {
+            return "\xA8C" + (globals.gHtmlSpans.push(html3) - 1) + "C";
           }
           text = text.replace(/<[^>]+?\/>/gi, function(wm) {
             return hashHTMLSpan(wm);
@@ -2929,19 +2929,19 @@
             var olRgx = options.disableForced4SpacesIndentedSublists ? /^ ?\d+\.[ \t]/gm : /^ {0,3}\d+\.[ \t]/gm, ulRgx = options.disableForced4SpacesIndentedSublists ? /^ ?[*+-][ \t]/gm : /^ {0,3}[*+-][ \t]/gm, counterRxg = listType === "ul" ? olRgx : ulRgx, result = "";
             if (list.search(counterRxg) !== -1) {
               (function parseCL(txt) {
-                var pos = txt.search(counterRxg), style2 = styleStartNumber(list, listType);
+                var pos = txt.search(counterRxg), style3 = styleStartNumber(list, listType);
                 if (pos !== -1) {
-                  result += "\n\n<" + listType + style2 + ">\n" + processListItems(txt.slice(0, pos), !!trimTrailing) + "</" + listType + ">\n";
+                  result += "\n\n<" + listType + style3 + ">\n" + processListItems(txt.slice(0, pos), !!trimTrailing) + "</" + listType + ">\n";
                   listType = listType === "ul" ? "ol" : "ul";
                   counterRxg = listType === "ul" ? olRgx : ulRgx;
                   parseCL(txt.slice(pos));
                 } else {
-                  result += "\n\n<" + listType + style2 + ">\n" + processListItems(txt, !!trimTrailing) + "</" + listType + ">\n";
+                  result += "\n\n<" + listType + style3 + ">\n" + processListItems(txt, !!trimTrailing) + "</" + listType + ">\n";
                 }
               })(list);
             } else {
-              var style = styleStartNumber(list, listType);
-              result = "\n\n<" + listType + style + ">\n" + processListItems(list, !!trimTrailing) + "</" + listType + ">\n";
+              var style2 = styleStartNumber(list, listType);
+              result = "\n\n<" + listType + style2 + ">\n" + processListItems(list, !!trimTrailing) + "</" + listType + ">\n";
             }
             return result;
           }
@@ -3158,18 +3158,18 @@
               return "";
             }
           }
-          function parseHeaders(header, style) {
+          function parseHeaders(header, style2) {
             var id = "";
             header = header.trim();
             if (options.tablesHeaderId || options.tableHeaderId) {
               id = ' id="' + header.replace(/ /g, "_").toLowerCase() + '"';
             }
             header = showdown2.subParser("spanGamut")(header, options, globals);
-            return "<th" + id + style + ">" + header + "</th>\n";
+            return "<th" + id + style2 + ">" + header + "</th>\n";
           }
-          function parseCells(cell, style) {
+          function parseCells(cell, style2) {
             var subText = showdown2.subParser("spanGamut")(cell, options, globals);
-            return "<td" + style + ">" + subText + "</td>\n";
+            return "<td" + style2 + ">" + subText + "</td>\n";
           }
           function buildTable(headers, cells) {
             var tb = "<table>\n<thead>\n<tr>\n", tblLgn = headers.length;
@@ -3565,8 +3565,8 @@
           for (i5 = 0; i5 < headings.length; ++i5) {
             var headContent = showdown2.subParser("makeMarkdown.tableCell")(headings[i5], globals), allign = "---";
             if (headings[i5].hasAttribute("style")) {
-              var style = headings[i5].getAttribute("style").toLowerCase().replace(/\s/g, "");
-              switch (style) {
+              var style2 = headings[i5].getAttribute("style").toLowerCase().replace(/\s/g, "");
+              switch (style2) {
                 case "text-align:left;":
                   allign = ":---";
                   break;
@@ -3644,7 +3644,7 @@
           txt = txt.replace(/^ {0,3}\[([\S \t]*?)]:/gm, "\\[$1]:");
           return txt;
         });
-        var root = this;
+        var root2 = this;
         if (typeof define === "function" && define.amd) {
           define(function() {
             "use strict";
@@ -3653,7 +3653,7 @@
         } else if (typeof module !== "undefined" && module.exports) {
           module.exports = showdown2;
         } else {
-          root.showdown = showdown2;
+          root2.showdown = showdown2;
         }
       }).call(exports);
     }
@@ -3684,6 +3684,16 @@
     }
   };
   var r = (t4) => new o("string" == typeof t4 ? t4 : t4 + "", void 0, s);
+  var i = (t4, ...e9) => {
+    const n6 = 1 === t4.length ? t4[0] : e9.reduce((e10, s5, n7) => e10 + ((t5) => {
+      if (true === t5._$cssResult$)
+        return t5.cssText;
+      if ("number" == typeof t5)
+        return t5;
+      throw Error("Value passed to 'css' function must be a 'css' function result: " + t5 + ". Use 'unsafeCSS' to pass non-literal values, but take care to ensure page security.");
+    })(s5) + t4[n7 + 1], t4[0]);
+    return new o(n6, t4, s);
+  };
   var S = (s5, n6) => {
     e ? s5.adoptedStyleSheets = n6.map((t4) => t4 instanceof CSSStyleSheet ? t4 : t4.styleSheet) : n6.forEach((e9) => {
       const n7 = document.createElement("style"), o7 = t.litNonce;
@@ -4342,8 +4352,13468 @@
   Button = __decorateClass([
     e4("itk-button")
   ], Button);
+
+  // node_modules/@vaadin/vaadin-lumo-styles/version.js
+  var Lumo = class extends HTMLElement {
+    static get version() {
+      return "23.2.2";
+    }
+  };
+  customElements.define("vaadin-lumo-styles", Lumo);
+
+  // node_modules/@vaadin/vaadin-themable-mixin/vaadin-theme-property-mixin.js
+  var ThemePropertyMixin = (superClass) => class VaadinThemePropertyMixin extends superClass {
+    static get properties() {
+      return {
+        theme: {
+          type: String,
+          reflectToAttribute: true,
+          observer: "__deprecatedThemePropertyChanged"
+        },
+        _theme: {
+          type: String,
+          readOnly: true
+        }
+      };
+    }
+    __deprecatedThemePropertyChanged(theme) {
+      this._set_theme(theme);
+    }
+  };
+
+  // node_modules/@vaadin/vaadin-themable-mixin/vaadin-themable-mixin.js
+  var themeRegistry = [];
+  function registerStyles(themeFor, styles, options = {}) {
+    if (themeFor) {
+      if (hasThemes(themeFor)) {
+        console.warn(`The custom element definition for "${themeFor}"
+      was finalized before a style module was registered.
+      Make sure to add component specific style modules before
+      importing the corresponding custom element.`);
+      }
+    }
+    styles = flattenStyles(styles);
+    if (window.Vaadin && window.Vaadin.styleModules) {
+      window.Vaadin.styleModules.registerStyles(themeFor, styles, options);
+    } else {
+      themeRegistry.push({
+        themeFor,
+        styles,
+        include: options.include,
+        moduleId: options.moduleId
+      });
+    }
+  }
+  function getAllThemes() {
+    if (window.Vaadin && window.Vaadin.styleModules) {
+      return window.Vaadin.styleModules.getAllThemes();
+    }
+    return themeRegistry;
+  }
+  function matchesThemeFor(themeFor, tagName) {
+    return (themeFor || "").split(" ").some((themeForToken) => {
+      return new RegExp(`^${themeForToken.split("*").join(".*")}$`).test(tagName);
+    });
+  }
+  function getIncludePriority(moduleName = "") {
+    let includePriority = 0;
+    if (moduleName.startsWith("lumo-") || moduleName.startsWith("material-")) {
+      includePriority = 1;
+    } else if (moduleName.startsWith("vaadin-")) {
+      includePriority = 2;
+    }
+    return includePriority;
+  }
+  function flattenStyles(styles = []) {
+    return [styles].flat(Infinity).filter((style2) => {
+      if (style2 instanceof o) {
+        return true;
+      }
+      console.warn("An item in styles is not of type CSSResult. Use `unsafeCSS` or `css`.");
+      return false;
+    });
+  }
+  function getIncludedStyles(theme) {
+    const includedStyles = [];
+    if (theme.include) {
+      [].concat(theme.include).forEach((includeModuleId) => {
+        const includedTheme = getAllThemes().find((s5) => s5.moduleId === includeModuleId);
+        if (includedTheme) {
+          includedStyles.push(...getIncludedStyles(includedTheme), ...includedTheme.styles);
+        } else {
+          console.warn(`Included moduleId ${includeModuleId} not found in style registry`);
+        }
+      }, theme.styles);
+    }
+    return includedStyles;
+  }
+  function addStylesToTemplate(styles, template4) {
+    const styleEl = document.createElement("style");
+    styleEl.innerHTML = styles.map((style2) => style2.cssText).join("\n");
+    template4.content.appendChild(styleEl);
+  }
+  function getThemes(tagName) {
+    const defaultModuleName = `${tagName}-default-theme`;
+    const themes = getAllThemes().filter((theme) => theme.moduleId !== defaultModuleName && matchesThemeFor(theme.themeFor, tagName)).map((theme) => ({
+      ...theme,
+      styles: [...getIncludedStyles(theme), ...theme.styles],
+      includePriority: getIncludePriority(theme.moduleId)
+    })).sort((themeA, themeB) => themeB.includePriority - themeA.includePriority);
+    if (themes.length > 0) {
+      return themes;
+    }
+    return getAllThemes().filter((theme) => theme.moduleId === defaultModuleName);
+  }
+  function hasThemes(tagName) {
+    return classHasThemes(customElements.get(tagName));
+  }
+  function classHasThemes(elementClass) {
+    return elementClass && Object.prototype.hasOwnProperty.call(elementClass, "__themes");
+  }
+  var ThemableMixin = (superClass) => class VaadinThemableMixin extends ThemePropertyMixin(superClass) {
+    static finalize() {
+      super.finalize();
+      if (this.elementStyles) {
+        return;
+      }
+      const template4 = this.prototype._template;
+      if (!template4 || classHasThemes(this)) {
+        return;
+      }
+      addStylesToTemplate(this.getStylesForThis(), template4);
+    }
+    static finalizeStyles(styles) {
+      const themeStyles = this.getStylesForThis();
+      return styles ? [...super.finalizeStyles(styles), ...themeStyles] : themeStyles;
+    }
+    static getStylesForThis() {
+      const parent = Object.getPrototypeOf(this.prototype);
+      const inheritedThemes = (parent ? parent.constructor.__themes : []) || [];
+      this.__themes = [...inheritedThemes, ...getThemes(this.is)];
+      const themeStyles = this.__themes.flatMap((theme) => theme.styles);
+      return themeStyles.filter((style2, index) => index === themeStyles.lastIndexOf(style2));
+    }
+  };
+
+  // node_modules/@vaadin/vaadin-lumo-styles/color.js
+  var colorBase = i`
+  :host {
+    /* Base (background) */
+    --lumo-base-color: #fff;
+
+    /* Tint */
+    --lumo-tint-5pct: hsla(0, 0%, 100%, 0.3);
+    --lumo-tint-10pct: hsla(0, 0%, 100%, 0.37);
+    --lumo-tint-20pct: hsla(0, 0%, 100%, 0.44);
+    --lumo-tint-30pct: hsla(0, 0%, 100%, 0.5);
+    --lumo-tint-40pct: hsla(0, 0%, 100%, 0.57);
+    --lumo-tint-50pct: hsla(0, 0%, 100%, 0.64);
+    --lumo-tint-60pct: hsla(0, 0%, 100%, 0.7);
+    --lumo-tint-70pct: hsla(0, 0%, 100%, 0.77);
+    --lumo-tint-80pct: hsla(0, 0%, 100%, 0.84);
+    --lumo-tint-90pct: hsla(0, 0%, 100%, 0.9);
+    --lumo-tint: #fff;
+
+    /* Shade */
+    --lumo-shade-5pct: hsla(214, 61%, 25%, 0.05);
+    --lumo-shade-10pct: hsla(214, 57%, 24%, 0.1);
+    --lumo-shade-20pct: hsla(214, 53%, 23%, 0.16);
+    --lumo-shade-30pct: hsla(214, 50%, 22%, 0.26);
+    --lumo-shade-40pct: hsla(214, 47%, 21%, 0.38);
+    --lumo-shade-50pct: hsla(214, 45%, 20%, 0.52);
+    --lumo-shade-60pct: hsla(214, 43%, 19%, 0.6);
+    --lumo-shade-70pct: hsla(214, 42%, 18%, 0.69);
+    --lumo-shade-80pct: hsla(214, 41%, 17%, 0.83);
+    --lumo-shade-90pct: hsla(214, 40%, 16%, 0.94);
+    --lumo-shade: hsl(214, 35%, 15%);
+
+    /* Contrast */
+    --lumo-contrast-5pct: var(--lumo-shade-5pct);
+    --lumo-contrast-10pct: var(--lumo-shade-10pct);
+    --lumo-contrast-20pct: var(--lumo-shade-20pct);
+    --lumo-contrast-30pct: var(--lumo-shade-30pct);
+    --lumo-contrast-40pct: var(--lumo-shade-40pct);
+    --lumo-contrast-50pct: var(--lumo-shade-50pct);
+    --lumo-contrast-60pct: var(--lumo-shade-60pct);
+    --lumo-contrast-70pct: var(--lumo-shade-70pct);
+    --lumo-contrast-80pct: var(--lumo-shade-80pct);
+    --lumo-contrast-90pct: var(--lumo-shade-90pct);
+    --lumo-contrast: var(--lumo-shade);
+
+    /* Text */
+    --lumo-header-text-color: var(--lumo-contrast);
+    --lumo-body-text-color: var(--lumo-contrast-90pct);
+    --lumo-secondary-text-color: var(--lumo-contrast-70pct);
+    --lumo-tertiary-text-color: var(--lumo-contrast-50pct);
+    --lumo-disabled-text-color: var(--lumo-contrast-30pct);
+
+    /* Primary */
+    --lumo-primary-color: hsl(214, 100%, 48%);
+    --lumo-primary-color-50pct: hsla(214, 100%, 49%, 0.76);
+    --lumo-primary-color-10pct: hsla(214, 100%, 60%, 0.13);
+    --lumo-primary-text-color: hsl(214, 100%, 43%);
+    --lumo-primary-contrast-color: #fff;
+
+    /* Error */
+    --lumo-error-color: hsl(3, 85%, 48%);
+    --lumo-error-color-50pct: hsla(3, 85%, 49%, 0.5);
+    --lumo-error-color-10pct: hsla(3, 85%, 49%, 0.1);
+    --lumo-error-text-color: hsl(3, 89%, 42%);
+    --lumo-error-contrast-color: #fff;
+
+    /* Success */
+    --lumo-success-color: hsl(145, 72%, 30%);
+    --lumo-success-color-50pct: hsla(145, 72%, 31%, 0.5);
+    --lumo-success-color-10pct: hsla(145, 72%, 31%, 0.1);
+    --lumo-success-text-color: hsl(145, 85%, 25%);
+    --lumo-success-contrast-color: #fff;
+  }
+`;
+  var $tpl = document.createElement("template");
+  $tpl.innerHTML = `<style>${colorBase.toString().replace(":host", "html")}</style>`;
+  document.head.appendChild($tpl.content);
+  var color = i`
+  [theme~='dark'] {
+    /* Base (background) */
+    --lumo-base-color: hsl(214, 35%, 21%);
+
+    /* Tint */
+    --lumo-tint-5pct: hsla(214, 65%, 85%, 0.06);
+    --lumo-tint-10pct: hsla(214, 60%, 80%, 0.14);
+    --lumo-tint-20pct: hsla(214, 64%, 82%, 0.23);
+    --lumo-tint-30pct: hsla(214, 69%, 84%, 0.32);
+    --lumo-tint-40pct: hsla(214, 73%, 86%, 0.41);
+    --lumo-tint-50pct: hsla(214, 78%, 88%, 0.5);
+    --lumo-tint-60pct: hsla(214, 82%, 90%, 0.58);
+    --lumo-tint-70pct: hsla(214, 87%, 92%, 0.69);
+    --lumo-tint-80pct: hsla(214, 91%, 94%, 0.8);
+    --lumo-tint-90pct: hsla(214, 96%, 96%, 0.9);
+    --lumo-tint: hsl(214, 100%, 98%);
+
+    /* Shade */
+    --lumo-shade-5pct: hsla(214, 0%, 0%, 0.07);
+    --lumo-shade-10pct: hsla(214, 4%, 2%, 0.15);
+    --lumo-shade-20pct: hsla(214, 8%, 4%, 0.23);
+    --lumo-shade-30pct: hsla(214, 12%, 6%, 0.32);
+    --lumo-shade-40pct: hsla(214, 16%, 8%, 0.41);
+    --lumo-shade-50pct: hsla(214, 20%, 10%, 0.5);
+    --lumo-shade-60pct: hsla(214, 24%, 12%, 0.6);
+    --lumo-shade-70pct: hsla(214, 28%, 13%, 0.7);
+    --lumo-shade-80pct: hsla(214, 32%, 13%, 0.8);
+    --lumo-shade-90pct: hsla(214, 33%, 13%, 0.9);
+    --lumo-shade: hsl(214, 33%, 13%);
+
+    /* Contrast */
+    --lumo-contrast-5pct: var(--lumo-tint-5pct);
+    --lumo-contrast-10pct: var(--lumo-tint-10pct);
+    --lumo-contrast-20pct: var(--lumo-tint-20pct);
+    --lumo-contrast-30pct: var(--lumo-tint-30pct);
+    --lumo-contrast-40pct: var(--lumo-tint-40pct);
+    --lumo-contrast-50pct: var(--lumo-tint-50pct);
+    --lumo-contrast-60pct: var(--lumo-tint-60pct);
+    --lumo-contrast-70pct: var(--lumo-tint-70pct);
+    --lumo-contrast-80pct: var(--lumo-tint-80pct);
+    --lumo-contrast-90pct: var(--lumo-tint-90pct);
+    --lumo-contrast: var(--lumo-tint);
+
+    /* Text */
+    --lumo-header-text-color: var(--lumo-contrast);
+    --lumo-body-text-color: var(--lumo-contrast-90pct);
+    --lumo-secondary-text-color: var(--lumo-contrast-70pct);
+    --lumo-tertiary-text-color: var(--lumo-contrast-50pct);
+    --lumo-disabled-text-color: var(--lumo-contrast-30pct);
+
+    /* Primary */
+    --lumo-primary-color: hsl(214, 90%, 48%);
+    --lumo-primary-color-50pct: hsla(214, 90%, 70%, 0.69);
+    --lumo-primary-color-10pct: hsla(214, 90%, 55%, 0.13);
+    --lumo-primary-text-color: hsl(214, 90%, 77%);
+    --lumo-primary-contrast-color: #fff;
+
+    /* Error */
+    --lumo-error-color: hsl(3, 79%, 49%);
+    --lumo-error-color-50pct: hsla(3, 75%, 62%, 0.5);
+    --lumo-error-color-10pct: hsla(3, 75%, 62%, 0.14);
+    --lumo-error-text-color: hsl(3, 100%, 80%);
+
+    /* Success */
+    --lumo-success-color: hsl(145, 72%, 30%);
+    --lumo-success-color-50pct: hsla(145, 92%, 51%, 0.5);
+    --lumo-success-color-10pct: hsla(145, 92%, 51%, 0.1);
+    --lumo-success-text-color: hsl(145, 85%, 46%);
+  }
+
+  html {
+    color: var(--lumo-body-text-color);
+    background-color: var(--lumo-base-color);
+    color-scheme: light;
+  }
+
+  [theme~='dark'] {
+    color: var(--lumo-body-text-color);
+    background-color: var(--lumo-base-color);
+    color-scheme: dark;
+  }
+
+  h1,
+  h2,
+  h3,
+  h4,
+  h5,
+  h6 {
+    color: var(--lumo-header-text-color);
+  }
+
+  a:where(:any-link) {
+    color: var(--lumo-primary-text-color);
+  }
+
+  a:not(:any-link) {
+    color: var(--lumo-disabled-text-color);
+  }
+
+  blockquote {
+    color: var(--lumo-secondary-text-color);
+  }
+
+  code,
+  pre {
+    background-color: var(--lumo-contrast-10pct);
+    border-radius: var(--lumo-border-radius-m);
+  }
+`;
+  registerStyles("", color, { moduleId: "lumo-color" });
+  var colorLegacy = i`
+  :host {
+    color: var(--lumo-body-text-color) !important;
+    background-color: var(--lumo-base-color) !important;
+  }
+`;
+  registerStyles("", [color, colorLegacy], { moduleId: "lumo-color-legacy" });
+
+  // node_modules/@vaadin/vaadin-lumo-styles/font-icons.js
+  var template = document.createElement("template");
+  template.innerHTML = `
+  <style>
+    @font-face {
+      font-family: 'lumo-icons';
+      src: url(data:application/font-woff;charset=utf-8;base64,d09GRgABAAAAABEgAAsAAAAAIjQAAQAAAAAAAAAAAAAAAAAAAAAAAAAAAABHU1VCAAABCAAAADsAAABUIIslek9TLzIAAAFEAAAAQwAAAFZAIUuKY21hcAAAAYgAAAD4AAADrsCU8d5nbHlmAAACgAAAC2cAABeAWri7U2hlYWQAAA3oAAAAMAAAADZa/6SsaGhlYQAADhgAAAAdAAAAJAbpA35obXR4AAAOOAAAABAAAACspBAAAGxvY2EAAA5IAAAAWAAAAFh57oA4bWF4cAAADqAAAAAfAAAAIAFKAXBuYW1lAAAOwAAAATEAAAIuUUJZCHBvc3QAAA/0AAABKwAAAelm8SzVeJxjYGRgYOBiMGCwY2BycfMJYeDLSSzJY5BiYGGAAJA8MpsxJzM9kYEDxgPKsYBpDiBmg4gCACY7BUgAeJxjYGS+yDiBgZWBgamKaQ8DA0MPhGZ8wGDIyAQUZWBlZsAKAtJcUxgcXjG+0mIO+p/FEMUcxDANKMwIkgMABn8MLQB4nO3SWW6DMABF0UtwCEnIPM/zhLK8LqhfXRybSP14XUYtHV9hGYQwQBNIo3cUIPkhQeM7rib1ekqnXg981XuC1qvy84lzojleh3puxL0hPjGjRU473teloEefAUNGjJkwZcacBUtWrNmwZceeA0dOnLlw5cadB09elPGhGf+j0NTI/65KfXerT6JhqKnpRKtgOpuqaTrtKjPUlqHmhto21I7pL6i6hlqY3q7qGWrfUAeGOjTUkaGODXViqFNDnRnq3FAXhro01JWhrg11Y6hbQ90Z6t5QD4Z6NNSToZ4N9WKoV0O9GerdUB+G+jTUl6GWRvkL24BkEXictVh9bFvVFb/nxvbz+7Rf/N6zHcd2bCfP+Wic1Z9N0jpNHCD9SNqqoVBgbQoMjY+pjA4hNnWa2pV1rHSIif0DGkyT2k10Kmu1Cag6huj4ZpqYBHSqJsTEJgZCG3TaVBFv595nO3ZIv4RIrPPuvefe884599zzO/cRF8G/tgn6CFFImNgkR0ggX8wlspbhSSWSdrC5ozd30s2dw5afzvgtyz9/zG9t1hV4RtF1pXolowvtzc2z6L2aYUQM45jKH9WDTvd1LRDoDASYWhfTzTyvboXz6uZX4ARX5wrF39y+HM2+CJ8d0pkyqBIqoze3D12ez4DrFoYzxI8dWwMrDlZ2DMqQAR9AROsJU+2smlTPaTTco52BVxXa2a2+I8vvqd2dVHm1LoPeTn/AZPRYGthDYOeZjBjKoFsVGulR3lGU95SeCK44oHU7MhWUGUKZDT3oSUcG2GWuh+EDDfUYA/jhIhl0TOsJNYSEu7mQmi3UzfXwZKA4BsVsHLXQYGgJW95qEtpJ1VcW9HiTriZBlFEqxsDjA09yCNUoQxxwd7KWSTt2y3GTKifkqHRCoWZc3m11Wa/dKdFgXD4kSYfkeJBKd8KMz7J8dZn/cGRCcLGDnA2Ge3bKzcvlnTDNthFWLH7Xt80ua5FMjA4WKelWv5Xo16vHuYzpRbJhhdVlftuRK0VlR27D9lu5TF0DPBi60OrHNO0AfP/uRWvhn/U3LXICE+nh+3IHPUJ8JE6GyBjZQLbjGchlrSgYngF8zyrIF4NJD3atUcgWsWunGN/UHX5B5/yg7uF87Nqp4Gf52F3gH73DjEZNRoqCKAr9giQJp5rGJABpiVE2htNhW9R8nw0jqYjCYcY4LIjwYNScf4WN06IZnZCEqsI4cFaQbo4Z1TsZBx40YhXkHOecaYE5oY37IIQ+iJJ+UsDYSun5MuRSBRZRUUhlY2DqOGajOR6zrSU/5My6l2DnusH1GQgnw5BZP7iuYM/ahcfQ7Z8y51ddfutvuwNqWQ0cBYr8fj0U0vsHpwerVaB2sWhXT2NExi2r1KUE2tUuVMnkepVQrxTmpQrZTG4iu8he8iPyM3KcPE/+RP5KPoE2CEAKclCBzXATxkYOtUY/o961PWRqsj0chRrHFBbtrjP9/P0ven5pcbRdpL94vfsy33e5+izuwz3nFLFPVNayPZx/jdG1fOChflFRvYzsW6L18efgLrSWIgvcqnGJYi4skO4xREURjbDuxKke5v0T3Mrzkt2fi31uyZlLLrqIpEuXXsMlgw442Jb0GAxjS1DM20kBoCzHLXm/jEm0IltdcvU0fEW24jgiwwRjVd9u4NJHcIyoHJcwvyVqgqj5hqBJ1ZWSJryh9p56UWhX1XbhRbW2ZopuZWsQd5y8mEQ8M+C6xjRYxZbDKWf5AgY+Qq/l6wSPk16zDFjowYuu+wjx13mfkxbyDDxadYT/LijZyI0THB+6yfLaWsRcO82zo9mWTNtpO18qlorZoIVMwSN40tky5DOQ1MCIAe24mvlsuwIIxPb10+uXDQ4uWz/9m3rj+ql7p6bufZARuPVq5tXtsn6KwfP8Jy0TeWOyNhUJN6mhX5rkUTtUppQWEMNTqEdaCGKFYKJaQrCE4JtDLYOlNEKmO5kBTPGY2A0N2sY3+dVlo1N9ycBsIGtOjQ2p/tlZvzo0ur4v6cOh8NTospB7U/X40KahoU3bGIH97dnwmtHlYffVG3R1YOwKM2vNhrPhCT5zk64sG53oS4b31aYjqe/B7+kQiXBN+b6h21hNUPMq29B8CU4elINdygMPKF1B+WBTG7Z9ZshpN/xwEuuDQZR+nuoo4CDaAiiwXmLpmukMQyPf/JMclqgL1ixZQ/nnP2VbdUODFGt2fgBvL123rlLYu/6A9ckb7F3K0/CyBMEu6aQoPscroCcacVehvyQyCZAsizsWWBkoLC+WAiWnOksLKaeuQDzGuqSk42aiYTiJ4zf9afl17SrqaTO1f+XlZAfIuYcq7/IqYMaMrksOJ6vHkOCPDq943xcCnHqVD9pHFRpMqSPXrIua1WNs+tOz1U+ciTCDpPk+c4QYJIHnYhxP/kVPAq+ahFpVhPcHp8qyarhiF+HsBU9Hrl+UZa876fbKipL0KqB6OdUveErgtOI97fZ63ae9SvWU6k2w1JfwqnUbHsYcFCJFrC/W12zIMMirWYEHxMPs6LGYSdkSZ5TsNP9PCpwnWC3HKZ1lydNjWHC2Mn3l6vL0dHn1ldP3LTSrX+vKrBqv7KmMr8p0SR6P1NqF63or6XRlIyO90f7+kf7+myOhvt4tq7f09oUiTc2/dycGgqFQcCDRLYmi1NL7fk0CknVMxEg/cdfs/TnpJMNkgqwj17B8beVazSrVbU4lG67IZYOCnWrYy3yBR9cyWcChywos3LJBEdhhFoAdYjiw0rLGm0xU5OzoGm5/ZfmHjVZpNNg6SznzGKDdwv2cCtVn6Eaxo12cfxLprpVtTcZ6hVx6dow7Yq7e8LXO8PY9Jgjoze9yCtU5FNbegcKkQMdCbt9au/te4Ebe0jkc0ukUL32eYnTpNs20h0KpUOhZPYwVcfhZnfdqeCvDfXiuCbAoYWcXERPc/mDQD3/hdF+wK4i/xv3kYfprIpAuMkk2kW3kdtS0kBIKpZwp8KxmsCyfM1MFzAss9LBkDxRyThiaqTLwKYKJVTwmWTudMyz+yks09346MDh4m72yOxCKrt1XMlQ1qPVlTEVVQ1ofdK/sCWjtZu9qGwZ8YZ9PPWlo1IV3eW3+U0aXblP39zrt+JPf6UhEQ1rUjNBULN+utyuaDNW34kpAVuSOeMTyWbSNWnooFu+QFNWQ4d/Ox4IPWx41fP/fB/Rjeoz08ezPA9TysMtmnOXfGN7Ui3xIYLDALrlDLOP09qtJuY2OeL0+QZXdRnR1nxRVBF/SOyKKPpcrn9mWzH4rH9IidE+PTNU2182+hOgSItrE1slByS24vaLvJpxOqe4Pduf3HJkZ+jLqUz9rRzB7p8gKcgWZwV1L8JtUS5Z2JxZSOCuBoMTQihMzLbCPA0KqGMAljRQjONklW/wjnXKy8vxT/Elvm3/KiMUMOoV0/vnDYlhec0SMKtt3/kKMyOt33tj2bqxQLsTjSGLl+EAsNhCnTyRGktW55EgCn/A4PlnWn+Mg8bgZrWqHxTbPwMuyy1u5YeZF2SUM7JRhddwRgiRuxpmgJmxn9ZW7XpcF3ViX/ar6ptRpGJ0S9Adg4qhb9sI3vbL7qNJV/y4i07t5TZBiho1imFoMz3gED+CtjYUxvP4SOxov4bFoNPg5aR1e+G4UgDPoedJTpogyCJ7oYvRqoVS0MQAy+CoNEdTDUjok5ZHZL/WtjV7rFj3PKQE3iKp7ou+rIxN3b9LB1dGjeT4cvKo3FrnWpYpuaFd/h3dtV8UeKN1Y9hpR3dt4p0H/zKuPQq0kZQUIIpuDfoiETsnIk+gCWMJZUXHtE8V9LkUc2TE8vOMbO4ax/MACabzyaGXc7u3FBr11ThBdB8SIeMAlCntG2KThHSPsaj2Dc9KNyY2a0KZ7ODaTHoRiFkeYz+shZBpCS4X6471KKKnuHd84edfk5F37d1XO5bbkcltu2ZLNbvnPXiUVAnVvprJrP+NObryjxrllS65md6Tm6wzFHRR4dY3QUUjb7MgxaIixU8hspi98fl/Xc+IB4iU66eCVL9YfAfahiSUt4TONS8x0D8W7u8vd3fGWx6OXlM/U1IoU/s61PGhpyXRFa3eReq2qG56lvmYtXavCC1iN7lbiBpWxXHU+cSlztVLVz0tVN600fVsLxaVDknhYioeoXP3t4lqV1r79MAw0GCI1FTL1YIGzPL1MMlJ9ZsN9P7lvA2yr9ZFUzwzPrVgxN/x/SS+chwB4nGNgZGBgAOLPrYdY4vltvjJwM78AijDUqG5oRND/XzNPZboF5HIwMIFEAU/lC+J4nGNgZGBgDvqfBSRfMAAB81QGRgZUoA0AVvYDbwAAAHicY2BgYGB+MTQwAM8EJo8AAAAAAE4AmgDoAQoBLAFOAXABmgHEAe4CGgKcAugEmgS8BNYE8gUOBSoFegXQBf4GRAZmBrYHGAeQCBgIUghqCP4JRgm+CdoKBAo+CoQKugr0C1QLmgvAeJxjYGRgYNBmTGEQZQABJiDmAkIGhv9gPgMAGJQBvAB4nG2RPU7DMBiG3/QP0UoIBGJh8QILavozdmRo9w7d09RpUzlx5LgVvQMn4BAcgoEzcAgOwVvzSZVQbcnf48fvFysJgGt8IcJxROiG9TgauODuj5ukG+EW+UG4jR4ehTv0Q+EunjER7uEWmk+IWpc0d3gVbuAKb8JN+nfhFvlDuI17fAp36L+Fu1jgR7iHp+jF7Arbz1Nb1nO93pnEncSJFtrVuS3VKB6e5EyX2iVer9TyoOr9eux9pjJnCzW1pdfGWFU5u9WpjzfeV5PBIBMfp7aAwQ4FLPrIkbKWqDHn+67pDRK4s4lzbsEux5qHvcIIMb/nueSMyTKkE3jWFdNLHLjW2PPmMa1Hxn3GjGW/wjT0HtOG09JU4WxLk9LH2ISuiv9twJn9y8fh9uIXI+BknAAAAHicbY7ZboMwEEW5CVBCSLrv+76kfJRjTwHFsdGAG+Xvy5JUfehIHp0rnxmNN/D6ir3/a4YBhvARIMQOIowQY4wEE0yxiz3s4wCHOMIxTnCKM5zjApe4wjVucIs73OMBj3jCM17wije84wMzfHqJ0EVmUkmmJo77oOmrHvfIRZbXsTCZplTZldlgb3TYGVHProwFs11t1A57tcON2rErR3PBqcwF1/6ctI6k0GSU4JHMSS6WghdJQ99sTbfuN7QLJ9vQ37dNrgyktnIxlDYLJNuqitpRbYWKFNuyDT6pog6oOYKHtKakeakqKjHXpPwlGRcsC+OqxLIiJpXqoqqDMreG2l5bv9Ri3TRX+c23DZna9WFFgmXuO6Ps1Jm/w6ErW8N3FbHn/QC444j0AA==) format('woff');
+      font-weight: normal;
+      font-style: normal;
+    }
+
+    html {
+      --lumo-icons-align-center: "\\ea01";
+      --lumo-icons-align-left: "\\ea02";
+      --lumo-icons-align-right: "\\ea03";
+      --lumo-icons-angle-down: "\\ea04";
+      --lumo-icons-angle-left: "\\ea05";
+      --lumo-icons-angle-right: "\\ea06";
+      --lumo-icons-angle-up: "\\ea07";
+      --lumo-icons-arrow-down: "\\ea08";
+      --lumo-icons-arrow-left: "\\ea09";
+      --lumo-icons-arrow-right: "\\ea0a";
+      --lumo-icons-arrow-up: "\\ea0b";
+      --lumo-icons-bar-chart: "\\ea0c";
+      --lumo-icons-bell: "\\ea0d";
+      --lumo-icons-calendar: "\\ea0e";
+      --lumo-icons-checkmark: "\\ea0f";
+      --lumo-icons-chevron-down: "\\ea10";
+      --lumo-icons-chevron-left: "\\ea11";
+      --lumo-icons-chevron-right: "\\ea12";
+      --lumo-icons-chevron-up: "\\ea13";
+      --lumo-icons-clock: "\\ea14";
+      --lumo-icons-cog: "\\ea15";
+      --lumo-icons-cross: "\\ea16";
+      --lumo-icons-download: "\\ea17";
+      --lumo-icons-dropdown: "\\ea18";
+      --lumo-icons-edit: "\\ea19";
+      --lumo-icons-error: "\\ea1a";
+      --lumo-icons-eye: "\\ea1b";
+      --lumo-icons-eye-disabled: "\\ea1c";
+      --lumo-icons-menu: "\\ea1d";
+      --lumo-icons-minus: "\\ea1e";
+      --lumo-icons-ordered-list: "\\ea1f";
+      --lumo-icons-phone: "\\ea20";
+      --lumo-icons-photo: "\\ea21";
+      --lumo-icons-play: "\\ea22";
+      --lumo-icons-plus: "\\ea23";
+      --lumo-icons-redo: "\\ea24";
+      --lumo-icons-reload: "\\ea25";
+      --lumo-icons-search: "\\ea26";
+      --lumo-icons-undo: "\\ea27";
+      --lumo-icons-unordered-list: "\\ea28";
+      --lumo-icons-upload: "\\ea29";
+      --lumo-icons-user: "\\ea2a";
+    }
+  </style>
+`;
+  document.head.appendChild(template.content);
+
+  // node_modules/@vaadin/vaadin-lumo-styles/sizing.js
+  var sizing = i`
+  :host {
+    --lumo-size-xs: 1.625rem;
+    --lumo-size-s: 1.875rem;
+    --lumo-size-m: 2.25rem;
+    --lumo-size-l: 2.75rem;
+    --lumo-size-xl: 3.5rem;
+
+    /* Icons */
+    --lumo-icon-size-s: 1.25em;
+    --lumo-icon-size-m: 1.5em;
+    --lumo-icon-size-l: 2.25em;
+    /* For backwards compatibility */
+    --lumo-icon-size: var(--lumo-icon-size-m);
+  }
+`;
+  var $tpl2 = document.createElement("template");
+  $tpl2.innerHTML = `<style>${sizing.toString().replace(":host", "html")}</style>`;
+  document.head.appendChild($tpl2.content);
+
+  // node_modules/@vaadin/vaadin-lumo-styles/spacing.js
+  var spacing = i`
+  :host {
+    /* Square */
+    --lumo-space-xs: 0.25rem;
+    --lumo-space-s: 0.5rem;
+    --lumo-space-m: 1rem;
+    --lumo-space-l: 1.5rem;
+    --lumo-space-xl: 2.5rem;
+
+    /* Wide */
+    --lumo-space-wide-xs: calc(var(--lumo-space-xs) / 2) var(--lumo-space-xs);
+    --lumo-space-wide-s: calc(var(--lumo-space-s) / 2) var(--lumo-space-s);
+    --lumo-space-wide-m: calc(var(--lumo-space-m) / 2) var(--lumo-space-m);
+    --lumo-space-wide-l: calc(var(--lumo-space-l) / 2) var(--lumo-space-l);
+    --lumo-space-wide-xl: calc(var(--lumo-space-xl) / 2) var(--lumo-space-xl);
+
+    /* Tall */
+    --lumo-space-tall-xs: var(--lumo-space-xs) calc(var(--lumo-space-xs) / 2);
+    --lumo-space-tall-s: var(--lumo-space-s) calc(var(--lumo-space-s) / 2);
+    --lumo-space-tall-m: var(--lumo-space-m) calc(var(--lumo-space-m) / 2);
+    --lumo-space-tall-l: var(--lumo-space-l) calc(var(--lumo-space-l) / 2);
+    --lumo-space-tall-xl: var(--lumo-space-xl) calc(var(--lumo-space-xl) / 2);
+  }
+`;
+  var $tpl3 = document.createElement("template");
+  $tpl3.innerHTML = `<style>${spacing.toString().replace(":host", "html")}</style>`;
+  document.head.appendChild($tpl3.content);
+
+  // node_modules/@vaadin/vaadin-lumo-styles/style.js
+  var style = i`
+  :host {
+    /* Border radius */
+    --lumo-border-radius-s: 0.25em; /* Checkbox, badge, date-picker year indicator, etc */
+    --lumo-border-radius-m: var(--lumo-border-radius, 0.25em); /* Button, text field, menu overlay, etc */
+    --lumo-border-radius-l: 0.5em; /* Dialog, notification, etc */
+    --lumo-border-radius: 0.25em; /* Deprecated */
+
+    /* Shadow */
+    --lumo-box-shadow-xs: 0 1px 4px -1px var(--lumo-shade-50pct);
+    --lumo-box-shadow-s: 0 2px 4px -1px var(--lumo-shade-20pct), 0 3px 12px -1px var(--lumo-shade-30pct);
+    --lumo-box-shadow-m: 0 2px 6px -1px var(--lumo-shade-20pct), 0 8px 24px -4px var(--lumo-shade-40pct);
+    --lumo-box-shadow-l: 0 3px 18px -2px var(--lumo-shade-20pct), 0 12px 48px -6px var(--lumo-shade-40pct);
+    --lumo-box-shadow-xl: 0 4px 24px -3px var(--lumo-shade-20pct), 0 18px 64px -8px var(--lumo-shade-40pct);
+
+    /* Clickable element cursor */
+    --lumo-clickable-cursor: default;
+  }
+`;
+  var $tpl4 = document.createElement("template");
+  $tpl4.innerHTML = `<style>${style.toString().replace(":host", "html")}</style>`;
+  document.head.appendChild($tpl4.content);
+
+  // node_modules/@vaadin/vaadin-lumo-styles/typography.js
+  var font = i`
+  :host {
+    /* prettier-ignore */
+    --lumo-font-family: -apple-system, BlinkMacSystemFont, 'Roboto', 'Segoe UI', Helvetica, Arial, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol';
+
+    /* Font sizes */
+    --lumo-font-size-xxs: 0.75rem;
+    --lumo-font-size-xs: 0.8125rem;
+    --lumo-font-size-s: 0.875rem;
+    --lumo-font-size-m: 1rem;
+    --lumo-font-size-l: 1.125rem;
+    --lumo-font-size-xl: 1.375rem;
+    --lumo-font-size-xxl: 1.75rem;
+    --lumo-font-size-xxxl: 2.5rem;
+
+    /* Line heights */
+    --lumo-line-height-xs: 1.25;
+    --lumo-line-height-s: 1.375;
+    --lumo-line-height-m: 1.625;
+  }
+`;
+  var typography = i`
+  html,
+  :host {
+    font-family: var(--lumo-font-family);
+    font-size: var(--lumo-font-size, var(--lumo-font-size-m));
+    line-height: var(--lumo-line-height-m);
+    -webkit-text-size-adjust: 100%;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
+
+  small,
+  [theme~='font-size-s'] {
+    font-size: var(--lumo-font-size-s);
+    line-height: var(--lumo-line-height-s);
+  }
+
+  [theme~='font-size-xs'] {
+    font-size: var(--lumo-font-size-xs);
+    line-height: var(--lumo-line-height-xs);
+  }
+
+  h1,
+  h2,
+  h3,
+  h4,
+  h5,
+  h6 {
+    font-weight: 600;
+    line-height: var(--lumo-line-height-xs);
+    margin-top: 1.25em;
+  }
+
+  h1 {
+    font-size: var(--lumo-font-size-xxxl);
+    margin-bottom: 0.75em;
+  }
+
+  h2 {
+    font-size: var(--lumo-font-size-xxl);
+    margin-bottom: 0.5em;
+  }
+
+  h3 {
+    font-size: var(--lumo-font-size-xl);
+    margin-bottom: 0.5em;
+  }
+
+  h4 {
+    font-size: var(--lumo-font-size-l);
+    margin-bottom: 0.5em;
+  }
+
+  h5 {
+    font-size: var(--lumo-font-size-m);
+    margin-bottom: 0.25em;
+  }
+
+  h6 {
+    font-size: var(--lumo-font-size-xs);
+    margin-bottom: 0;
+    text-transform: uppercase;
+    letter-spacing: 0.03em;
+  }
+
+  p,
+  blockquote {
+    margin-top: 0.5em;
+    margin-bottom: 0.75em;
+  }
+
+  a {
+    text-decoration: none;
+  }
+
+  a:where(:any-link):hover {
+    text-decoration: underline;
+  }
+
+  hr {
+    display: block;
+    align-self: stretch;
+    height: 1px;
+    border: 0;
+    padding: 0;
+    margin: var(--lumo-space-s) calc(var(--lumo-border-radius-m) / 2);
+    background-color: var(--lumo-contrast-10pct);
+  }
+
+  blockquote {
+    border-left: 2px solid var(--lumo-contrast-30pct);
+  }
+
+  b,
+  strong {
+    font-weight: 600;
+  }
+
+  /* RTL specific styles */
+  blockquote[dir='rtl'] {
+    border-left: none;
+    border-right: 2px solid var(--lumo-contrast-30pct);
+  }
+`;
+  registerStyles("", typography, { moduleId: "lumo-typography" });
+  var $tpl5 = document.createElement("template");
+  $tpl5.innerHTML = `<style>${font.toString().replace(":host", "html")}</style>`;
+  document.head.appendChild($tpl5.content);
+
+  // node_modules/@vaadin/checkbox/theme/lumo/vaadin-checkbox-styles.js
+  registerStyles(
+    "vaadin-checkbox",
+    i`
+    :host {
+      color: var(--lumo-body-text-color);
+      font-size: var(--lumo-font-size-m);
+      font-family: var(--lumo-font-family);
+      line-height: var(--lumo-line-height-s);
+      -webkit-font-smoothing: antialiased;
+      -moz-osx-font-smoothing: grayscale;
+      -webkit-tap-highlight-color: transparent;
+      -webkit-user-select: none;
+      -moz-user-select: none;
+      user-select: none;
+      cursor: default;
+      outline: none;
+    }
+
+    :host([has-label]) ::slotted(label) {
+      padding: var(--lumo-space-xs) var(--lumo-space-s) var(--lumo-space-xs) var(--lumo-space-xs);
+    }
+
+    [part='checkbox'] {
+      width: calc(var(--lumo-size-m) / 2);
+      height: calc(var(--lumo-size-m) / 2);
+      margin: var(--lumo-space-xs);
+      position: relative;
+      border-radius: var(--lumo-border-radius-s);
+      background-color: var(--lumo-contrast-20pct);
+      transition: transform 0.2s cubic-bezier(0.12, 0.32, 0.54, 2), background-color 0.15s;
+      line-height: 1.2;
+      cursor: var(--lumo-clickable-cursor);
+      flex: none;
+    }
+
+    :host([indeterminate]) [part='checkbox'],
+    :host([checked]) [part='checkbox'] {
+      background-color: var(--lumo-primary-color);
+    }
+
+    /* Needed to align the checkbox nicely on the baseline */
+    [part='checkbox']::before {
+      content: '\\2003';
+    }
+
+    /* Checkmark */
+    [part='checkbox']::after {
+      pointer-events: none;
+      font-family: 'lumo-icons';
+      content: var(--lumo-icons-checkmark);
+      color: var(--lumo-primary-contrast-color);
+      font-size: calc(var(--lumo-size-m) / 2 + 2px);
+      line-height: 1;
+      position: absolute;
+      top: -1px;
+      left: -1px;
+      contain: content;
+      opacity: 0;
+    }
+
+    :host([checked]) [part='checkbox']::after {
+      opacity: 1;
+    }
+
+    /* Indeterminate checkmark */
+    :host([indeterminate]) [part='checkbox']::after {
+      content: '';
+      opacity: 1;
+      top: 45%;
+      height: 10%;
+      left: 22%;
+      right: 22%;
+      width: auto;
+      border: 0;
+      background-color: var(--lumo-primary-contrast-color);
+    }
+
+    /* Focus ring */
+    :host([focus-ring]) [part='checkbox'] {
+      box-shadow: 0 0 0 1px var(--lumo-base-color), 0 0 0 3px var(--lumo-primary-color-50pct);
+    }
+
+    /* Disabled */
+    :host([disabled]) {
+      pointer-events: none;
+      color: var(--lumo-disabled-text-color);
+    }
+
+    :host([disabled]) ::slotted(label) {
+      color: inherit;
+    }
+
+    :host([disabled]) [part='checkbox'] {
+      background-color: var(--lumo-contrast-10pct);
+    }
+
+    :host([disabled]) [part='checkbox']::after {
+      color: var(--lumo-contrast-30pct);
+    }
+
+    :host([indeterminate][disabled]) [part='checkbox']::after {
+      background-color: var(--lumo-contrast-30pct);
+    }
+
+    /* RTL specific styles */
+    :host([dir='rtl'][has-label]) ::slotted(label) {
+      padding: var(--lumo-space-xs) var(--lumo-space-xs) var(--lumo-space-xs) var(--lumo-space-s);
+    }
+
+    /* Used for activation "halo" */
+    [part='checkbox']::before {
+      pointer-events: none;
+      color: transparent;
+      display: inline-block;
+      width: 100%;
+      height: 100%;
+      border-radius: inherit;
+      background-color: inherit;
+      transform: scale(1.4);
+      opacity: 0;
+      transition: transform 0.1s, opacity 0.8s;
+    }
+
+    /* Hover */
+    :host(:not([checked]):not([indeterminate]):not([disabled]):hover) [part='checkbox'] {
+      background-color: var(--lumo-contrast-30pct);
+    }
+
+    /* Disable hover for touch devices */
+    @media (pointer: coarse) {
+      :host(:not([checked]):not([indeterminate]):not([disabled]):hover) [part='checkbox'] {
+        background-color: var(--lumo-contrast-20pct);
+      }
+    }
+
+    /* Active */
+    :host([active]) [part='checkbox'] {
+      transform: scale(0.9);
+      transition-duration: 0.05s;
+    }
+
+    :host([active][checked]) [part='checkbox'] {
+      transform: scale(1.1);
+    }
+
+    :host([active]:not([checked])) [part='checkbox']::before {
+      transition-duration: 0.01s, 0.01s;
+      transform: scale(0);
+      opacity: 0.4;
+    }
+  `,
+    { moduleId: "lumo-checkbox" }
+  );
+
+  // node_modules/@polymer/polymer/lib/utils/boot.js
+  window.JSCompiler_renameProperty = function(prop, obj) {
+    return prop;
+  };
+
+  // node_modules/@polymer/polymer/lib/utils/resolve-url.js
+  var CSS_URL_RX = /(url\()([^)]*)(\))/g;
+  var ABS_URL = /(^\/[^\/])|(^#)|(^[\w-\d]*:)/;
+  var workingURL;
+  var resolveDoc;
+  function resolveUrl(url, baseURI) {
+    if (url && ABS_URL.test(url)) {
+      return url;
+    }
+    if (url === "//") {
+      return url;
+    }
+    if (workingURL === void 0) {
+      workingURL = false;
+      try {
+        const u2 = new URL("b", "http://a");
+        u2.pathname = "c%20d";
+        workingURL = u2.href === "http://a/c%20d";
+      } catch (e9) {
+      }
+    }
+    if (!baseURI) {
+      baseURI = document.baseURI || window.location.href;
+    }
+    if (workingURL) {
+      try {
+        return new URL(url, baseURI).href;
+      } catch (e9) {
+        return url;
+      }
+    }
+    if (!resolveDoc) {
+      resolveDoc = document.implementation.createHTMLDocument("temp");
+      resolveDoc.base = resolveDoc.createElement("base");
+      resolveDoc.head.appendChild(resolveDoc.base);
+      resolveDoc.anchor = resolveDoc.createElement("a");
+      resolveDoc.body.appendChild(resolveDoc.anchor);
+    }
+    resolveDoc.base.href = baseURI;
+    resolveDoc.anchor.href = url;
+    return resolveDoc.anchor.href || url;
+  }
+  function resolveCss(cssText, baseURI) {
+    return cssText.replace(CSS_URL_RX, function(m2, pre, url, post) {
+      return pre + "'" + resolveUrl(url.replace(/["']/g, ""), baseURI) + "'" + post;
+    });
+  }
+  function pathFromUrl(url) {
+    return url.substring(0, url.lastIndexOf("/") + 1);
+  }
+
+  // node_modules/@polymer/polymer/lib/utils/settings.js
+  var useShadow = !window.ShadyDOM || !window.ShadyDOM.inUse;
+  var useNativeCSSProperties = Boolean(!window.ShadyCSS || window.ShadyCSS.nativeCss);
+  var useNativeCustomElements = !window.customElements.polyfillWrapFlushCallback;
+  var supportsAdoptingStyleSheets = useShadow && "adoptedStyleSheets" in Document.prototype && "replaceSync" in CSSStyleSheet.prototype && (() => {
+    try {
+      const sheet = new CSSStyleSheet();
+      sheet.replaceSync("");
+      const host = document.createElement("div");
+      host.attachShadow({ mode: "open" });
+      host.shadowRoot.adoptedStyleSheets = [sheet];
+      return host.shadowRoot.adoptedStyleSheets[0] === sheet;
+    } catch (e9) {
+      return false;
+    }
+  })();
+  var rootPath = window.Polymer && window.Polymer.rootPath || pathFromUrl(document.baseURI || window.location.href);
+  var sanitizeDOMValue = window.Polymer && window.Polymer.sanitizeDOMValue || void 0;
+  var passiveTouchGestures = window.Polymer && window.Polymer.setPassiveTouchGestures || false;
+  var strictTemplatePolicy = window.Polymer && window.Polymer.strictTemplatePolicy || false;
+  var allowTemplateFromDomModule = window.Polymer && window.Polymer.allowTemplateFromDomModule || false;
+  var legacyOptimizations = window.Polymer && window.Polymer.legacyOptimizations || false;
+  var legacyWarnings = window.Polymer && window.Polymer.legacyWarnings || false;
+  var syncInitialRender = window.Polymer && window.Polymer.syncInitialRender || false;
+  var legacyUndefined = window.Polymer && window.Polymer.legacyUndefined || false;
+  var orderedComputed = window.Polymer && window.Polymer.orderedComputed || false;
+  var cancelSyntheticClickEvents = true;
+  var setCancelSyntheticClickEvents = function(useCancelSyntheticClickEvents) {
+    cancelSyntheticClickEvents = useCancelSyntheticClickEvents;
+  };
+  var removeNestedTemplates = window.Polymer && window.Polymer.removeNestedTemplates || false;
+  var fastDomIf = window.Polymer && window.Polymer.fastDomIf || false;
+  var suppressTemplateNotifications = window.Polymer && window.Polymer.suppressTemplateNotifications || false;
+  var legacyNoObservedAttributes = window.Polymer && window.Polymer.legacyNoObservedAttributes || false;
+  var useAdoptedStyleSheetsWithBuiltCSS = window.Polymer && window.Polymer.useAdoptedStyleSheetsWithBuiltCSS || false;
+
+  // node_modules/@polymer/polymer/lib/utils/mixin.js
+  var dedupeId = 0;
+  function MixinFunction() {
+  }
+  MixinFunction.prototype.__mixinApplications;
+  MixinFunction.prototype.__mixinSet;
+  var dedupingMixin = function(mixin) {
+    let mixinApplications = mixin.__mixinApplications;
+    if (!mixinApplications) {
+      mixinApplications = /* @__PURE__ */ new WeakMap();
+      mixin.__mixinApplications = mixinApplications;
+    }
+    let mixinDedupeId = dedupeId++;
+    function dedupingMixin2(base) {
+      let baseSet = base.__mixinSet;
+      if (baseSet && baseSet[mixinDedupeId]) {
+        return base;
+      }
+      let map = mixinApplications;
+      let extended = map.get(base);
+      if (!extended) {
+        extended = mixin(base);
+        map.set(base, extended);
+        let mixinSet = Object.create(extended.__mixinSet || baseSet || null);
+        mixinSet[mixinDedupeId] = true;
+        extended.__mixinSet = mixinSet;
+      }
+      return extended;
+    }
+    return dedupingMixin2;
+  };
+
+  // node_modules/@polymer/polymer/lib/elements/dom-module.js
+  var modules = {};
+  var lcModules = {};
+  function setModule(id, module) {
+    modules[id] = lcModules[id.toLowerCase()] = module;
+  }
+  function findModule(id) {
+    return modules[id] || lcModules[id.toLowerCase()];
+  }
+  function styleOutsideTemplateCheck(inst) {
+    if (inst.querySelector("style")) {
+      console.warn("dom-module %s has style outside template", inst.id);
+    }
+  }
+  var DomModule = class extends HTMLElement {
+    static get observedAttributes() {
+      return ["id"];
+    }
+    static import(id, selector) {
+      if (id) {
+        let m2 = findModule(id);
+        if (m2 && selector) {
+          return m2.querySelector(selector);
+        }
+        return m2;
+      }
+      return null;
+    }
+    attributeChangedCallback(name, old, value, namespace) {
+      if (old !== value) {
+        this.register();
+      }
+    }
+    get assetpath() {
+      if (!this.__assetpath) {
+        const owner = window.HTMLImports && HTMLImports.importForElement ? HTMLImports.importForElement(this) || document : this.ownerDocument;
+        const url = resolveUrl(
+          this.getAttribute("assetpath") || "",
+          owner.baseURI
+        );
+        this.__assetpath = pathFromUrl(url);
+      }
+      return this.__assetpath;
+    }
+    register(id) {
+      id = id || this.id;
+      if (id) {
+        if (strictTemplatePolicy && findModule(id) !== void 0) {
+          setModule(id, null);
+          throw new Error(`strictTemplatePolicy: dom-module ${id} re-registered`);
+        }
+        this.id = id;
+        setModule(id, this);
+        styleOutsideTemplateCheck(this);
+      }
+    }
+  };
+  DomModule.prototype["modules"] = modules;
+  customElements.define("dom-module", DomModule);
+
+  // node_modules/@polymer/polymer/lib/utils/style-gather.js
+  var MODULE_STYLE_LINK_SELECTOR = "link[rel=import][type~=css]";
+  var INCLUDE_ATTR = "include";
+  var SHADY_UNSCOPED_ATTR = "shady-unscoped";
+  function importModule(moduleId) {
+    return DomModule.import(moduleId);
+  }
+  function styleForImport(importDoc) {
+    let container = importDoc.body ? importDoc.body : importDoc;
+    const importCss = resolveCss(
+      container.textContent,
+      importDoc.baseURI
+    );
+    const style2 = document.createElement("style");
+    style2.textContent = importCss;
+    return style2;
+  }
+  function stylesFromModules(moduleIds) {
+    const modules2 = moduleIds.trim().split(/\s+/);
+    const styles = [];
+    for (let i5 = 0; i5 < modules2.length; i5++) {
+      styles.push(...stylesFromModule(modules2[i5]));
+    }
+    return styles;
+  }
+  function stylesFromModule(moduleId) {
+    const m2 = importModule(moduleId);
+    if (!m2) {
+      console.warn("Could not find style data in module named", moduleId);
+      return [];
+    }
+    if (m2._styles === void 0) {
+      const styles = [];
+      styles.push(..._stylesFromModuleImports(m2));
+      const template4 = m2.querySelector("template");
+      if (template4) {
+        styles.push(...stylesFromTemplate(
+          template4,
+          m2.assetpath
+        ));
+      }
+      m2._styles = styles;
+    }
+    return m2._styles;
+  }
+  function stylesFromTemplate(template4, baseURI) {
+    if (!template4._styles) {
+      const styles = [];
+      const e$ = template4.content.querySelectorAll("style");
+      for (let i5 = 0; i5 < e$.length; i5++) {
+        let e9 = e$[i5];
+        let include = e9.getAttribute(INCLUDE_ATTR);
+        if (include) {
+          styles.push(...stylesFromModules(include).filter(function(item, index, self) {
+            return self.indexOf(item) === index;
+          }));
+        }
+        if (baseURI) {
+          e9.textContent = resolveCss(e9.textContent, baseURI);
+        }
+        styles.push(e9);
+      }
+      template4._styles = styles;
+    }
+    return template4._styles;
+  }
+  function stylesFromModuleImports(moduleId) {
+    let m2 = importModule(moduleId);
+    return m2 ? _stylesFromModuleImports(m2) : [];
+  }
+  function _stylesFromModuleImports(module) {
+    const styles = [];
+    const p$ = module.querySelectorAll(MODULE_STYLE_LINK_SELECTOR);
+    for (let i5 = 0; i5 < p$.length; i5++) {
+      let p2 = p$[i5];
+      if (p2.import) {
+        const importDoc = p2.import;
+        const unscoped = p2.hasAttribute(SHADY_UNSCOPED_ATTR);
+        if (unscoped && !importDoc._unscopedStyle) {
+          const style2 = styleForImport(importDoc);
+          style2.setAttribute(SHADY_UNSCOPED_ATTR, "");
+          importDoc._unscopedStyle = style2;
+        } else if (!importDoc._style) {
+          importDoc._style = styleForImport(importDoc);
+        }
+        styles.push(unscoped ? importDoc._unscopedStyle : importDoc._style);
+      }
+    }
+    return styles;
+  }
+
+  // node_modules/@polymer/polymer/lib/utils/wrap.js
+  var wrap = window["ShadyDOM"] && window["ShadyDOM"]["noPatch"] && window["ShadyDOM"]["wrap"] ? window["ShadyDOM"]["wrap"] : window["ShadyDOM"] ? (n6) => ShadyDOM["patch"](n6) : (n6) => n6;
+
+  // node_modules/@polymer/polymer/lib/utils/path.js
+  function isPath(path) {
+    return path.indexOf(".") >= 0;
+  }
+  function root(path) {
+    let dotIndex = path.indexOf(".");
+    if (dotIndex === -1) {
+      return path;
+    }
+    return path.slice(0, dotIndex);
+  }
+  function isAncestor(base, path) {
+    return base.indexOf(path + ".") === 0;
+  }
+  function isDescendant(base, path) {
+    return path.indexOf(base + ".") === 0;
+  }
+  function translate(base, newBase, path) {
+    return newBase + path.slice(base.length);
+  }
+  function normalize(path) {
+    if (Array.isArray(path)) {
+      let parts = [];
+      for (let i5 = 0; i5 < path.length; i5++) {
+        let args = path[i5].toString().split(".");
+        for (let j = 0; j < args.length; j++) {
+          parts.push(args[j]);
+        }
+      }
+      return parts.join(".");
+    } else {
+      return path;
+    }
+  }
+  function split(path) {
+    if (Array.isArray(path)) {
+      return normalize(path).split(".");
+    }
+    return path.toString().split(".");
+  }
+  function get(root2, path, info) {
+    let prop = root2;
+    let parts = split(path);
+    for (let i5 = 0; i5 < parts.length; i5++) {
+      if (!prop) {
+        return;
+      }
+      let part = parts[i5];
+      prop = prop[part];
+    }
+    if (info) {
+      info.path = parts.join(".");
+    }
+    return prop;
+  }
+  function set(root2, path, value) {
+    let prop = root2;
+    let parts = split(path);
+    let last = parts[parts.length - 1];
+    if (parts.length > 1) {
+      for (let i5 = 0; i5 < parts.length - 1; i5++) {
+        let part = parts[i5];
+        prop = prop[part];
+        if (!prop) {
+          return;
+        }
+      }
+      prop[last] = value;
+    } else {
+      prop[path] = value;
+    }
+    return parts.join(".");
+  }
+
+  // node_modules/@polymer/polymer/lib/utils/case-map.js
+  var caseMap = {};
+  var DASH_TO_CAMEL = /-[a-z]/g;
+  var CAMEL_TO_DASH = /([A-Z])/g;
+  function dashToCamelCase(dash) {
+    return caseMap[dash] || (caseMap[dash] = dash.indexOf("-") < 0 ? dash : dash.replace(
+      DASH_TO_CAMEL,
+      (m2) => m2[1].toUpperCase()
+    ));
+  }
+  function camelToDashCase(camel) {
+    return caseMap[camel] || (caseMap[camel] = camel.replace(CAMEL_TO_DASH, "-$1").toLowerCase());
+  }
+
+  // node_modules/@polymer/polymer/lib/utils/async.js
+  var microtaskCurrHandle = 0;
+  var microtaskLastHandle = 0;
+  var microtaskCallbacks = [];
+  var microtaskNodeContent = 0;
+  var microtaskScheduled = false;
+  var microtaskNode = document.createTextNode("");
+  new window.MutationObserver(microtaskFlush).observe(microtaskNode, { characterData: true });
+  function microtaskFlush() {
+    microtaskScheduled = false;
+    const len = microtaskCallbacks.length;
+    for (let i5 = 0; i5 < len; i5++) {
+      let cb = microtaskCallbacks[i5];
+      if (cb) {
+        try {
+          cb();
+        } catch (e9) {
+          setTimeout(() => {
+            throw e9;
+          });
+        }
+      }
+    }
+    microtaskCallbacks.splice(0, len);
+    microtaskLastHandle += len;
+  }
+  var microTask = {
+    run(callback) {
+      if (!microtaskScheduled) {
+        microtaskScheduled = true;
+        microtaskNode.textContent = microtaskNodeContent++;
+      }
+      microtaskCallbacks.push(callback);
+      return microtaskCurrHandle++;
+    },
+    cancel(handle) {
+      const idx = handle - microtaskLastHandle;
+      if (idx >= 0) {
+        if (!microtaskCallbacks[idx]) {
+          throw new Error("invalid async handle: " + handle);
+        }
+        microtaskCallbacks[idx] = null;
+      }
+    }
+  };
+
+  // node_modules/@polymer/polymer/lib/mixins/properties-changed.js
+  var microtask = microTask;
+  var PropertiesChanged = dedupingMixin(
+    (superClass) => {
+      class PropertiesChanged2 extends superClass {
+        static createProperties(props) {
+          const proto2 = this.prototype;
+          for (let prop in props) {
+            if (!(prop in proto2)) {
+              proto2._createPropertyAccessor(prop);
+            }
+          }
+        }
+        static attributeNameForProperty(property) {
+          return property.toLowerCase();
+        }
+        static typeForProperty(name) {
+        }
+        _createPropertyAccessor(property, readOnly) {
+          this._addPropertyToAttributeMap(property);
+          if (!this.hasOwnProperty(JSCompiler_renameProperty("__dataHasAccessor", this))) {
+            this.__dataHasAccessor = Object.assign({}, this.__dataHasAccessor);
+          }
+          if (!this.__dataHasAccessor[property]) {
+            this.__dataHasAccessor[property] = true;
+            this._definePropertyAccessor(property, readOnly);
+          }
+        }
+        _addPropertyToAttributeMap(property) {
+          if (!this.hasOwnProperty(JSCompiler_renameProperty("__dataAttributes", this))) {
+            this.__dataAttributes = Object.assign({}, this.__dataAttributes);
+          }
+          let attr = this.__dataAttributes[property];
+          if (!attr) {
+            attr = this.constructor.attributeNameForProperty(property);
+            this.__dataAttributes[attr] = property;
+          }
+          return attr;
+        }
+        _definePropertyAccessor(property, readOnly) {
+          Object.defineProperty(this, property, {
+            get() {
+              return this.__data[property];
+            },
+            set: readOnly ? function() {
+            } : function(value) {
+              if (this._setPendingProperty(property, value, true)) {
+                this._invalidateProperties();
+              }
+            }
+          });
+        }
+        constructor() {
+          super();
+          this.__dataEnabled = false;
+          this.__dataReady = false;
+          this.__dataInvalid = false;
+          this.__data = {};
+          this.__dataPending = null;
+          this.__dataOld = null;
+          this.__dataInstanceProps = null;
+          this.__dataCounter = 0;
+          this.__serializing = false;
+          this._initializeProperties();
+        }
+        ready() {
+          this.__dataReady = true;
+          this._flushProperties();
+        }
+        _initializeProperties() {
+          for (let p2 in this.__dataHasAccessor) {
+            if (this.hasOwnProperty(p2)) {
+              this.__dataInstanceProps = this.__dataInstanceProps || {};
+              this.__dataInstanceProps[p2] = this[p2];
+              delete this[p2];
+            }
+          }
+        }
+        _initializeInstanceProperties(props) {
+          Object.assign(this, props);
+        }
+        _setProperty(property, value) {
+          if (this._setPendingProperty(property, value)) {
+            this._invalidateProperties();
+          }
+        }
+        _getProperty(property) {
+          return this.__data[property];
+        }
+        _setPendingProperty(property, value, ext) {
+          let old = this.__data[property];
+          let changed = this._shouldPropertyChange(property, value, old);
+          if (changed) {
+            if (!this.__dataPending) {
+              this.__dataPending = {};
+              this.__dataOld = {};
+            }
+            if (this.__dataOld && !(property in this.__dataOld)) {
+              this.__dataOld[property] = old;
+            }
+            this.__data[property] = value;
+            this.__dataPending[property] = value;
+          }
+          return changed;
+        }
+        _isPropertyPending(property) {
+          return !!(this.__dataPending && this.__dataPending.hasOwnProperty(property));
+        }
+        _invalidateProperties() {
+          if (!this.__dataInvalid && this.__dataReady) {
+            this.__dataInvalid = true;
+            microtask.run(() => {
+              if (this.__dataInvalid) {
+                this.__dataInvalid = false;
+                this._flushProperties();
+              }
+            });
+          }
+        }
+        _enableProperties() {
+          if (!this.__dataEnabled) {
+            this.__dataEnabled = true;
+            if (this.__dataInstanceProps) {
+              this._initializeInstanceProperties(this.__dataInstanceProps);
+              this.__dataInstanceProps = null;
+            }
+            this.ready();
+          }
+        }
+        _flushProperties() {
+          this.__dataCounter++;
+          const props = this.__data;
+          const changedProps = this.__dataPending;
+          const old = this.__dataOld;
+          if (this._shouldPropertiesChange(props, changedProps, old)) {
+            this.__dataPending = null;
+            this.__dataOld = null;
+            this._propertiesChanged(props, changedProps, old);
+          }
+          this.__dataCounter--;
+        }
+        _shouldPropertiesChange(currentProps, changedProps, oldProps) {
+          return Boolean(changedProps);
+        }
+        _propertiesChanged(currentProps, changedProps, oldProps) {
+        }
+        _shouldPropertyChange(property, value, old) {
+          return old !== value && (old === old || value === value);
+        }
+        attributeChangedCallback(name, old, value, namespace) {
+          if (old !== value) {
+            this._attributeToProperty(name, value);
+          }
+          if (super.attributeChangedCallback) {
+            super.attributeChangedCallback(name, old, value, namespace);
+          }
+        }
+        _attributeToProperty(attribute, value, type) {
+          if (!this.__serializing) {
+            const map = this.__dataAttributes;
+            const property = map && map[attribute] || attribute;
+            this[property] = this._deserializeValue(value, type || this.constructor.typeForProperty(property));
+          }
+        }
+        _propertyToAttribute(property, attribute, value) {
+          this.__serializing = true;
+          value = arguments.length < 3 ? this[property] : value;
+          this._valueToNodeAttribute(
+            this,
+            value,
+            attribute || this.constructor.attributeNameForProperty(property)
+          );
+          this.__serializing = false;
+        }
+        _valueToNodeAttribute(node, value, attribute) {
+          const str = this._serializeValue(value);
+          if (attribute === "class" || attribute === "name" || attribute === "slot") {
+            node = wrap(node);
+          }
+          if (str === void 0) {
+            node.removeAttribute(attribute);
+          } else {
+            node.setAttribute(
+              attribute,
+              str === "" && window.trustedTypes ? window.trustedTypes.emptyScript : str
+            );
+          }
+        }
+        _serializeValue(value) {
+          switch (typeof value) {
+            case "boolean":
+              return value ? "" : void 0;
+            default:
+              return value != null ? value.toString() : void 0;
+          }
+        }
+        _deserializeValue(value, type) {
+          switch (type) {
+            case Boolean:
+              return value !== null;
+            case Number:
+              return Number(value);
+            default:
+              return value;
+          }
+        }
+      }
+      return PropertiesChanged2;
+    }
+  );
+
+  // node_modules/@polymer/polymer/lib/mixins/property-accessors.js
+  var nativeProperties = {};
+  var proto = HTMLElement.prototype;
+  while (proto) {
+    let props = Object.getOwnPropertyNames(proto);
+    for (let i5 = 0; i5 < props.length; i5++) {
+      nativeProperties[props[i5]] = true;
+    }
+    proto = Object.getPrototypeOf(proto);
+  }
+  var isTrustedType = (() => {
+    if (!window.trustedTypes) {
+      return () => false;
+    }
+    return (val) => trustedTypes.isHTML(val) || trustedTypes.isScript(val) || trustedTypes.isScriptURL(val);
+  })();
+  function saveAccessorValue(model, property) {
+    if (!nativeProperties[property]) {
+      let value = model[property];
+      if (value !== void 0) {
+        if (model.__data) {
+          model._setPendingProperty(property, value);
+        } else {
+          if (!model.__dataProto) {
+            model.__dataProto = {};
+          } else if (!model.hasOwnProperty(JSCompiler_renameProperty("__dataProto", model))) {
+            model.__dataProto = Object.create(model.__dataProto);
+          }
+          model.__dataProto[property] = value;
+        }
+      }
+    }
+  }
+  var PropertyAccessors = dedupingMixin((superClass) => {
+    const base = PropertiesChanged(superClass);
+    class PropertyAccessors2 extends base {
+      static createPropertiesForAttributes() {
+        let a$ = this.observedAttributes;
+        for (let i5 = 0; i5 < a$.length; i5++) {
+          this.prototype._createPropertyAccessor(dashToCamelCase(a$[i5]));
+        }
+      }
+      static attributeNameForProperty(property) {
+        return camelToDashCase(property);
+      }
+      _initializeProperties() {
+        if (this.__dataProto) {
+          this._initializeProtoProperties(this.__dataProto);
+          this.__dataProto = null;
+        }
+        super._initializeProperties();
+      }
+      _initializeProtoProperties(props) {
+        for (let p2 in props) {
+          this._setProperty(p2, props[p2]);
+        }
+      }
+      _ensureAttribute(attribute, value) {
+        const el = this;
+        if (!el.hasAttribute(attribute)) {
+          this._valueToNodeAttribute(el, value, attribute);
+        }
+      }
+      _serializeValue(value) {
+        switch (typeof value) {
+          case "object":
+            if (value instanceof Date) {
+              return value.toString();
+            } else if (value) {
+              if (isTrustedType(value)) {
+                return value;
+              }
+              try {
+                return JSON.stringify(value);
+              } catch (x2) {
+                return "";
+              }
+            }
+          default:
+            return super._serializeValue(value);
+        }
+      }
+      _deserializeValue(value, type) {
+        let outValue;
+        switch (type) {
+          case Object:
+            try {
+              outValue = JSON.parse(value);
+            } catch (x2) {
+              outValue = value;
+            }
+            break;
+          case Array:
+            try {
+              outValue = JSON.parse(value);
+            } catch (x2) {
+              outValue = null;
+              console.warn(`Polymer::Attributes: couldn't decode Array as JSON: ${value}`);
+            }
+            break;
+          case Date:
+            outValue = isNaN(value) ? String(value) : Number(value);
+            outValue = new Date(outValue);
+            break;
+          default:
+            outValue = super._deserializeValue(value, type);
+            break;
+        }
+        return outValue;
+      }
+      _definePropertyAccessor(property, readOnly) {
+        saveAccessorValue(this, property);
+        super._definePropertyAccessor(property, readOnly);
+      }
+      _hasAccessor(property) {
+        return this.__dataHasAccessor && this.__dataHasAccessor[property];
+      }
+      _isPropertyPending(prop) {
+        return Boolean(this.__dataPending && prop in this.__dataPending);
+      }
+    }
+    return PropertyAccessors2;
+  });
+
+  // node_modules/@polymer/polymer/lib/mixins/template-stamp.js
+  var templateExtensions = {
+    "dom-if": true,
+    "dom-repeat": true
+  };
+  var placeholderBugDetect = false;
+  var placeholderBug = false;
+  function hasPlaceholderBug() {
+    if (!placeholderBugDetect) {
+      placeholderBugDetect = true;
+      const t4 = document.createElement("textarea");
+      t4.placeholder = "a";
+      placeholderBug = t4.placeholder === t4.textContent;
+    }
+    return placeholderBug;
+  }
+  function fixPlaceholder(node) {
+    if (hasPlaceholderBug() && node.localName === "textarea" && node.placeholder && node.placeholder === node.textContent) {
+      node.textContent = null;
+    }
+  }
+  var copyAttributeWithTemplateEventPolicy = (() => {
+    const polymerTemplateEventAttributePolicy = window.trustedTypes && window.trustedTypes.createPolicy(
+      "polymer-template-event-attribute-policy",
+      {
+        createScript: (x2) => x2
+      }
+    );
+    return (dest, src, name) => {
+      const value = src.getAttribute(name);
+      if (polymerTemplateEventAttributePolicy && name.startsWith("on-")) {
+        dest.setAttribute(
+          name,
+          polymerTemplateEventAttributePolicy.createScript(value, name)
+        );
+        return;
+      }
+      dest.setAttribute(name, value);
+    };
+  })();
+  function wrapTemplateExtension(node) {
+    let is = node.getAttribute("is");
+    if (is && templateExtensions[is]) {
+      let t4 = node;
+      t4.removeAttribute("is");
+      node = t4.ownerDocument.createElement(is);
+      t4.parentNode.replaceChild(node, t4);
+      node.appendChild(t4);
+      while (t4.attributes.length) {
+        const { name } = t4.attributes[0];
+        copyAttributeWithTemplateEventPolicy(node, t4, name);
+        t4.removeAttribute(name);
+      }
+    }
+    return node;
+  }
+  function findTemplateNode(root2, nodeInfo) {
+    let parent = nodeInfo.parentInfo && findTemplateNode(root2, nodeInfo.parentInfo);
+    if (parent) {
+      for (let n6 = parent.firstChild, i5 = 0; n6; n6 = n6.nextSibling) {
+        if (nodeInfo.parentIndex === i5++) {
+          return n6;
+        }
+      }
+    } else {
+      return root2;
+    }
+  }
+  function applyIdToMap(inst, map, node, nodeInfo) {
+    if (nodeInfo.id) {
+      map[nodeInfo.id] = node;
+    }
+  }
+  function applyEventListener(inst, node, nodeInfo) {
+    if (nodeInfo.events && nodeInfo.events.length) {
+      for (let j = 0, e$ = nodeInfo.events, e9; j < e$.length && (e9 = e$[j]); j++) {
+        inst._addMethodEventListenerToNode(node, e9.name, e9.value, inst);
+      }
+    }
+  }
+  function applyTemplateInfo(inst, node, nodeInfo, parentTemplateInfo) {
+    if (nodeInfo.templateInfo) {
+      node._templateInfo = nodeInfo.templateInfo;
+      node._parentTemplateInfo = parentTemplateInfo;
+    }
+  }
+  function createNodeEventHandler(context, eventName, methodName) {
+    context = context._methodHost || context;
+    let handler = function(e9) {
+      if (context[methodName]) {
+        context[methodName](e9, e9.detail);
+      } else {
+        console.warn("listener method `" + methodName + "` not defined");
+      }
+    };
+    return handler;
+  }
+  var TemplateStamp = dedupingMixin(
+    (superClass) => {
+      class TemplateStamp2 extends superClass {
+        static _parseTemplate(template4, outerTemplateInfo) {
+          if (!template4._templateInfo) {
+            let templateInfo = template4._templateInfo = {};
+            templateInfo.nodeInfoList = [];
+            templateInfo.nestedTemplate = Boolean(outerTemplateInfo);
+            templateInfo.stripWhiteSpace = outerTemplateInfo && outerTemplateInfo.stripWhiteSpace || template4.hasAttribute && template4.hasAttribute("strip-whitespace");
+            this._parseTemplateContent(
+              template4,
+              templateInfo,
+              { parent: null }
+            );
+          }
+          return template4._templateInfo;
+        }
+        static _parseTemplateContent(template4, templateInfo, nodeInfo) {
+          return this._parseTemplateNode(template4.content, templateInfo, nodeInfo);
+        }
+        static _parseTemplateNode(node, templateInfo, nodeInfo) {
+          let noted = false;
+          let element = node;
+          if (element.localName == "template" && !element.hasAttribute("preserve-content")) {
+            noted = this._parseTemplateNestedTemplate(element, templateInfo, nodeInfo) || noted;
+          } else if (element.localName === "slot") {
+            templateInfo.hasInsertionPoint = true;
+          }
+          fixPlaceholder(element);
+          if (element.firstChild) {
+            this._parseTemplateChildNodes(element, templateInfo, nodeInfo);
+          }
+          if (element.hasAttributes && element.hasAttributes()) {
+            noted = this._parseTemplateNodeAttributes(element, templateInfo, nodeInfo) || noted;
+          }
+          return noted || nodeInfo.noted;
+        }
+        static _parseTemplateChildNodes(root2, templateInfo, nodeInfo) {
+          if (root2.localName === "script" || root2.localName === "style") {
+            return;
+          }
+          for (let node = root2.firstChild, parentIndex = 0, next; node; node = next) {
+            if (node.localName == "template") {
+              node = wrapTemplateExtension(node);
+            }
+            next = node.nextSibling;
+            if (node.nodeType === Node.TEXT_NODE) {
+              let n6 = next;
+              while (n6 && n6.nodeType === Node.TEXT_NODE) {
+                node.textContent += n6.textContent;
+                next = n6.nextSibling;
+                root2.removeChild(n6);
+                n6 = next;
+              }
+              if (templateInfo.stripWhiteSpace && !node.textContent.trim()) {
+                root2.removeChild(node);
+                continue;
+              }
+            }
+            let childInfo = { parentIndex, parentInfo: nodeInfo };
+            if (this._parseTemplateNode(node, templateInfo, childInfo)) {
+              childInfo.infoIndex = templateInfo.nodeInfoList.push(childInfo) - 1;
+            }
+            if (node.parentNode) {
+              parentIndex++;
+            }
+          }
+        }
+        static _parseTemplateNestedTemplate(node, outerTemplateInfo, nodeInfo) {
+          let element = node;
+          let templateInfo = this._parseTemplate(element, outerTemplateInfo);
+          let content = templateInfo.content = element.content.ownerDocument.createDocumentFragment();
+          content.appendChild(element.content);
+          nodeInfo.templateInfo = templateInfo;
+          return true;
+        }
+        static _parseTemplateNodeAttributes(node, templateInfo, nodeInfo) {
+          let noted = false;
+          let attrs = Array.from(node.attributes);
+          for (let i5 = attrs.length - 1, a3; a3 = attrs[i5]; i5--) {
+            noted = this._parseTemplateNodeAttribute(node, templateInfo, nodeInfo, a3.name, a3.value) || noted;
+          }
+          return noted;
+        }
+        static _parseTemplateNodeAttribute(node, templateInfo, nodeInfo, name, value) {
+          if (name.slice(0, 3) === "on-") {
+            node.removeAttribute(name);
+            nodeInfo.events = nodeInfo.events || [];
+            nodeInfo.events.push({
+              name: name.slice(3),
+              value
+            });
+            return true;
+          } else if (name === "id") {
+            nodeInfo.id = value;
+            return true;
+          }
+          return false;
+        }
+        static _contentForTemplate(template4) {
+          let templateInfo = template4._templateInfo;
+          return templateInfo && templateInfo.content || template4.content;
+        }
+        _stampTemplate(template4, templateInfo) {
+          if (template4 && !template4.content && window.HTMLTemplateElement && HTMLTemplateElement.decorate) {
+            HTMLTemplateElement.decorate(template4);
+          }
+          templateInfo = templateInfo || this.constructor._parseTemplate(template4);
+          let nodeInfo = templateInfo.nodeInfoList;
+          let content = templateInfo.content || template4.content;
+          let dom = document.importNode(content, true);
+          dom.__noInsertionPoint = !templateInfo.hasInsertionPoint;
+          let nodes = dom.nodeList = new Array(nodeInfo.length);
+          dom.$ = {};
+          for (let i5 = 0, l5 = nodeInfo.length, info; i5 < l5 && (info = nodeInfo[i5]); i5++) {
+            let node = nodes[i5] = findTemplateNode(dom, info);
+            applyIdToMap(this, dom.$, node, info);
+            applyTemplateInfo(this, node, info, templateInfo);
+            applyEventListener(this, node, info);
+          }
+          dom = dom;
+          return dom;
+        }
+        _addMethodEventListenerToNode(node, eventName, methodName, context) {
+          context = context || node;
+          let handler = createNodeEventHandler(context, eventName, methodName);
+          this._addEventListenerToNode(node, eventName, handler);
+          return handler;
+        }
+        _addEventListenerToNode(node, eventName, handler) {
+          node.addEventListener(eventName, handler);
+        }
+        _removeEventListenerFromNode(node, eventName, handler) {
+          node.removeEventListener(eventName, handler);
+        }
+      }
+      return TemplateStamp2;
+    }
+  );
+
+  // node_modules/@polymer/polymer/lib/mixins/property-effects.js
+  var dedupeId2 = 0;
+  var NOOP = [];
+  var TYPES = {
+    COMPUTE: "__computeEffects",
+    REFLECT: "__reflectEffects",
+    NOTIFY: "__notifyEffects",
+    PROPAGATE: "__propagateEffects",
+    OBSERVE: "__observeEffects",
+    READ_ONLY: "__readOnly"
+  };
+  var COMPUTE_INFO = "__computeInfo";
+  var capitalAttributeRegex = /[A-Z]/;
+  function ensureOwnEffectMap(model, type, cloneArrays) {
+    let effects = model[type];
+    if (!effects) {
+      effects = model[type] = {};
+    } else if (!model.hasOwnProperty(type)) {
+      effects = model[type] = Object.create(model[type]);
+      if (cloneArrays) {
+        for (let p2 in effects) {
+          let protoFx = effects[p2];
+          let instFx = effects[p2] = Array(protoFx.length);
+          for (let i5 = 0; i5 < protoFx.length; i5++) {
+            instFx[i5] = protoFx[i5];
+          }
+        }
+      }
+    }
+    return effects;
+  }
+  function runEffects(inst, effects, props, oldProps, hasPaths, extraArgs) {
+    if (effects) {
+      let ran = false;
+      const id = dedupeId2++;
+      for (let prop in props) {
+        let rootProperty = hasPaths ? root(prop) : prop;
+        let fxs = effects[rootProperty];
+        if (fxs) {
+          for (let i5 = 0, l5 = fxs.length, fx; i5 < l5 && (fx = fxs[i5]); i5++) {
+            if ((!fx.info || fx.info.lastRun !== id) && (!hasPaths || pathMatchesTrigger(prop, fx.trigger))) {
+              if (fx.info) {
+                fx.info.lastRun = id;
+              }
+              fx.fn(inst, prop, props, oldProps, fx.info, hasPaths, extraArgs);
+              ran = true;
+            }
+          }
+        }
+      }
+      return ran;
+    }
+    return false;
+  }
+  function runEffectsForProperty(inst, effects, dedupeId3, prop, props, oldProps, hasPaths, extraArgs) {
+    let ran = false;
+    let rootProperty = hasPaths ? root(prop) : prop;
+    let fxs = effects[rootProperty];
+    if (fxs) {
+      for (let i5 = 0, l5 = fxs.length, fx; i5 < l5 && (fx = fxs[i5]); i5++) {
+        if ((!fx.info || fx.info.lastRun !== dedupeId3) && (!hasPaths || pathMatchesTrigger(prop, fx.trigger))) {
+          if (fx.info) {
+            fx.info.lastRun = dedupeId3;
+          }
+          fx.fn(inst, prop, props, oldProps, fx.info, hasPaths, extraArgs);
+          ran = true;
+        }
+      }
+    }
+    return ran;
+  }
+  function pathMatchesTrigger(path, trigger) {
+    if (trigger) {
+      let triggerPath = trigger.name;
+      return triggerPath == path || !!(trigger.structured && isAncestor(triggerPath, path)) || !!(trigger.wildcard && isDescendant(triggerPath, path));
+    } else {
+      return true;
+    }
+  }
+  function runObserverEffect(inst, property, props, oldProps, info) {
+    let fn = typeof info.method === "string" ? inst[info.method] : info.method;
+    let changedProp = info.property;
+    if (fn) {
+      fn.call(inst, inst.__data[changedProp], oldProps[changedProp]);
+    } else if (!info.dynamicFn) {
+      console.warn("observer method `" + info.method + "` not defined");
+    }
+  }
+  function runNotifyEffects(inst, notifyProps, props, oldProps, hasPaths) {
+    let fxs = inst[TYPES.NOTIFY];
+    let notified;
+    let id = dedupeId2++;
+    for (let prop in notifyProps) {
+      if (notifyProps[prop]) {
+        if (fxs && runEffectsForProperty(inst, fxs, id, prop, props, oldProps, hasPaths)) {
+          notified = true;
+        } else if (hasPaths && notifyPath(inst, prop, props)) {
+          notified = true;
+        }
+      }
+    }
+    let host;
+    if (notified && (host = inst.__dataHost) && host._invalidateProperties) {
+      host._invalidateProperties();
+    }
+  }
+  function notifyPath(inst, path, props) {
+    let rootProperty = root(path);
+    if (rootProperty !== path) {
+      let eventName = camelToDashCase(rootProperty) + "-changed";
+      dispatchNotifyEvent(inst, eventName, props[path], path);
+      return true;
+    }
+    return false;
+  }
+  function dispatchNotifyEvent(inst, eventName, value, path) {
+    let detail = {
+      value,
+      queueProperty: true
+    };
+    if (path) {
+      detail.path = path;
+    }
+    wrap(inst).dispatchEvent(new CustomEvent(eventName, { detail }));
+  }
+  function runNotifyEffect(inst, property, props, oldProps, info, hasPaths) {
+    let rootProperty = hasPaths ? root(property) : property;
+    let path = rootProperty != property ? property : null;
+    let value = path ? get(inst, path) : inst.__data[property];
+    if (path && value === void 0) {
+      value = props[property];
+    }
+    dispatchNotifyEvent(inst, info.eventName, value, path);
+  }
+  function handleNotification(event, inst, fromProp, toPath, negate) {
+    let value;
+    let detail = event.detail;
+    let fromPath = detail && detail.path;
+    if (fromPath) {
+      toPath = translate(fromProp, toPath, fromPath);
+      value = detail && detail.value;
+    } else {
+      value = event.currentTarget[fromProp];
+    }
+    value = negate ? !value : value;
+    if (!inst[TYPES.READ_ONLY] || !inst[TYPES.READ_ONLY][toPath]) {
+      if (inst._setPendingPropertyOrPath(toPath, value, true, Boolean(fromPath)) && (!detail || !detail.queueProperty)) {
+        inst._invalidateProperties();
+      }
+    }
+  }
+  function runReflectEffect(inst, property, props, oldProps, info) {
+    let value = inst.__data[property];
+    if (sanitizeDOMValue) {
+      value = sanitizeDOMValue(value, info.attrName, "attribute", inst);
+    }
+    inst._propertyToAttribute(property, info.attrName, value);
+  }
+  function runComputedEffects(inst, changedProps, oldProps, hasPaths) {
+    let computeEffects = inst[TYPES.COMPUTE];
+    if (computeEffects) {
+      if (orderedComputed) {
+        dedupeId2++;
+        const order = getComputedOrder(inst);
+        const queue = [];
+        for (let p2 in changedProps) {
+          enqueueEffectsFor(p2, computeEffects, queue, order, hasPaths);
+        }
+        let info;
+        while (info = queue.shift()) {
+          if (runComputedEffect(inst, "", changedProps, oldProps, info)) {
+            enqueueEffectsFor(info.methodInfo, computeEffects, queue, order, hasPaths);
+          }
+        }
+        Object.assign(oldProps, inst.__dataOld);
+        Object.assign(changedProps, inst.__dataPending);
+        inst.__dataPending = null;
+      } else {
+        let inputProps = changedProps;
+        while (runEffects(inst, computeEffects, inputProps, oldProps, hasPaths)) {
+          Object.assign(oldProps, inst.__dataOld);
+          Object.assign(changedProps, inst.__dataPending);
+          inputProps = inst.__dataPending;
+          inst.__dataPending = null;
+        }
+      }
+    }
+  }
+  var insertEffect = (info, queue, order) => {
+    let start = 0;
+    let end = queue.length - 1;
+    let idx = -1;
+    while (start <= end) {
+      const mid = start + end >> 1;
+      const cmp = order.get(queue[mid].methodInfo) - order.get(info.methodInfo);
+      if (cmp < 0) {
+        start = mid + 1;
+      } else if (cmp > 0) {
+        end = mid - 1;
+      } else {
+        idx = mid;
+        break;
+      }
+    }
+    if (idx < 0) {
+      idx = end + 1;
+    }
+    queue.splice(idx, 0, info);
+  };
+  var enqueueEffectsFor = (prop, computeEffects, queue, order, hasPaths) => {
+    const rootProperty = hasPaths ? root(prop) : prop;
+    const fxs = computeEffects[rootProperty];
+    if (fxs) {
+      for (let i5 = 0; i5 < fxs.length; i5++) {
+        const fx = fxs[i5];
+        if (fx.info.lastRun !== dedupeId2 && (!hasPaths || pathMatchesTrigger(prop, fx.trigger))) {
+          fx.info.lastRun = dedupeId2;
+          insertEffect(fx.info, queue, order);
+        }
+      }
+    }
+  };
+  function getComputedOrder(inst) {
+    let ordered = inst.constructor.__orderedComputedDeps;
+    if (!ordered) {
+      ordered = /* @__PURE__ */ new Map();
+      const effects = inst[TYPES.COMPUTE];
+      let { counts, ready, total } = dependencyCounts(inst);
+      let curr;
+      while (curr = ready.shift()) {
+        ordered.set(curr, ordered.size);
+        const computedByCurr = effects[curr];
+        if (computedByCurr) {
+          computedByCurr.forEach((fx) => {
+            const computedProp = fx.info.methodInfo;
+            --total;
+            if (--counts[computedProp] === 0) {
+              ready.push(computedProp);
+            }
+          });
+        }
+      }
+      if (total !== 0) {
+        const el = inst;
+        console.warn(`Computed graph for ${el.localName} incomplete; circular?`);
+      }
+      inst.constructor.__orderedComputedDeps = ordered;
+    }
+    return ordered;
+  }
+  function dependencyCounts(inst) {
+    const infoForComputed = inst[COMPUTE_INFO];
+    const counts = {};
+    const computedDeps = inst[TYPES.COMPUTE];
+    const ready = [];
+    let total = 0;
+    for (let p2 in infoForComputed) {
+      const info = infoForComputed[p2];
+      total += counts[p2] = info.args.filter((a3) => !a3.literal).length + (info.dynamicFn ? 1 : 0);
+    }
+    for (let p2 in computedDeps) {
+      if (!infoForComputed[p2]) {
+        ready.push(p2);
+      }
+    }
+    return { counts, ready, total };
+  }
+  function runComputedEffect(inst, property, changedProps, oldProps, info) {
+    let result = runMethodEffect(inst, property, changedProps, oldProps, info);
+    if (result === NOOP) {
+      return false;
+    }
+    let computedProp = info.methodInfo;
+    if (inst.__dataHasAccessor && inst.__dataHasAccessor[computedProp]) {
+      return inst._setPendingProperty(computedProp, result, true);
+    } else {
+      inst[computedProp] = result;
+      return false;
+    }
+  }
+  function computeLinkedPaths(inst, path, value) {
+    let links = inst.__dataLinkedPaths;
+    if (links) {
+      let link;
+      for (let a3 in links) {
+        let b2 = links[a3];
+        if (isDescendant(a3, path)) {
+          link = translate(a3, b2, path);
+          inst._setPendingPropertyOrPath(link, value, true, true);
+        } else if (isDescendant(b2, path)) {
+          link = translate(b2, a3, path);
+          inst._setPendingPropertyOrPath(link, value, true, true);
+        }
+      }
+    }
+  }
+  function addBinding(constructor, templateInfo, nodeInfo, kind, target, parts, literal) {
+    nodeInfo.bindings = nodeInfo.bindings || [];
+    let binding = { kind, target, parts, literal, isCompound: parts.length !== 1 };
+    nodeInfo.bindings.push(binding);
+    if (shouldAddListener(binding)) {
+      let { event, negate } = binding.parts[0];
+      binding.listenerEvent = event || camelToDashCase(target) + "-changed";
+      binding.listenerNegate = negate;
+    }
+    let index = templateInfo.nodeInfoList.length;
+    for (let i5 = 0; i5 < binding.parts.length; i5++) {
+      let part = binding.parts[i5];
+      part.compoundIndex = i5;
+      addEffectForBindingPart(constructor, templateInfo, binding, part, index);
+    }
+  }
+  function addEffectForBindingPart(constructor, templateInfo, binding, part, index) {
+    if (!part.literal) {
+      if (binding.kind === "attribute" && binding.target[0] === "-") {
+        console.warn("Cannot set attribute " + binding.target + ' because "-" is not a valid attribute starting character');
+      } else {
+        let dependencies = part.dependencies;
+        let info = { index, binding, part, evaluator: constructor };
+        for (let j = 0; j < dependencies.length; j++) {
+          let trigger = dependencies[j];
+          if (typeof trigger == "string") {
+            trigger = parseArg(trigger);
+            trigger.wildcard = true;
+          }
+          constructor._addTemplatePropertyEffect(templateInfo, trigger.rootProperty, {
+            fn: runBindingEffect,
+            info,
+            trigger
+          });
+        }
+      }
+    }
+  }
+  function runBindingEffect(inst, path, props, oldProps, info, hasPaths, nodeList) {
+    let node = nodeList[info.index];
+    let binding = info.binding;
+    let part = info.part;
+    if (hasPaths && part.source && path.length > part.source.length && binding.kind == "property" && !binding.isCompound && node.__isPropertyEffectsClient && node.__dataHasAccessor && node.__dataHasAccessor[binding.target]) {
+      let value = props[path];
+      path = translate(part.source, binding.target, path);
+      if (node._setPendingPropertyOrPath(path, value, false, true)) {
+        inst._enqueueClient(node);
+      }
+    } else {
+      let value = info.evaluator._evaluateBinding(inst, part, path, props, oldProps, hasPaths);
+      if (value !== NOOP) {
+        applyBindingValue(inst, node, binding, part, value);
+      }
+    }
+  }
+  function applyBindingValue(inst, node, binding, part, value) {
+    value = computeBindingValue(node, value, binding, part);
+    if (sanitizeDOMValue) {
+      value = sanitizeDOMValue(value, binding.target, binding.kind, node);
+    }
+    if (binding.kind == "attribute") {
+      inst._valueToNodeAttribute(node, value, binding.target);
+    } else {
+      let prop = binding.target;
+      if (node.__isPropertyEffectsClient && node.__dataHasAccessor && node.__dataHasAccessor[prop]) {
+        if (!node[TYPES.READ_ONLY] || !node[TYPES.READ_ONLY][prop]) {
+          if (node._setPendingProperty(prop, value)) {
+            inst._enqueueClient(node);
+          }
+        }
+      } else {
+        inst._setUnmanagedPropertyToNode(node, prop, value);
+      }
+    }
+  }
+  function computeBindingValue(node, value, binding, part) {
+    if (binding.isCompound) {
+      let storage = node.__dataCompoundStorage[binding.target];
+      storage[part.compoundIndex] = value;
+      value = storage.join("");
+    }
+    if (binding.kind !== "attribute") {
+      if (binding.target === "textContent" || binding.target === "value" && (node.localName === "input" || node.localName === "textarea")) {
+        value = value == void 0 ? "" : value;
+      }
+    }
+    return value;
+  }
+  function shouldAddListener(binding) {
+    return Boolean(binding.target) && binding.kind != "attribute" && binding.kind != "text" && !binding.isCompound && binding.parts[0].mode === "{";
+  }
+  function setupBindings(inst, templateInfo) {
+    let { nodeList, nodeInfoList } = templateInfo;
+    if (nodeInfoList.length) {
+      for (let i5 = 0; i5 < nodeInfoList.length; i5++) {
+        let info = nodeInfoList[i5];
+        let node = nodeList[i5];
+        let bindings = info.bindings;
+        if (bindings) {
+          for (let i6 = 0; i6 < bindings.length; i6++) {
+            let binding = bindings[i6];
+            setupCompoundStorage(node, binding);
+            addNotifyListener(node, inst, binding);
+          }
+        }
+        node.__dataHost = inst;
+      }
+    }
+  }
+  function setupCompoundStorage(node, binding) {
+    if (binding.isCompound) {
+      let storage = node.__dataCompoundStorage || (node.__dataCompoundStorage = {});
+      let parts = binding.parts;
+      let literals = new Array(parts.length);
+      for (let j = 0; j < parts.length; j++) {
+        literals[j] = parts[j].literal;
+      }
+      let target = binding.target;
+      storage[target] = literals;
+      if (binding.literal && binding.kind == "property") {
+        if (target === "className") {
+          node = wrap(node);
+        }
+        node[target] = binding.literal;
+      }
+    }
+  }
+  function addNotifyListener(node, inst, binding) {
+    if (binding.listenerEvent) {
+      let part = binding.parts[0];
+      node.addEventListener(binding.listenerEvent, function(e9) {
+        handleNotification(e9, inst, binding.target, part.source, part.negate);
+      });
+    }
+  }
+  function createMethodEffect(model, sig, type, effectFn, methodInfo, dynamicFn) {
+    dynamicFn = sig.static || dynamicFn && (typeof dynamicFn !== "object" || dynamicFn[sig.methodName]);
+    let info = {
+      methodName: sig.methodName,
+      args: sig.args,
+      methodInfo,
+      dynamicFn
+    };
+    for (let i5 = 0, arg; i5 < sig.args.length && (arg = sig.args[i5]); i5++) {
+      if (!arg.literal) {
+        model._addPropertyEffect(arg.rootProperty, type, {
+          fn: effectFn,
+          info,
+          trigger: arg
+        });
+      }
+    }
+    if (dynamicFn) {
+      model._addPropertyEffect(sig.methodName, type, {
+        fn: effectFn,
+        info
+      });
+    }
+    return info;
+  }
+  function runMethodEffect(inst, property, props, oldProps, info) {
+    let context = inst._methodHost || inst;
+    let fn = context[info.methodName];
+    if (fn) {
+      let args = inst._marshalArgs(info.args, property, props);
+      return args === NOOP ? NOOP : fn.apply(context, args);
+    } else if (!info.dynamicFn) {
+      console.warn("method `" + info.methodName + "` not defined");
+    }
+  }
+  var emptyArray = [];
+  var IDENT = "(?:[a-zA-Z_$][\\w.:$\\-*]*)";
+  var NUMBER = "(?:[-+]?[0-9]*\\.?[0-9]+(?:[eE][-+]?[0-9]+)?)";
+  var SQUOTE_STRING = "(?:'(?:[^'\\\\]|\\\\.)*')";
+  var DQUOTE_STRING = '(?:"(?:[^"\\\\]|\\\\.)*")';
+  var STRING = "(?:" + SQUOTE_STRING + "|" + DQUOTE_STRING + ")";
+  var ARGUMENT = "(?:(" + IDENT + "|" + NUMBER + "|" + STRING + ")\\s*)";
+  var ARGUMENTS = "(?:" + ARGUMENT + "(?:,\\s*" + ARGUMENT + ")*)";
+  var ARGUMENT_LIST = "(?:\\(\\s*(?:" + ARGUMENTS + "?)\\)\\s*)";
+  var BINDING = "(" + IDENT + "\\s*" + ARGUMENT_LIST + "?)";
+  var OPEN_BRACKET = "(\\[\\[|{{)\\s*";
+  var CLOSE_BRACKET = "(?:]]|}})";
+  var NEGATE = "(?:(!)\\s*)?";
+  var EXPRESSION = OPEN_BRACKET + NEGATE + BINDING + CLOSE_BRACKET;
+  var bindingRegex = new RegExp(EXPRESSION, "g");
+  function literalFromParts(parts) {
+    let s5 = "";
+    for (let i5 = 0; i5 < parts.length; i5++) {
+      let literal = parts[i5].literal;
+      s5 += literal || "";
+    }
+    return s5;
+  }
+  function parseMethod(expression) {
+    let m2 = expression.match(/([^\s]+?)\(([\s\S]*)\)/);
+    if (m2) {
+      let methodName = m2[1];
+      let sig = { methodName, static: true, args: emptyArray };
+      if (m2[2].trim()) {
+        let args = m2[2].replace(/\\,/g, "&comma;").split(",");
+        return parseArgs(args, sig);
+      } else {
+        return sig;
+      }
+    }
+    return null;
+  }
+  function parseArgs(argList, sig) {
+    sig.args = argList.map(function(rawArg) {
+      let arg = parseArg(rawArg);
+      if (!arg.literal) {
+        sig.static = false;
+      }
+      return arg;
+    }, this);
+    return sig;
+  }
+  function parseArg(rawArg) {
+    let arg = rawArg.trim().replace(/&comma;/g, ",").replace(/\\(.)/g, "$1");
+    let a3 = {
+      name: arg,
+      value: "",
+      literal: false
+    };
+    let fc = arg[0];
+    if (fc === "-") {
+      fc = arg[1];
+    }
+    if (fc >= "0" && fc <= "9") {
+      fc = "#";
+    }
+    switch (fc) {
+      case "'":
+      case '"':
+        a3.value = arg.slice(1, -1);
+        a3.literal = true;
+        break;
+      case "#":
+        a3.value = Number(arg);
+        a3.literal = true;
+        break;
+    }
+    if (!a3.literal) {
+      a3.rootProperty = root(arg);
+      a3.structured = isPath(arg);
+      if (a3.structured) {
+        a3.wildcard = arg.slice(-2) == ".*";
+        if (a3.wildcard) {
+          a3.name = arg.slice(0, -2);
+        }
+      }
+    }
+    return a3;
+  }
+  function getArgValue(data, props, path) {
+    let value = get(data, path);
+    if (value === void 0) {
+      value = props[path];
+    }
+    return value;
+  }
+  function notifySplices(inst, array, path, splices) {
+    const splicesData = { indexSplices: splices };
+    if (legacyUndefined && !inst._overrideLegacyUndefined) {
+      array.splices = splicesData;
+    }
+    inst.notifyPath(path + ".splices", splicesData);
+    inst.notifyPath(path + ".length", array.length);
+    if (legacyUndefined && !inst._overrideLegacyUndefined) {
+      splicesData.indexSplices = [];
+    }
+  }
+  function notifySplice(inst, array, path, index, addedCount, removed) {
+    notifySplices(inst, array, path, [{
+      index,
+      addedCount,
+      removed,
+      object: array,
+      type: "splice"
+    }]);
+  }
+  function upper(name) {
+    return name[0].toUpperCase() + name.substring(1);
+  }
+  var PropertyEffects = dedupingMixin((superClass) => {
+    const propertyEffectsBase = TemplateStamp(PropertyAccessors(superClass));
+    class PropertyEffects2 extends propertyEffectsBase {
+      constructor() {
+        super();
+        this.__isPropertyEffectsClient = true;
+        this.__dataClientsReady;
+        this.__dataPendingClients;
+        this.__dataToNotify;
+        this.__dataLinkedPaths;
+        this.__dataHasPaths;
+        this.__dataCompoundStorage;
+        this.__dataHost;
+        this.__dataTemp;
+        this.__dataClientsInitialized;
+        this.__data;
+        this.__dataPending;
+        this.__dataOld;
+        this.__computeEffects;
+        this.__computeInfo;
+        this.__reflectEffects;
+        this.__notifyEffects;
+        this.__propagateEffects;
+        this.__observeEffects;
+        this.__readOnly;
+        this.__templateInfo;
+        this._overrideLegacyUndefined;
+      }
+      get PROPERTY_EFFECT_TYPES() {
+        return TYPES;
+      }
+      _initializeProperties() {
+        super._initializeProperties();
+        this._registerHost();
+        this.__dataClientsReady = false;
+        this.__dataPendingClients = null;
+        this.__dataToNotify = null;
+        this.__dataLinkedPaths = null;
+        this.__dataHasPaths = false;
+        this.__dataCompoundStorage = this.__dataCompoundStorage || null;
+        this.__dataHost = this.__dataHost || null;
+        this.__dataTemp = {};
+        this.__dataClientsInitialized = false;
+      }
+      _registerHost() {
+        if (hostStack.length) {
+          let host = hostStack[hostStack.length - 1];
+          host._enqueueClient(this);
+          this.__dataHost = host;
+        }
+      }
+      _initializeProtoProperties(props) {
+        this.__data = Object.create(props);
+        this.__dataPending = Object.create(props);
+        this.__dataOld = {};
+      }
+      _initializeInstanceProperties(props) {
+        let readOnly = this[TYPES.READ_ONLY];
+        for (let prop in props) {
+          if (!readOnly || !readOnly[prop]) {
+            this.__dataPending = this.__dataPending || {};
+            this.__dataOld = this.__dataOld || {};
+            this.__data[prop] = this.__dataPending[prop] = props[prop];
+          }
+        }
+      }
+      _addPropertyEffect(property, type, effect) {
+        this._createPropertyAccessor(property, type == TYPES.READ_ONLY);
+        let effects = ensureOwnEffectMap(this, type, true)[property];
+        if (!effects) {
+          effects = this[type][property] = [];
+        }
+        effects.push(effect);
+      }
+      _removePropertyEffect(property, type, effect) {
+        let effects = ensureOwnEffectMap(this, type, true)[property];
+        let idx = effects.indexOf(effect);
+        if (idx >= 0) {
+          effects.splice(idx, 1);
+        }
+      }
+      _hasPropertyEffect(property, type) {
+        let effects = this[type];
+        return Boolean(effects && effects[property]);
+      }
+      _hasReadOnlyEffect(property) {
+        return this._hasPropertyEffect(property, TYPES.READ_ONLY);
+      }
+      _hasNotifyEffect(property) {
+        return this._hasPropertyEffect(property, TYPES.NOTIFY);
+      }
+      _hasReflectEffect(property) {
+        return this._hasPropertyEffect(property, TYPES.REFLECT);
+      }
+      _hasComputedEffect(property) {
+        return this._hasPropertyEffect(property, TYPES.COMPUTE);
+      }
+      _setPendingPropertyOrPath(path, value, shouldNotify, isPathNotification) {
+        if (isPathNotification || root(Array.isArray(path) ? path[0] : path) !== path) {
+          if (!isPathNotification) {
+            let old = get(this, path);
+            path = set(this, path, value);
+            if (!path || !super._shouldPropertyChange(path, value, old)) {
+              return false;
+            }
+          }
+          this.__dataHasPaths = true;
+          if (this._setPendingProperty(path, value, shouldNotify)) {
+            computeLinkedPaths(this, path, value);
+            return true;
+          }
+        } else {
+          if (this.__dataHasAccessor && this.__dataHasAccessor[path]) {
+            return this._setPendingProperty(path, value, shouldNotify);
+          } else {
+            this[path] = value;
+          }
+        }
+        return false;
+      }
+      _setUnmanagedPropertyToNode(node, prop, value) {
+        if (value !== node[prop] || typeof value == "object") {
+          if (prop === "className") {
+            node = wrap(node);
+          }
+          node[prop] = value;
+        }
+      }
+      _setPendingProperty(property, value, shouldNotify) {
+        let propIsPath = this.__dataHasPaths && isPath(property);
+        let prevProps = propIsPath ? this.__dataTemp : this.__data;
+        if (this._shouldPropertyChange(property, value, prevProps[property])) {
+          if (!this.__dataPending) {
+            this.__dataPending = {};
+            this.__dataOld = {};
+          }
+          if (!(property in this.__dataOld)) {
+            this.__dataOld[property] = this.__data[property];
+          }
+          if (propIsPath) {
+            this.__dataTemp[property] = value;
+          } else {
+            this.__data[property] = value;
+          }
+          this.__dataPending[property] = value;
+          if (propIsPath || this[TYPES.NOTIFY] && this[TYPES.NOTIFY][property]) {
+            this.__dataToNotify = this.__dataToNotify || {};
+            this.__dataToNotify[property] = shouldNotify;
+          }
+          return true;
+        }
+        return false;
+      }
+      _setProperty(property, value) {
+        if (this._setPendingProperty(property, value, true)) {
+          this._invalidateProperties();
+        }
+      }
+      _invalidateProperties() {
+        if (this.__dataReady) {
+          this._flushProperties();
+        }
+      }
+      _enqueueClient(client) {
+        this.__dataPendingClients = this.__dataPendingClients || [];
+        if (client !== this) {
+          this.__dataPendingClients.push(client);
+        }
+      }
+      _flushClients() {
+        if (!this.__dataClientsReady) {
+          this.__dataClientsReady = true;
+          this._readyClients();
+          this.__dataReady = true;
+        } else {
+          this.__enableOrFlushClients();
+        }
+      }
+      __enableOrFlushClients() {
+        let clients = this.__dataPendingClients;
+        if (clients) {
+          this.__dataPendingClients = null;
+          for (let i5 = 0; i5 < clients.length; i5++) {
+            let client = clients[i5];
+            if (!client.__dataEnabled) {
+              client._enableProperties();
+            } else if (client.__dataPending) {
+              client._flushProperties();
+            }
+          }
+        }
+      }
+      _readyClients() {
+        this.__enableOrFlushClients();
+      }
+      setProperties(props, setReadOnly) {
+        for (let path in props) {
+          if (setReadOnly || !this[TYPES.READ_ONLY] || !this[TYPES.READ_ONLY][path]) {
+            this._setPendingPropertyOrPath(path, props[path], true);
+          }
+        }
+        this._invalidateProperties();
+      }
+      ready() {
+        this._flushProperties();
+        if (!this.__dataClientsReady) {
+          this._flushClients();
+        }
+        if (this.__dataPending) {
+          this._flushProperties();
+        }
+      }
+      _propertiesChanged(currentProps, changedProps, oldProps) {
+        let hasPaths = this.__dataHasPaths;
+        this.__dataHasPaths = false;
+        let notifyProps;
+        runComputedEffects(this, changedProps, oldProps, hasPaths);
+        notifyProps = this.__dataToNotify;
+        this.__dataToNotify = null;
+        this._propagatePropertyChanges(changedProps, oldProps, hasPaths);
+        this._flushClients();
+        runEffects(this, this[TYPES.REFLECT], changedProps, oldProps, hasPaths);
+        runEffects(this, this[TYPES.OBSERVE], changedProps, oldProps, hasPaths);
+        if (notifyProps) {
+          runNotifyEffects(this, notifyProps, changedProps, oldProps, hasPaths);
+        }
+        if (this.__dataCounter == 1) {
+          this.__dataTemp = {};
+        }
+      }
+      _propagatePropertyChanges(changedProps, oldProps, hasPaths) {
+        if (this[TYPES.PROPAGATE]) {
+          runEffects(this, this[TYPES.PROPAGATE], changedProps, oldProps, hasPaths);
+        }
+        if (this.__templateInfo) {
+          this._runEffectsForTemplate(this.__templateInfo, changedProps, oldProps, hasPaths);
+        }
+      }
+      _runEffectsForTemplate(templateInfo, changedProps, oldProps, hasPaths) {
+        const baseRunEffects = (changedProps2, hasPaths2) => {
+          runEffects(
+            this,
+            templateInfo.propertyEffects,
+            changedProps2,
+            oldProps,
+            hasPaths2,
+            templateInfo.nodeList
+          );
+          for (let info = templateInfo.firstChild; info; info = info.nextSibling) {
+            this._runEffectsForTemplate(info, changedProps2, oldProps, hasPaths2);
+          }
+        };
+        if (templateInfo.runEffects) {
+          templateInfo.runEffects(baseRunEffects, changedProps, hasPaths);
+        } else {
+          baseRunEffects(changedProps, hasPaths);
+        }
+      }
+      linkPaths(to, from) {
+        to = normalize(to);
+        from = normalize(from);
+        this.__dataLinkedPaths = this.__dataLinkedPaths || {};
+        this.__dataLinkedPaths[to] = from;
+      }
+      unlinkPaths(path) {
+        path = normalize(path);
+        if (this.__dataLinkedPaths) {
+          delete this.__dataLinkedPaths[path];
+        }
+      }
+      notifySplices(path, splices) {
+        let info = { path: "" };
+        let array = get(this, path, info);
+        notifySplices(this, array, info.path, splices);
+      }
+      get(path, root2) {
+        return get(root2 || this, path);
+      }
+      set(path, value, root2) {
+        if (root2) {
+          set(root2, path, value);
+        } else {
+          if (!this[TYPES.READ_ONLY] || !this[TYPES.READ_ONLY][path]) {
+            if (this._setPendingPropertyOrPath(path, value, true)) {
+              this._invalidateProperties();
+            }
+          }
+        }
+      }
+      push(path, ...items) {
+        let info = { path: "" };
+        let array = get(this, path, info);
+        let len = array.length;
+        let ret = array.push(...items);
+        if (items.length) {
+          notifySplice(this, array, info.path, len, items.length, []);
+        }
+        return ret;
+      }
+      pop(path) {
+        let info = { path: "" };
+        let array = get(this, path, info);
+        let hadLength = Boolean(array.length);
+        let ret = array.pop();
+        if (hadLength) {
+          notifySplice(this, array, info.path, array.length, 0, [ret]);
+        }
+        return ret;
+      }
+      splice(path, start, deleteCount, ...items) {
+        let info = { path: "" };
+        let array = get(this, path, info);
+        if (start < 0) {
+          start = array.length - Math.floor(-start);
+        } else if (start) {
+          start = Math.floor(start);
+        }
+        let ret;
+        if (arguments.length === 2) {
+          ret = array.splice(start);
+        } else {
+          ret = array.splice(start, deleteCount, ...items);
+        }
+        if (items.length || ret.length) {
+          notifySplice(this, array, info.path, start, items.length, ret);
+        }
+        return ret;
+      }
+      shift(path) {
+        let info = { path: "" };
+        let array = get(this, path, info);
+        let hadLength = Boolean(array.length);
+        let ret = array.shift();
+        if (hadLength) {
+          notifySplice(this, array, info.path, 0, 0, [ret]);
+        }
+        return ret;
+      }
+      unshift(path, ...items) {
+        let info = { path: "" };
+        let array = get(this, path, info);
+        let ret = array.unshift(...items);
+        if (items.length) {
+          notifySplice(this, array, info.path, 0, items.length, []);
+        }
+        return ret;
+      }
+      notifyPath(path, value) {
+        let propPath;
+        if (arguments.length == 1) {
+          let info = { path: "" };
+          value = get(this, path, info);
+          propPath = info.path;
+        } else if (Array.isArray(path)) {
+          propPath = normalize(path);
+        } else {
+          propPath = path;
+        }
+        if (this._setPendingPropertyOrPath(propPath, value, true, true)) {
+          this._invalidateProperties();
+        }
+      }
+      _createReadOnlyProperty(property, protectedSetter) {
+        this._addPropertyEffect(property, TYPES.READ_ONLY);
+        if (protectedSetter) {
+          this["_set" + upper(property)] = function(value) {
+            this._setProperty(property, value);
+          };
+        }
+      }
+      _createPropertyObserver(property, method, dynamicFn) {
+        let info = { property, method, dynamicFn: Boolean(dynamicFn) };
+        this._addPropertyEffect(property, TYPES.OBSERVE, {
+          fn: runObserverEffect,
+          info,
+          trigger: { name: property }
+        });
+        if (dynamicFn) {
+          this._addPropertyEffect(method, TYPES.OBSERVE, {
+            fn: runObserverEffect,
+            info,
+            trigger: { name: method }
+          });
+        }
+      }
+      _createMethodObserver(expression, dynamicFn) {
+        let sig = parseMethod(expression);
+        if (!sig) {
+          throw new Error("Malformed observer expression '" + expression + "'");
+        }
+        createMethodEffect(this, sig, TYPES.OBSERVE, runMethodEffect, null, dynamicFn);
+      }
+      _createNotifyingProperty(property) {
+        this._addPropertyEffect(property, TYPES.NOTIFY, {
+          fn: runNotifyEffect,
+          info: {
+            eventName: camelToDashCase(property) + "-changed",
+            property
+          }
+        });
+      }
+      _createReflectedProperty(property) {
+        let attr = this.constructor.attributeNameForProperty(property);
+        if (attr[0] === "-") {
+          console.warn("Property " + property + " cannot be reflected to attribute " + attr + ' because "-" is not a valid starting attribute name. Use a lowercase first letter for the property instead.');
+        } else {
+          this._addPropertyEffect(property, TYPES.REFLECT, {
+            fn: runReflectEffect,
+            info: {
+              attrName: attr
+            }
+          });
+        }
+      }
+      _createComputedProperty(property, expression, dynamicFn) {
+        let sig = parseMethod(expression);
+        if (!sig) {
+          throw new Error("Malformed computed expression '" + expression + "'");
+        }
+        const info = createMethodEffect(this, sig, TYPES.COMPUTE, runComputedEffect, property, dynamicFn);
+        ensureOwnEffectMap(this, COMPUTE_INFO)[property] = info;
+      }
+      _marshalArgs(args, path, props) {
+        const data = this.__data;
+        const values = [];
+        for (let i5 = 0, l5 = args.length; i5 < l5; i5++) {
+          let { name, structured, wildcard, value, literal } = args[i5];
+          if (!literal) {
+            if (wildcard) {
+              const matches = isDescendant(name, path);
+              const pathValue = getArgValue(data, props, matches ? path : name);
+              value = {
+                path: matches ? path : name,
+                value: pathValue,
+                base: matches ? get(data, name) : pathValue
+              };
+            } else {
+              value = structured ? getArgValue(data, props, name) : data[name];
+            }
+          }
+          if (legacyUndefined && !this._overrideLegacyUndefined && value === void 0 && args.length > 1) {
+            return NOOP;
+          }
+          values[i5] = value;
+        }
+        return values;
+      }
+      static addPropertyEffect(property, type, effect) {
+        this.prototype._addPropertyEffect(property, type, effect);
+      }
+      static createPropertyObserver(property, method, dynamicFn) {
+        this.prototype._createPropertyObserver(property, method, dynamicFn);
+      }
+      static createMethodObserver(expression, dynamicFn) {
+        this.prototype._createMethodObserver(expression, dynamicFn);
+      }
+      static createNotifyingProperty(property) {
+        this.prototype._createNotifyingProperty(property);
+      }
+      static createReadOnlyProperty(property, protectedSetter) {
+        this.prototype._createReadOnlyProperty(property, protectedSetter);
+      }
+      static createReflectedProperty(property) {
+        this.prototype._createReflectedProperty(property);
+      }
+      static createComputedProperty(property, expression, dynamicFn) {
+        this.prototype._createComputedProperty(property, expression, dynamicFn);
+      }
+      static bindTemplate(template4) {
+        return this.prototype._bindTemplate(template4);
+      }
+      _bindTemplate(template4, instanceBinding) {
+        let templateInfo = this.constructor._parseTemplate(template4);
+        let wasPreBound = this.__preBoundTemplateInfo == templateInfo;
+        if (!wasPreBound) {
+          for (let prop in templateInfo.propertyEffects) {
+            this._createPropertyAccessor(prop);
+          }
+        }
+        if (instanceBinding) {
+          templateInfo = Object.create(templateInfo);
+          templateInfo.wasPreBound = wasPreBound;
+          if (!this.__templateInfo) {
+            this.__templateInfo = templateInfo;
+          } else {
+            const parent = template4._parentTemplateInfo || this.__templateInfo;
+            const previous = parent.lastChild;
+            templateInfo.parent = parent;
+            parent.lastChild = templateInfo;
+            templateInfo.previousSibling = previous;
+            if (previous) {
+              previous.nextSibling = templateInfo;
+            } else {
+              parent.firstChild = templateInfo;
+            }
+          }
+        } else {
+          this.__preBoundTemplateInfo = templateInfo;
+        }
+        return templateInfo;
+      }
+      static _addTemplatePropertyEffect(templateInfo, prop, effect) {
+        let hostProps = templateInfo.hostProps = templateInfo.hostProps || {};
+        hostProps[prop] = true;
+        let effects = templateInfo.propertyEffects = templateInfo.propertyEffects || {};
+        let propEffects = effects[prop] = effects[prop] || [];
+        propEffects.push(effect);
+      }
+      _stampTemplate(template4, templateInfo) {
+        templateInfo = templateInfo || this._bindTemplate(template4, true);
+        hostStack.push(this);
+        let dom = super._stampTemplate(template4, templateInfo);
+        hostStack.pop();
+        templateInfo.nodeList = dom.nodeList;
+        if (!templateInfo.wasPreBound) {
+          let nodes = templateInfo.childNodes = [];
+          for (let n6 = dom.firstChild; n6; n6 = n6.nextSibling) {
+            nodes.push(n6);
+          }
+        }
+        dom.templateInfo = templateInfo;
+        setupBindings(this, templateInfo);
+        if (this.__dataClientsReady) {
+          this._runEffectsForTemplate(templateInfo, this.__data, null, false);
+          this._flushClients();
+        }
+        return dom;
+      }
+      _removeBoundDom(dom) {
+        const templateInfo = dom.templateInfo;
+        const { previousSibling, nextSibling, parent } = templateInfo;
+        if (previousSibling) {
+          previousSibling.nextSibling = nextSibling;
+        } else if (parent) {
+          parent.firstChild = nextSibling;
+        }
+        if (nextSibling) {
+          nextSibling.previousSibling = previousSibling;
+        } else if (parent) {
+          parent.lastChild = previousSibling;
+        }
+        templateInfo.nextSibling = templateInfo.previousSibling = null;
+        let nodes = templateInfo.childNodes;
+        for (let i5 = 0; i5 < nodes.length; i5++) {
+          let node = nodes[i5];
+          wrap(wrap(node).parentNode).removeChild(node);
+        }
+      }
+      static _parseTemplateNode(node, templateInfo, nodeInfo) {
+        let noted = propertyEffectsBase._parseTemplateNode.call(
+          this,
+          node,
+          templateInfo,
+          nodeInfo
+        );
+        if (node.nodeType === Node.TEXT_NODE) {
+          let parts = this._parseBindings(node.textContent, templateInfo);
+          if (parts) {
+            node.textContent = literalFromParts(parts) || " ";
+            addBinding(this, templateInfo, nodeInfo, "text", "textContent", parts);
+            noted = true;
+          }
+        }
+        return noted;
+      }
+      static _parseTemplateNodeAttribute(node, templateInfo, nodeInfo, name, value) {
+        let parts = this._parseBindings(value, templateInfo);
+        if (parts) {
+          let origName = name;
+          let kind = "property";
+          if (capitalAttributeRegex.test(name)) {
+            kind = "attribute";
+          } else if (name[name.length - 1] == "$") {
+            name = name.slice(0, -1);
+            kind = "attribute";
+          }
+          let literal = literalFromParts(parts);
+          if (literal && kind == "attribute") {
+            if (name == "class" && node.hasAttribute("class")) {
+              literal += " " + node.getAttribute(name);
+            }
+            node.setAttribute(name, literal);
+          }
+          if (kind == "attribute" && origName == "disable-upgrade$") {
+            node.setAttribute(name, "");
+          }
+          if (node.localName === "input" && origName === "value") {
+            node.setAttribute(origName, "");
+          }
+          node.removeAttribute(origName);
+          if (kind === "property") {
+            name = dashToCamelCase(name);
+          }
+          addBinding(this, templateInfo, nodeInfo, kind, name, parts, literal);
+          return true;
+        } else {
+          return propertyEffectsBase._parseTemplateNodeAttribute.call(
+            this,
+            node,
+            templateInfo,
+            nodeInfo,
+            name,
+            value
+          );
+        }
+      }
+      static _parseTemplateNestedTemplate(node, templateInfo, nodeInfo) {
+        let noted = propertyEffectsBase._parseTemplateNestedTemplate.call(
+          this,
+          node,
+          templateInfo,
+          nodeInfo
+        );
+        const parent = node.parentNode;
+        const nestedTemplateInfo = nodeInfo.templateInfo;
+        const isDomIf = parent.localName === "dom-if";
+        const isDomRepeat = parent.localName === "dom-repeat";
+        if (removeNestedTemplates && (isDomIf || isDomRepeat)) {
+          parent.removeChild(node);
+          nodeInfo = nodeInfo.parentInfo;
+          nodeInfo.templateInfo = nestedTemplateInfo;
+          nodeInfo.noted = true;
+          noted = false;
+        }
+        let hostProps = nestedTemplateInfo.hostProps;
+        if (fastDomIf && isDomIf) {
+          if (hostProps) {
+            templateInfo.hostProps = Object.assign(templateInfo.hostProps || {}, hostProps);
+            if (!removeNestedTemplates) {
+              nodeInfo.parentInfo.noted = true;
+            }
+          }
+        } else {
+          let mode = "{";
+          for (let source in hostProps) {
+            let parts = [{ mode, source, dependencies: [source], hostProp: true }];
+            addBinding(this, templateInfo, nodeInfo, "property", "_host_" + source, parts);
+          }
+        }
+        return noted;
+      }
+      static _parseBindings(text, templateInfo) {
+        let parts = [];
+        let lastIndex = 0;
+        let m2;
+        while ((m2 = bindingRegex.exec(text)) !== null) {
+          if (m2.index > lastIndex) {
+            parts.push({ literal: text.slice(lastIndex, m2.index) });
+          }
+          let mode = m2[1][0];
+          let negate = Boolean(m2[2]);
+          let source = m2[3].trim();
+          let customEvent = false, notifyEvent = "", colon = -1;
+          if (mode == "{" && (colon = source.indexOf("::")) > 0) {
+            notifyEvent = source.substring(colon + 2);
+            source = source.substring(0, colon);
+            customEvent = true;
+          }
+          let signature = parseMethod(source);
+          let dependencies = [];
+          if (signature) {
+            let { args, methodName } = signature;
+            for (let i5 = 0; i5 < args.length; i5++) {
+              let arg = args[i5];
+              if (!arg.literal) {
+                dependencies.push(arg);
+              }
+            }
+            let dynamicFns = templateInfo.dynamicFns;
+            if (dynamicFns && dynamicFns[methodName] || signature.static) {
+              dependencies.push(methodName);
+              signature.dynamicFn = true;
+            }
+          } else {
+            dependencies.push(source);
+          }
+          parts.push({
+            source,
+            mode,
+            negate,
+            customEvent,
+            signature,
+            dependencies,
+            event: notifyEvent
+          });
+          lastIndex = bindingRegex.lastIndex;
+        }
+        if (lastIndex && lastIndex < text.length) {
+          let literal = text.substring(lastIndex);
+          if (literal) {
+            parts.push({
+              literal
+            });
+          }
+        }
+        if (parts.length) {
+          return parts;
+        } else {
+          return null;
+        }
+      }
+      static _evaluateBinding(inst, part, path, props, oldProps, hasPaths) {
+        let value;
+        if (part.signature) {
+          value = runMethodEffect(inst, path, props, oldProps, part.signature);
+        } else if (path != part.source) {
+          value = get(inst, part.source);
+        } else {
+          if (hasPaths && isPath(path)) {
+            value = get(inst, path);
+          } else {
+            value = inst.__data[path];
+          }
+        }
+        if (part.negate) {
+          value = !value;
+        }
+        return value;
+      }
+    }
+    return PropertyEffects2;
+  });
+  var hostStack = [];
+
+  // node_modules/@polymer/polymer/lib/utils/telemetry.js
+  var instanceCount = 0;
+  function incrementInstanceCount() {
+    instanceCount++;
+  }
+  var registrations = [];
+  function register(prototype) {
+    registrations.push(prototype);
+  }
+
+  // node_modules/@polymer/polymer/lib/mixins/properties-mixin.js
+  function normalizeProperties(props) {
+    const output = {};
+    for (let p2 in props) {
+      const o7 = props[p2];
+      output[p2] = typeof o7 === "function" ? { type: o7 } : o7;
+    }
+    return output;
+  }
+  var PropertiesMixin = dedupingMixin((superClass) => {
+    const base = PropertiesChanged(superClass);
+    function superPropertiesClass(constructor) {
+      const superCtor = Object.getPrototypeOf(constructor);
+      return superCtor.prototype instanceof PropertiesMixin2 ? superCtor : null;
+    }
+    function ownProperties(constructor) {
+      if (!constructor.hasOwnProperty(JSCompiler_renameProperty("__ownProperties", constructor))) {
+        let props = null;
+        if (constructor.hasOwnProperty(JSCompiler_renameProperty("properties", constructor))) {
+          const properties = constructor.properties;
+          if (properties) {
+            props = normalizeProperties(properties);
+          }
+        }
+        constructor.__ownProperties = props;
+      }
+      return constructor.__ownProperties;
+    }
+    class PropertiesMixin2 extends base {
+      static get observedAttributes() {
+        if (!this.hasOwnProperty(JSCompiler_renameProperty("__observedAttributes", this))) {
+          register(this.prototype);
+          const props = this._properties;
+          this.__observedAttributes = props ? Object.keys(props).map((p2) => this.prototype._addPropertyToAttributeMap(p2)) : [];
+        }
+        return this.__observedAttributes;
+      }
+      static finalize() {
+        if (!this.hasOwnProperty(JSCompiler_renameProperty("__finalized", this))) {
+          const superCtor = superPropertiesClass(this);
+          if (superCtor) {
+            superCtor.finalize();
+          }
+          this.__finalized = true;
+          this._finalizeClass();
+        }
+      }
+      static _finalizeClass() {
+        const props = ownProperties(this);
+        if (props) {
+          this.createProperties(props);
+        }
+      }
+      static get _properties() {
+        if (!this.hasOwnProperty(
+          JSCompiler_renameProperty("__properties", this)
+        )) {
+          const superCtor = superPropertiesClass(this);
+          this.__properties = Object.assign(
+            {},
+            superCtor && superCtor._properties,
+            ownProperties(this)
+          );
+        }
+        return this.__properties;
+      }
+      static typeForProperty(name) {
+        const info = this._properties[name];
+        return info && info.type;
+      }
+      _initializeProperties() {
+        incrementInstanceCount();
+        this.constructor.finalize();
+        super._initializeProperties();
+      }
+      connectedCallback() {
+        if (super.connectedCallback) {
+          super.connectedCallback();
+        }
+        this._enableProperties();
+      }
+      disconnectedCallback() {
+        if (super.disconnectedCallback) {
+          super.disconnectedCallback();
+        }
+      }
+    }
+    return PropertiesMixin2;
+  });
+
+  // node_modules/@polymer/polymer/lib/mixins/element-mixin.js
+  var version = "3.5.1";
+  var builtCSS = window.ShadyCSS && window.ShadyCSS["cssBuild"];
+  var ElementMixin = dedupingMixin((base) => {
+    const polymerElementBase = PropertiesMixin(PropertyEffects(base));
+    function propertyDefaults(constructor) {
+      if (!constructor.hasOwnProperty(
+        JSCompiler_renameProperty("__propertyDefaults", constructor)
+      )) {
+        constructor.__propertyDefaults = null;
+        let props = constructor._properties;
+        for (let p2 in props) {
+          let info = props[p2];
+          if ("value" in info) {
+            constructor.__propertyDefaults = constructor.__propertyDefaults || {};
+            constructor.__propertyDefaults[p2] = info;
+          }
+        }
+      }
+      return constructor.__propertyDefaults;
+    }
+    function ownObservers(constructor) {
+      if (!constructor.hasOwnProperty(
+        JSCompiler_renameProperty("__ownObservers", constructor)
+      )) {
+        constructor.__ownObservers = constructor.hasOwnProperty(
+          JSCompiler_renameProperty("observers", constructor)
+        ) ? constructor.observers : null;
+      }
+      return constructor.__ownObservers;
+    }
+    function createPropertyFromConfig(proto2, name, info, allProps) {
+      if (info.computed) {
+        info.readOnly = true;
+      }
+      if (info.computed) {
+        if (proto2._hasReadOnlyEffect(name)) {
+          console.warn(`Cannot redefine computed property '${name}'.`);
+        } else {
+          proto2._createComputedProperty(name, info.computed, allProps);
+        }
+      }
+      if (info.readOnly && !proto2._hasReadOnlyEffect(name)) {
+        proto2._createReadOnlyProperty(name, !info.computed);
+      } else if (info.readOnly === false && proto2._hasReadOnlyEffect(name)) {
+        console.warn(`Cannot make readOnly property '${name}' non-readOnly.`);
+      }
+      if (info.reflectToAttribute && !proto2._hasReflectEffect(name)) {
+        proto2._createReflectedProperty(name);
+      } else if (info.reflectToAttribute === false && proto2._hasReflectEffect(name)) {
+        console.warn(`Cannot make reflected property '${name}' non-reflected.`);
+      }
+      if (info.notify && !proto2._hasNotifyEffect(name)) {
+        proto2._createNotifyingProperty(name);
+      } else if (info.notify === false && proto2._hasNotifyEffect(name)) {
+        console.warn(`Cannot make notify property '${name}' non-notify.`);
+      }
+      if (info.observer) {
+        proto2._createPropertyObserver(name, info.observer, allProps[info.observer]);
+      }
+      proto2._addPropertyToAttributeMap(name);
+    }
+    function processElementStyles(klass, template4, is, baseURI) {
+      if (!builtCSS) {
+        const templateStyles = template4.content.querySelectorAll("style");
+        const stylesWithImports = stylesFromTemplate(template4);
+        const linkedStyles = stylesFromModuleImports(is);
+        const firstTemplateChild = template4.content.firstElementChild;
+        for (let idx = 0; idx < linkedStyles.length; idx++) {
+          let s5 = linkedStyles[idx];
+          s5.textContent = klass._processStyleText(s5.textContent, baseURI);
+          template4.content.insertBefore(s5, firstTemplateChild);
+        }
+        let templateStyleIndex = 0;
+        for (let i5 = 0; i5 < stylesWithImports.length; i5++) {
+          let s5 = stylesWithImports[i5];
+          let templateStyle = templateStyles[templateStyleIndex];
+          if (templateStyle !== s5) {
+            s5 = s5.cloneNode(true);
+            templateStyle.parentNode.insertBefore(s5, templateStyle);
+          } else {
+            templateStyleIndex++;
+          }
+          s5.textContent = klass._processStyleText(s5.textContent, baseURI);
+        }
+      }
+      if (window.ShadyCSS) {
+        window.ShadyCSS.prepareTemplate(template4, is);
+      }
+      if (useAdoptedStyleSheetsWithBuiltCSS && builtCSS && supportsAdoptingStyleSheets) {
+        const styles = template4.content.querySelectorAll("style");
+        if (styles) {
+          let css = "";
+          Array.from(styles).forEach((s5) => {
+            css += s5.textContent;
+            s5.parentNode.removeChild(s5);
+          });
+          klass._styleSheet = new CSSStyleSheet();
+          klass._styleSheet.replaceSync(css);
+        }
+      }
+    }
+    function getTemplateFromDomModule(is) {
+      let template4 = null;
+      if (is && (!strictTemplatePolicy || allowTemplateFromDomModule)) {
+        template4 = DomModule.import(is, "template");
+        if (strictTemplatePolicy && !template4) {
+          throw new Error(`strictTemplatePolicy: expecting dom-module or null template for ${is}`);
+        }
+      }
+      return template4;
+    }
+    class PolymerElement2 extends polymerElementBase {
+      static get polymerElementVersion() {
+        return version;
+      }
+      static _finalizeClass() {
+        polymerElementBase._finalizeClass.call(this);
+        const observers = ownObservers(this);
+        if (observers) {
+          this.createObservers(observers, this._properties);
+        }
+        this._prepareTemplate();
+      }
+      static _prepareTemplate() {
+        let template4 = this.template;
+        if (template4) {
+          if (typeof template4 === "string") {
+            console.error("template getter must return HTMLTemplateElement");
+            template4 = null;
+          } else if (!legacyOptimizations) {
+            template4 = template4.cloneNode(true);
+          }
+        }
+        this.prototype._template = template4;
+      }
+      static createProperties(props) {
+        for (let p2 in props) {
+          createPropertyFromConfig(
+            this.prototype,
+            p2,
+            props[p2],
+            props
+          );
+        }
+      }
+      static createObservers(observers, dynamicFns) {
+        const proto2 = this.prototype;
+        for (let i5 = 0; i5 < observers.length; i5++) {
+          proto2._createMethodObserver(observers[i5], dynamicFns);
+        }
+      }
+      static get template() {
+        if (!this.hasOwnProperty(JSCompiler_renameProperty("_template", this))) {
+          let protoTemplate = this.prototype.hasOwnProperty(
+            JSCompiler_renameProperty("_template", this.prototype)
+          ) ? this.prototype._template : void 0;
+          if (typeof protoTemplate === "function") {
+            protoTemplate = protoTemplate();
+          }
+          this._template = protoTemplate !== void 0 ? protoTemplate : this.hasOwnProperty(JSCompiler_renameProperty("is", this)) && getTemplateFromDomModule(this.is) || Object.getPrototypeOf(this.prototype).constructor.template;
+        }
+        return this._template;
+      }
+      static set template(value) {
+        this._template = value;
+      }
+      static get importPath() {
+        if (!this.hasOwnProperty(JSCompiler_renameProperty("_importPath", this))) {
+          const meta = this.importMeta;
+          if (meta) {
+            this._importPath = pathFromUrl(meta.url);
+          } else {
+            const module = DomModule.import(this.is);
+            this._importPath = module && module.assetpath || Object.getPrototypeOf(this.prototype).constructor.importPath;
+          }
+        }
+        return this._importPath;
+      }
+      constructor() {
+        super();
+        this._template;
+        this._importPath;
+        this.rootPath;
+        this.importPath;
+        this.root;
+        this.$;
+      }
+      _initializeProperties() {
+        this.constructor.finalize();
+        this.constructor._finalizeTemplate(this.localName);
+        super._initializeProperties();
+        this.rootPath = rootPath;
+        this.importPath = this.constructor.importPath;
+        let p$ = propertyDefaults(this.constructor);
+        if (!p$) {
+          return;
+        }
+        for (let p2 in p$) {
+          let info = p$[p2];
+          if (this._canApplyPropertyDefault(p2)) {
+            let value = typeof info.value == "function" ? info.value.call(this) : info.value;
+            if (this._hasAccessor(p2)) {
+              this._setPendingProperty(p2, value, true);
+            } else {
+              this[p2] = value;
+            }
+          }
+        }
+      }
+      _canApplyPropertyDefault(property) {
+        return !this.hasOwnProperty(property);
+      }
+      static _processStyleText(cssText, baseURI) {
+        return resolveCss(cssText, baseURI);
+      }
+      static _finalizeTemplate(is) {
+        const template4 = this.prototype._template;
+        if (template4 && !template4.__polymerFinalized) {
+          template4.__polymerFinalized = true;
+          const importPath = this.importPath;
+          const baseURI = importPath ? resolveUrl(importPath) : "";
+          processElementStyles(this, template4, is, baseURI);
+          this.prototype._bindTemplate(template4);
+        }
+      }
+      connectedCallback() {
+        if (window.ShadyCSS && this._template) {
+          window.ShadyCSS.styleElement(this);
+        }
+        super.connectedCallback();
+      }
+      ready() {
+        if (this._template) {
+          this.root = this._stampTemplate(this._template);
+          this.$ = this.root.$;
+        }
+        super.ready();
+      }
+      _readyClients() {
+        if (this._template) {
+          this.root = this._attachDom(this.root);
+        }
+        super._readyClients();
+      }
+      _attachDom(dom) {
+        const n6 = wrap(this);
+        if (n6.attachShadow) {
+          if (dom) {
+            if (!n6.shadowRoot) {
+              n6.attachShadow({ mode: "open", shadyUpgradeFragment: dom });
+              n6.shadowRoot.appendChild(dom);
+              if (this.constructor._styleSheet) {
+                n6.shadowRoot.adoptedStyleSheets = [this.constructor._styleSheet];
+              }
+            }
+            if (syncInitialRender && window.ShadyDOM) {
+              window.ShadyDOM.flushInitial(n6.shadowRoot);
+            }
+            return n6.shadowRoot;
+          }
+          return null;
+        } else {
+          throw new Error("ShadowDOM not available. PolymerElement can create dom as children instead of in ShadowDOM by setting `this.root = this;` before `ready`.");
+        }
+      }
+      updateStyles(properties) {
+        if (window.ShadyCSS) {
+          window.ShadyCSS.styleSubtree(this, properties);
+        }
+      }
+      resolveUrl(url, base2) {
+        if (!base2 && this.importPath) {
+          base2 = resolveUrl(this.importPath);
+        }
+        return resolveUrl(url, base2);
+      }
+      static _parseTemplateContent(template4, templateInfo, nodeInfo) {
+        templateInfo.dynamicFns = templateInfo.dynamicFns || this._properties;
+        return polymerElementBase._parseTemplateContent.call(
+          this,
+          template4,
+          templateInfo,
+          nodeInfo
+        );
+      }
+      static _addTemplatePropertyEffect(templateInfo, prop, effect) {
+        if (legacyWarnings && !(prop in this._properties) && !(effect.info.part.signature && effect.info.part.signature.static) && !effect.info.part.hostProp && !templateInfo.nestedTemplate) {
+          console.warn(`Property '${prop}' used in template but not declared in 'properties'; attribute will not be observed.`);
+        }
+        return polymerElementBase._addTemplatePropertyEffect.call(
+          this,
+          templateInfo,
+          prop,
+          effect
+        );
+      }
+    }
+    return PolymerElement2;
+  });
+
+  // node_modules/@polymer/polymer/lib/utils/html-tag.js
+  var policy = window.trustedTypes && trustedTypes.createPolicy("polymer-html-literal", { createHTML: (s5) => s5 });
+  var LiteralString = class {
+    constructor(strings, values) {
+      assertValidTemplateStringParameters(strings, values);
+      const string = values.reduce(
+        (acc, v2, idx) => acc + literalValue(v2) + strings[idx + 1],
+        strings[0]
+      );
+      this.value = string.toString();
+    }
+    toString() {
+      return this.value;
+    }
+  };
+  function literalValue(value) {
+    if (value instanceof LiteralString) {
+      return value.value;
+    } else {
+      throw new Error(
+        `non-literal value passed to Polymer's htmlLiteral function: ${value}`
+      );
+    }
+  }
+  function htmlValue(value) {
+    if (value instanceof HTMLTemplateElement) {
+      return value.innerHTML;
+    } else if (value instanceof LiteralString) {
+      return literalValue(value);
+    } else {
+      throw new Error(
+        `non-template value passed to Polymer's html function: ${value}`
+      );
+    }
+  }
+  var html = function html2(strings, ...values) {
+    assertValidTemplateStringParameters(strings, values);
+    const template4 = document.createElement("template");
+    let value = values.reduce(
+      (acc, v2, idx) => acc + htmlValue(v2) + strings[idx + 1],
+      strings[0]
+    );
+    if (policy) {
+      value = policy.createHTML(value);
+    }
+    template4.innerHTML = value;
+    return template4;
+  };
+  var assertValidTemplateStringParameters = (strings, values) => {
+    if (!Array.isArray(strings) || !Array.isArray(strings.raw) || values.length !== strings.length - 1) {
+      throw new TypeError("Invalid call to the html template tag");
+    }
+  };
+
+  // node_modules/@polymer/polymer/polymer-element.js
+  var PolymerElement = ElementMixin(HTMLElement);
+
+  // node_modules/@vaadin/component-base/src/async.js
+  var microtaskCurrHandle2 = 0;
+  var microtaskLastHandle2 = 0;
+  var microtaskCallbacks2 = [];
+  var microtaskNodeContent2 = 0;
+  var microtaskScheduled2 = false;
+  var microtaskNode2 = document.createTextNode("");
+  new window.MutationObserver(microtaskFlush2).observe(microtaskNode2, { characterData: true });
+  function microtaskFlush2() {
+    microtaskScheduled2 = false;
+    const len = microtaskCallbacks2.length;
+    for (let i5 = 0; i5 < len; i5++) {
+      const cb = microtaskCallbacks2[i5];
+      if (cb) {
+        try {
+          cb();
+        } catch (e9) {
+          setTimeout(() => {
+            throw e9;
+          });
+        }
+      }
+    }
+    microtaskCallbacks2.splice(0, len);
+    microtaskLastHandle2 += len;
+  }
+  var timeOut = {
+    after(delay) {
+      return {
+        run(fn) {
+          return window.setTimeout(fn, delay);
+        },
+        cancel(handle) {
+          window.clearTimeout(handle);
+        }
+      };
+    },
+    run(fn, delay) {
+      return window.setTimeout(fn, delay);
+    },
+    cancel(handle) {
+      window.clearTimeout(handle);
+    }
+  };
+  var animationFrame = {
+    run(fn) {
+      return window.requestAnimationFrame(fn);
+    },
+    cancel(handle) {
+      window.cancelAnimationFrame(handle);
+    }
+  };
+  var idlePeriod = {
+    run(fn) {
+      return window.requestIdleCallback ? window.requestIdleCallback(fn) : window.setTimeout(fn, 16);
+    },
+    cancel(handle) {
+      if (window.cancelIdleCallback) {
+        window.cancelIdleCallback(handle);
+      } else {
+        window.clearTimeout(handle);
+      }
+    }
+  };
+  var microTask2 = {
+    run(callback) {
+      if (!microtaskScheduled2) {
+        microtaskScheduled2 = true;
+        microtaskNode2.textContent = microtaskNodeContent2;
+        microtaskNodeContent2 += 1;
+      }
+      microtaskCallbacks2.push(callback);
+      const result = microtaskCurrHandle2;
+      microtaskCurrHandle2 += 1;
+      return result;
+    },
+    cancel(handle) {
+      const idx = handle - microtaskLastHandle2;
+      if (idx >= 0) {
+        if (!microtaskCallbacks2[idx]) {
+          throw new Error(`invalid async handle: ${handle}`);
+        }
+        microtaskCallbacks2[idx] = null;
+      }
+    }
+  };
+
+  // node_modules/@vaadin/component-base/src/gestures.js
+  var passiveTouchGestures2 = false;
+  var wrap2 = (node) => node;
+  var HAS_NATIVE_TA = typeof document.head.style.touchAction === "string";
+  var GESTURE_KEY = "__polymerGestures";
+  var HANDLED_OBJ = "__polymerGesturesHandled";
+  var TOUCH_ACTION = "__polymerGesturesTouchAction";
+  var TAP_DISTANCE = 25;
+  var TRACK_DISTANCE = 5;
+  var TRACK_LENGTH = 2;
+  var MOUSE_EVENTS = ["mousedown", "mousemove", "mouseup", "click"];
+  var MOUSE_WHICH_TO_BUTTONS = [0, 1, 4, 2];
+  var MOUSE_HAS_BUTTONS = function() {
+    try {
+      return new MouseEvent("test", { buttons: 1 }).buttons === 1;
+    } catch (e9) {
+      return false;
+    }
+  }();
+  function isMouseEvent(name) {
+    return MOUSE_EVENTS.indexOf(name) > -1;
+  }
+  var supportsPassive = false;
+  (function() {
+    try {
+      const opts = Object.defineProperty({}, "passive", {
+        get() {
+          supportsPassive = true;
+        }
+      });
+      window.addEventListener("test", null, opts);
+      window.removeEventListener("test", null, opts);
+    } catch (e9) {
+    }
+  })();
+  function PASSIVE_TOUCH(eventName) {
+    if (isMouseEvent(eventName) || eventName === "touchend") {
+      return;
+    }
+    if (HAS_NATIVE_TA && supportsPassive && passiveTouchGestures2) {
+      return { passive: true };
+    }
+  }
+  var IS_TOUCH_ONLY = navigator.userAgent.match(/iP(?:[oa]d|hone)|Android/);
+  var canBeDisabled = {
+    button: true,
+    command: true,
+    fieldset: true,
+    input: true,
+    keygen: true,
+    optgroup: true,
+    option: true,
+    select: true,
+    textarea: true
+  };
+  function hasLeftMouseButton(ev) {
+    const type = ev.type;
+    if (!isMouseEvent(type)) {
+      return false;
+    }
+    if (type === "mousemove") {
+      let buttons = ev.buttons === void 0 ? 1 : ev.buttons;
+      if (ev instanceof window.MouseEvent && !MOUSE_HAS_BUTTONS) {
+        buttons = MOUSE_WHICH_TO_BUTTONS[ev.which] || 0;
+      }
+      return Boolean(buttons & 1);
+    }
+    const button = ev.button === void 0 ? 0 : ev.button;
+    return button === 0;
+  }
+  function isSyntheticClick(ev) {
+    if (ev.type === "click") {
+      if (ev.detail === 0) {
+        return true;
+      }
+      const t4 = _findOriginalTarget(ev);
+      if (!t4.nodeType || t4.nodeType !== Node.ELEMENT_NODE) {
+        return true;
+      }
+      const bcr = t4.getBoundingClientRect();
+      const x2 = ev.pageX, y2 = ev.pageY;
+      return !(x2 >= bcr.left && x2 <= bcr.right && y2 >= bcr.top && y2 <= bcr.bottom);
+    }
+    return false;
+  }
+  var POINTERSTATE = {
+    mouse: {
+      target: null,
+      mouseIgnoreJob: null
+    },
+    touch: {
+      x: 0,
+      y: 0,
+      id: -1,
+      scrollDecided: false
+    }
+  };
+  function firstTouchAction(ev) {
+    let ta = "auto";
+    const path = getComposedPath(ev);
+    for (let i5 = 0, n6; i5 < path.length; i5++) {
+      n6 = path[i5];
+      if (n6[TOUCH_ACTION]) {
+        ta = n6[TOUCH_ACTION];
+        break;
+      }
+    }
+    return ta;
+  }
+  function trackDocument(stateObj, movefn, upfn) {
+    stateObj.movefn = movefn;
+    stateObj.upfn = upfn;
+    document.addEventListener("mousemove", movefn);
+    document.addEventListener("mouseup", upfn);
+  }
+  function untrackDocument(stateObj) {
+    document.removeEventListener("mousemove", stateObj.movefn);
+    document.removeEventListener("mouseup", stateObj.upfn);
+    stateObj.movefn = null;
+    stateObj.upfn = null;
+  }
+  var getComposedPath = window.ShadyDOM && window.ShadyDOM.noPatch ? window.ShadyDOM.composedPath : (event) => event.composedPath && event.composedPath() || [];
+  var gestures = {};
+  var recognizers = [];
+  function deepTargetFind(x2, y2) {
+    let node = document.elementFromPoint(x2, y2);
+    let next = node;
+    while (next && next.shadowRoot && !window.ShadyDOM) {
+      const oldNext = next;
+      next = next.shadowRoot.elementFromPoint(x2, y2);
+      if (oldNext === next) {
+        break;
+      }
+      if (next) {
+        node = next;
+      }
+    }
+    return node;
+  }
+  function _findOriginalTarget(ev) {
+    const path = getComposedPath(ev);
+    return path.length > 0 ? path[0] : ev.target;
+  }
+  function _handleNative(ev) {
+    const type = ev.type;
+    const node = ev.currentTarget;
+    const gobj = node[GESTURE_KEY];
+    if (!gobj) {
+      return;
+    }
+    const gs = gobj[type];
+    if (!gs) {
+      return;
+    }
+    if (!ev[HANDLED_OBJ]) {
+      ev[HANDLED_OBJ] = {};
+      if (type.startsWith("touch")) {
+        const t4 = ev.changedTouches[0];
+        if (type === "touchstart") {
+          if (ev.touches.length === 1) {
+            POINTERSTATE.touch.id = t4.identifier;
+          }
+        }
+        if (POINTERSTATE.touch.id !== t4.identifier) {
+          return;
+        }
+        if (!HAS_NATIVE_TA) {
+          if (type === "touchstart" || type === "touchmove") {
+            _handleTouchAction(ev);
+          }
+        }
+      }
+    }
+    const handled = ev[HANDLED_OBJ];
+    if (handled.skip) {
+      return;
+    }
+    for (let i5 = 0, r4; i5 < recognizers.length; i5++) {
+      r4 = recognizers[i5];
+      if (gs[r4.name] && !handled[r4.name]) {
+        if (r4.flow && r4.flow.start.indexOf(ev.type) > -1 && r4.reset) {
+          r4.reset();
+        }
+      }
+    }
+    for (let i5 = 0, r4; i5 < recognizers.length; i5++) {
+      r4 = recognizers[i5];
+      if (gs[r4.name] && !handled[r4.name]) {
+        handled[r4.name] = true;
+        r4[type](ev);
+      }
+    }
+  }
+  function _handleTouchAction(ev) {
+    const t4 = ev.changedTouches[0];
+    const type = ev.type;
+    if (type === "touchstart") {
+      POINTERSTATE.touch.x = t4.clientX;
+      POINTERSTATE.touch.y = t4.clientY;
+      POINTERSTATE.touch.scrollDecided = false;
+    } else if (type === "touchmove") {
+      if (POINTERSTATE.touch.scrollDecided) {
+        return;
+      }
+      POINTERSTATE.touch.scrollDecided = true;
+      const ta = firstTouchAction(ev);
+      let shouldPrevent = false;
+      const dx = Math.abs(POINTERSTATE.touch.x - t4.clientX);
+      const dy = Math.abs(POINTERSTATE.touch.y - t4.clientY);
+      if (!ev.cancelable) {
+      } else if (ta === "none") {
+        shouldPrevent = true;
+      } else if (ta === "pan-x") {
+        shouldPrevent = dy > dx;
+      } else if (ta === "pan-y") {
+        shouldPrevent = dx > dy;
+      }
+      if (shouldPrevent) {
+        ev.preventDefault();
+      } else {
+        prevent("track");
+      }
+    }
+  }
+  function addListener(node, evType, handler) {
+    if (gestures[evType]) {
+      _add(node, evType, handler);
+      return true;
+    }
+    return false;
+  }
+  function _add(node, evType, handler) {
+    const recognizer = gestures[evType];
+    const deps = recognizer.deps;
+    const name = recognizer.name;
+    let gobj = node[GESTURE_KEY];
+    if (!gobj) {
+      node[GESTURE_KEY] = gobj = {};
+    }
+    for (let i5 = 0, dep, gd; i5 < deps.length; i5++) {
+      dep = deps[i5];
+      if (IS_TOUCH_ONLY && isMouseEvent(dep) && dep !== "click") {
+        continue;
+      }
+      gd = gobj[dep];
+      if (!gd) {
+        gobj[dep] = gd = { _count: 0 };
+      }
+      if (gd._count === 0) {
+        node.addEventListener(dep, _handleNative, PASSIVE_TOUCH(dep));
+      }
+      gd[name] = (gd[name] || 0) + 1;
+      gd._count = (gd._count || 0) + 1;
+    }
+    node.addEventListener(evType, handler);
+    if (recognizer.touchAction) {
+      setTouchAction(node, recognizer.touchAction);
+    }
+  }
+  function register2(recog) {
+    recognizers.push(recog);
+    for (let i5 = 0; i5 < recog.emits.length; i5++) {
+      gestures[recog.emits[i5]] = recog;
+    }
+  }
+  function _findRecognizerByEvent(evName) {
+    for (let i5 = 0, r4; i5 < recognizers.length; i5++) {
+      r4 = recognizers[i5];
+      for (let j = 0, n6; j < r4.emits.length; j++) {
+        n6 = r4.emits[j];
+        if (n6 === evName) {
+          return r4;
+        }
+      }
+    }
+    return null;
+  }
+  function setTouchAction(node, value) {
+    if (HAS_NATIVE_TA && node instanceof HTMLElement) {
+      microTask2.run(() => {
+        node.style.touchAction = value;
+      });
+    }
+    node[TOUCH_ACTION] = value;
+  }
+  function _fire(target, type, detail) {
+    const ev = new Event(type, { bubbles: true, cancelable: true, composed: true });
+    ev.detail = detail;
+    wrap2(target).dispatchEvent(ev);
+    if (ev.defaultPrevented) {
+      const preventer = detail.preventer || detail.sourceEvent;
+      if (preventer && preventer.preventDefault) {
+        preventer.preventDefault();
+      }
+    }
+  }
+  function prevent(evName) {
+    const recognizer = _findRecognizerByEvent(evName);
+    if (recognizer.info) {
+      recognizer.info.prevent = true;
+    }
+  }
+  register2({
+    name: "downup",
+    deps: ["mousedown", "touchstart", "touchend"],
+    flow: {
+      start: ["mousedown", "touchstart"],
+      end: ["mouseup", "touchend"]
+    },
+    emits: ["down", "up"],
+    info: {
+      movefn: null,
+      upfn: null
+    },
+    reset() {
+      untrackDocument(this.info);
+    },
+    mousedown(e9) {
+      if (!hasLeftMouseButton(e9)) {
+        return;
+      }
+      const t4 = _findOriginalTarget(e9);
+      const self = this;
+      const movefn = (e10) => {
+        if (!hasLeftMouseButton(e10)) {
+          downupFire("up", t4, e10);
+          untrackDocument(self.info);
+        }
+      };
+      const upfn = (e10) => {
+        if (hasLeftMouseButton(e10)) {
+          downupFire("up", t4, e10);
+        }
+        untrackDocument(self.info);
+      };
+      trackDocument(this.info, movefn, upfn);
+      downupFire("down", t4, e9);
+    },
+    touchstart(e9) {
+      downupFire("down", _findOriginalTarget(e9), e9.changedTouches[0], e9);
+    },
+    touchend(e9) {
+      downupFire("up", _findOriginalTarget(e9), e9.changedTouches[0], e9);
+    }
+  });
+  function downupFire(type, target, event, preventer) {
+    if (!target) {
+      return;
+    }
+    _fire(target, type, {
+      x: event.clientX,
+      y: event.clientY,
+      sourceEvent: event,
+      preventer,
+      prevent(e9) {
+        return prevent(e9);
+      }
+    });
+  }
+  register2({
+    name: "track",
+    touchAction: "none",
+    deps: ["mousedown", "touchstart", "touchmove", "touchend"],
+    flow: {
+      start: ["mousedown", "touchstart"],
+      end: ["mouseup", "touchend"]
+    },
+    emits: ["track"],
+    info: {
+      x: 0,
+      y: 0,
+      state: "start",
+      started: false,
+      moves: [],
+      addMove(move) {
+        if (this.moves.length > TRACK_LENGTH) {
+          this.moves.shift();
+        }
+        this.moves.push(move);
+      },
+      movefn: null,
+      upfn: null,
+      prevent: false
+    },
+    reset() {
+      this.info.state = "start";
+      this.info.started = false;
+      this.info.moves = [];
+      this.info.x = 0;
+      this.info.y = 0;
+      this.info.prevent = false;
+      untrackDocument(this.info);
+    },
+    mousedown(e9) {
+      if (!hasLeftMouseButton(e9)) {
+        return;
+      }
+      const t4 = _findOriginalTarget(e9);
+      const self = this;
+      const movefn = (e10) => {
+        const x2 = e10.clientX, y2 = e10.clientY;
+        if (trackHasMovedEnough(self.info, x2, y2)) {
+          self.info.state = self.info.started ? e10.type === "mouseup" ? "end" : "track" : "start";
+          if (self.info.state === "start") {
+            prevent("tap");
+          }
+          self.info.addMove({ x: x2, y: y2 });
+          if (!hasLeftMouseButton(e10)) {
+            self.info.state = "end";
+            untrackDocument(self.info);
+          }
+          if (t4) {
+            trackFire(self.info, t4, e10);
+          }
+          self.info.started = true;
+        }
+      };
+      const upfn = (e10) => {
+        if (self.info.started) {
+          movefn(e10);
+        }
+        untrackDocument(self.info);
+      };
+      trackDocument(this.info, movefn, upfn);
+      this.info.x = e9.clientX;
+      this.info.y = e9.clientY;
+    },
+    touchstart(e9) {
+      const ct = e9.changedTouches[0];
+      this.info.x = ct.clientX;
+      this.info.y = ct.clientY;
+    },
+    touchmove(e9) {
+      const t4 = _findOriginalTarget(e9);
+      const ct = e9.changedTouches[0];
+      const x2 = ct.clientX, y2 = ct.clientY;
+      if (trackHasMovedEnough(this.info, x2, y2)) {
+        if (this.info.state === "start") {
+          prevent("tap");
+        }
+        this.info.addMove({ x: x2, y: y2 });
+        trackFire(this.info, t4, ct);
+        this.info.state = "track";
+        this.info.started = true;
+      }
+    },
+    touchend(e9) {
+      const t4 = _findOriginalTarget(e9);
+      const ct = e9.changedTouches[0];
+      if (this.info.started) {
+        this.info.state = "end";
+        this.info.addMove({ x: ct.clientX, y: ct.clientY });
+        trackFire(this.info, t4, ct);
+      }
+    }
+  });
+  function trackHasMovedEnough(info, x2, y2) {
+    if (info.prevent) {
+      return false;
+    }
+    if (info.started) {
+      return true;
+    }
+    const dx = Math.abs(info.x - x2);
+    const dy = Math.abs(info.y - y2);
+    return dx >= TRACK_DISTANCE || dy >= TRACK_DISTANCE;
+  }
+  function trackFire(info, target, touch) {
+    if (!target) {
+      return;
+    }
+    const secondlast = info.moves[info.moves.length - 2];
+    const lastmove = info.moves[info.moves.length - 1];
+    const dx = lastmove.x - info.x;
+    const dy = lastmove.y - info.y;
+    let ddx, ddy = 0;
+    if (secondlast) {
+      ddx = lastmove.x - secondlast.x;
+      ddy = lastmove.y - secondlast.y;
+    }
+    _fire(target, "track", {
+      state: info.state,
+      x: touch.clientX,
+      y: touch.clientY,
+      dx,
+      dy,
+      ddx,
+      ddy,
+      sourceEvent: touch,
+      hover() {
+        return deepTargetFind(touch.clientX, touch.clientY);
+      }
+    });
+  }
+  register2({
+    name: "tap",
+    deps: ["mousedown", "click", "touchstart", "touchend"],
+    flow: {
+      start: ["mousedown", "touchstart"],
+      end: ["click", "touchend"]
+    },
+    emits: ["tap"],
+    info: {
+      x: NaN,
+      y: NaN,
+      prevent: false
+    },
+    reset() {
+      this.info.x = NaN;
+      this.info.y = NaN;
+      this.info.prevent = false;
+    },
+    mousedown(e9) {
+      if (hasLeftMouseButton(e9)) {
+        this.info.x = e9.clientX;
+        this.info.y = e9.clientY;
+      }
+    },
+    click(e9) {
+      if (hasLeftMouseButton(e9)) {
+        trackForward(this.info, e9);
+      }
+    },
+    touchstart(e9) {
+      const touch = e9.changedTouches[0];
+      this.info.x = touch.clientX;
+      this.info.y = touch.clientY;
+    },
+    touchend(e9) {
+      trackForward(this.info, e9.changedTouches[0], e9);
+    }
+  });
+  function trackForward(info, e9, preventer) {
+    const dx = Math.abs(e9.clientX - info.x);
+    const dy = Math.abs(e9.clientY - info.y);
+    const t4 = _findOriginalTarget(preventer || e9);
+    if (!t4 || canBeDisabled[t4.localName] && t4.hasAttribute("disabled")) {
+      return;
+    }
+    if (isNaN(dx) || isNaN(dy) || dx <= TAP_DISTANCE && dy <= TAP_DISTANCE || isSyntheticClick(e9)) {
+      if (!info.prevent) {
+        _fire(t4, "tap", {
+          x: e9.clientX,
+          y: e9.clientY,
+          sourceEvent: e9,
+          preventer
+        });
+      }
+    }
+  }
+
+  // node_modules/@vaadin/component-base/src/disabled-mixin.js
+  var DisabledMixin = dedupingMixin(
+    (superclass) => class DisabledMixinClass extends superclass {
+      static get properties() {
+        return {
+          disabled: {
+            type: Boolean,
+            value: false,
+            observer: "_disabledChanged",
+            reflectToAttribute: true
+          }
+        };
+      }
+      _disabledChanged(disabled) {
+        this._setAriaDisabled(disabled);
+      }
+      _setAriaDisabled(disabled) {
+        if (disabled) {
+          this.setAttribute("aria-disabled", "true");
+        } else {
+          this.removeAttribute("aria-disabled");
+        }
+      }
+      click() {
+        if (!this.disabled) {
+          super.click();
+        }
+      }
+    }
+  );
+
+  // node_modules/@vaadin/component-base/src/keyboard-mixin.js
+  var KeyboardMixin = dedupingMixin(
+    (superclass) => class KeyboardMixinClass extends superclass {
+      ready() {
+        super.ready();
+        this.addEventListener("keydown", (event) => {
+          this._onKeyDown(event);
+        });
+        this.addEventListener("keyup", (event) => {
+          this._onKeyUp(event);
+        });
+      }
+      _onKeyDown(event) {
+        switch (event.key) {
+          case "Enter":
+            this._onEnter(event);
+            break;
+          case "Escape":
+            this._onEscape(event);
+            break;
+          default:
+            break;
+        }
+      }
+      _onKeyUp(_event) {
+      }
+      _onEnter(_event) {
+      }
+      _onEscape(_event) {
+      }
+    }
+  );
+
+  // node_modules/@vaadin/component-base/src/active-mixin.js
+  var ActiveMixin = (superclass) => class ActiveMixinClass extends DisabledMixin(KeyboardMixin(superclass)) {
+    get _activeKeys() {
+      return [" "];
+    }
+    ready() {
+      super.ready();
+      addListener(this, "down", (event) => {
+        if (this._shouldSetActive(event)) {
+          this._setActive(true);
+        }
+      });
+      addListener(this, "up", () => {
+        this._setActive(false);
+      });
+    }
+    disconnectedCallback() {
+      super.disconnectedCallback();
+      this._setActive(false);
+    }
+    _shouldSetActive(_event) {
+      return !this.disabled;
+    }
+    _onKeyDown(event) {
+      super._onKeyDown(event);
+      if (this._shouldSetActive(event) && this._activeKeys.includes(event.key)) {
+        this._setActive(true);
+        document.addEventListener(
+          "keyup",
+          (e9) => {
+            if (this._activeKeys.includes(e9.key)) {
+              this._setActive(false);
+            }
+          },
+          { once: true }
+        );
+      }
+    }
+    _setActive(active) {
+      this.toggleAttribute("active", active);
+    }
+  };
+
+  // node_modules/@vaadin/component-base/src/controller-mixin.js
+  var ControllerMixin = dedupingMixin(
+    (superClass) => class ControllerMixinClass extends superClass {
+      constructor() {
+        super();
+        this.__controllers = /* @__PURE__ */ new Set();
+      }
+      connectedCallback() {
+        super.connectedCallback();
+        this.__controllers.forEach((c3) => {
+          if (c3.hostConnected) {
+            c3.hostConnected();
+          }
+        });
+      }
+      disconnectedCallback() {
+        super.disconnectedCallback();
+        this.__controllers.forEach((c3) => {
+          if (c3.hostDisconnected) {
+            c3.hostDisconnected();
+          }
+        });
+      }
+      addController(controller) {
+        this.__controllers.add(controller);
+        if (this.$ !== void 0 && this.isConnected && controller.hostConnected) {
+          controller.hostConnected();
+        }
+      }
+      removeController(controller) {
+        this.__controllers.delete(controller);
+      }
+    }
+  );
+
+  // node_modules/@vaadin/vaadin-development-mode-detector/vaadin-development-mode-detector.js
+  var DEV_MODE_CODE_REGEXP = /\/\*\*\s+vaadin-dev-mode:start([\s\S]*)vaadin-dev-mode:end\s+\*\*\//i;
+  var FlowClients = window.Vaadin && window.Vaadin.Flow && window.Vaadin.Flow.clients;
+  function isMinified() {
+    function test() {
+      return true;
+    }
+    return uncommentAndRun(test);
+  }
+  function isDevelopmentMode() {
+    try {
+      if (isForcedDevelopmentMode()) {
+        return true;
+      }
+      if (!isLocalhost()) {
+        return false;
+      }
+      if (FlowClients) {
+        return !isFlowProductionMode();
+      }
+      return !isMinified();
+    } catch (e9) {
+      return false;
+    }
+  }
+  function isForcedDevelopmentMode() {
+    return localStorage.getItem("vaadin.developmentmode.force");
+  }
+  function isLocalhost() {
+    return ["localhost", "127.0.0.1"].indexOf(window.location.hostname) >= 0;
+  }
+  function isFlowProductionMode() {
+    if (FlowClients) {
+      const productionModeApps = Object.keys(FlowClients).map((key) => FlowClients[key]).filter((client) => client.productionMode);
+      if (productionModeApps.length > 0) {
+        return true;
+      }
+    }
+    return false;
+  }
+  function uncommentAndRun(callback, args) {
+    if (typeof callback !== "function") {
+      return;
+    }
+    const match = DEV_MODE_CODE_REGEXP.exec(callback.toString());
+    if (match) {
+      try {
+        callback = new Function(match[1]);
+      } catch (e9) {
+        console.log("vaadin-development-mode-detector: uncommentAndRun() failed", e9);
+      }
+    }
+    return callback(args);
+  }
+  window["Vaadin"] = window["Vaadin"] || {};
+  var runIfDevelopmentMode = function(callback, args) {
+    if (window.Vaadin.developmentMode) {
+      return uncommentAndRun(callback, args);
+    }
+  };
+  if (window.Vaadin.developmentMode === void 0) {
+    window.Vaadin.developmentMode = isDevelopmentMode();
+  }
+
+  // node_modules/@vaadin/vaadin-usage-statistics/vaadin-usage-statistics-collect.js
+  function maybeGatherAndSendStats() {
+  }
+  var usageStatistics = function() {
+    if (typeof runIfDevelopmentMode === "function") {
+      return runIfDevelopmentMode(maybeGatherAndSendStats);
+    }
+  };
+
+  // node_modules/@vaadin/component-base/src/debounce.js
+  var Debouncer = class {
+    static debounce(debouncer, asyncModule, callback) {
+      if (debouncer instanceof Debouncer) {
+        debouncer._cancelAsync();
+      } else {
+        debouncer = new Debouncer();
+      }
+      debouncer.setConfig(asyncModule, callback);
+      return debouncer;
+    }
+    constructor() {
+      this._asyncModule = null;
+      this._callback = null;
+      this._timer = null;
+    }
+    setConfig(asyncModule, callback) {
+      this._asyncModule = asyncModule;
+      this._callback = callback;
+      this._timer = this._asyncModule.run(() => {
+        this._timer = null;
+        debouncerQueue.delete(this);
+        this._callback();
+      });
+    }
+    cancel() {
+      if (this.isActive()) {
+        this._cancelAsync();
+        debouncerQueue.delete(this);
+      }
+    }
+    _cancelAsync() {
+      if (this.isActive()) {
+        this._asyncModule.cancel(this._timer);
+        this._timer = null;
+      }
+    }
+    flush() {
+      if (this.isActive()) {
+        this.cancel();
+        this._callback();
+      }
+    }
+    isActive() {
+      return this._timer != null;
+    }
+  };
+  var debouncerQueue = /* @__PURE__ */ new Set();
+  function enqueueDebouncer(debouncer) {
+    debouncerQueue.add(debouncer);
+  }
+  function flushDebouncers() {
+    const didFlush = Boolean(debouncerQueue.size);
+    debouncerQueue.forEach((debouncer) => {
+      try {
+        debouncer.flush();
+      } catch (e9) {
+        setTimeout(() => {
+          throw e9;
+        });
+      }
+    });
+    return didFlush;
+  }
+  var flush = () => {
+    let debouncers;
+    do {
+      debouncers = flushDebouncers();
+    } while (debouncers);
+  };
+
+  // node_modules/@vaadin/component-base/src/dir-helper.js
+  var DirHelper = class {
+    static detectScrollType() {
+      const dummy = document.createElement("div");
+      dummy.textContent = "ABCD";
+      dummy.dir = "rtl";
+      dummy.style.fontSize = "14px";
+      dummy.style.width = "4px";
+      dummy.style.height = "1px";
+      dummy.style.position = "absolute";
+      dummy.style.top = "-1000px";
+      dummy.style.overflow = "scroll";
+      document.body.appendChild(dummy);
+      let cachedType = "reverse";
+      if (dummy.scrollLeft > 0) {
+        cachedType = "default";
+      } else {
+        dummy.scrollLeft = 2;
+        if (dummy.scrollLeft < 2) {
+          cachedType = "negative";
+        }
+      }
+      document.body.removeChild(dummy);
+      return cachedType;
+    }
+    static getNormalizedScrollLeft(scrollType2, direction, element) {
+      const { scrollLeft } = element;
+      if (direction !== "rtl" || !scrollType2) {
+        return scrollLeft;
+      }
+      switch (scrollType2) {
+        case "negative":
+          return element.scrollWidth - element.clientWidth + scrollLeft;
+        case "reverse":
+          return element.scrollWidth - element.clientWidth - scrollLeft;
+        default:
+          return scrollLeft;
+      }
+    }
+    static setNormalizedScrollLeft(scrollType2, direction, element, scrollLeft) {
+      if (direction !== "rtl" || !scrollType2) {
+        element.scrollLeft = scrollLeft;
+        return;
+      }
+      switch (scrollType2) {
+        case "negative":
+          element.scrollLeft = element.clientWidth - element.scrollWidth + scrollLeft;
+          break;
+        case "reverse":
+          element.scrollLeft = element.scrollWidth - element.clientWidth - scrollLeft;
+          break;
+        default:
+          element.scrollLeft = scrollLeft;
+          break;
+      }
+    }
+  };
+
+  // node_modules/@vaadin/component-base/src/dir-mixin.js
+  var directionSubscribers = [];
+  function directionUpdater() {
+    const documentDir = getDocumentDir();
+    directionSubscribers.forEach((element) => {
+      alignDirs(element, documentDir);
+    });
+  }
+  var scrollType;
+  var directionObserver = new MutationObserver(directionUpdater);
+  directionObserver.observe(document.documentElement, { attributes: true, attributeFilter: ["dir"] });
+  function alignDirs(element, documentDir, elementDir = element.getAttribute("dir")) {
+    if (documentDir) {
+      element.setAttribute("dir", documentDir);
+    } else if (elementDir != null) {
+      element.removeAttribute("dir");
+    }
+  }
+  function getDocumentDir() {
+    return document.documentElement.getAttribute("dir");
+  }
+  var DirMixin = (superClass) => class VaadinDirMixin extends superClass {
+    static get properties() {
+      return {
+        dir: {
+          type: String,
+          value: "",
+          reflectToAttribute: true,
+          converter: {
+            fromAttribute: (attr) => {
+              return !attr ? "" : attr;
+            },
+            toAttribute: (prop) => {
+              return prop === "" ? null : prop;
+            }
+          }
+        }
+      };
+    }
+    static finalize() {
+      super.finalize();
+      if (!scrollType) {
+        scrollType = DirHelper.detectScrollType();
+      }
+    }
+    connectedCallback() {
+      super.connectedCallback();
+      if (!this.hasAttribute("dir")) {
+        this.__subscribe();
+        alignDirs(this, getDocumentDir(), null);
+      }
+    }
+    attributeChangedCallback(name, oldValue, newValue) {
+      super.attributeChangedCallback(name, oldValue, newValue);
+      if (name !== "dir") {
+        return;
+      }
+      const documentDir = getDocumentDir();
+      const newValueEqlDocDir = newValue === documentDir && directionSubscribers.indexOf(this) === -1;
+      const newValueEmptied = !newValue && oldValue && directionSubscribers.indexOf(this) === -1;
+      const newDiffValue = newValue !== documentDir && oldValue === documentDir;
+      if (newValueEqlDocDir || newValueEmptied) {
+        this.__subscribe();
+        alignDirs(this, documentDir, newValue);
+      } else if (newDiffValue) {
+        this.__subscribe(false);
+      }
+    }
+    disconnectedCallback() {
+      super.disconnectedCallback();
+      this.__subscribe(false);
+      this.removeAttribute("dir");
+    }
+    _valueToNodeAttribute(node, value, attribute) {
+      if (attribute === "dir" && value === "" && !node.hasAttribute("dir")) {
+        return;
+      }
+      super._valueToNodeAttribute(node, value, attribute);
+    }
+    _attributeToProperty(attribute, value, type) {
+      if (attribute === "dir" && !value) {
+        this.dir = "";
+      } else {
+        super._attributeToProperty(attribute, value, type);
+      }
+    }
+    __subscribe(push = true) {
+      if (push) {
+        if (!directionSubscribers.includes(this)) {
+          directionSubscribers.push(this);
+        }
+      } else if (directionSubscribers.includes(this)) {
+        directionSubscribers.splice(directionSubscribers.indexOf(this), 1);
+      }
+    }
+    __getNormalizedScrollLeft(element) {
+      return DirHelper.getNormalizedScrollLeft(scrollType, this.getAttribute("dir") || "ltr", element);
+    }
+    __setNormalizedScrollLeft(element, scrollLeft) {
+      return DirHelper.setNormalizedScrollLeft(scrollType, this.getAttribute("dir") || "ltr", element, scrollLeft);
+    }
+  };
+
+  // node_modules/@vaadin/component-base/src/element-mixin.js
+  setCancelSyntheticClickEvents(false);
+  window.Vaadin = window.Vaadin || {};
+  window.Vaadin.registrations = window.Vaadin.registrations || [];
+  window.Vaadin.developmentModeCallback = window.Vaadin.developmentModeCallback || {};
+  window.Vaadin.developmentModeCallback["vaadin-usage-statistics"] = function() {
+    usageStatistics();
+  };
+  var statsJob;
+  var registered = /* @__PURE__ */ new Set();
+  var ElementMixin2 = (superClass) => class VaadinElementMixin extends DirMixin(superClass) {
+    static get version() {
+      return "23.2.2";
+    }
+    static finalize() {
+      super.finalize();
+      const { is } = this;
+      if (is && !registered.has(is)) {
+        window.Vaadin.registrations.push(this);
+        registered.add(is);
+        if (window.Vaadin.developmentModeCallback) {
+          statsJob = Debouncer.debounce(statsJob, idlePeriod, () => {
+            window.Vaadin.developmentModeCallback["vaadin-usage-statistics"]();
+          });
+          enqueueDebouncer(statsJob);
+        }
+      }
+    }
+    constructor() {
+      super();
+      if (document.doctype === null) {
+        console.warn(
+          'Vaadin components require the "standards mode" declaration. Please add <!DOCTYPE html> to the HTML document.'
+        );
+      }
+    }
+  };
+
+  // node_modules/@vaadin/component-base/src/focus-utils.js
+  var keyboardActive = false;
+  window.addEventListener(
+    "keydown",
+    () => {
+      keyboardActive = true;
+    },
+    { capture: true }
+  );
+  window.addEventListener(
+    "mousedown",
+    () => {
+      keyboardActive = false;
+    },
+    { capture: true }
+  );
+  function isKeyboardActive() {
+    return keyboardActive;
+  }
+  function isElementFocused(element) {
+    return element.getRootNode().activeElement === element;
+  }
+
+  // node_modules/@vaadin/field-base/src/delegate-state-mixin.js
+  var DelegateStateMixin = dedupingMixin(
+    (superclass) => class DelegateStateMixinClass extends superclass {
+      static get properties() {
+        return {
+          stateTarget: {
+            type: Object,
+            observer: "_stateTargetChanged"
+          }
+        };
+      }
+      static get delegateAttrs() {
+        return [];
+      }
+      static get delegateProps() {
+        return [];
+      }
+      ready() {
+        super.ready();
+        this._createDelegateAttrsObserver();
+        this._createDelegatePropsObserver();
+      }
+      _stateTargetChanged(target) {
+        if (target) {
+          this._ensureAttrsDelegated();
+          this._ensurePropsDelegated();
+        }
+      }
+      _createDelegateAttrsObserver() {
+        this._createMethodObserver(`_delegateAttrsChanged(${this.constructor.delegateAttrs.join(", ")})`);
+      }
+      _createDelegatePropsObserver() {
+        this._createMethodObserver(`_delegatePropsChanged(${this.constructor.delegateProps.join(", ")})`);
+      }
+      _ensureAttrsDelegated() {
+        this.constructor.delegateAttrs.forEach((name) => {
+          this._delegateAttribute(name, this[name]);
+        });
+      }
+      _ensurePropsDelegated() {
+        this.constructor.delegateProps.forEach((name) => {
+          this._delegateProperty(name, this[name]);
+        });
+      }
+      _delegateAttrsChanged(...values) {
+        this.constructor.delegateAttrs.forEach((name, index) => {
+          this._delegateAttribute(name, values[index]);
+        });
+      }
+      _delegatePropsChanged(...values) {
+        this.constructor.delegateProps.forEach((name, index) => {
+          this._delegateProperty(name, values[index]);
+        });
+      }
+      _delegateAttribute(name, value) {
+        if (!this.stateTarget) {
+          return;
+        }
+        if (name === "invalid") {
+          this._delegateAttribute("aria-invalid", value ? "true" : false);
+        }
+        if (typeof value === "boolean") {
+          this.stateTarget.toggleAttribute(name, value);
+        } else if (value) {
+          this.stateTarget.setAttribute(name, value);
+        } else {
+          this.stateTarget.removeAttribute(name);
+        }
+      }
+      _delegateProperty(name, value) {
+        if (!this.stateTarget) {
+          return;
+        }
+        this.stateTarget[name] = value;
+      }
+    }
+  );
+
+  // node_modules/@vaadin/field-base/src/input-mixin.js
+  var InputMixin = dedupingMixin(
+    (superclass) => class InputMixinClass extends superclass {
+      static get properties() {
+        return {
+          inputElement: {
+            type: Object,
+            readOnly: true,
+            observer: "_inputElementChanged"
+          },
+          type: {
+            type: String,
+            readOnly: true
+          },
+          value: {
+            type: String,
+            value: "",
+            observer: "_valueChanged",
+            notify: true
+          },
+          _hasInputValue: {
+            type: Boolean,
+            value: false,
+            observer: "_hasInputValueChanged"
+          }
+        };
+      }
+      constructor() {
+        super();
+        this._boundOnInput = this.__onInput.bind(this);
+        this._boundOnChange = this._onChange.bind(this);
+      }
+      clear() {
+        this.value = "";
+      }
+      _addInputListeners(input) {
+        input.addEventListener("input", this._boundOnInput);
+        input.addEventListener("change", this._boundOnChange);
+      }
+      _removeInputListeners(input) {
+        input.removeEventListener("input", this._boundOnInput);
+        input.removeEventListener("change", this._boundOnChange);
+      }
+      _forwardInputValue(value) {
+        if (!this.inputElement) {
+          return;
+        }
+        if (value != null) {
+          this.inputElement.value = value;
+        } else {
+          this.inputElement.value = "";
+        }
+      }
+      _inputElementChanged(input, oldInput) {
+        if (input) {
+          this._addInputListeners(input);
+        } else if (oldInput) {
+          this._removeInputListeners(oldInput);
+        }
+      }
+      _hasInputValueChanged(hasValue, oldHasValue) {
+        if (hasValue || oldHasValue) {
+          this.dispatchEvent(new CustomEvent("has-input-value-changed"));
+        }
+      }
+      __onInput(event) {
+        const target = event.composedPath()[0];
+        this._hasInputValue = target.value.length > 0;
+        this._onInput(event);
+      }
+      _onInput(event) {
+        const target = event.composedPath()[0];
+        this.__userInput = event.isTrusted;
+        this.value = target.value;
+        this.__userInput = false;
+      }
+      _onChange(_event) {
+      }
+      _toggleHasValue(hasValue) {
+        this.toggleAttribute("has-value", hasValue);
+      }
+      _valueChanged(newVal, oldVal) {
+        this._toggleHasValue(this._hasValue);
+        if (newVal === "" && oldVal === void 0) {
+          return;
+        }
+        if (this.__userInput) {
+          return;
+        }
+        this._forwardInputValue(newVal);
+      }
+      get _hasValue() {
+        return this.value != null && this.value !== "";
+      }
+    }
+  );
+
+  // node_modules/@vaadin/field-base/src/checked-mixin.js
+  var CheckedMixin = dedupingMixin(
+    (superclass) => class CheckedMixinClass extends DelegateStateMixin(DisabledMixin(InputMixin(superclass))) {
+      static get properties() {
+        return {
+          checked: {
+            type: Boolean,
+            value: false,
+            notify: true,
+            reflectToAttribute: true
+          }
+        };
+      }
+      static get delegateProps() {
+        return [...super.delegateProps, "checked"];
+      }
+      _onChange(event) {
+        const input = event.target;
+        this._toggleChecked(input.checked);
+        if (!isElementFocused(input)) {
+          input.focus();
+        }
+      }
+      _toggleChecked(checked) {
+        this.checked = checked;
+      }
+    }
+  );
+
+  // node_modules/@vaadin/component-base/src/focus-mixin.js
+  var FocusMixin = dedupingMixin(
+    (superclass) => class FocusMixinClass extends superclass {
+      get _keyboardActive() {
+        return isKeyboardActive();
+      }
+      ready() {
+        this.addEventListener("focusin", (e9) => {
+          if (this._shouldSetFocus(e9)) {
+            this._setFocused(true);
+          }
+        });
+        this.addEventListener("focusout", (e9) => {
+          if (this._shouldRemoveFocus(e9)) {
+            this._setFocused(false);
+          }
+        });
+        super.ready();
+      }
+      disconnectedCallback() {
+        super.disconnectedCallback();
+        if (this.hasAttribute("focused")) {
+          this._setFocused(false);
+        }
+      }
+      _setFocused(focused) {
+        this.toggleAttribute("focused", focused);
+        this.toggleAttribute("focus-ring", focused && this._keyboardActive);
+      }
+      _shouldSetFocus(_event) {
+        return true;
+      }
+      _shouldRemoveFocus(_event) {
+        return true;
+      }
+    }
+  );
+
+  // node_modules/@vaadin/component-base/src/tabindex-mixin.js
+  var TabindexMixin = (superclass) => class TabindexMixinClass extends DisabledMixin(superclass) {
+    static get properties() {
+      return {
+        tabindex: {
+          type: Number,
+          reflectToAttribute: true,
+          observer: "_tabindexChanged"
+        },
+        _lastTabIndex: {
+          type: Number
+        }
+      };
+    }
+    _disabledChanged(disabled, oldDisabled) {
+      super._disabledChanged(disabled, oldDisabled);
+      if (disabled) {
+        if (this.tabindex !== void 0) {
+          this._lastTabIndex = this.tabindex;
+        }
+        this.tabindex = -1;
+      } else if (oldDisabled) {
+        this.tabindex = this._lastTabIndex;
+      }
+    }
+    _tabindexChanged(tabindex) {
+      if (this.disabled && tabindex !== -1) {
+        this._lastTabIndex = tabindex;
+        this.tabindex = -1;
+      }
+    }
+  };
+
+  // node_modules/@vaadin/field-base/src/delegate-focus-mixin.js
+  var DelegateFocusMixin = dedupingMixin(
+    (superclass) => class DelegateFocusMixinClass extends FocusMixin(TabindexMixin(superclass)) {
+      static get properties() {
+        return {
+          autofocus: {
+            type: Boolean
+          },
+          focusElement: {
+            type: Object,
+            readOnly: true,
+            observer: "_focusElementChanged"
+          },
+          _lastTabIndex: {
+            value: 0
+          }
+        };
+      }
+      constructor() {
+        super();
+        this._boundOnBlur = this._onBlur.bind(this);
+        this._boundOnFocus = this._onFocus.bind(this);
+      }
+      ready() {
+        super.ready();
+        if (this.autofocus && !this.disabled) {
+          requestAnimationFrame(() => {
+            this.focus();
+            this.setAttribute("focus-ring", "");
+          });
+        }
+      }
+      focus() {
+        if (!this.focusElement || this.disabled) {
+          return;
+        }
+        this.focusElement.focus();
+        this._setFocused(true);
+      }
+      blur() {
+        if (!this.focusElement) {
+          return;
+        }
+        this.focusElement.blur();
+        this._setFocused(false);
+      }
+      click() {
+        if (this.focusElement && !this.disabled) {
+          this.focusElement.click();
+        }
+      }
+      _focusElementChanged(element, oldElement) {
+        if (element) {
+          element.disabled = this.disabled;
+          this._addFocusListeners(element);
+          this.__forwardTabIndex(this.tabindex);
+        } else if (oldElement) {
+          this._removeFocusListeners(oldElement);
+        }
+      }
+      _addFocusListeners(element) {
+        element.addEventListener("blur", this._boundOnBlur);
+        element.addEventListener("focus", this._boundOnFocus);
+      }
+      _removeFocusListeners(element) {
+        element.removeEventListener("blur", this._boundOnBlur);
+        element.removeEventListener("focus", this._boundOnFocus);
+      }
+      _onFocus(event) {
+        event.stopPropagation();
+        this.dispatchEvent(new Event("focus"));
+      }
+      _onBlur(event) {
+        event.stopPropagation();
+        this.dispatchEvent(new Event("blur"));
+      }
+      _shouldSetFocus(event) {
+        return event.target === this.focusElement;
+      }
+      _disabledChanged(disabled, oldDisabled) {
+        super._disabledChanged(disabled, oldDisabled);
+        if (this.focusElement) {
+          this.focusElement.disabled = disabled;
+        }
+        if (disabled) {
+          this.blur();
+        }
+      }
+      _tabindexChanged(tabindex) {
+        this.__forwardTabIndex(tabindex);
+      }
+      __forwardTabIndex(tabindex) {
+        if (tabindex !== void 0 && this.focusElement) {
+          this.focusElement.tabIndex = tabindex;
+          if (tabindex !== -1) {
+            this.tabindex = void 0;
+          }
+        }
+        if (this.disabled && tabindex) {
+          if (tabindex !== -1) {
+            this._lastTabIndex = tabindex;
+          }
+          this.tabindex = void 0;
+        }
+      }
+    }
+  );
+
+  // node_modules/@polymer/polymer/lib/utils/array-splice.js
+  function newSplice(index, removed, addedCount) {
+    return {
+      index,
+      removed,
+      addedCount
+    };
+  }
+  var EDIT_LEAVE = 0;
+  var EDIT_UPDATE = 1;
+  var EDIT_ADD = 2;
+  var EDIT_DELETE = 3;
+  function calcEditDistances(current, currentStart, currentEnd, old, oldStart, oldEnd) {
+    let rowCount = oldEnd - oldStart + 1;
+    let columnCount = currentEnd - currentStart + 1;
+    let distances = new Array(rowCount);
+    for (let i5 = 0; i5 < rowCount; i5++) {
+      distances[i5] = new Array(columnCount);
+      distances[i5][0] = i5;
+    }
+    for (let j = 0; j < columnCount; j++)
+      distances[0][j] = j;
+    for (let i5 = 1; i5 < rowCount; i5++) {
+      for (let j = 1; j < columnCount; j++) {
+        if (equals(current[currentStart + j - 1], old[oldStart + i5 - 1]))
+          distances[i5][j] = distances[i5 - 1][j - 1];
+        else {
+          let north = distances[i5 - 1][j] + 1;
+          let west = distances[i5][j - 1] + 1;
+          distances[i5][j] = north < west ? north : west;
+        }
+      }
+    }
+    return distances;
+  }
+  function spliceOperationsFromEditDistances(distances) {
+    let i5 = distances.length - 1;
+    let j = distances[0].length - 1;
+    let current = distances[i5][j];
+    let edits = [];
+    while (i5 > 0 || j > 0) {
+      if (i5 == 0) {
+        edits.push(EDIT_ADD);
+        j--;
+        continue;
+      }
+      if (j == 0) {
+        edits.push(EDIT_DELETE);
+        i5--;
+        continue;
+      }
+      let northWest = distances[i5 - 1][j - 1];
+      let west = distances[i5 - 1][j];
+      let north = distances[i5][j - 1];
+      let min;
+      if (west < north)
+        min = west < northWest ? west : northWest;
+      else
+        min = north < northWest ? north : northWest;
+      if (min == northWest) {
+        if (northWest == current) {
+          edits.push(EDIT_LEAVE);
+        } else {
+          edits.push(EDIT_UPDATE);
+          current = northWest;
+        }
+        i5--;
+        j--;
+      } else if (min == west) {
+        edits.push(EDIT_DELETE);
+        i5--;
+        current = west;
+      } else {
+        edits.push(EDIT_ADD);
+        j--;
+        current = north;
+      }
+    }
+    edits.reverse();
+    return edits;
+  }
+  function calcSplices(current, currentStart, currentEnd, old, oldStart, oldEnd) {
+    let prefixCount = 0;
+    let suffixCount = 0;
+    let splice;
+    let minLength = Math.min(currentEnd - currentStart, oldEnd - oldStart);
+    if (currentStart == 0 && oldStart == 0)
+      prefixCount = sharedPrefix(current, old, minLength);
+    if (currentEnd == current.length && oldEnd == old.length)
+      suffixCount = sharedSuffix(current, old, minLength - prefixCount);
+    currentStart += prefixCount;
+    oldStart += prefixCount;
+    currentEnd -= suffixCount;
+    oldEnd -= suffixCount;
+    if (currentEnd - currentStart == 0 && oldEnd - oldStart == 0)
+      return [];
+    if (currentStart == currentEnd) {
+      splice = newSplice(currentStart, [], 0);
+      while (oldStart < oldEnd)
+        splice.removed.push(old[oldStart++]);
+      return [splice];
+    } else if (oldStart == oldEnd)
+      return [newSplice(currentStart, [], currentEnd - currentStart)];
+    let ops = spliceOperationsFromEditDistances(
+      calcEditDistances(
+        current,
+        currentStart,
+        currentEnd,
+        old,
+        oldStart,
+        oldEnd
+      )
+    );
+    splice = void 0;
+    let splices = [];
+    let index = currentStart;
+    let oldIndex = oldStart;
+    for (let i5 = 0; i5 < ops.length; i5++) {
+      switch (ops[i5]) {
+        case EDIT_LEAVE:
+          if (splice) {
+            splices.push(splice);
+            splice = void 0;
+          }
+          index++;
+          oldIndex++;
+          break;
+        case EDIT_UPDATE:
+          if (!splice)
+            splice = newSplice(index, [], 0);
+          splice.addedCount++;
+          index++;
+          splice.removed.push(old[oldIndex]);
+          oldIndex++;
+          break;
+        case EDIT_ADD:
+          if (!splice)
+            splice = newSplice(index, [], 0);
+          splice.addedCount++;
+          index++;
+          break;
+        case EDIT_DELETE:
+          if (!splice)
+            splice = newSplice(index, [], 0);
+          splice.removed.push(old[oldIndex]);
+          oldIndex++;
+          break;
+      }
+    }
+    if (splice) {
+      splices.push(splice);
+    }
+    return splices;
+  }
+  function sharedPrefix(current, old, searchLength) {
+    for (let i5 = 0; i5 < searchLength; i5++)
+      if (!equals(current[i5], old[i5]))
+        return i5;
+    return searchLength;
+  }
+  function sharedSuffix(current, old, searchLength) {
+    let index1 = current.length;
+    let index2 = old.length;
+    let count = 0;
+    while (count < searchLength && equals(current[--index1], old[--index2]))
+      count++;
+    return count;
+  }
+  function calculateSplices(current, previous) {
+    return calcSplices(
+      current,
+      0,
+      current.length,
+      previous,
+      0,
+      previous.length
+    );
+  }
+  function equals(currentValue, previousValue) {
+    return currentValue === previousValue;
+  }
+
+  // node_modules/@polymer/polymer/lib/utils/flattened-nodes-observer.js
+  function isSlot(node) {
+    return node.localName === "slot";
+  }
+  var FlattenedNodesObserver = class {
+    static getFlattenedNodes(node) {
+      const wrapped = wrap(node);
+      if (isSlot(node)) {
+        node = node;
+        return wrapped.assignedNodes({ flatten: true });
+      } else {
+        return Array.from(wrapped.childNodes).map((node2) => {
+          if (isSlot(node2)) {
+            node2 = node2;
+            return wrap(node2).assignedNodes({ flatten: true });
+          } else {
+            return [node2];
+          }
+        }).reduce((a3, b2) => a3.concat(b2), []);
+      }
+    }
+    constructor(target, callback) {
+      this._shadyChildrenObserver = null;
+      this._nativeChildrenObserver = null;
+      this._connected = false;
+      this._target = target;
+      this.callback = callback;
+      this._effectiveNodes = [];
+      this._observer = null;
+      this._scheduled = false;
+      this._boundSchedule = () => {
+        this._schedule();
+      };
+      this.connect();
+      this._schedule();
+    }
+    connect() {
+      if (isSlot(this._target)) {
+        this._listenSlots([this._target]);
+      } else if (wrap(this._target).children) {
+        this._listenSlots(
+          wrap(this._target).children
+        );
+        if (window.ShadyDOM) {
+          this._shadyChildrenObserver = window.ShadyDOM.observeChildren(this._target, (mutations) => {
+            this._processMutations(mutations);
+          });
+        } else {
+          this._nativeChildrenObserver = new MutationObserver((mutations) => {
+            this._processMutations(mutations);
+          });
+          this._nativeChildrenObserver.observe(this._target, { childList: true });
+        }
+      }
+      this._connected = true;
+    }
+    disconnect() {
+      if (isSlot(this._target)) {
+        this._unlistenSlots([this._target]);
+      } else if (wrap(this._target).children) {
+        this._unlistenSlots(
+          wrap(this._target).children
+        );
+        if (window.ShadyDOM && this._shadyChildrenObserver) {
+          window.ShadyDOM.unobserveChildren(this._shadyChildrenObserver);
+          this._shadyChildrenObserver = null;
+        } else if (this._nativeChildrenObserver) {
+          this._nativeChildrenObserver.disconnect();
+          this._nativeChildrenObserver = null;
+        }
+      }
+      this._connected = false;
+    }
+    _schedule() {
+      if (!this._scheduled) {
+        this._scheduled = true;
+        microTask.run(() => this.flush());
+      }
+    }
+    _processMutations(mutations) {
+      this._processSlotMutations(mutations);
+      this.flush();
+    }
+    _processSlotMutations(mutations) {
+      if (mutations) {
+        for (let i5 = 0; i5 < mutations.length; i5++) {
+          let mutation = mutations[i5];
+          if (mutation.addedNodes) {
+            this._listenSlots(mutation.addedNodes);
+          }
+          if (mutation.removedNodes) {
+            this._unlistenSlots(mutation.removedNodes);
+          }
+        }
+      }
+    }
+    flush() {
+      if (!this._connected) {
+        return false;
+      }
+      if (window.ShadyDOM) {
+        ShadyDOM.flush();
+      }
+      if (this._nativeChildrenObserver) {
+        this._processSlotMutations(this._nativeChildrenObserver.takeRecords());
+      } else if (this._shadyChildrenObserver) {
+        this._processSlotMutations(this._shadyChildrenObserver.takeRecords());
+      }
+      this._scheduled = false;
+      let info = {
+        target: this._target,
+        addedNodes: [],
+        removedNodes: []
+      };
+      let newNodes = this.constructor.getFlattenedNodes(this._target);
+      let splices = calculateSplices(
+        newNodes,
+        this._effectiveNodes
+      );
+      for (let i5 = 0, s5; i5 < splices.length && (s5 = splices[i5]); i5++) {
+        for (let j = 0, n6; j < s5.removed.length && (n6 = s5.removed[j]); j++) {
+          info.removedNodes.push(n6);
+        }
+      }
+      for (let i5 = 0, s5; i5 < splices.length && (s5 = splices[i5]); i5++) {
+        for (let j = s5.index; j < s5.index + s5.addedCount; j++) {
+          info.addedNodes.push(newNodes[j]);
+        }
+      }
+      this._effectiveNodes = newNodes;
+      let didFlush = false;
+      if (info.addedNodes.length || info.removedNodes.length) {
+        didFlush = true;
+        this.callback.call(this._target, info);
+      }
+      return didFlush;
+    }
+    _listenSlots(nodeList) {
+      for (let i5 = 0; i5 < nodeList.length; i5++) {
+        let n6 = nodeList[i5];
+        if (isSlot(n6)) {
+          n6.addEventListener("slotchange", this._boundSchedule);
+        }
+      }
+    }
+    _unlistenSlots(nodeList) {
+      for (let i5 = 0; i5 < nodeList.length; i5++) {
+        let n6 = nodeList[i5];
+        if (isSlot(n6)) {
+          n6.removeEventListener("slotchange", this._boundSchedule);
+        }
+      }
+    }
+  };
+
+  // node_modules/@vaadin/component-base/src/unique-id-utils.js
+  var uniqueId = 0;
+  function generateUniqueId() {
+    return uniqueId++;
+  }
+
+  // node_modules/@vaadin/component-base/src/slot-controller.js
+  var SlotController = class extends EventTarget {
+    static generateId(slotName, host) {
+      const prefix = slotName || "default";
+      return `${prefix}-${host.localName}-${generateUniqueId()}`;
+    }
+    constructor(host, slotName, slotFactory, slotInitializer, useUniqueId) {
+      super();
+      this.host = host;
+      this.slotName = slotName;
+      this.slotFactory = slotFactory;
+      this.slotInitializer = slotInitializer;
+      if (useUniqueId) {
+        this.defaultId = SlotController.generateId(slotName, host);
+      }
+    }
+    hostConnected() {
+      if (!this.initialized) {
+        let node = this.getSlotChild();
+        if (!node) {
+          node = this.attachDefaultNode();
+        } else {
+          this.node = node;
+          this.initCustomNode(node);
+        }
+        this.initNode(node);
+        this.observe();
+        this.initialized = true;
+      }
+    }
+    attachDefaultNode() {
+      const { host, slotName, slotFactory } = this;
+      let node = this.defaultNode;
+      if (!node && slotFactory) {
+        node = slotFactory(host);
+        if (node instanceof Element) {
+          if (slotName !== "") {
+            node.setAttribute("slot", slotName);
+          }
+          this.node = node;
+          this.defaultNode = node;
+        }
+      }
+      if (node) {
+        host.appendChild(node);
+      }
+      return node;
+    }
+    getSlotChild() {
+      const { slotName } = this;
+      return Array.from(this.host.childNodes).find((node) => {
+        return node.nodeType === Node.ELEMENT_NODE && node.slot === slotName || node.nodeType === Node.TEXT_NODE && node.textContent.trim() && slotName === "";
+      });
+    }
+    initNode(node) {
+      const { slotInitializer } = this;
+      if (slotInitializer) {
+        slotInitializer(this.host, node);
+      }
+    }
+    initCustomNode(_node) {
+    }
+    teardownNode(_node) {
+    }
+    observe() {
+      const { slotName } = this;
+      const selector = slotName === "" ? "slot:not([name])" : `slot[name=${slotName}]`;
+      const slot = this.host.shadowRoot.querySelector(selector);
+      this.__slotObserver = new FlattenedNodesObserver(slot, (info) => {
+        const current = this.node;
+        const newNode = info.addedNodes.find((node) => node !== current);
+        if (info.removedNodes.length) {
+          info.removedNodes.forEach((node) => {
+            this.teardownNode(node);
+          });
+        }
+        if (newNode) {
+          if (current && current.isConnected) {
+            this.host.removeChild(current);
+          }
+          this.node = newNode;
+          if (newNode !== this.defaultNode) {
+            this.initCustomNode(newNode);
+            this.initNode(newNode);
+          }
+        }
+      });
+    }
+  };
+
+  // node_modules/@vaadin/field-base/src/input-controller.js
+  var InputController = class extends SlotController {
+    constructor(host, callback) {
+      super(
+        host,
+        "input",
+        () => document.createElement("input"),
+        (host2, node) => {
+          if (host2.value) {
+            node.setAttribute("value", host2.value);
+          }
+          if (host2.type) {
+            node.setAttribute("type", host2.type);
+          }
+          node.id = this.defaultId;
+          if (typeof callback === "function") {
+            callback(node);
+          }
+        },
+        true
+      );
+    }
+  };
+
+  // node_modules/@vaadin/field-base/src/label-controller.js
+  var LabelController = class extends SlotController {
+    constructor(host) {
+      super(
+        host,
+        "label",
+        () => document.createElement("label"),
+        (_host, node) => {
+          this.__updateLabelId(node);
+          this.__updateDefaultLabel(this.label);
+          this.__observeLabel(node);
+        },
+        true
+      );
+    }
+    get labelId() {
+      return this.node.id;
+    }
+    initCustomNode(labelNode) {
+      this.__updateLabelId(labelNode);
+      const hasLabel = this.__hasLabel(labelNode);
+      this.__toggleHasLabel(hasLabel);
+    }
+    teardownNode(node) {
+      if (this.__labelObserver) {
+        this.__labelObserver.disconnect();
+      }
+      let labelNode = this.getSlotChild();
+      if (!labelNode && node !== this.defaultNode) {
+        labelNode = this.attachDefaultNode();
+        this.initNode(labelNode);
+      }
+      const hasLabel = this.__hasLabel(labelNode);
+      this.__toggleHasLabel(hasLabel);
+    }
+    setLabel(label) {
+      this.label = label;
+      this.__updateDefaultLabel(label);
+    }
+    __hasLabel(labelNode) {
+      if (!labelNode) {
+        return false;
+      }
+      return labelNode.children.length > 0 || this.__isNotEmpty(labelNode.textContent);
+    }
+    __isNotEmpty(label) {
+      return Boolean(label && label.trim() !== "");
+    }
+    __observeLabel(labelNode) {
+      this.__labelObserver = new MutationObserver((mutations) => {
+        mutations.forEach((mutation) => {
+          const target = mutation.target;
+          const isLabelMutation = target === this.node;
+          if (mutation.type === "attributes") {
+            if (isLabelMutation && target.id !== this.defaultId) {
+              this.__updateLabelId(target);
+            }
+          } else if (isLabelMutation || target.parentElement === this.node) {
+            const hasLabel = this.__hasLabel(this.node);
+            this.__toggleHasLabel(hasLabel);
+          }
+        });
+      });
+      this.__labelObserver.observe(labelNode, {
+        attributes: true,
+        attributeFilter: ["id"],
+        childList: true,
+        subtree: true,
+        characterData: true
+      });
+    }
+    __toggleHasLabel(hasLabel) {
+      this.host.toggleAttribute("has-label", hasLabel);
+      this.dispatchEvent(
+        new CustomEvent("label-changed", {
+          detail: {
+            hasLabel,
+            node: this.node
+          }
+        })
+      );
+    }
+    __updateDefaultLabel(label) {
+      if (this.defaultNode) {
+        this.defaultNode.textContent = label;
+        if (this.defaultNode === this.node) {
+          const hasLabel = this.__isNotEmpty(label);
+          this.__toggleHasLabel(hasLabel);
+        }
+      }
+    }
+    __updateLabelId(labelNode) {
+      if (!labelNode.id) {
+        labelNode.id = this.defaultId;
+      }
+    }
+  };
+
+  // node_modules/@vaadin/field-base/src/label-mixin.js
+  var LabelMixin = dedupingMixin(
+    (superclass) => class LabelMixinClass extends ControllerMixin(superclass) {
+      static get properties() {
+        return {
+          label: {
+            type: String,
+            observer: "_labelChanged"
+          }
+        };
+      }
+      get _labelId() {
+        return this._labelController.labelId;
+      }
+      get _labelNode() {
+        return this._labelController.node;
+      }
+      constructor() {
+        super();
+        this._labelController = new LabelController(this);
+      }
+      ready() {
+        super.ready();
+        this.addController(this._labelController);
+      }
+      _labelChanged(label) {
+        this._labelController.setLabel(label);
+      }
+    }
+  );
+
+  // node_modules/@vaadin/field-base/src/labelled-input-controller.js
+  var LabelledInputController = class {
+    constructor(input, labelController) {
+      this.input = input;
+      this.__preventDuplicateLabelClick = this.__preventDuplicateLabelClick.bind(this);
+      labelController.addEventListener("label-changed", (event) => {
+        this.__initLabel(event.detail.node);
+      });
+      this.__initLabel(labelController.node);
+    }
+    __initLabel(label) {
+      if (label) {
+        label.addEventListener("click", this.__preventDuplicateLabelClick);
+        if (this.input) {
+          label.setAttribute("for", this.input.id);
+        }
+      }
+    }
+    __preventDuplicateLabelClick() {
+      const inputClickHandler = (e9) => {
+        e9.stopImmediatePropagation();
+        this.input.removeEventListener("click", inputClickHandler);
+      };
+      this.input.addEventListener("click", inputClickHandler);
+    }
+  };
+
+  // node_modules/@vaadin/field-base/src/slot-target-controller.js
+  var SlotTargetController = class {
+    constructor(sourceSlot, targetFactory, callback) {
+      this.sourceSlot = sourceSlot;
+      this.targetFactory = targetFactory;
+      this.copyCallback = callback;
+      if (sourceSlot) {
+        sourceSlot.addEventListener("slotchange", () => {
+          if (this.__copying) {
+            this.__copying = false;
+          } else {
+            this.__checkAndCopyNodesToSlotTarget();
+          }
+        });
+      }
+    }
+    hostConnected() {
+      this.__sourceSlotObserver = new MutationObserver(() => this.__checkAndCopyNodesToSlotTarget());
+      if (!this.__copying) {
+        this.__checkAndCopyNodesToSlotTarget();
+      }
+    }
+    __checkAndCopyNodesToSlotTarget() {
+      this.__sourceSlotObserver.disconnect();
+      const slotTarget = this.targetFactory();
+      if (!slotTarget) {
+        return;
+      }
+      if (this.__slotTargetClones) {
+        this.__slotTargetClones.forEach((node) => {
+          if (node.parentElement === slotTarget) {
+            slotTarget.removeChild(node);
+          }
+        });
+        delete this.__slotTargetClones;
+      }
+      const nodes = this.sourceSlot.assignedNodes({ flatten: true }).filter((node) => !(node.nodeType === Node.TEXT_NODE && node.textContent.trim() === ""));
+      if (nodes.length > 0) {
+        slotTarget.innerHTML = "";
+        this.__copying = true;
+        this.__copyNodesToSlotTarget(nodes, slotTarget);
+      }
+    }
+    __copyNodesToSlotTarget(nodes, slotTarget) {
+      this.__slotTargetClones = this.__slotTargetClones || [];
+      nodes.forEach((node) => {
+        const clone = node.cloneNode(true);
+        this.__slotTargetClones.push(clone);
+        slotTarget.appendChild(clone);
+        this.__sourceSlotObserver.observe(node, {
+          attributes: true,
+          childList: true,
+          subtree: true,
+          characterData: true
+        });
+      });
+      if (typeof this.copyCallback === "function") {
+        this.copyCallback(nodes);
+      }
+    }
+  };
+
+  // node_modules/@vaadin/checkbox/src/vaadin-checkbox.js
+  var Checkbox = class extends LabelMixin(
+    CheckedMixin(DelegateFocusMixin(ActiveMixin(ElementMixin2(ThemableMixin(ControllerMixin(PolymerElement))))))
+  ) {
+    static get is() {
+      return "vaadin-checkbox";
+    }
+    static get template() {
+      return html`
+      <style>
+        :host {
+          display: inline-block;
+        }
+
+        :host([hidden]) {
+          display: none !important;
+        }
+
+        :host([disabled]) {
+          -webkit-tap-highlight-color: transparent;
+        }
+
+        .vaadin-checkbox-container {
+          display: grid;
+          grid-template-columns: auto 1fr;
+          align-items: baseline;
+        }
+
+        .vaadin-checkbox-wrapper {
+          position: relative;
+          height: 100%;
+        }
+
+        /* visually hidden */
+        ::slotted(input) {
+          position: absolute;
+          top: 0;
+          left: 0;
+          right: 0;
+          width: 100%;
+          height: 100%;
+          opacity: 0;
+          cursor: inherit;
+          margin: 0;
+        }
+      </style>
+      <div class="vaadin-checkbox-container">
+        <div class="vaadin-checkbox-wrapper">
+          <div part="checkbox"></div>
+          <slot name="input"></slot>
+        </div>
+
+        <slot name="label"></slot>
+
+        <div style="display: none !important">
+          <slot id="noop"></slot>
+        </div>
+      </div>
+    `;
+    }
+    static get properties() {
+      return {
+        indeterminate: {
+          type: Boolean,
+          notify: true,
+          value: false,
+          reflectToAttribute: true
+        },
+        name: {
+          type: String,
+          value: ""
+        }
+      };
+    }
+    static get delegateProps() {
+      return [...super.delegateProps, "indeterminate"];
+    }
+    static get delegateAttrs() {
+      return [...super.delegateAttrs, "name"];
+    }
+    constructor() {
+      super();
+      this._setType("checkbox");
+      this.value = "on";
+    }
+    ready() {
+      super.ready();
+      this.addController(
+        new InputController(this, (input) => {
+          this._setInputElement(input);
+          this._setFocusElement(input);
+          this.stateTarget = input;
+          this.ariaTarget = input;
+        })
+      );
+      this.addController(new LabelledInputController(this.inputElement, this._labelController));
+      this.addController(
+        new SlotTargetController(
+          this.$.noop,
+          () => this._labelController.node,
+          () => this.__warnDeprecated()
+        )
+      );
+    }
+    __warnDeprecated() {
+      console.warn(
+        `WARNING: Since Vaadin 22, placing the label as a direct child of a <vaadin-checkbox> is deprecated.
+Please use <label slot="label"> wrapper or the label property instead.`
+      );
+    }
+    _shouldSetActive(event) {
+      if (event.target.localName === "a") {
+        return false;
+      }
+      return super._shouldSetActive(event);
+    }
+    _toggleChecked(checked) {
+      if (this.indeterminate) {
+        this.indeterminate = false;
+      }
+      super._toggleChecked(checked);
+    }
+  };
+  customElements.define(Checkbox.is, Checkbox);
+
+  // node_modules/@vaadin/grid/theme/lumo/vaadin-grid-styles.js
+  registerStyles(
+    "vaadin-grid",
+    i`
+    :host {
+      font-family: var(--lumo-font-family);
+      font-size: var(--lumo-font-size-m);
+      line-height: var(--lumo-line-height-s);
+      color: var(--lumo-body-text-color);
+      background-color: var(--lumo-base-color);
+      box-sizing: border-box;
+      -webkit-text-size-adjust: 100%;
+      -webkit-tap-highlight-color: transparent;
+      -webkit-font-smoothing: antialiased;
+      -moz-osx-font-smoothing: grayscale;
+
+      /* For internal use only */
+      --_lumo-grid-border-color: var(--lumo-contrast-20pct);
+      --_lumo-grid-secondary-border-color: var(--lumo-contrast-10pct);
+      --_lumo-grid-border-width: 1px;
+      --_lumo-grid-selected-row-color: var(--lumo-primary-color-10pct);
+    }
+
+    /* No (outer) border */
+
+    :host(:not([theme~='no-border'])) {
+      border: var(--_lumo-grid-border-width) solid var(--_lumo-grid-border-color);
+    }
+
+    :host([disabled]) {
+      opacity: 0.7;
+    }
+
+    /* Cell styles */
+
+    [part~='cell'] {
+      min-height: var(--lumo-size-m);
+      background-color: var(--lumo-base-color);
+    }
+
+    [part~='cell'] ::slotted(vaadin-grid-cell-content) {
+      cursor: default;
+      padding: var(--lumo-space-xs) var(--lumo-space-m);
+    }
+
+    /* Apply row borders by default and introduce the "no-row-borders" variant */
+    :host(:not([theme~='no-row-borders'])) [part~='cell']:not([part~='details-cell']) {
+      border-top: var(--_lumo-grid-border-width) solid var(--_lumo-grid-secondary-border-color);
+    }
+
+    /* Hide first body row top border */
+    :host(:not([theme~='no-row-borders'])) [part='row'][first] [part~='cell']:not([part~='details-cell']) {
+      border-top: 0;
+      min-height: calc(var(--lumo-size-m) - var(--_lumo-grid-border-width));
+    }
+
+    /* Focus-ring */
+
+    [part~='row'] {
+      position: relative;
+    }
+
+    [part~='row']:focus,
+    [part~='cell']:focus {
+      outline: none;
+    }
+
+    :host([navigating]) [part~='row']:focus::before,
+    :host([navigating]) [part~='cell']:focus::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      right: 0;
+      bottom: 0;
+      left: 0;
+      pointer-events: none;
+      box-shadow: inset 0 0 0 2px var(--lumo-primary-color-50pct);
+    }
+
+    :host([navigating]) [part~='row']:focus::before {
+      transform: translateX(calc(-1 * var(--_grid-horizontal-scroll-position)));
+      z-index: 3;
+    }
+
+    /* Drag and Drop styles */
+    :host([dragover])::after {
+      content: '';
+      position: absolute;
+      z-index: 100;
+      top: 0;
+      right: 0;
+      bottom: 0;
+      left: 0;
+      pointer-events: none;
+      box-shadow: inset 0 0 0 2px var(--lumo-primary-color-50pct);
+    }
+
+    [part~='row'][dragover] {
+      z-index: 100 !important;
+    }
+
+    [part~='row'][dragover] [part~='cell'] {
+      overflow: visible;
+    }
+
+    [part~='row'][dragover] [part~='cell']::after {
+      content: '';
+      position: absolute;
+      top: 0;
+      right: 0;
+      bottom: 0;
+      left: 0;
+      height: calc(var(--_lumo-grid-border-width) + 2px);
+      pointer-events: none;
+      background: var(--lumo-primary-color-50pct);
+    }
+
+    [part~='row'][dragover] [part~='cell'][last-frozen]::after {
+      right: -1px;
+    }
+
+    :host([theme~='no-row-borders']) [dragover] [part~='cell']::after {
+      height: 2px;
+    }
+
+    [part~='row'][dragover='below'] [part~='cell']::after {
+      top: 100%;
+      bottom: auto;
+      margin-top: -1px;
+    }
+
+    :host([all-rows-visible]) [part~='row'][last][dragover='below'] [part~='cell']::after {
+      height: 1px;
+    }
+
+    [part~='row'][dragover='above'] [part~='cell']::after {
+      top: auto;
+      bottom: 100%;
+      margin-bottom: -1px;
+    }
+
+    [part~='row'][details-opened][dragover='below'] [part~='cell']:not([part~='details-cell'])::after,
+    [part~='row'][details-opened][dragover='above'] [part~='details-cell']::after {
+      display: none;
+    }
+
+    [part~='row'][dragover][dragover='on-top'] [part~='cell']::after {
+      height: 100%;
+      opacity: 0.5;
+    }
+
+    [part~='row'][dragstart] [part~='cell'] {
+      border: none !important;
+      box-shadow: none !important;
+    }
+
+    [part~='row'][dragstart] [part~='cell'][last-column] {
+      border-radius: 0 var(--lumo-border-radius-s) var(--lumo-border-radius-s) 0;
+    }
+
+    [part~='row'][dragstart] [part~='cell'][first-column] {
+      border-radius: var(--lumo-border-radius-s) 0 0 var(--lumo-border-radius-s);
+    }
+
+    #scroller [part~='row'][dragstart]:not([dragstart=''])::after {
+      display: block;
+      position: absolute;
+      left: var(--_grid-drag-start-x);
+      top: var(--_grid-drag-start-y);
+      z-index: 100;
+      content: attr(dragstart);
+      align-items: center;
+      justify-content: center;
+      box-sizing: border-box;
+      padding: calc(var(--lumo-space-xs) * 0.8);
+      color: var(--lumo-error-contrast-color);
+      background-color: var(--lumo-error-color);
+      border-radius: var(--lumo-border-radius-m);
+      font-family: var(--lumo-font-family);
+      font-size: var(--lumo-font-size-xxs);
+      line-height: 1;
+      font-weight: 500;
+      text-transform: initial;
+      letter-spacing: initial;
+      min-width: calc(var(--lumo-size-s) * 0.7);
+      text-align: center;
+    }
+
+    /* Headers and footers */
+
+    [part~='header-cell'] ::slotted(vaadin-grid-cell-content),
+    [part~='footer-cell'] ::slotted(vaadin-grid-cell-content),
+    [part~='reorder-ghost'] {
+      font-size: var(--lumo-font-size-s);
+      font-weight: 500;
+    }
+
+    [part~='footer-cell'] ::slotted(vaadin-grid-cell-content) {
+      font-weight: 400;
+    }
+
+    [part='row']:only-child [part~='header-cell'] {
+      min-height: var(--lumo-size-xl);
+    }
+
+    /* Header borders */
+
+    /* Hide first header row top border */
+    :host(:not([theme~='no-row-borders'])) [part='row']:first-child [part~='header-cell'] {
+      border-top: 0;
+    }
+
+    [part='row']:last-child [part~='header-cell'] {
+      border-bottom: var(--_lumo-grid-border-width) solid transparent;
+    }
+
+    :host(:not([theme~='no-row-borders'])) [part='row']:last-child [part~='header-cell'] {
+      border-bottom-color: var(--_lumo-grid-secondary-border-color);
+    }
+
+    /* Overflow uses a stronger border color */
+    :host([overflow~='top']) [part='row']:last-child [part~='header-cell'] {
+      border-bottom-color: var(--_lumo-grid-border-color);
+    }
+
+    /* Footer borders */
+
+    [part='row']:first-child [part~='footer-cell'] {
+      border-top: var(--_lumo-grid-border-width) solid transparent;
+    }
+
+    :host(:not([theme~='no-row-borders'])) [part='row']:first-child [part~='footer-cell'] {
+      border-top-color: var(--_lumo-grid-secondary-border-color);
+    }
+
+    /* Overflow uses a stronger border color */
+    :host([overflow~='bottom']) [part='row']:first-child [part~='footer-cell'] {
+      border-top-color: var(--_lumo-grid-border-color);
+    }
+
+    /* Column reordering */
+
+    :host([reordering]) [part~='cell'] {
+      background: linear-gradient(var(--lumo-shade-20pct), var(--lumo-shade-20pct)) var(--lumo-base-color);
+    }
+
+    :host([reordering]) [part~='cell'][reorder-status='allowed'] {
+      background: var(--lumo-base-color);
+    }
+
+    :host([reordering]) [part~='cell'][reorder-status='dragging'] {
+      background: linear-gradient(var(--lumo-contrast-5pct), var(--lumo-contrast-5pct)) var(--lumo-base-color);
+    }
+
+    [part~='reorder-ghost'] {
+      opacity: 0.85;
+      box-shadow: var(--lumo-box-shadow-s);
+      /* TODO Use the same styles as for the cell element (reorder-ghost copies styles from the cell element) */
+      padding: var(--lumo-space-s) var(--lumo-space-m) !important;
+    }
+
+    /* Column resizing */
+
+    [part='resize-handle'] {
+      width: 3px;
+      background-color: var(--lumo-primary-color-50pct);
+      opacity: 0;
+      transition: opacity 0.2s;
+    }
+
+    :host(:not([reordering])) *:not([column-resizing]) [part~='cell']:hover [part='resize-handle'],
+    [part='resize-handle']:active {
+      opacity: 1;
+      transition-delay: 0.15s;
+    }
+
+    /* Column borders */
+
+    :host([theme~='column-borders']) [part~='cell']:not([last-column]):not([part~='details-cell']) {
+      border-right: var(--_lumo-grid-border-width) solid var(--_lumo-grid-secondary-border-color);
+    }
+
+    /* Frozen columns */
+
+    [last-frozen] {
+      border-right: var(--_lumo-grid-border-width) solid transparent;
+      overflow: hidden;
+    }
+
+    :host([overflow~='start']) [part~='cell'][last-frozen]:not([part~='details-cell']) {
+      border-right-color: var(--_lumo-grid-border-color);
+    }
+
+    [first-frozen-to-end] {
+      border-left: var(--_lumo-grid-border-width) solid transparent;
+    }
+
+    :host([overflow~='end']) [part~='cell'][first-frozen-to-end]:not([part~='details-cell']) {
+      border-left-color: var(--_lumo-grid-border-color);
+    }
+
+    /* Row stripes */
+
+    :host([theme~='row-stripes']) [part~='row']:not([odd]) [part~='body-cell'],
+    :host([theme~='row-stripes']) [part~='row']:not([odd]) [part~='details-cell'] {
+      background-image: linear-gradient(var(--lumo-contrast-5pct), var(--lumo-contrast-5pct));
+      background-repeat: repeat-x;
+    }
+
+    /* Selected row */
+
+    /* Raise the selected rows above unselected rows (so that box-shadow can cover unselected rows) */
+    :host(:not([reordering])) [part~='row'][selected] {
+      z-index: 1;
+    }
+
+    :host(:not([reordering])) [part~='row'][selected] [part~='body-cell']:not([part~='details-cell']) {
+      background-image: linear-gradient(var(--_lumo-grid-selected-row-color), var(--_lumo-grid-selected-row-color));
+      background-repeat: repeat;
+    }
+
+    /* Cover the border of an unselected row */
+    :host(:not([theme~='no-row-borders'])) [part~='row'][selected] [part~='cell']:not([part~='details-cell']) {
+      box-shadow: 0 var(--_lumo-grid-border-width) 0 0 var(--_lumo-grid-selected-row-color);
+    }
+
+    /* Compact */
+
+    :host([theme~='compact']) [part='row']:only-child [part~='header-cell'] {
+      min-height: var(--lumo-size-m);
+    }
+
+    :host([theme~='compact']) [part~='cell'] {
+      min-height: var(--lumo-size-s);
+    }
+
+    :host([theme~='compact']) [part='row'][first] [part~='cell']:not([part~='details-cell']) {
+      min-height: calc(var(--lumo-size-s) - var(--_lumo-grid-border-width));
+    }
+
+    :host([theme~='compact']) [part~='cell'] ::slotted(vaadin-grid-cell-content) {
+      padding: var(--lumo-space-xs) var(--lumo-space-s);
+    }
+
+    /* Wrap cell contents */
+
+    :host([theme~='wrap-cell-content']) [part~='cell'] ::slotted(vaadin-grid-cell-content) {
+      white-space: normal;
+    }
+
+    /* RTL specific styles */
+
+    :host([dir='rtl']) [part~='row'][dragstart] [part~='cell'][last-column] {
+      border-radius: var(--lumo-border-radius-s) 0 0 var(--lumo-border-radius-s);
+    }
+
+    :host([dir='rtl']) [part~='row'][dragstart] [part~='cell'][first-column] {
+      border-radius: 0 var(--lumo-border-radius-s) var(--lumo-border-radius-s) 0;
+    }
+
+    :host([dir='rtl'][theme~='column-borders']) [part~='cell']:not([last-column]):not([part~='details-cell']) {
+      border-right: none;
+      border-left: var(--_lumo-grid-border-width) solid var(--_lumo-grid-secondary-border-color);
+    }
+
+    :host([dir='rtl']) [last-frozen] {
+      border-right: none;
+      border-left: var(--_lumo-grid-border-width) solid transparent;
+    }
+
+    :host([dir='rtl']) [first-frozen-to-end] {
+      border-left: none;
+      border-right: var(--_lumo-grid-border-width) solid transparent;
+    }
+
+    :host([dir='rtl'][overflow~='start']) [part~='cell'][last-frozen]:not([part~='details-cell']) {
+      border-left-color: var(--_lumo-grid-border-color);
+    }
+
+    :host([dir='rtl'][overflow~='end']) [part~='cell'][first-frozen-to-end]:not([part~='details-cell']) {
+      border-right-color: var(--_lumo-grid-border-color);
+    }
+  `,
+    { moduleId: "lumo-grid" }
+  );
+
+  // node_modules/@vaadin/component-base/src/templates.js
+  function processTemplates(component) {
+    if (window.Vaadin && window.Vaadin.templateRendererCallback) {
+      window.Vaadin.templateRendererCallback(component);
+      return;
+    }
+    if (component.querySelector("template")) {
+      console.warn(
+        `WARNING: <template> inside <${component.localName}> is no longer supported. Import @vaadin/polymer-legacy-adapter/template-renderer.js to enable compatibility.`
+      );
+    }
+  }
+
+  // node_modules/@vaadin/grid/src/vaadin-grid-column.js
+  var ColumnBaseMixin = (superClass) => class ColumnBaseMixin extends superClass {
+    static get properties() {
+      return {
+        resizable: {
+          type: Boolean,
+          value() {
+            if (this.localName === "vaadin-grid-column-group") {
+              return;
+            }
+            const parent = this.parentNode;
+            if (parent && parent.localName === "vaadin-grid-column-group") {
+              return parent.resizable || false;
+            }
+            return false;
+          }
+        },
+        frozen: {
+          type: Boolean,
+          value: false
+        },
+        frozenToEnd: {
+          type: Boolean,
+          value: false
+        },
+        hidden: {
+          type: Boolean,
+          value: false
+        },
+        header: {
+          type: String
+        },
+        textAlign: {
+          type: String
+        },
+        _lastFrozen: {
+          type: Boolean,
+          value: false
+        },
+        _firstFrozenToEnd: {
+          type: Boolean,
+          value: false
+        },
+        _order: Number,
+        _reorderStatus: Boolean,
+        _emptyCells: Array,
+        _headerCell: Object,
+        _footerCell: Object,
+        _grid: Object,
+        __initialized: {
+          type: Boolean,
+          value: true
+        },
+        headerRenderer: Function,
+        _headerRenderer: {
+          type: Function,
+          computed: "_computeHeaderRenderer(headerRenderer, header, __initialized)"
+        },
+        footerRenderer: Function,
+        _footerRenderer: {
+          type: Function,
+          computed: "_computeFooterRenderer(footerRenderer, __initialized)"
+        },
+        __gridColumnElement: {
+          type: Boolean,
+          value: true
+        }
+      };
+    }
+    static get observers() {
+      return [
+        "_widthChanged(width, _headerCell, _footerCell, _cells.*)",
+        "_frozenChanged(frozen, _headerCell, _footerCell, _cells.*)",
+        "_frozenToEndChanged(frozenToEnd, _headerCell, _footerCell, _cells.*)",
+        "_flexGrowChanged(flexGrow, _headerCell, _footerCell, _cells.*)",
+        "_textAlignChanged(textAlign, _cells.*, _headerCell, _footerCell)",
+        "_orderChanged(_order, _headerCell, _footerCell, _cells.*)",
+        "_lastFrozenChanged(_lastFrozen)",
+        "_firstFrozenToEndChanged(_firstFrozenToEnd)",
+        "_onRendererOrBindingChanged(_renderer, _cells, _cells.*, path)",
+        "_onHeaderRendererOrBindingChanged(_headerRenderer, _headerCell, path, header)",
+        "_onFooterRendererOrBindingChanged(_footerRenderer, _footerCell)",
+        "_resizableChanged(resizable, _headerCell)",
+        "_reorderStatusChanged(_reorderStatus, _headerCell, _footerCell, _cells.*)",
+        "_hiddenChanged(hidden, _headerCell, _footerCell, _cells.*)"
+      ];
+    }
+    connectedCallback() {
+      super.connectedCallback();
+      requestAnimationFrame(() => {
+        if (!this._grid) {
+          return;
+        }
+        this._allCells.forEach((cell) => {
+          if (!cell._content.parentNode) {
+            this._grid.appendChild(cell._content);
+          }
+        });
+      });
+    }
+    disconnectedCallback() {
+      super.disconnectedCallback();
+      requestAnimationFrame(() => {
+        if (this._grid) {
+          return;
+        }
+        this._allCells.forEach((cell) => {
+          if (cell._content.parentNode) {
+            cell._content.parentNode.removeChild(cell._content);
+          }
+        });
+      });
+      this._gridValue = void 0;
+    }
+    ready() {
+      super.ready();
+      processTemplates(this);
+    }
+    _findHostGrid() {
+      let el = this;
+      while (el && !/^vaadin.*grid(-pro)?$/.test(el.localName)) {
+        el = el.assignedSlot ? el.assignedSlot.parentNode : el.parentNode;
+      }
+      return el || void 0;
+    }
+    get _grid() {
+      if (!this._gridValue) {
+        this._gridValue = this._findHostGrid();
+      }
+      return this._gridValue;
+    }
+    get _allCells() {
+      return [].concat(this._cells || []).concat(this._emptyCells || []).concat(this._headerCell).concat(this._footerCell).filter((cell) => cell);
+    }
+    _renderHeaderAndFooter() {
+      this._renderHeaderCellContent(this._headerRenderer, this._headerCell);
+      this._renderFooterCellContent(this._footerRenderer, this._footerCell);
+    }
+    _flexGrowChanged(flexGrow) {
+      if (this.parentElement && this.parentElement._columnPropChanged) {
+        this.parentElement._columnPropChanged("flexGrow");
+      }
+      this._allCells.forEach((cell) => {
+        cell.style.flexGrow = flexGrow;
+      });
+    }
+    _orderChanged(order) {
+      this._allCells.forEach((cell) => {
+        cell.style.order = order;
+      });
+    }
+    _widthChanged(width) {
+      if (this.parentElement && this.parentElement._columnPropChanged) {
+        this.parentElement._columnPropChanged("width");
+      }
+      this._allCells.forEach((cell) => {
+        cell.style.width = width;
+      });
+    }
+    _frozenChanged(frozen) {
+      if (this.parentElement && this.parentElement._columnPropChanged) {
+        this.parentElement._columnPropChanged("frozen", frozen);
+      }
+      this._allCells.forEach((cell) => cell.toggleAttribute("frozen", frozen));
+      if (this._grid && this._grid._frozenCellsChanged) {
+        this._grid._frozenCellsChanged();
+      }
+    }
+    _frozenToEndChanged(frozenToEnd) {
+      if (this.parentElement && this.parentElement._columnPropChanged) {
+        this.parentElement._columnPropChanged("frozenToEnd", frozenToEnd);
+      }
+      this._allCells.forEach((cell) => {
+        if (this._grid && cell.parentElement === this._grid.$.sizer) {
+          return;
+        }
+        cell.toggleAttribute("frozen-to-end", frozenToEnd);
+      });
+      if (this._grid && this._grid._frozenCellsChanged) {
+        this._grid._frozenCellsChanged();
+      }
+    }
+    _lastFrozenChanged(lastFrozen) {
+      this._allCells.forEach((cell) => cell.toggleAttribute("last-frozen", lastFrozen));
+      if (this.parentElement && this.parentElement._columnPropChanged) {
+        this.parentElement._lastFrozen = lastFrozen;
+      }
+    }
+    _firstFrozenToEndChanged(firstFrozenToEnd) {
+      this._allCells.forEach((cell) => {
+        if (this._grid && cell.parentElement === this._grid.$.sizer) {
+          return;
+        }
+        cell.toggleAttribute("first-frozen-to-end", firstFrozenToEnd);
+      });
+      if (this.parentElement && this.parentElement._columnPropChanged) {
+        this.parentElement._firstFrozenToEnd = firstFrozenToEnd;
+      }
+    }
+    _generateHeader(path) {
+      return path.substr(path.lastIndexOf(".") + 1).replace(/([A-Z])/g, "-$1").toLowerCase().replace(/-/g, " ").replace(/^./, (match) => match.toUpperCase());
+    }
+    _reorderStatusChanged(reorderStatus) {
+      this._allCells.forEach((cell) => cell.setAttribute("reorder-status", reorderStatus));
+    }
+    _resizableChanged(resizable, headerCell) {
+      if (resizable === void 0 || headerCell === void 0) {
+        return;
+      }
+      if (headerCell) {
+        [headerCell].concat(this._emptyCells).forEach((cell) => {
+          if (cell) {
+            const existingHandle = cell.querySelector('[part~="resize-handle"]');
+            if (existingHandle) {
+              cell.removeChild(existingHandle);
+            }
+            if (resizable) {
+              const handle = document.createElement("div");
+              handle.setAttribute("part", "resize-handle");
+              cell.appendChild(handle);
+            }
+          }
+        });
+      }
+    }
+    _textAlignChanged(textAlign) {
+      if (textAlign === void 0) {
+        return;
+      }
+      if (["start", "end", "center"].indexOf(textAlign) === -1) {
+        console.warn('textAlign can only be set as "start", "end" or "center"');
+        return;
+      }
+      let textAlignFallback;
+      if (getComputedStyle(this._grid).direction === "ltr") {
+        if (textAlign === "start") {
+          textAlignFallback = "left";
+        } else if (textAlign === "end") {
+          textAlignFallback = "right";
+        }
+      } else if (textAlign === "start") {
+        textAlignFallback = "right";
+      } else if (textAlign === "end") {
+        textAlignFallback = "left";
+      }
+      this._allCells.forEach((cell) => {
+        cell._content.style.textAlign = textAlign;
+        if (getComputedStyle(cell._content).textAlign !== textAlign) {
+          cell._content.style.textAlign = textAlignFallback;
+        }
+      });
+    }
+    _hiddenChanged(hidden) {
+      if (this.parentElement && this.parentElement._columnPropChanged) {
+        this.parentElement._columnPropChanged("hidden", hidden);
+      }
+      if (!!hidden !== !!this._previousHidden && this._grid) {
+        if (hidden === true) {
+          this._allCells.forEach((cell) => {
+            if (cell._content.parentNode) {
+              cell._content.parentNode.removeChild(cell._content);
+            }
+          });
+        }
+        this._grid._debouncerHiddenChanged = Debouncer.debounce(
+          this._grid._debouncerHiddenChanged,
+          animationFrame,
+          () => {
+            if (this._grid && this._grid._renderColumnTree) {
+              this._grid._renderColumnTree(this._grid._columnTree);
+            }
+          }
+        );
+        if (this._grid._updateFrozenColumn) {
+          this._grid._updateFrozenColumn();
+        }
+        if (this._grid._resetKeyboardNavigation) {
+          this._grid._resetKeyboardNavigation();
+        }
+      }
+      this._previousHidden = hidden;
+    }
+    _runRenderer(renderer, cell, model) {
+      const args = [cell._content, this];
+      if (model && model.item) {
+        args.push(model);
+      }
+      renderer.apply(this, args);
+    }
+    __renderCellsContent(renderer, cells) {
+      if (this.hidden || !this._grid) {
+        return;
+      }
+      cells.forEach((cell) => {
+        if (!cell.parentElement) {
+          return;
+        }
+        const model = this._grid.__getRowModel(cell.parentElement);
+        if (!renderer) {
+          return;
+        }
+        if (cell._renderer !== renderer) {
+          this._clearCellContent(cell);
+        }
+        cell._renderer = renderer;
+        if (model.item || renderer === this._headerRenderer || renderer === this._footerRenderer) {
+          this._runRenderer(renderer, cell, model);
+        }
+      });
+    }
+    _clearCellContent(cell) {
+      cell._content.innerHTML = "";
+      delete cell._content._$litPart$;
+    }
+    _renderHeaderCellContent(headerRenderer, headerCell) {
+      if (!headerCell || !headerRenderer) {
+        return;
+      }
+      this.__renderCellsContent(headerRenderer, [headerCell]);
+      if (this._grid) {
+        this._grid.__updateHeaderFooterRowVisibility(headerCell.parentElement);
+      }
+    }
+    _onHeaderRendererOrBindingChanged(headerRenderer, headerCell, ..._bindings) {
+      this._renderHeaderCellContent(headerRenderer, headerCell);
+    }
+    _renderBodyCellsContent(renderer, cells) {
+      if (!cells || !renderer) {
+        return;
+      }
+      this.__renderCellsContent(renderer, cells);
+    }
+    _onRendererOrBindingChanged(renderer, cells, ..._bindings) {
+      this._renderBodyCellsContent(renderer, cells);
+    }
+    _renderFooterCellContent(footerRenderer, footerCell) {
+      if (!footerCell || !footerRenderer) {
+        return;
+      }
+      this.__renderCellsContent(footerRenderer, [footerCell]);
+      if (this._grid) {
+        this._grid.__updateHeaderFooterRowVisibility(footerCell.parentElement);
+      }
+    }
+    _onFooterRendererOrBindingChanged(footerRenderer, footerCell) {
+      this._renderFooterCellContent(footerRenderer, footerCell);
+    }
+    __setTextContent(node, textContent) {
+      if (node.textContent !== textContent) {
+        node.textContent = textContent;
+      }
+    }
+    __textHeaderRenderer() {
+      this.__setTextContent(this._headerCell._content, this.header);
+    }
+    _defaultHeaderRenderer() {
+      if (!this.path) {
+        return;
+      }
+      this.__setTextContent(this._headerCell._content, this._generateHeader(this.path));
+    }
+    _defaultRenderer(root2, _owner, { item }) {
+      if (!this.path) {
+        return;
+      }
+      this.__setTextContent(root2, this.get(this.path, item));
+    }
+    _defaultFooterRenderer() {
+    }
+    _computeHeaderRenderer(headerRenderer, header) {
+      if (headerRenderer) {
+        return headerRenderer;
+      }
+      if (header !== void 0 && header !== null) {
+        return this.__textHeaderRenderer;
+      }
+      return this._defaultHeaderRenderer;
+    }
+    _computeRenderer(renderer) {
+      if (renderer) {
+        return renderer;
+      }
+      return this._defaultRenderer;
+    }
+    _computeFooterRenderer(footerRenderer) {
+      if (footerRenderer) {
+        return footerRenderer;
+      }
+      return this._defaultFooterRenderer;
+    }
+  };
+  var GridColumn = class extends ColumnBaseMixin(DirMixin(PolymerElement)) {
+    static get is() {
+      return "vaadin-grid-column";
+    }
+    static get properties() {
+      return {
+        width: {
+          type: String,
+          value: "100px"
+        },
+        flexGrow: {
+          type: Number,
+          value: 1
+        },
+        renderer: Function,
+        _renderer: {
+          type: Function,
+          computed: "_computeRenderer(renderer, __initialized)"
+        },
+        path: {
+          type: String
+        },
+        autoWidth: {
+          type: Boolean,
+          value: false
+        },
+        _cells: Array
+      };
+    }
+  };
+  customElements.define(GridColumn.is, GridColumn);
+
+  // node_modules/@vaadin/grid/src/vaadin-grid-styles.js
+  registerStyles(
+    "vaadin-grid",
+    i`
+    @keyframes vaadin-grid-appear {
+      to {
+        opacity: 1;
+      }
+    }
+
+    :host {
+      display: block;
+      animation: 1ms vaadin-grid-appear;
+      height: 400px;
+      flex: 1 1 auto;
+      align-self: stretch;
+      position: relative;
+    }
+
+    :host([hidden]) {
+      display: none !important;
+    }
+
+    :host([disabled]) {
+      pointer-events: none;
+    }
+
+    #scroller {
+      display: block;
+      transform: translateY(0);
+      width: auto;
+      height: auto;
+      position: absolute;
+      top: 0;
+      right: 0;
+      bottom: 0;
+      left: 0;
+    }
+
+    :host([all-rows-visible]) {
+      height: auto;
+      align-self: flex-start;
+      flex-grow: 0;
+      width: 100%;
+    }
+
+    :host([all-rows-visible]) #scroller {
+      width: 100%;
+      height: 100%;
+      position: relative;
+    }
+
+    :host([all-rows-visible]) #items {
+      min-height: 1px;
+    }
+
+    #table {
+      display: flex;
+      flex-direction: column;
+      width: 100%;
+      height: 100%;
+      overflow: auto;
+      position: relative;
+      outline: none;
+      /* Workaround for a Desktop Safari bug: new stacking context here prevents the scrollbar from getting hidden */
+      z-index: 0;
+    }
+
+    #header,
+    #footer {
+      display: block;
+      position: -webkit-sticky;
+      position: sticky;
+      left: 0;
+      overflow: visible;
+      width: 100%;
+      z-index: 1;
+    }
+
+    #header {
+      top: 0;
+    }
+
+    th {
+      text-align: inherit;
+    }
+
+    /* Safari doesn't work with "inherit" */
+    [safari] th {
+      text-align: initial;
+    }
+
+    #footer {
+      bottom: 0;
+    }
+
+    #items {
+      flex-grow: 1;
+      flex-shrink: 0;
+      display: block;
+      position: -webkit-sticky;
+      position: sticky;
+      width: 100%;
+      left: 0;
+      overflow: visible;
+    }
+
+    [part~='row'] {
+      display: flex;
+      width: 100%;
+      box-sizing: border-box;
+      margin: 0;
+    }
+
+    [part~='row'][loading] [part~='body-cell'] ::slotted(vaadin-grid-cell-content) {
+      opacity: 0;
+    }
+
+    #items [part~='row'] {
+      position: absolute;
+    }
+
+    #items [part~='row']:empty {
+      height: 100%;
+    }
+
+    [part~='cell']:not([part~='details-cell']) {
+      flex-shrink: 0;
+      flex-grow: 1;
+      box-sizing: border-box;
+      display: flex;
+      width: 100%;
+      position: relative;
+      align-items: center;
+      padding: 0;
+      white-space: nowrap;
+    }
+
+    [part~='details-cell'] {
+      position: absolute;
+      bottom: 0;
+      width: 100%;
+      box-sizing: border-box;
+      padding: 0;
+    }
+
+    [part~='cell'] ::slotted(vaadin-grid-cell-content) {
+      display: block;
+      width: 100%;
+      box-sizing: border-box;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+
+    [hidden] {
+      display: none !important;
+    }
+
+    [frozen],
+    [frozen-to-end] {
+      z-index: 2;
+      will-change: transform;
+    }
+
+    [no-scrollbars][safari] #table,
+    [no-scrollbars][firefox] #table {
+      overflow: hidden;
+    }
+
+    /* Reordering styles */
+    :host([reordering]) [part~='cell'] ::slotted(vaadin-grid-cell-content),
+    :host([reordering]) [part~='resize-handle'],
+    #scroller[no-content-pointer-events] [part~='cell'] ::slotted(vaadin-grid-cell-content) {
+      pointer-events: none;
+    }
+
+    [part~='reorder-ghost'] {
+      visibility: hidden;
+      position: fixed;
+      pointer-events: none;
+      opacity: 0.5;
+
+      /* Prevent overflowing the grid in Firefox */
+      top: 0;
+      left: 0;
+    }
+
+    :host([reordering]) {
+      -moz-user-select: none;
+      -webkit-user-select: none;
+      user-select: none;
+    }
+
+    /* Resizing styles */
+    [part~='resize-handle'] {
+      position: absolute;
+      top: 0;
+      right: 0;
+      height: 100%;
+      cursor: col-resize;
+      z-index: 1;
+    }
+
+    [part~='resize-handle']::before {
+      position: absolute;
+      content: '';
+      height: 100%;
+      width: 35px;
+      transform: translateX(-50%);
+    }
+
+    [last-column] [part~='resize-handle']::before,
+    [last-frozen] [part~='resize-handle']::before {
+      width: 18px;
+      transform: none;
+      right: 0;
+    }
+
+    [frozen-to-end] [part~='resize-handle'] {
+      left: 0;
+      right: auto;
+    }
+
+    [frozen-to-end] [part~='resize-handle']::before {
+      left: 0;
+      right: auto;
+    }
+
+    [first-frozen-to-end] [part~='resize-handle']::before {
+      width: 18px;
+      transform: none;
+    }
+
+    /* Hide resize handle if scrolled to end */
+    :host(:not([overflow~='end'])) [first-frozen-to-end] [part~='resize-handle'] {
+      display: none;
+    }
+
+    #scroller[column-resizing] {
+      -ms-user-select: none;
+      -moz-user-select: none;
+      -webkit-user-select: none;
+      user-select: none;
+    }
+
+    /* Sizer styles */
+    #sizer {
+      display: flex;
+      position: absolute;
+      visibility: hidden;
+    }
+
+    #sizer [part~='details-cell'] {
+      display: none !important;
+    }
+
+    #sizer [part~='cell'][hidden] {
+      display: none !important;
+    }
+
+    #sizer [part~='cell'] {
+      display: block;
+      flex-shrink: 0;
+      line-height: 0;
+      height: 0 !important;
+      min-height: 0 !important;
+      max-height: 0 !important;
+      padding: 0 !important;
+      border: none !important;
+    }
+
+    #sizer [part~='cell']::before {
+      content: '-';
+    }
+
+    #sizer [part~='cell'] ::slotted(vaadin-grid-cell-content) {
+      display: none !important;
+    }
+
+    /* RTL specific styles */
+
+    :host([dir='rtl']) #items,
+    :host([dir='rtl']) #header,
+    :host([dir='rtl']) #footer {
+      left: auto;
+    }
+
+    :host([dir='rtl']) [part~='reorder-ghost'] {
+      left: auto;
+      right: 0;
+    }
+
+    :host([dir='rtl']) [part~='resize-handle'] {
+      left: 0;
+      right: auto;
+    }
+
+    :host([dir='rtl']) [part~='resize-handle']::before {
+      transform: translateX(50%);
+    }
+
+    :host([dir='rtl']) [last-column] [part~='resize-handle']::before,
+    :host([dir='rtl']) [last-frozen] [part~='resize-handle']::before {
+      left: 0;
+      right: auto;
+    }
+
+    :host([dir='rtl']) [frozen-to-end] [part~='resize-handle'] {
+      right: 0;
+      left: auto;
+    }
+
+    :host([dir='rtl']) [frozen-to-end] [part~='resize-handle']::before {
+      right: 0;
+      left: auto;
+    }
+  `,
+    { moduleId: "vaadin-grid-styles" }
+  );
+
+  // node_modules/@polymer/polymer/lib/utils/render-status.js
+  var scheduled = false;
+  var beforeRenderQueue = [];
+  var afterRenderQueue = [];
+  function schedule() {
+    scheduled = true;
+    requestAnimationFrame(function() {
+      scheduled = false;
+      flushQueue(beforeRenderQueue);
+      setTimeout(function() {
+        runQueue(afterRenderQueue);
+      });
+    });
+  }
+  function flushQueue(queue) {
+    while (queue.length) {
+      callMethod(queue.shift());
+    }
+  }
+  function runQueue(queue) {
+    for (let i5 = 0, l5 = queue.length; i5 < l5; i5++) {
+      callMethod(queue.shift());
+    }
+  }
+  function callMethod(info) {
+    const context = info[0];
+    const callback = info[1];
+    const args = info[2];
+    try {
+      callback.apply(context, args);
+    } catch (e9) {
+      setTimeout(() => {
+        throw e9;
+      });
+    }
+  }
+  function beforeNextRender(context, callback, args) {
+    if (!scheduled) {
+      schedule();
+    }
+    beforeRenderQueue.push([context, callback, args]);
+  }
+
+  // node_modules/@vaadin/component-base/src/browser-utils.js
+  var testUserAgent = (regexp) => regexp.test(navigator.userAgent);
+  var testPlatform = (regexp) => regexp.test(navigator.platform);
+  var testVendor = (regexp) => regexp.test(navigator.vendor);
+  var isAndroid = testUserAgent(/Android/);
+  var isChrome = testUserAgent(/Chrome/) && testVendor(/Google Inc/);
+  var isFirefox = testUserAgent(/Firefox/);
+  var isIPad = testPlatform(/^iPad/) || testPlatform(/^Mac/) && navigator.maxTouchPoints > 1;
+  var isIPhone = testPlatform(/^iPhone/);
+  var isIOS = isIPhone || isIPad;
+  var isSafari = testUserAgent(/^((?!chrome|android).)*safari/i);
+  var isTouch = (() => {
+    try {
+      document.createEvent("TouchEvent");
+      return true;
+    } catch (e9) {
+      return false;
+    }
+  })();
+
+  // node_modules/@vaadin/component-base/src/iron-list-core.js
+  var IOS = navigator.userAgent.match(/iP(?:hone|ad;(?: U;)? CPU) OS (\d+)/);
+  var IOS_TOUCH_SCROLLING = IOS && IOS[1] >= 8;
+  var DEFAULT_PHYSICAL_COUNT = 3;
+  var ironList = {
+    _ratio: 0.5,
+    _scrollerPaddingTop: 0,
+    _scrollPosition: 0,
+    _physicalSize: 0,
+    _physicalAverage: 0,
+    _physicalAverageCount: 0,
+    _physicalTop: 0,
+    _virtualCount: 0,
+    _estScrollHeight: 0,
+    _scrollHeight: 0,
+    _viewportHeight: 0,
+    _viewportWidth: 0,
+    _physicalItems: null,
+    _physicalSizes: null,
+    _firstVisibleIndexVal: null,
+    _lastVisibleIndexVal: null,
+    _maxPages: 2,
+    _templateCost: 0,
+    get _physicalBottom() {
+      return this._physicalTop + this._physicalSize;
+    },
+    get _scrollBottom() {
+      return this._scrollPosition + this._viewportHeight;
+    },
+    get _virtualEnd() {
+      return this._virtualStart + this._physicalCount - 1;
+    },
+    get _hiddenContentSize() {
+      return this._physicalSize - this._viewportHeight;
+    },
+    get _maxScrollTop() {
+      return this._estScrollHeight - this._viewportHeight + this._scrollOffset;
+    },
+    get _maxVirtualStart() {
+      const virtualCount = this._virtualCount;
+      return Math.max(0, virtualCount - this._physicalCount);
+    },
+    get _virtualStart() {
+      return this._virtualStartVal || 0;
+    },
+    set _virtualStart(val) {
+      val = this._clamp(val, 0, this._maxVirtualStart);
+      this._virtualStartVal = val;
+    },
+    get _physicalStart() {
+      return this._physicalStartVal || 0;
+    },
+    set _physicalStart(val) {
+      val %= this._physicalCount;
+      if (val < 0) {
+        val = this._physicalCount + val;
+      }
+      this._physicalStartVal = val;
+    },
+    get _physicalEnd() {
+      return (this._physicalStart + this._physicalCount - 1) % this._physicalCount;
+    },
+    get _physicalCount() {
+      return this._physicalCountVal || 0;
+    },
+    set _physicalCount(val) {
+      this._physicalCountVal = val;
+    },
+    get _optPhysicalSize() {
+      return this._viewportHeight === 0 ? Infinity : this._viewportHeight * this._maxPages;
+    },
+    get _isVisible() {
+      return Boolean(this.offsetWidth || this.offsetHeight);
+    },
+    get firstVisibleIndex() {
+      let idx = this._firstVisibleIndexVal;
+      if (idx == null) {
+        let physicalOffset = this._physicalTop + this._scrollOffset;
+        idx = this._iterateItems((pidx, vidx) => {
+          physicalOffset += this._getPhysicalSizeIncrement(pidx);
+          if (physicalOffset > this._scrollPosition) {
+            return vidx;
+          }
+        }) || 0;
+        this._firstVisibleIndexVal = idx;
+      }
+      return idx;
+    },
+    get lastVisibleIndex() {
+      let idx = this._lastVisibleIndexVal;
+      if (idx == null) {
+        let physicalOffset = this._physicalTop + this._scrollOffset;
+        this._iterateItems((pidx, vidx) => {
+          if (physicalOffset < this._scrollBottom) {
+            idx = vidx;
+          }
+          physicalOffset += this._getPhysicalSizeIncrement(pidx);
+        });
+        this._lastVisibleIndexVal = idx;
+      }
+      return idx;
+    },
+    get _scrollOffset() {
+      return this._scrollerPaddingTop + this.scrollOffset;
+    },
+    _scrollHandler() {
+      const scrollTop = Math.max(0, Math.min(this._maxScrollTop, this._scrollTop));
+      let delta = scrollTop - this._scrollPosition;
+      const isScrollingDown = delta >= 0;
+      this._scrollPosition = scrollTop;
+      this._firstVisibleIndexVal = null;
+      this._lastVisibleIndexVal = null;
+      if (Math.abs(delta) > this._physicalSize && this._physicalSize > 0) {
+        delta -= this._scrollOffset;
+        const idxAdjustment = Math.round(delta / this._physicalAverage);
+        this._virtualStart += idxAdjustment;
+        this._physicalStart += idxAdjustment;
+        this._physicalTop = Math.min(Math.floor(this._virtualStart) * this._physicalAverage, this._scrollPosition);
+        this._update();
+      } else if (this._physicalCount > 0) {
+        const reusables = this._getReusables(isScrollingDown);
+        if (isScrollingDown) {
+          this._physicalTop = reusables.physicalTop;
+          this._virtualStart += reusables.indexes.length;
+          this._physicalStart += reusables.indexes.length;
+        } else {
+          this._virtualStart -= reusables.indexes.length;
+          this._physicalStart -= reusables.indexes.length;
+        }
+        this._update(reusables.indexes, isScrollingDown ? null : reusables.indexes);
+        this._debounce("_increasePoolIfNeeded", this._increasePoolIfNeeded.bind(this, 0), microTask2);
+      }
+    },
+    _getReusables(fromTop) {
+      let ith, offsetContent, physicalItemHeight;
+      const idxs = [];
+      const protectedOffsetContent = this._hiddenContentSize * this._ratio;
+      const virtualStart = this._virtualStart;
+      const virtualEnd = this._virtualEnd;
+      const physicalCount = this._physicalCount;
+      let top = this._physicalTop + this._scrollOffset;
+      const bottom = this._physicalBottom + this._scrollOffset;
+      const scrollTop = this._scrollPosition;
+      const scrollBottom = this._scrollBottom;
+      if (fromTop) {
+        ith = this._physicalStart;
+        offsetContent = scrollTop - top;
+      } else {
+        ith = this._physicalEnd;
+        offsetContent = bottom - scrollBottom;
+      }
+      while (true) {
+        physicalItemHeight = this._getPhysicalSizeIncrement(ith);
+        offsetContent -= physicalItemHeight;
+        if (idxs.length >= physicalCount || offsetContent <= protectedOffsetContent) {
+          break;
+        }
+        if (fromTop) {
+          if (virtualEnd + idxs.length + 1 >= this._virtualCount) {
+            break;
+          }
+          if (top + physicalItemHeight >= scrollTop - this._scrollOffset) {
+            break;
+          }
+          idxs.push(ith);
+          top += physicalItemHeight;
+          ith = (ith + 1) % physicalCount;
+        } else {
+          if (virtualStart - idxs.length <= 0) {
+            break;
+          }
+          if (top + this._physicalSize - physicalItemHeight <= scrollBottom) {
+            break;
+          }
+          idxs.push(ith);
+          top -= physicalItemHeight;
+          ith = ith === 0 ? physicalCount - 1 : ith - 1;
+        }
+      }
+      return { indexes: idxs, physicalTop: top - this._scrollOffset };
+    },
+    _update(itemSet, movingUp) {
+      if (itemSet && itemSet.length === 0 || this._physicalCount === 0) {
+        return;
+      }
+      this._assignModels(itemSet);
+      this._updateMetrics(itemSet);
+      if (movingUp) {
+        while (movingUp.length) {
+          const idx = movingUp.pop();
+          this._physicalTop -= this._getPhysicalSizeIncrement(idx);
+        }
+      }
+      this._positionItems();
+      this._updateScrollerSize();
+    },
+    _isClientFull() {
+      return this._scrollBottom !== 0 && this._physicalBottom - 1 >= this._scrollBottom && this._physicalTop <= this._scrollPosition;
+    },
+    _increasePoolIfNeeded(count) {
+      const nextPhysicalCount = this._clamp(
+        this._physicalCount + count,
+        DEFAULT_PHYSICAL_COUNT,
+        this._virtualCount - this._virtualStart
+      );
+      const delta = nextPhysicalCount - this._physicalCount;
+      let nextIncrease = Math.round(this._physicalCount * 0.5);
+      if (delta < 0) {
+        return;
+      }
+      if (delta > 0) {
+        const ts = window.performance.now();
+        [].push.apply(this._physicalItems, this._createPool(delta));
+        for (let i5 = 0; i5 < delta; i5++) {
+          this._physicalSizes.push(0);
+        }
+        this._physicalCount += delta;
+        if (this._physicalStart > this._physicalEnd && this._isIndexRendered(this._focusedVirtualIndex) && this._getPhysicalIndex(this._focusedVirtualIndex) < this._physicalEnd) {
+          this._physicalStart += delta;
+        }
+        this._update();
+        this._templateCost = (window.performance.now() - ts) / delta;
+        nextIncrease = Math.round(this._physicalCount * 0.5);
+      }
+      if (this._virtualEnd >= this._virtualCount - 1 || nextIncrease === 0) {
+      } else if (!this._isClientFull()) {
+        this._debounce("_increasePoolIfNeeded", this._increasePoolIfNeeded.bind(this, nextIncrease), microTask2);
+      } else if (this._physicalSize < this._optPhysicalSize) {
+        this._debounce(
+          "_increasePoolIfNeeded",
+          this._increasePoolIfNeeded.bind(this, this._clamp(Math.round(50 / this._templateCost), 1, nextIncrease)),
+          idlePeriod
+        );
+      }
+    },
+    _render() {
+      if (!this.isAttached || !this._isVisible) {
+        return;
+      }
+      if (this._physicalCount !== 0) {
+        const reusables = this._getReusables(true);
+        this._physicalTop = reusables.physicalTop;
+        this._virtualStart += reusables.indexes.length;
+        this._physicalStart += reusables.indexes.length;
+        this._update(reusables.indexes);
+        this._update();
+        this._increasePoolIfNeeded(0);
+      } else if (this._virtualCount > 0) {
+        this.updateViewportBoundaries();
+        this._increasePoolIfNeeded(DEFAULT_PHYSICAL_COUNT);
+      }
+    },
+    _itemsChanged(change) {
+      if (change.path === "items") {
+        this._virtualStart = 0;
+        this._physicalTop = 0;
+        this._virtualCount = this.items ? this.items.length : 0;
+        this._physicalIndexForKey = {};
+        this._firstVisibleIndexVal = null;
+        this._lastVisibleIndexVal = null;
+        this._physicalCount = this._physicalCount || 0;
+        this._physicalItems = this._physicalItems || [];
+        this._physicalSizes = this._physicalSizes || [];
+        this._physicalStart = 0;
+        if (this._scrollTop > this._scrollOffset) {
+          this._resetScrollPosition(0);
+        }
+        this._debounce("_render", this._render, animationFrame);
+      }
+    },
+    _iterateItems(fn, itemSet) {
+      let pidx, vidx, rtn, i5;
+      if (arguments.length === 2 && itemSet) {
+        for (i5 = 0; i5 < itemSet.length; i5++) {
+          pidx = itemSet[i5];
+          vidx = this._computeVidx(pidx);
+          if ((rtn = fn.call(this, pidx, vidx)) != null) {
+            return rtn;
+          }
+        }
+      } else {
+        pidx = this._physicalStart;
+        vidx = this._virtualStart;
+        for (; pidx < this._physicalCount; pidx++, vidx++) {
+          if ((rtn = fn.call(this, pidx, vidx)) != null) {
+            return rtn;
+          }
+        }
+        for (pidx = 0; pidx < this._physicalStart; pidx++, vidx++) {
+          if ((rtn = fn.call(this, pidx, vidx)) != null) {
+            return rtn;
+          }
+        }
+      }
+    },
+    _computeVidx(pidx) {
+      if (pidx >= this._physicalStart) {
+        return this._virtualStart + (pidx - this._physicalStart);
+      }
+      return this._virtualStart + (this._physicalCount - this._physicalStart) + pidx;
+    },
+    _updateMetrics(itemSet) {
+      flush();
+      let newPhysicalSize = 0;
+      let oldPhysicalSize = 0;
+      const prevAvgCount = this._physicalAverageCount;
+      const prevPhysicalAvg = this._physicalAverage;
+      this._iterateItems((pidx, vidx) => {
+        oldPhysicalSize += this._physicalSizes[pidx];
+        this._physicalSizes[pidx] = this._physicalItems[pidx].offsetHeight;
+        newPhysicalSize += this._physicalSizes[pidx];
+        this._physicalAverageCount += this._physicalSizes[pidx] ? 1 : 0;
+      }, itemSet);
+      this._physicalSize = this._physicalSize + newPhysicalSize - oldPhysicalSize;
+      if (this._physicalAverageCount !== prevAvgCount) {
+        this._physicalAverage = Math.round(
+          (prevPhysicalAvg * prevAvgCount + newPhysicalSize) / this._physicalAverageCount
+        );
+      }
+    },
+    _positionItems() {
+      this._adjustScrollPosition();
+      let y2 = this._physicalTop;
+      this._iterateItems((pidx) => {
+        this.translate3d(0, `${y2}px`, 0, this._physicalItems[pidx]);
+        y2 += this._physicalSizes[pidx];
+      });
+    },
+    _getPhysicalSizeIncrement(pidx) {
+      return this._physicalSizes[pidx];
+    },
+    _adjustScrollPosition() {
+      const deltaHeight = this._virtualStart === 0 ? this._physicalTop : Math.min(this._scrollPosition + this._physicalTop, 0);
+      if (deltaHeight !== 0) {
+        this._physicalTop -= deltaHeight;
+        const scrollTop = this._scrollPosition;
+        if (!IOS_TOUCH_SCROLLING && scrollTop > 0) {
+          this._resetScrollPosition(scrollTop - deltaHeight);
+        }
+      }
+    },
+    _resetScrollPosition(pos) {
+      if (this.scrollTarget && pos >= 0) {
+        this._scrollTop = pos;
+        this._scrollPosition = this._scrollTop;
+      }
+    },
+    _updateScrollerSize(forceUpdate) {
+      this._estScrollHeight = this._physicalBottom + Math.max(this._virtualCount - this._physicalCount - this._virtualStart, 0) * this._physicalAverage;
+      forceUpdate = forceUpdate || this._scrollHeight === 0;
+      forceUpdate = forceUpdate || this._scrollPosition >= this._estScrollHeight - this._physicalSize;
+      if (forceUpdate || Math.abs(this._estScrollHeight - this._scrollHeight) >= this._viewportHeight) {
+        this.$.items.style.height = `${this._estScrollHeight}px`;
+        this._scrollHeight = this._estScrollHeight;
+      }
+    },
+    scrollToIndex(idx) {
+      if (typeof idx !== "number" || idx < 0 || idx > this.items.length - 1) {
+        return;
+      }
+      flush();
+      if (this._physicalCount === 0) {
+        return;
+      }
+      idx = this._clamp(idx, 0, this._virtualCount - 1);
+      if (!this._isIndexRendered(idx) || idx >= this._maxVirtualStart) {
+        this._virtualStart = idx - 1;
+      }
+      this._assignModels();
+      this._updateMetrics();
+      this._physicalTop = this._virtualStart * this._physicalAverage;
+      let currentTopItem = this._physicalStart;
+      let currentVirtualItem = this._virtualStart;
+      let targetOffsetTop = 0;
+      const hiddenContentSize = this._hiddenContentSize;
+      while (currentVirtualItem < idx && targetOffsetTop <= hiddenContentSize) {
+        targetOffsetTop += this._getPhysicalSizeIncrement(currentTopItem);
+        currentTopItem = (currentTopItem + 1) % this._physicalCount;
+        currentVirtualItem += 1;
+      }
+      this._updateScrollerSize(true);
+      this._positionItems();
+      this._resetScrollPosition(this._physicalTop + this._scrollOffset + targetOffsetTop);
+      this._increasePoolIfNeeded(0);
+      this._firstVisibleIndexVal = null;
+      this._lastVisibleIndexVal = null;
+    },
+    _resetAverage() {
+      this._physicalAverage = 0;
+      this._physicalAverageCount = 0;
+    },
+    _resizeHandler() {
+      this._debounce(
+        "_render",
+        () => {
+          this._firstVisibleIndexVal = null;
+          this._lastVisibleIndexVal = null;
+          if (this._isVisible) {
+            this.updateViewportBoundaries();
+            this.toggleScrollListener(true);
+            this._resetAverage();
+            this._render();
+          } else {
+            this.toggleScrollListener(false);
+          }
+        },
+        animationFrame
+      );
+    },
+    _isIndexRendered(idx) {
+      return idx >= this._virtualStart && idx <= this._virtualEnd;
+    },
+    _getPhysicalIndex(vidx) {
+      return (this._physicalStart + (vidx - this._virtualStart)) % this._physicalCount;
+    },
+    _clamp(v2, min, max) {
+      return Math.min(max, Math.max(min, v2));
+    },
+    _debounce(name, cb, asyncModule) {
+      this._debouncers = this._debouncers || {};
+      this._debouncers[name] = Debouncer.debounce(this._debouncers[name], asyncModule, cb.bind(this));
+      enqueueDebouncer(this._debouncers[name]);
+    }
+  };
+
+  // node_modules/@vaadin/component-base/src/virtualizer-iron-list-adapter.js
+  var MAX_VIRTUAL_COUNT = 1e5;
+  var OFFSET_ADJUST_MIN_THRESHOLD = 1e3;
+  var IronListAdapter = class {
+    constructor({ createElements, updateElement, scrollTarget, scrollContainer, elementsContainer, reorderElements }) {
+      this.isAttached = true;
+      this._vidxOffset = 0;
+      this.createElements = createElements;
+      this.updateElement = updateElement;
+      this.scrollTarget = scrollTarget;
+      this.scrollContainer = scrollContainer;
+      this.elementsContainer = elementsContainer || scrollContainer;
+      this.reorderElements = reorderElements;
+      this._maxPages = 1.3;
+      this.__placeholderHeight = 200;
+      this.__elementHeightQueue = Array(10);
+      this.timeouts = {
+        SCROLL_REORDER: 500,
+        IGNORE_WHEEL: 500
+      };
+      this.__resizeObserver = new ResizeObserver(() => this._resizeHandler());
+      if (getComputedStyle(this.scrollTarget).overflow === "visible") {
+        this.scrollTarget.style.overflow = "auto";
+      }
+      if (getComputedStyle(this.scrollContainer).position === "static") {
+        this.scrollContainer.style.position = "relative";
+      }
+      this.__resizeObserver.observe(this.scrollTarget);
+      this.scrollTarget.addEventListener("scroll", () => this._scrollHandler());
+      this._scrollLineHeight = this._getScrollLineHeight();
+      this.scrollTarget.addEventListener("wheel", (e9) => this.__onWheel(e9));
+      if (this.reorderElements) {
+        this.scrollTarget.addEventListener("mousedown", () => {
+          this.__mouseDown = true;
+        });
+        this.scrollTarget.addEventListener("mouseup", () => {
+          this.__mouseDown = false;
+          if (this.__pendingReorder) {
+            this.__reorderElements();
+          }
+        });
+      }
+    }
+    get scrollOffset() {
+      return 0;
+    }
+    get adjustedFirstVisibleIndex() {
+      return this.firstVisibleIndex + this._vidxOffset;
+    }
+    get adjustedLastVisibleIndex() {
+      return this.lastVisibleIndex + this._vidxOffset;
+    }
+    scrollToIndex(index) {
+      if (typeof index !== "number" || isNaN(index) || this.size === 0 || !this.scrollTarget.offsetHeight) {
+        return;
+      }
+      index = this._clamp(index, 0, this.size - 1);
+      const visibleElementCount = this.__getVisibleElements().length;
+      let targetVirtualIndex = Math.floor(index / this.size * this._virtualCount);
+      if (this._virtualCount - targetVirtualIndex < visibleElementCount) {
+        targetVirtualIndex = this._virtualCount - (this.size - index);
+        this._vidxOffset = this.size - this._virtualCount;
+      } else if (targetVirtualIndex < visibleElementCount) {
+        if (index < OFFSET_ADJUST_MIN_THRESHOLD) {
+          targetVirtualIndex = index;
+          this._vidxOffset = 0;
+        } else {
+          targetVirtualIndex = OFFSET_ADJUST_MIN_THRESHOLD;
+          this._vidxOffset = index - targetVirtualIndex;
+        }
+      } else {
+        this._vidxOffset = index - targetVirtualIndex;
+      }
+      this.__skipNextVirtualIndexAdjust = true;
+      super.scrollToIndex(targetVirtualIndex);
+      if (this.adjustedFirstVisibleIndex !== index && this._scrollTop < this._maxScrollTop && !this.grid) {
+        this._scrollTop -= this.__getIndexScrollOffset(index) || 0;
+      }
+      this._scrollHandler();
+    }
+    flush() {
+      if (this.scrollTarget.offsetHeight === 0) {
+        return;
+      }
+      this._resizeHandler();
+      flush();
+      this._scrollHandler();
+      if (this.__scrollReorderDebouncer) {
+        this.__scrollReorderDebouncer.flush();
+      }
+      if (this.__debouncerWheelAnimationFrame) {
+        this.__debouncerWheelAnimationFrame.flush();
+      }
+    }
+    update(startIndex = 0, endIndex = this.size - 1) {
+      this.__getVisibleElements().forEach((el) => {
+        if (el.__virtualIndex >= startIndex && el.__virtualIndex <= endIndex) {
+          this.__updateElement(el, el.__virtualIndex, true);
+        }
+      });
+    }
+    __updateElement(el, index, forceSameIndexUpdates) {
+      if (el.style.paddingTop) {
+        el.style.paddingTop = "";
+      }
+      if (!this.__preventElementUpdates && (el.__lastUpdatedIndex !== index || forceSameIndexUpdates)) {
+        this.updateElement(el, index);
+        el.__lastUpdatedIndex = index;
+      }
+      const elementHeight = el.offsetHeight;
+      if (elementHeight === 0) {
+        el.style.paddingTop = `${this.__placeholderHeight}px`;
+      } else {
+        this.__elementHeightQueue.push(elementHeight);
+        this.__elementHeightQueue.shift();
+        const filteredHeights = this.__elementHeightQueue.filter((h3) => h3 !== void 0);
+        this.__placeholderHeight = Math.round(filteredHeights.reduce((a3, b2) => a3 + b2, 0) / filteredHeights.length);
+      }
+    }
+    __getIndexScrollOffset(index) {
+      const element = this.__getVisibleElements().find((el) => el.__virtualIndex === index);
+      return element ? this.scrollTarget.getBoundingClientRect().top - element.getBoundingClientRect().top : void 0;
+    }
+    get size() {
+      return this.__size;
+    }
+    set size(size) {
+      if (size === this.size) {
+        return;
+      }
+      this.__preventElementUpdates = true;
+      let fvi;
+      let fviOffsetBefore;
+      if (size > 0) {
+        fvi = this.adjustedFirstVisibleIndex;
+        fviOffsetBefore = this.__getIndexScrollOffset(fvi);
+      }
+      this.__size = size;
+      flush();
+      this._itemsChanged({
+        path: "items"
+      });
+      flush();
+      if (size > 0) {
+        fvi = Math.min(fvi, size - 1);
+        this.scrollToIndex(fvi);
+        const fviOffsetAfter = this.__getIndexScrollOffset(fvi);
+        if (fviOffsetBefore !== void 0 && fviOffsetAfter !== void 0) {
+          this._scrollTop += fviOffsetBefore - fviOffsetAfter;
+        }
+      }
+      if (!this.elementsContainer.children.length) {
+        requestAnimationFrame(() => this._resizeHandler());
+      }
+      this.__preventElementUpdates = false;
+      this._resizeHandler();
+      flush();
+    }
+    get _scrollTop() {
+      return this.scrollTarget.scrollTop;
+    }
+    set _scrollTop(top) {
+      this.scrollTarget.scrollTop = top;
+    }
+    get items() {
+      return {
+        length: Math.min(this.size, MAX_VIRTUAL_COUNT)
+      };
+    }
+    get offsetHeight() {
+      return this.scrollTarget.offsetHeight;
+    }
+    get $() {
+      return {
+        items: this.scrollContainer
+      };
+    }
+    updateViewportBoundaries() {
+      const styles = window.getComputedStyle(this.scrollTarget);
+      this._scrollerPaddingTop = this.scrollTarget === this ? 0 : parseInt(styles["padding-top"], 10);
+      this._isRTL = Boolean(styles.direction === "rtl");
+      this._viewportWidth = this.elementsContainer.offsetWidth;
+      this._viewportHeight = this.scrollTarget.offsetHeight;
+      this._scrollPageHeight = this._viewportHeight - this._scrollLineHeight;
+      if (this.grid) {
+        this._updateGridMetrics();
+      }
+    }
+    setAttribute() {
+    }
+    _createPool(size) {
+      const physicalItems = this.createElements(size);
+      const fragment = document.createDocumentFragment();
+      physicalItems.forEach((el) => {
+        el.style.position = "absolute";
+        fragment.appendChild(el);
+        this.__resizeObserver.observe(el);
+      });
+      this.elementsContainer.appendChild(fragment);
+      return physicalItems;
+    }
+    _assignModels(itemSet) {
+      this._iterateItems((pidx, vidx) => {
+        const el = this._physicalItems[pidx];
+        el.hidden = vidx >= this.size;
+        if (!el.hidden) {
+          el.__virtualIndex = vidx + (this._vidxOffset || 0);
+          this.__updateElement(el, el.__virtualIndex);
+        } else {
+          delete el.__lastUpdatedIndex;
+        }
+      }, itemSet);
+    }
+    _isClientFull() {
+      setTimeout(() => {
+        this.__clientFull = true;
+      });
+      return this.__clientFull || super._isClientFull();
+    }
+    translate3d(_x, y2, _z, el) {
+      el.style.transform = `translateY(${y2})`;
+    }
+    toggleScrollListener() {
+    }
+    _scrollHandler() {
+      this._adjustVirtualIndexOffset(this._scrollTop - (this.__previousScrollTop || 0));
+      const delta = this.scrollTarget.scrollTop - this._scrollPosition;
+      super._scrollHandler();
+      if (this._physicalCount !== 0) {
+        const isScrollingDown = delta >= 0;
+        const reusables = this._getReusables(!isScrollingDown);
+        if (reusables.indexes.length) {
+          this._physicalTop = reusables.physicalTop;
+          if (isScrollingDown) {
+            this._virtualStart -= reusables.indexes.length;
+            this._physicalStart -= reusables.indexes.length;
+          } else {
+            this._virtualStart += reusables.indexes.length;
+            this._physicalStart += reusables.indexes.length;
+          }
+          this._resizeHandler();
+        }
+      }
+      if (this.reorderElements) {
+        this.__scrollReorderDebouncer = Debouncer.debounce(
+          this.__scrollReorderDebouncer,
+          timeOut.after(this.timeouts.SCROLL_REORDER),
+          () => this.__reorderElements()
+        );
+      }
+      this.__previousScrollTop = this._scrollTop;
+    }
+    __onWheel(e9) {
+      if (e9.ctrlKey || this._hasScrolledAncestor(e9.target, e9.deltaX, e9.deltaY)) {
+        return;
+      }
+      let deltaY = e9.deltaY;
+      if (e9.deltaMode === WheelEvent.DOM_DELTA_LINE) {
+        deltaY *= this._scrollLineHeight;
+      } else if (e9.deltaMode === WheelEvent.DOM_DELTA_PAGE) {
+        deltaY *= this._scrollPageHeight;
+      }
+      this._deltaYAcc = this._deltaYAcc || 0;
+      if (this._wheelAnimationFrame) {
+        this._deltaYAcc += deltaY;
+        e9.preventDefault();
+        return;
+      }
+      deltaY += this._deltaYAcc;
+      this._deltaYAcc = 0;
+      this._wheelAnimationFrame = true;
+      this.__debouncerWheelAnimationFrame = Debouncer.debounce(
+        this.__debouncerWheelAnimationFrame,
+        animationFrame,
+        () => {
+          this._wheelAnimationFrame = false;
+        }
+      );
+      const momentum = Math.abs(e9.deltaX) + Math.abs(deltaY);
+      if (this._canScroll(this.scrollTarget, e9.deltaX, deltaY)) {
+        e9.preventDefault();
+        this.scrollTarget.scrollTop += deltaY;
+        this.scrollTarget.scrollLeft += e9.deltaX;
+        this._hasResidualMomentum = true;
+        this._ignoreNewWheel = true;
+        this._debouncerIgnoreNewWheel = Debouncer.debounce(
+          this._debouncerIgnoreNewWheel,
+          timeOut.after(this.timeouts.IGNORE_WHEEL),
+          () => {
+            this._ignoreNewWheel = false;
+          }
+        );
+      } else if (this._hasResidualMomentum && momentum <= this._previousMomentum || this._ignoreNewWheel) {
+        e9.preventDefault();
+      } else if (momentum > this._previousMomentum) {
+        this._hasResidualMomentum = false;
+      }
+      this._previousMomentum = momentum;
+    }
+    _hasScrolledAncestor(el, deltaX, deltaY) {
+      if (el === this.scrollTarget || el === this.scrollTarget.getRootNode().host) {
+        return false;
+      } else if (this._canScroll(el, deltaX, deltaY) && ["auto", "scroll"].indexOf(getComputedStyle(el).overflow) !== -1) {
+        return true;
+      } else if (el !== this && el.parentElement) {
+        return this._hasScrolledAncestor(el.parentElement, deltaX, deltaY);
+      }
+    }
+    _canScroll(el, deltaX, deltaY) {
+      return deltaY > 0 && el.scrollTop < el.scrollHeight - el.offsetHeight || deltaY < 0 && el.scrollTop > 0 || deltaX > 0 && el.scrollLeft < el.scrollWidth - el.offsetWidth || deltaX < 0 && el.scrollLeft > 0;
+    }
+    _getScrollLineHeight() {
+      const el = document.createElement("div");
+      el.style.fontSize = "initial";
+      el.style.display = "none";
+      document.body.appendChild(el);
+      const fontSize = window.getComputedStyle(el).fontSize;
+      document.body.removeChild(el);
+      return fontSize ? window.parseInt(fontSize) : void 0;
+    }
+    __getVisibleElements() {
+      return Array.from(this.elementsContainer.children).filter((element) => !element.hidden);
+    }
+    __reorderElements() {
+      if (this.__mouseDown) {
+        this.__pendingReorder = true;
+        return;
+      }
+      this.__pendingReorder = false;
+      const adjustedVirtualStart = this._virtualStart + (this._vidxOffset || 0);
+      const visibleElements = this.__getVisibleElements();
+      const elementWithFocus = visibleElements.find(
+        (element) => element.contains(this.elementsContainer.getRootNode().activeElement) || element.contains(this.scrollTarget.getRootNode().activeElement)
+      );
+      const targetElement = elementWithFocus || visibleElements[0];
+      if (!targetElement) {
+        return;
+      }
+      const targetPhysicalIndex = targetElement.__virtualIndex - adjustedVirtualStart;
+      const delta = visibleElements.indexOf(targetElement) - targetPhysicalIndex;
+      if (delta > 0) {
+        for (let i5 = 0; i5 < delta; i5++) {
+          this.elementsContainer.appendChild(visibleElements[i5]);
+        }
+      } else if (delta < 0) {
+        for (let i5 = visibleElements.length + delta; i5 < visibleElements.length; i5++) {
+          this.elementsContainer.insertBefore(visibleElements[i5], visibleElements[0]);
+        }
+      }
+      if (isSafari) {
+        const { transform } = this.scrollTarget.style;
+        this.scrollTarget.style.transform = "translateZ(0)";
+        setTimeout(() => {
+          this.scrollTarget.style.transform = transform;
+        });
+      }
+    }
+    _adjustVirtualIndexOffset(delta) {
+      if (this._virtualCount >= this.size) {
+        this._vidxOffset = 0;
+      } else if (this.__skipNextVirtualIndexAdjust) {
+        this.__skipNextVirtualIndexAdjust = false;
+      } else if (Math.abs(delta) > 1e4) {
+        const scale = this._scrollTop / (this.scrollTarget.scrollHeight - this.scrollTarget.offsetHeight);
+        const offset = scale * this.size;
+        this._vidxOffset = Math.round(offset - scale * this._virtualCount);
+      } else {
+        const oldOffset = this._vidxOffset;
+        const threshold = OFFSET_ADJUST_MIN_THRESHOLD;
+        const maxShift = 100;
+        if (this._scrollTop === 0) {
+          this._vidxOffset = 0;
+          if (oldOffset !== this._vidxOffset) {
+            super.scrollToIndex(0);
+          }
+        } else if (this.firstVisibleIndex < threshold && this._vidxOffset > 0) {
+          this._vidxOffset -= Math.min(this._vidxOffset, maxShift);
+          super.scrollToIndex(this.firstVisibleIndex + (oldOffset - this._vidxOffset));
+        }
+        const maxOffset = this.size - this._virtualCount;
+        if (this._scrollTop >= this._maxScrollTop && this._maxScrollTop > 0) {
+          this._vidxOffset = maxOffset;
+          if (oldOffset !== this._vidxOffset) {
+            super.scrollToIndex(this._virtualCount - 1);
+          }
+        } else if (this.firstVisibleIndex > this._virtualCount - threshold && this._vidxOffset < maxOffset) {
+          this._vidxOffset += Math.min(maxOffset - this._vidxOffset, maxShift);
+          super.scrollToIndex(this.firstVisibleIndex - (this._vidxOffset - oldOffset));
+        }
+      }
+    }
+  };
+  Object.setPrototypeOf(IronListAdapter.prototype, ironList);
+
+  // node_modules/@vaadin/component-base/src/virtualizer.js
+  var Virtualizer = class {
+    constructor(config) {
+      this.__adapter = new IronListAdapter(config);
+    }
+    get size() {
+      return this.__adapter.size;
+    }
+    set size(size) {
+      this.__adapter.size = size;
+    }
+    scrollToIndex(index) {
+      this.__adapter.scrollToIndex(index);
+    }
+    update(startIndex = 0, endIndex = this.size - 1) {
+      this.__adapter.update(startIndex, endIndex);
+    }
+    flush() {
+      this.__adapter.flush();
+    }
+    get firstVisibleIndex() {
+      return this.__adapter.adjustedFirstVisibleIndex;
+    }
+    get lastVisibleIndex() {
+      return this.__adapter.adjustedLastVisibleIndex;
+    }
+  };
+
+  // node_modules/@vaadin/grid/src/vaadin-grid-a11y-mixin.js
+  var A11yMixin = (superClass) => class A11yMixin extends superClass {
+    static get observers() {
+      return ["_a11yUpdateGridSize(size, _columnTree, _columnTree.*)"];
+    }
+    _a11yGetHeaderRowCount(_columnTree) {
+      return _columnTree.filter((level) => level.some((col) => col.headerRenderer || col.path || col.header)).length;
+    }
+    _a11yGetFooterRowCount(_columnTree) {
+      return _columnTree.filter((level) => level.some((col) => col.headerRenderer)).length;
+    }
+    _a11yUpdateGridSize(size, _columnTree) {
+      if (size === void 0 || _columnTree === void 0) {
+        return;
+      }
+      const bodyColumns = _columnTree[_columnTree.length - 1];
+      this.$.table.setAttribute(
+        "aria-rowcount",
+        size + this._a11yGetHeaderRowCount(_columnTree) + this._a11yGetFooterRowCount(_columnTree)
+      );
+      this.$.table.setAttribute("aria-colcount", bodyColumns && bodyColumns.length || 0);
+      this._a11yUpdateHeaderRows();
+      this._a11yUpdateFooterRows();
+    }
+    _a11yUpdateHeaderRows() {
+      Array.from(this.$.header.children).forEach(
+        (headerRow, index) => headerRow.setAttribute("aria-rowindex", index + 1)
+      );
+    }
+    _a11yUpdateFooterRows() {
+      Array.from(this.$.footer.children).forEach(
+        (footerRow, index) => footerRow.setAttribute("aria-rowindex", this._a11yGetHeaderRowCount(this._columnTree) + this.size + index + 1)
+      );
+    }
+    _a11yUpdateRowRowindex(row, index) {
+      row.setAttribute("aria-rowindex", index + this._a11yGetHeaderRowCount(this._columnTree) + 1);
+    }
+    _a11yUpdateRowSelected(row, selected) {
+      row.setAttribute("aria-selected", Boolean(selected));
+      Array.from(row.children).forEach((cell) => cell.setAttribute("aria-selected", Boolean(selected)));
+    }
+    _a11yUpdateRowExpanded(row) {
+      if (this.__isRowExpandable(row)) {
+        row.setAttribute("aria-expanded", "false");
+      } else if (this.__isRowCollapsible(row)) {
+        row.setAttribute("aria-expanded", "true");
+      } else {
+        row.removeAttribute("aria-expanded");
+      }
+    }
+    _a11yUpdateRowLevel(row, level) {
+      if (level > 0 || this.__isRowCollapsible(row) || this.__isRowExpandable(row)) {
+        row.setAttribute("aria-level", level + 1);
+      } else {
+        row.removeAttribute("aria-level");
+      }
+    }
+    _a11ySetRowDetailsCell(row, detailsCell) {
+      Array.from(row.children).forEach((cell) => {
+        if (cell !== detailsCell) {
+          cell.setAttribute("aria-controls", detailsCell.id);
+        }
+      });
+    }
+    _a11yUpdateCellColspan(cell, colspan) {
+      cell.setAttribute("aria-colspan", Number(colspan));
+    }
+    _a11yUpdateSorters() {
+      Array.from(this.querySelectorAll("vaadin-grid-sorter")).forEach((sorter) => {
+        let cellContent = sorter.parentNode;
+        while (cellContent && cellContent.localName !== "vaadin-grid-cell-content") {
+          cellContent = cellContent.parentNode;
+        }
+        if (cellContent && cellContent.assignedSlot) {
+          const cell = cellContent.assignedSlot.parentNode;
+          cell.setAttribute(
+            "aria-sort",
+            {
+              asc: "ascending",
+              desc: "descending"
+            }[String(sorter.direction)] || "none"
+          );
+        }
+      });
+    }
+  };
+
+  // node_modules/@vaadin/grid/src/vaadin-grid-active-item-mixin.js
+  var ActiveItemMixin = (superClass) => class ActiveItemMixin extends superClass {
+    static get properties() {
+      return {
+        activeItem: {
+          type: Object,
+          notify: true,
+          value: null
+        }
+      };
+    }
+    ready() {
+      super.ready();
+      this.$.scroller.addEventListener("click", this._onClick.bind(this));
+      this.addEventListener("cell-activate", this._activateItem.bind(this));
+      this.addEventListener("row-activate", this._activateItem.bind(this));
+    }
+    _activateItem(e9) {
+      const model = e9.detail.model;
+      const clickedItem = model ? model.item : null;
+      if (clickedItem) {
+        this.activeItem = !this._itemsEqual(this.activeItem, clickedItem) ? clickedItem : null;
+      }
+    }
+    _onClick(e9) {
+      if (e9.defaultPrevented) {
+        return;
+      }
+      const path = e9.composedPath();
+      const cell = path[path.indexOf(this.$.table) - 3];
+      if (!cell || cell.getAttribute("part").indexOf("details-cell") > -1) {
+        return;
+      }
+      const cellContent = cell._content;
+      const activeElement = this.getRootNode().activeElement;
+      const cellContentHasFocus = cellContent.contains(activeElement);
+      if (!cellContentHasFocus && !this._isFocusable(e9.target)) {
+        this.dispatchEvent(
+          new CustomEvent("cell-activate", {
+            detail: {
+              model: this.__getRowModel(cell.parentElement)
+            }
+          })
+        );
+      }
+    }
+    _isFocusable(target) {
+      return isFocusable(target);
+    }
+  };
+  var isFocusable = (target) => {
+    if (!target.parentNode) {
+      return false;
+    }
+    const focusables = Array.from(
+      target.parentNode.querySelectorAll(
+        "[tabindex], button, input, select, textarea, object, iframe, label, a[href], area[href]"
+      )
+    ).filter((element) => element.getAttribute("part") !== "cell body-cell");
+    const isFocusableElement = focusables.includes(target);
+    return !target.disabled && isFocusableElement;
+  };
+
+  // node_modules/@vaadin/grid/src/array-data-provider.js
+  function get2(path, object) {
+    return path.split(".").reduce((obj, property) => obj[property], object);
+  }
+  function checkPaths(arrayToCheck, action, items) {
+    if (items.length === 0) {
+      return false;
+    }
+    let result = true;
+    arrayToCheck.forEach(({ path }) => {
+      if (!path || path.indexOf(".") === -1) {
+        return;
+      }
+      const parentProperty = path.replace(/\.[^.]*$/, "");
+      if (get2(parentProperty, items[0]) === void 0) {
+        console.warn(`Path "${path}" used for ${action} does not exist in all of the items, ${action} is disabled.`);
+        result = false;
+      }
+    });
+    return result;
+  }
+  function multiSort(items, sortOrders) {
+    return items.sort((a3, b2) => {
+      return sortOrders.map((sortOrder) => {
+        if (sortOrder.direction === "asc") {
+          return compare(get2(sortOrder.path, a3), get2(sortOrder.path, b2));
+        } else if (sortOrder.direction === "desc") {
+          return compare(get2(sortOrder.path, b2), get2(sortOrder.path, a3));
+        }
+        return 0;
+      }).reduce((p2, n6) => {
+        return p2 !== 0 ? p2 : n6;
+      }, 0);
+    });
+  }
+  function normalizeEmptyValue(value) {
+    if ([void 0, null].indexOf(value) >= 0) {
+      return "";
+    } else if (isNaN(value)) {
+      return value.toString();
+    }
+    return value;
+  }
+  function compare(a3, b2) {
+    a3 = normalizeEmptyValue(a3);
+    b2 = normalizeEmptyValue(b2);
+    if (a3 < b2) {
+      return -1;
+    }
+    if (a3 > b2) {
+      return 1;
+    }
+    return 0;
+  }
+  function filter(items, filters) {
+    return items.filter((item) => {
+      return filters.every((filter2) => {
+        const value = normalizeEmptyValue(get2(filter2.path, item));
+        const filterValueLowercase = normalizeEmptyValue(filter2.value).toString().toLowerCase();
+        return value.toString().toLowerCase().includes(filterValueLowercase);
+      });
+    });
+  }
+  var createArrayDataProvider = (allItems) => {
+    return (params, callback) => {
+      let items = allItems ? [...allItems] : [];
+      if (params.filters && checkPaths(params.filters, "filtering", items)) {
+        items = filter(items, params.filters);
+      }
+      if (Array.isArray(params.sortOrders) && params.sortOrders.length && checkPaths(params.sortOrders, "sorting", items)) {
+        items = multiSort(items, params.sortOrders);
+      }
+      const count = Math.min(items.length, params.pageSize);
+      const start = params.page * count;
+      const end = start + count;
+      const slice = items.slice(start, end);
+      callback(slice, items.length);
+    };
+  };
+
+  // node_modules/@vaadin/grid/src/vaadin-grid-array-data-provider-mixin.js
+  var ArrayDataProviderMixin = (superClass) => class ArrayDataProviderMixin extends superClass {
+    static get properties() {
+      return {
+        items: Array
+      };
+    }
+    static get observers() {
+      return ["__dataProviderOrItemsChanged(dataProvider, items, isAttached, items.*, _filters, _sorters)"];
+    }
+    __setArrayDataProvider(items) {
+      const arrayDataProvider = createArrayDataProvider(this.items, {});
+      arrayDataProvider.__items = items;
+      this.setProperties({
+        _arrayDataProvider: arrayDataProvider,
+        size: items.length,
+        dataProvider: arrayDataProvider
+      });
+    }
+    __dataProviderOrItemsChanged(dataProvider, items, isAttached) {
+      if (!isAttached) {
+        return;
+      }
+      if (this._arrayDataProvider) {
+        if (dataProvider !== this._arrayDataProvider) {
+          this.setProperties({
+            _arrayDataProvider: void 0,
+            items: void 0
+          });
+        } else if (!items) {
+          this.setProperties({
+            _arrayDataProvider: void 0,
+            dataProvider: void 0,
+            size: 0
+          });
+          this.clearCache();
+        } else if (this._arrayDataProvider.__items === items) {
+          this.clearCache();
+          this.size = this._effectiveSize;
+        } else {
+          this.__setArrayDataProvider(items);
+        }
+      } else if (items) {
+        this.__setArrayDataProvider(items);
+      }
+    }
+  };
+
+  // node_modules/@vaadin/grid/src/vaadin-grid-helpers.js
+  function updateColumnOrders(columns, scope, baseOrder) {
+    let c3 = 1;
+    columns.forEach((column) => {
+      if (c3 % 10 === 0) {
+        c3 += 1;
+      }
+      column._order = baseOrder + c3 * scope;
+      c3 += 1;
+    });
+  }
+
+  // node_modules/@vaadin/grid/src/vaadin-grid-column-reordering-mixin.js
+  var ColumnReorderingMixin = (superClass) => class ColumnReorderingMixin extends superClass {
+    static get properties() {
+      return {
+        columnReorderingAllowed: {
+          type: Boolean,
+          value: false
+        },
+        _orderBaseScope: {
+          type: Number,
+          value: 1e7
+        }
+      };
+    }
+    static get observers() {
+      return ["_updateOrders(_columnTree, _columnTree.*)"];
+    }
+    ready() {
+      super.ready();
+      addListener(this, "track", this._onTrackEvent);
+      this._reorderGhost = this.shadowRoot.querySelector('[part="reorder-ghost"]');
+      this.addEventListener("touchstart", this._onTouchStart.bind(this));
+      this.addEventListener("touchmove", this._onTouchMove.bind(this));
+      this.addEventListener("touchend", this._onTouchEnd.bind(this));
+      this.addEventListener("contextmenu", this._onContextMenu.bind(this));
+    }
+    _onContextMenu(e9) {
+      if (this.hasAttribute("reordering")) {
+        e9.preventDefault();
+      }
+    }
+    _onTouchStart(e9) {
+      this._startTouchReorderTimeout = setTimeout(() => {
+        this._onTrackStart({
+          detail: {
+            x: e9.touches[0].clientX,
+            y: e9.touches[0].clientY
+          }
+        });
+      }, 100);
+    }
+    _onTouchMove(e9) {
+      if (this._draggedColumn) {
+        e9.preventDefault();
+      }
+      clearTimeout(this._startTouchReorderTimeout);
+    }
+    _onTouchEnd() {
+      clearTimeout(this._startTouchReorderTimeout);
+      this._onTrackEnd();
+    }
+    _onTrackEvent(e9) {
+      if (e9.detail.state === "start") {
+        const path = e9.composedPath();
+        const headerCell = path[path.indexOf(this.$.header) - 2];
+        if (!headerCell || !headerCell._content) {
+          return;
+        }
+        if (headerCell._content.contains(this.getRootNode().activeElement)) {
+          return;
+        }
+        if (this.$.scroller.hasAttribute("column-resizing")) {
+          return;
+        }
+        if (!this._touchDevice) {
+          this._onTrackStart(e9);
+        }
+      } else if (e9.detail.state === "track") {
+        this._onTrack(e9);
+      } else if (e9.detail.state === "end") {
+        this._onTrackEnd(e9);
+      }
+    }
+    _onTrackStart(e9) {
+      if (!this.columnReorderingAllowed) {
+        return;
+      }
+      const path = e9.composedPath && e9.composedPath();
+      if (path && path.filter((node) => node.hasAttribute && node.hasAttribute("draggable"))[0]) {
+        return;
+      }
+      const headerCell = this._cellFromPoint(e9.detail.x, e9.detail.y);
+      if (!headerCell || headerCell.getAttribute("part").indexOf("header-cell") === -1) {
+        return;
+      }
+      this.toggleAttribute("reordering", true);
+      this._draggedColumn = headerCell._column;
+      while (this._draggedColumn.parentElement.childElementCount === 1) {
+        this._draggedColumn = this._draggedColumn.parentElement;
+      }
+      this._setSiblingsReorderStatus(this._draggedColumn, "allowed");
+      this._draggedColumn._reorderStatus = "dragging";
+      this._updateGhost(headerCell);
+      this._reorderGhost.style.visibility = "visible";
+      this._updateGhostPosition(e9.detail.x, this._touchDevice ? e9.detail.y - 50 : e9.detail.y);
+      this._autoScroller();
+    }
+    _onTrack(e9) {
+      if (!this._draggedColumn) {
+        return;
+      }
+      const targetCell = this._cellFromPoint(e9.detail.x, e9.detail.y);
+      if (!targetCell) {
+        return;
+      }
+      const targetColumn = this._getTargetColumn(targetCell, this._draggedColumn);
+      if (this._isSwapAllowed(this._draggedColumn, targetColumn) && this._isSwappableByPosition(targetColumn, e9.detail.x)) {
+        const columnTreeLevel = this._columnTree.findIndex((level) => level.includes(targetColumn));
+        const levelColumnsInOrder = this._getColumnsInOrder(columnTreeLevel);
+        const startIndex = levelColumnsInOrder.indexOf(this._draggedColumn);
+        const endIndex = levelColumnsInOrder.indexOf(targetColumn);
+        const direction = startIndex < endIndex ? 1 : -1;
+        for (let i5 = startIndex; i5 !== endIndex; i5 += direction) {
+          this._swapColumnOrders(this._draggedColumn, levelColumnsInOrder[i5 + direction]);
+        }
+      }
+      this._updateGhostPosition(e9.detail.x, this._touchDevice ? e9.detail.y - 50 : e9.detail.y);
+      this._lastDragClientX = e9.detail.x;
+    }
+    _onTrackEnd() {
+      if (!this._draggedColumn) {
+        return;
+      }
+      this.toggleAttribute("reordering", false);
+      this._draggedColumn._reorderStatus = "";
+      this._setSiblingsReorderStatus(this._draggedColumn, "");
+      this._draggedColumn = null;
+      this._lastDragClientX = null;
+      this._reorderGhost.style.visibility = "hidden";
+      this.dispatchEvent(
+        new CustomEvent("column-reorder", {
+          detail: {
+            columns: this._getColumnsInOrder()
+          }
+        })
+      );
+    }
+    _getColumnsInOrder(headerLevel = this._columnTree.length - 1) {
+      return this._columnTree[headerLevel].filter((c3) => !c3.hidden).sort((b2, a3) => b2._order - a3._order);
+    }
+    _cellFromPoint(x2, y2) {
+      x2 = x2 || 0;
+      y2 = y2 || 0;
+      if (!this._draggedColumn) {
+        this.$.scroller.toggleAttribute("no-content-pointer-events", true);
+      }
+      const cell = this.shadowRoot.elementFromPoint(x2, y2);
+      this.$.scroller.toggleAttribute("no-content-pointer-events", false);
+      if (cell && cell._column) {
+        return cell;
+      }
+    }
+    _updateGhostPosition(eventClientX, eventClientY) {
+      const ghostRect = this._reorderGhost.getBoundingClientRect();
+      const targetLeft = eventClientX - ghostRect.width / 2;
+      const targetTop = eventClientY - ghostRect.height / 2;
+      const _left = parseInt(this._reorderGhost._left || 0);
+      const _top = parseInt(this._reorderGhost._top || 0);
+      this._reorderGhost._left = _left - (ghostRect.left - targetLeft);
+      this._reorderGhost._top = _top - (ghostRect.top - targetTop);
+      this._reorderGhost.style.transform = `translate(${this._reorderGhost._left}px, ${this._reorderGhost._top}px)`;
+    }
+    _updateGhost(cell) {
+      const ghost = this._reorderGhost;
+      ghost.textContent = cell._content.innerText;
+      const style2 = window.getComputedStyle(cell);
+      [
+        "boxSizing",
+        "display",
+        "width",
+        "height",
+        "background",
+        "alignItems",
+        "padding",
+        "border",
+        "flex-direction",
+        "overflow"
+      ].forEach((propertyName) => {
+        ghost.style[propertyName] = style2[propertyName];
+      });
+      return ghost;
+    }
+    _updateOrders(columnTree, splices) {
+      if (columnTree === void 0 || splices === void 0) {
+        return;
+      }
+      columnTree[0].forEach((column) => {
+        column._order = 0;
+      });
+      updateColumnOrders(columnTree[0], this._orderBaseScope, 0);
+    }
+    _setSiblingsReorderStatus(column, status) {
+      Array.from(column.parentNode.children).filter((child) => /column/.test(child.localName) && this._isSwapAllowed(child, column)).forEach((sibling) => {
+        sibling._reorderStatus = status;
+      });
+    }
+    _autoScroller() {
+      if (this._lastDragClientX) {
+        const rightDiff = this._lastDragClientX - this.getBoundingClientRect().right + 50;
+        const leftDiff = this.getBoundingClientRect().left - this._lastDragClientX + 50;
+        if (rightDiff > 0) {
+          this.$.table.scrollLeft += rightDiff / 10;
+        } else if (leftDiff > 0) {
+          this.$.table.scrollLeft -= leftDiff / 10;
+        }
+      }
+      if (this._draggedColumn) {
+        setTimeout(() => this._autoScroller(), 10);
+      }
+    }
+    _isSwapAllowed(column1, column2) {
+      if (column1 && column2) {
+        const differentColumns = column1 !== column2;
+        const sameParent = column1.parentElement === column2.parentElement;
+        const sameFrozen = column1.frozen && column2.frozen || column1.frozenToEnd && column2.frozenToEnd || !column1.frozen && !column1.frozenToEnd && !column2.frozen && !column2.frozenToEnd;
+        return differentColumns && sameParent && sameFrozen;
+      }
+    }
+    _isSwappableByPosition(targetColumn, clientX) {
+      const targetCell = Array.from(this.$.header.querySelectorAll('tr:not([hidden]) [part~="cell"]')).filter(
+        (cell) => targetColumn.contains(cell._column)
+      )[0];
+      const sourceCellRect = this.$.header.querySelector("tr:not([hidden]) [reorder-status=dragging]").getBoundingClientRect();
+      const targetRect = targetCell.getBoundingClientRect();
+      if (targetRect.left > sourceCellRect.left) {
+        return clientX > targetRect.right - sourceCellRect.width;
+      }
+      return clientX < targetRect.left + sourceCellRect.width;
+    }
+    _swapColumnOrders(column1, column2) {
+      const _order = column1._order;
+      column1._order = column2._order;
+      column2._order = _order;
+      this._updateFrozenColumn();
+      this._updateFirstAndLastColumn();
+    }
+    _getTargetColumn(targetCell, draggedColumn) {
+      if (targetCell && draggedColumn) {
+        let candidate = targetCell._column;
+        while (candidate.parentElement !== draggedColumn.parentElement && candidate !== this) {
+          candidate = candidate.parentElement;
+        }
+        if (candidate.parentElement === draggedColumn.parentElement) {
+          return candidate;
+        }
+        return targetCell._column;
+      }
+    }
+  };
+
+  // node_modules/@vaadin/grid/src/vaadin-grid-column-resizing-mixin.js
+  var ColumnResizingMixin = (superClass) => class ColumnResizingMixin extends superClass {
+    ready() {
+      super.ready();
+      const scroller = this.$.scroller;
+      addListener(scroller, "track", this._onHeaderTrack.bind(this));
+      scroller.addEventListener("touchmove", (e9) => scroller.hasAttribute("column-resizing") && e9.preventDefault());
+      scroller.addEventListener(
+        "contextmenu",
+        (e9) => e9.target.getAttribute("part") === "resize-handle" && e9.preventDefault()
+      );
+      scroller.addEventListener(
+        "mousedown",
+        (e9) => e9.target.getAttribute("part") === "resize-handle" && e9.preventDefault()
+      );
+    }
+    _onHeaderTrack(e9) {
+      const handle = e9.target;
+      if (handle.getAttribute("part") === "resize-handle") {
+        const cell = handle.parentElement;
+        let column = cell._column;
+        this.$.scroller.toggleAttribute("column-resizing", true);
+        while (column.localName === "vaadin-grid-column-group") {
+          column = column._childColumns.slice(0).sort((a3, b2) => a3._order - b2._order).filter((column2) => !column2.hidden).pop();
+        }
+        const eventX = e9.detail.x;
+        const columnRowCells = Array.from(this.$.header.querySelectorAll('[part~="row"]:last-child [part~="cell"]'));
+        const targetCell = columnRowCells.filter((cell2) => cell2._column === column)[0];
+        if (targetCell.offsetWidth) {
+          const style2 = getComputedStyle(targetCell._content);
+          const minWidth = 10 + parseInt(style2.paddingLeft) + parseInt(style2.paddingRight) + parseInt(style2.borderLeftWidth) + parseInt(style2.borderRightWidth) + parseInt(style2.marginLeft) + parseInt(style2.marginRight);
+          let maxWidth;
+          const cellWidth = targetCell.offsetWidth;
+          const cellRect = targetCell.getBoundingClientRect();
+          if (targetCell.hasAttribute("frozen-to-end")) {
+            maxWidth = cellWidth + (this.__isRTL ? eventX - cellRect.right : cellRect.left - eventX);
+          } else {
+            maxWidth = cellWidth + (this.__isRTL ? cellRect.left - eventX : eventX - cellRect.right);
+          }
+          column.width = `${Math.max(minWidth, maxWidth)}px`;
+          column.flexGrow = 0;
+        }
+        columnRowCells.sort((a3, b2) => a3._column._order - b2._column._order).forEach((cell2, index, array) => {
+          if (index < array.indexOf(targetCell)) {
+            cell2._column.width = `${cell2.offsetWidth}px`;
+            cell2._column.flexGrow = 0;
+          }
+        });
+        const cellFrozenToEnd = this._frozenToEndCells[0];
+        if (cellFrozenToEnd && this.$.table.scrollWidth > this.$.table.offsetWidth) {
+          const frozenRect = cellFrozenToEnd.getBoundingClientRect();
+          const offset = eventX - (this.__isRTL ? frozenRect.right : frozenRect.left);
+          if (this.__isRTL && offset <= 0 || !this.__isRTL && offset >= 0) {
+            this.$.table.scrollLeft += offset;
+          }
+        }
+        if (e9.detail.state === "end") {
+          this.$.scroller.toggleAttribute("column-resizing", false);
+          this.dispatchEvent(
+            new CustomEvent("column-resize", {
+              detail: { resizedColumn: column }
+            })
+          );
+        }
+        this._resizeHandler();
+      }
+    }
+  };
+
+  // node_modules/@vaadin/grid/src/vaadin-grid-data-provider-mixin.js
+  var ItemCache = class ItemCache2 {
+    constructor(grid, parentCache, parentItem) {
+      this.grid = grid;
+      this.parentCache = parentCache;
+      this.parentItem = parentItem;
+      this.itemCaches = {};
+      this.items = {};
+      this.effectiveSize = 0;
+      this.size = 0;
+      this.pendingRequests = {};
+    }
+    isLoading() {
+      return Boolean(
+        Object.keys(this.pendingRequests).length || Object.keys(this.itemCaches).filter((index) => {
+          return this.itemCaches[index].isLoading();
+        })[0]
+      );
+    }
+    getItemForIndex(index) {
+      const { cache, scaledIndex } = this.getCacheAndIndex(index);
+      return cache.items[scaledIndex];
+    }
+    updateSize() {
+      this.effectiveSize = !this.parentItem || this.grid._isExpanded(this.parentItem) ? this.size + Object.keys(this.itemCaches).reduce((prev, curr) => {
+        const subCache = this.itemCaches[curr];
+        subCache.updateSize();
+        return prev + subCache.effectiveSize;
+      }, 0) : 0;
+    }
+    ensureSubCacheForScaledIndex(scaledIndex) {
+      if (!this.itemCaches[scaledIndex]) {
+        const subCache = new ItemCache2(this.grid, this, this.items[scaledIndex]);
+        this.itemCaches[scaledIndex] = subCache;
+        this.grid._loadPage(0, subCache);
+      }
+    }
+    getCacheAndIndex(index) {
+      let thisLevelIndex = index;
+      const keys = Object.keys(this.itemCaches);
+      for (let i5 = 0; i5 < keys.length; i5++) {
+        const expandedIndex = Number(keys[i5]);
+        const subCache = this.itemCaches[expandedIndex];
+        if (thisLevelIndex <= expandedIndex) {
+          return { cache: this, scaledIndex: thisLevelIndex };
+        } else if (thisLevelIndex <= expandedIndex + subCache.effectiveSize) {
+          return subCache.getCacheAndIndex(thisLevelIndex - expandedIndex - 1);
+        }
+        thisLevelIndex -= subCache.effectiveSize;
+      }
+      return { cache: this, scaledIndex: thisLevelIndex };
+    }
+  };
+  var DataProviderMixin = (superClass) => class DataProviderMixin extends superClass {
+    static get properties() {
+      return {
+        size: {
+          type: Number,
+          notify: true
+        },
+        pageSize: {
+          type: Number,
+          value: 50,
+          observer: "_pageSizeChanged"
+        },
+        dataProvider: {
+          type: Object,
+          notify: true,
+          observer: "_dataProviderChanged"
+        },
+        loading: {
+          type: Boolean,
+          notify: true,
+          readOnly: true,
+          reflectToAttribute: true
+        },
+        _cache: {
+          type: Object,
+          value() {
+            const cache = new ItemCache(this);
+            return cache;
+          }
+        },
+        _hasData: {
+          type: Boolean,
+          value: false
+        },
+        itemHasChildrenPath: {
+          type: String,
+          value: "children"
+        },
+        itemIdPath: {
+          type: String,
+          value: null
+        },
+        expandedItems: {
+          type: Object,
+          notify: true,
+          value: () => []
+        },
+        __expandedKeys: {
+          type: Object,
+          computed: "__computeExpandedKeys(itemIdPath, expandedItems.*)"
+        }
+      };
+    }
+    static get observers() {
+      return ["_sizeChanged(size)", "_expandedItemsChanged(expandedItems.*)"];
+    }
+    _sizeChanged(size) {
+      const delta = size - this._cache.size;
+      this._cache.size += delta;
+      this._cache.effectiveSize += delta;
+      this._effectiveSize = this._cache.effectiveSize;
+    }
+    _getItem(index, el) {
+      if (index >= this._effectiveSize) {
+        return;
+      }
+      el.index = index;
+      const { cache, scaledIndex } = this._cache.getCacheAndIndex(index);
+      const item = cache.items[scaledIndex];
+      if (item) {
+        el.toggleAttribute("loading", false);
+        this._updateItem(el, item);
+        if (this._isExpanded(item)) {
+          cache.ensureSubCacheForScaledIndex(scaledIndex);
+        }
+      } else {
+        el.toggleAttribute("loading", true);
+        this._loadPage(this._getPageForIndex(scaledIndex), cache);
+      }
+    }
+    getItemId(item) {
+      return this.itemIdPath ? this.get(this.itemIdPath, item) : item;
+    }
+    _isExpanded(item) {
+      return this.__expandedKeys.has(this.getItemId(item));
+    }
+    _expandedItemsChanged() {
+      this._cache.updateSize();
+      this._effectiveSize = this._cache.effectiveSize;
+      this.__updateVisibleRows();
+    }
+    __computeExpandedKeys(itemIdPath, expandedItems) {
+      const expanded = expandedItems.base || [];
+      const expandedKeys = /* @__PURE__ */ new Set();
+      expanded.forEach((item) => {
+        expandedKeys.add(this.getItemId(item));
+      });
+      return expandedKeys;
+    }
+    expandItem(item) {
+      if (!this._isExpanded(item)) {
+        this.expandedItems = [...this.expandedItems, item];
+      }
+    }
+    collapseItem(item) {
+      if (this._isExpanded(item)) {
+        this.expandedItems = this.expandedItems.filter((i5) => !this._itemsEqual(i5, item));
+      }
+    }
+    _getIndexLevel(index) {
+      let { cache } = this._cache.getCacheAndIndex(index);
+      let level = 0;
+      while (cache.parentCache) {
+        cache = cache.parentCache;
+        level += 1;
+      }
+      return level;
+    }
+    _loadPage(page, cache) {
+      if (!cache.pendingRequests[page] && this.dataProvider) {
+        this._setLoading(true);
+        cache.pendingRequests[page] = true;
+        const params = {
+          page,
+          pageSize: this.pageSize,
+          sortOrders: this._mapSorters(),
+          filters: this._mapFilters(),
+          parentItem: cache.parentItem
+        };
+        this.dataProvider(params, (items, size) => {
+          if (size !== void 0) {
+            cache.size = size;
+          } else if (params.parentItem) {
+            cache.size = items.length;
+          }
+          const currentItems = Array.from(this.$.items.children).map((row) => row._item);
+          items.forEach((item, itemsIndex) => {
+            const itemIndex = page * this.pageSize + itemsIndex;
+            cache.items[itemIndex] = item;
+            if (this._isExpanded(item) && currentItems.indexOf(item) > -1) {
+              cache.ensureSubCacheForScaledIndex(itemIndex);
+            }
+          });
+          this._hasData = true;
+          delete cache.pendingRequests[page];
+          this._debouncerApplyCachedData = Debouncer.debounce(this._debouncerApplyCachedData, timeOut.after(0), () => {
+            this._setLoading(false);
+            this._cache.updateSize();
+            this._effectiveSize = this._cache.effectiveSize;
+            Array.from(this.$.items.children).filter((row) => !row.hidden).forEach((row) => {
+              const cachedItem = this._cache.getItemForIndex(row.index);
+              if (cachedItem) {
+                this._getItem(row.index, row);
+              }
+            });
+            this.__scrollToPendingIndex();
+          });
+          if (!this._cache.isLoading()) {
+            this._debouncerApplyCachedData.flush();
+          }
+          this.__itemsReceived();
+        });
+      }
+    }
+    _getPageForIndex(index) {
+      return Math.floor(index / this.pageSize);
+    }
+    clearCache() {
+      this._cache = new ItemCache(this);
+      this._cache.size = this.size || 0;
+      this._cache.updateSize();
+      this._hasData = false;
+      this.__updateVisibleRows();
+      if (!this._effectiveSize) {
+        this._loadPage(0, this._cache);
+      }
+    }
+    _pageSizeChanged(pageSize, oldPageSize) {
+      if (oldPageSize !== void 0 && pageSize !== oldPageSize) {
+        this.clearCache();
+      }
+    }
+    _checkSize() {
+      if (this.size === void 0 && this._effectiveSize === 0) {
+        console.warn(
+          "The <vaadin-grid> needs the total number of items in order to display rows. Set the total number of items to the `size` property, or provide the total number of items in the second argument of the `dataProvider`\u2019s `callback` call."
+        );
+      }
+    }
+    _dataProviderChanged(dataProvider, oldDataProvider) {
+      if (oldDataProvider !== void 0) {
+        this.clearCache();
+      }
+      this._ensureFirstPageLoaded();
+      this._debouncerCheckSize = Debouncer.debounce(
+        this._debouncerCheckSize,
+        timeOut.after(2e3),
+        this._checkSize.bind(this)
+      );
+    }
+    _ensureFirstPageLoaded() {
+      if (!this._hasData) {
+        this._loadPage(0, this._cache);
+      }
+    }
+    _itemsEqual(item1, item2) {
+      return this.getItemId(item1) === this.getItemId(item2);
+    }
+    _getItemIndexInArray(item, array) {
+      let result = -1;
+      array.forEach((i5, idx) => {
+        if (this._itemsEqual(i5, item)) {
+          result = idx;
+        }
+      });
+      return result;
+    }
+    scrollToIndex(index) {
+      super.scrollToIndex(index);
+      if (!isNaN(index) && (this._cache.isLoading() || !this.clientHeight)) {
+        this.__pendingScrollToIndex = index;
+      }
+    }
+    __scrollToPendingIndex() {
+      if (this.__pendingScrollToIndex && this.$.items.children.length) {
+        const index = this.__pendingScrollToIndex;
+        delete this.__pendingScrollToIndex;
+        this.scrollToIndex(index);
+      }
+    }
+  };
+
+  // node_modules/@vaadin/grid/src/vaadin-grid-drag-and-drop-mixin.js
+  var DropMode = {
+    BETWEEN: "between",
+    ON_TOP: "on-top",
+    ON_TOP_OR_BETWEEN: "on-top-or-between",
+    ON_GRID: "on-grid"
+  };
+  var DropLocation = {
+    ON_TOP: "on-top",
+    ABOVE: "above",
+    BELOW: "below",
+    EMPTY: "empty"
+  };
+  var usesDnDPolyfill = !("draggable" in document.createElement("div"));
+  var DragAndDropMixin = (superClass) => class DragAndDropMixin extends superClass {
+    static get properties() {
+      return {
+        dropMode: String,
+        rowsDraggable: Boolean,
+        dragFilter: Function,
+        dropFilter: Function,
+        __dndAutoScrollThreshold: {
+          value: 50
+        }
+      };
+    }
+    static get observers() {
+      return ["_dragDropAccessChanged(rowsDraggable, dropMode, dragFilter, dropFilter, loading)"];
+    }
+    ready() {
+      super.ready();
+      this.$.table.addEventListener("dragstart", this._onDragStart.bind(this));
+      this.$.table.addEventListener("dragend", this._onDragEnd.bind(this));
+      this.$.table.addEventListener("dragover", this._onDragOver.bind(this));
+      this.$.table.addEventListener("dragleave", this._onDragLeave.bind(this));
+      this.$.table.addEventListener("drop", this._onDrop.bind(this));
+      this.$.table.addEventListener("dragenter", (e9) => {
+        if (this.dropMode) {
+          e9.preventDefault();
+          e9.stopPropagation();
+        }
+      });
+    }
+    _onDragStart(e9) {
+      if (this.rowsDraggable) {
+        let row = e9.target;
+        if (row.localName === "vaadin-grid-cell-content") {
+          row = row.assignedSlot.parentNode.parentNode;
+        }
+        if (row.parentNode !== this.$.items) {
+          return;
+        }
+        e9.stopPropagation();
+        this.toggleAttribute("dragging-rows", true);
+        if (this._safari) {
+          const transform = row.style.transform;
+          row.style.top = /translateY\((.*)\)/.exec(transform)[1];
+          row.style.transform = "none";
+          requestAnimationFrame(() => {
+            row.style.top = "";
+            row.style.transform = transform;
+          });
+        }
+        const rowRect = row.getBoundingClientRect();
+        if (usesDnDPolyfill) {
+          e9.dataTransfer.setDragImage(row);
+        } else {
+          e9.dataTransfer.setDragImage(row, e9.clientX - rowRect.left, e9.clientY - rowRect.top);
+        }
+        let rows = [row];
+        if (this._isSelected(row._item)) {
+          rows = this.__getViewportRows().filter((row2) => this._isSelected(row2._item)).filter((row2) => !this.dragFilter || this.dragFilter(this.__getRowModel(row2)));
+        }
+        e9.dataTransfer.setData("text", this.__formatDefaultTransferData(rows));
+        row.setAttribute("dragstart", rows.length > 1 ? rows.length : "");
+        this.style.setProperty("--_grid-drag-start-x", `${e9.clientX - rowRect.left + 20}px`);
+        this.style.setProperty("--_grid-drag-start-y", `${e9.clientY - rowRect.top + 10}px`);
+        requestAnimationFrame(() => {
+          row.removeAttribute("dragstart");
+          this.updateStyles({ "--_grid-drag-start-x": "", "--_grid-drag-start-y": "" });
+        });
+        const event = new CustomEvent("grid-dragstart", {
+          detail: {
+            draggedItems: rows.map((row2) => row2._item),
+            setDragData: (type, data) => e9.dataTransfer.setData(type, data),
+            setDraggedItemsCount: (count) => row.setAttribute("dragstart", count)
+          }
+        });
+        event.originalEvent = e9;
+        this.dispatchEvent(event);
+      }
+    }
+    _onDragEnd(e9) {
+      this.toggleAttribute("dragging-rows", false);
+      e9.stopPropagation();
+      const event = new CustomEvent("grid-dragend");
+      event.originalEvent = e9;
+      this.dispatchEvent(event);
+    }
+    _onDragLeave(e9) {
+      e9.stopPropagation();
+      this._clearDragStyles();
+    }
+    _onDragOver(e9) {
+      if (this.dropMode) {
+        this._dropLocation = void 0;
+        this._dragOverItem = void 0;
+        if (this.__dndAutoScroll(e9.clientY)) {
+          this._clearDragStyles();
+          return;
+        }
+        let row = e9.composedPath().filter((node) => node.localName === "tr")[0];
+        if (!this._effectiveSize || this.dropMode === DropMode.ON_GRID) {
+          this._dropLocation = DropLocation.EMPTY;
+        } else if (!row || row.parentNode !== this.$.items) {
+          if (row) {
+            return;
+          } else if (this.dropMode === DropMode.BETWEEN || this.dropMode === DropMode.ON_TOP_OR_BETWEEN) {
+            row = Array.from(this.$.items.children).filter((row2) => !row2.hidden).pop();
+            this._dropLocation = DropLocation.BELOW;
+          } else {
+            return;
+          }
+        } else {
+          const rowRect = row.getBoundingClientRect();
+          this._dropLocation = DropLocation.ON_TOP;
+          if (this.dropMode === DropMode.BETWEEN) {
+            const dropAbove = e9.clientY - rowRect.top < rowRect.bottom - e9.clientY;
+            this._dropLocation = dropAbove ? DropLocation.ABOVE : DropLocation.BELOW;
+          } else if (this.dropMode === DropMode.ON_TOP_OR_BETWEEN) {
+            if (e9.clientY - rowRect.top < rowRect.height / 3) {
+              this._dropLocation = DropLocation.ABOVE;
+            } else if (e9.clientY - rowRect.top > rowRect.height / 3 * 2) {
+              this._dropLocation = DropLocation.BELOW;
+            }
+          }
+        }
+        if (row && row.hasAttribute("drop-disabled")) {
+          this._dropLocation = void 0;
+          return;
+        }
+        e9.stopPropagation();
+        e9.preventDefault();
+        if (this._dropLocation === DropLocation.EMPTY) {
+          this.toggleAttribute("dragover", true);
+        } else if (row) {
+          this._dragOverItem = row._item;
+          if (row.getAttribute("dragover") !== this._dropLocation) {
+            row.setAttribute("dragover", this._dropLocation);
+          }
+        } else {
+          this._clearDragStyles();
+        }
+      }
+    }
+    __dndAutoScroll(clientY) {
+      if (this.__dndAutoScrolling) {
+        return true;
+      }
+      const headerBottom = this.$.header.getBoundingClientRect().bottom;
+      const footerTop = this.$.footer.getBoundingClientRect().top;
+      const topDiff = headerBottom - clientY + this.__dndAutoScrollThreshold;
+      const bottomDiff = clientY - footerTop + this.__dndAutoScrollThreshold;
+      let scrollTopDelta = 0;
+      if (bottomDiff > 0) {
+        scrollTopDelta = bottomDiff * 2;
+      } else if (topDiff > 0) {
+        scrollTopDelta = -topDiff * 2;
+      }
+      if (scrollTopDelta) {
+        const scrollTop = this.$.table.scrollTop;
+        this.$.table.scrollTop += scrollTopDelta;
+        const scrollTopChanged = scrollTop !== this.$.table.scrollTop;
+        if (scrollTopChanged) {
+          this.__dndAutoScrolling = true;
+          setTimeout(() => {
+            this.__dndAutoScrolling = false;
+          }, 20);
+          return true;
+        }
+      }
+    }
+    __getViewportRows() {
+      const headerBottom = this.$.header.getBoundingClientRect().bottom;
+      const footerTop = this.$.footer.getBoundingClientRect().top;
+      return Array.from(this.$.items.children).filter((row) => {
+        const rowRect = row.getBoundingClientRect();
+        return rowRect.bottom > headerBottom && rowRect.top < footerTop;
+      });
+    }
+    _clearDragStyles() {
+      this.removeAttribute("dragover");
+      Array.from(this.$.items.children).forEach((row) => row.removeAttribute("dragover"));
+    }
+    _onDrop(e9) {
+      if (this.dropMode) {
+        e9.stopPropagation();
+        e9.preventDefault();
+        const dragData = e9.dataTransfer.types && Array.from(e9.dataTransfer.types).map((type) => {
+          return {
+            type,
+            data: e9.dataTransfer.getData(type)
+          };
+        });
+        this._clearDragStyles();
+        const event = new CustomEvent("grid-drop", {
+          bubbles: e9.bubbles,
+          cancelable: e9.cancelable,
+          detail: {
+            dropTargetItem: this._dragOverItem,
+            dropLocation: this._dropLocation,
+            dragData
+          }
+        });
+        event.originalEvent = e9;
+        this.dispatchEvent(event);
+      }
+    }
+    __formatDefaultTransferData(rows) {
+      return rows.map((row) => {
+        return Array.from(row.children).filter((cell) => !cell.hidden && cell.getAttribute("part").indexOf("details-cell") === -1).sort((a3, b2) => {
+          return a3._column._order > b2._column._order ? 1 : -1;
+        }).map((cell) => cell._content.textContent.trim()).filter((content) => content).join("	");
+      }).join("\n");
+    }
+    _dragDropAccessChanged() {
+      this.filterDragAndDrop();
+    }
+    filterDragAndDrop() {
+      Array.from(this.$.items.children).filter((row) => !row.hidden).forEach((row) => {
+        this._filterDragAndDrop(row, this.__getRowModel(row));
+      });
+    }
+    _filterDragAndDrop(row, model) {
+      const loading = this.loading || row.hasAttribute("loading");
+      const dragDisabled = !this.rowsDraggable || loading || this.dragFilter && !this.dragFilter(model);
+      const dropDisabled = !this.dropMode || loading || this.dropFilter && !this.dropFilter(model);
+      const draggableElements = Array.from(row.children).map((cell) => cell._content);
+      draggableElements.forEach((e9) => {
+        if (dragDisabled) {
+          e9.removeAttribute("draggable");
+        } else {
+          e9.setAttribute("draggable", true);
+        }
+      });
+      row.toggleAttribute("drag-disabled", !!dragDisabled);
+      row.toggleAttribute("drop-disabled", !!dropDisabled);
+    }
+  };
+
+  // node_modules/@vaadin/grid/src/vaadin-grid-dynamic-columns-mixin.js
+  function arrayEquals(arr1, arr2) {
+    if (!arr1 || !arr2 || arr1.length !== arr2.length) {
+      return false;
+    }
+    for (let i5 = 0, l5 = arr1.length; i5 < l5; i5++) {
+      if (arr1[i5] instanceof Array && arr2[i5] instanceof Array) {
+        if (!arrayEquals(arr1[i5], arr2[i5])) {
+          return false;
+        }
+      } else if (arr1[i5] !== arr2[i5]) {
+        return false;
+      }
+    }
+    return true;
+  }
+  var DynamicColumnsMixin = (superClass) => class DynamicColumnsMixin extends superClass {
+    static get properties() {
+      return {
+        _columnTree: Object
+      };
+    }
+    ready() {
+      super.ready();
+      this._addNodeObserver();
+    }
+    _hasColumnGroups(columns) {
+      for (let i5 = 0; i5 < columns.length; i5++) {
+        if (columns[i5].localName === "vaadin-grid-column-group") {
+          return true;
+        }
+      }
+      return false;
+    }
+    _getChildColumns(el) {
+      return FlattenedNodesObserver.getFlattenedNodes(el).filter(this._isColumnElement);
+    }
+    _flattenColumnGroups(columns) {
+      return columns.map((col) => {
+        if (col.localName === "vaadin-grid-column-group") {
+          return this._getChildColumns(col);
+        }
+        return [col];
+      }).reduce((prev, curr) => {
+        return prev.concat(curr);
+      }, []);
+    }
+    _getColumnTree() {
+      const rootColumns = FlattenedNodesObserver.getFlattenedNodes(this).filter(this._isColumnElement);
+      const columnTree = [rootColumns];
+      let c3 = rootColumns;
+      while (this._hasColumnGroups(c3)) {
+        c3 = this._flattenColumnGroups(c3);
+        columnTree.push(c3);
+      }
+      return columnTree;
+    }
+    _updateColumnTree() {
+      const columnTree = this._getColumnTree();
+      if (!arrayEquals(columnTree, this._columnTree)) {
+        this._columnTree = columnTree;
+      }
+    }
+    _addNodeObserver() {
+      this._observer = new FlattenedNodesObserver(this, (info) => {
+        const hasColumnElements = (nodeCollection) => nodeCollection.filter(this._isColumnElement).length > 0;
+        if (hasColumnElements(info.addedNodes) || hasColumnElements(info.removedNodes)) {
+          const allRemovedCells = info.removedNodes.flatMap((c3) => c3._allCells);
+          const filterNotConnected = (element) => allRemovedCells.filter((cell) => cell._content.contains(element)).length;
+          this.__removeSorters(this._sorters.filter(filterNotConnected));
+          this.__removeFilters(this._filters.filter(filterNotConnected));
+          this._updateColumnTree();
+        }
+        this._debouncerCheckImports = Debouncer.debounce(
+          this._debouncerCheckImports,
+          timeOut.after(2e3),
+          this._checkImports.bind(this)
+        );
+        this._ensureFirstPageLoaded();
+      });
+    }
+    _checkImports() {
+      [
+        "vaadin-grid-column-group",
+        "vaadin-grid-filter",
+        "vaadin-grid-filter-column",
+        "vaadin-grid-tree-toggle",
+        "vaadin-grid-selection-column",
+        "vaadin-grid-sort-column",
+        "vaadin-grid-sorter"
+      ].forEach((elementName) => {
+        const element = this.querySelector(elementName);
+        if (element && !(element instanceof PolymerElement)) {
+          console.warn(`Make sure you have imported the required module for <${elementName}> element.`);
+        }
+      });
+    }
+    _updateFirstAndLastColumn() {
+      Array.from(this.shadowRoot.querySelectorAll("tr")).forEach((row) => this._updateFirstAndLastColumnForRow(row));
+    }
+    _updateFirstAndLastColumnForRow(row) {
+      Array.from(row.querySelectorAll('[part~="cell"]:not([part~="details-cell"])')).sort((a3, b2) => {
+        return a3._column._order - b2._column._order;
+      }).forEach((cell, cellIndex, children) => {
+        cell.toggleAttribute("first-column", cellIndex === 0);
+        cell.toggleAttribute("last-column", cellIndex === children.length - 1);
+      });
+    }
+    _isColumnElement(node) {
+      return node.nodeType === Node.ELEMENT_NODE && /\bcolumn\b/.test(node.localName);
+    }
+  };
+
+  // node_modules/@vaadin/grid/src/vaadin-grid-event-context-mixin.js
+  var EventContextMixin = (superClass) => class EventContextMixin extends superClass {
+    getEventContext(event) {
+      const context = {};
+      const path = event.__composedPath || event.composedPath();
+      const cell = path[path.indexOf(this.$.table) - 3];
+      if (!cell) {
+        return context;
+      }
+      context.section = ["body", "header", "footer", "details"].filter(
+        (section) => cell.getAttribute("part").indexOf(section) > -1
+      )[0];
+      if (cell._column) {
+        context.column = cell._column;
+      }
+      if (context.section === "body" || context.section === "details") {
+        Object.assign(context, this.__getRowModel(cell.parentElement));
+      }
+      return context;
+    }
+  };
+
+  // node_modules/@vaadin/grid/src/vaadin-grid-filter-mixin.js
+  var FilterMixin = (superClass) => class FilterMixin extends superClass {
+    static get properties() {
+      return {
+        _filters: {
+          type: Array,
+          value: () => []
+        }
+      };
+    }
+    ready() {
+      super.ready();
+      this.addEventListener("filter-changed", this._filterChanged.bind(this));
+    }
+    _filterChanged(e9) {
+      e9.stopPropagation();
+      this.__addFilter(e9.target);
+      this.__applyFilters();
+    }
+    __removeFilters(filtersToRemove) {
+      if (filtersToRemove.length === 0) {
+        return;
+      }
+      this._filters = this._filters.filter((filter2) => filtersToRemove.indexOf(filter2) < 0);
+      this.__applyFilters();
+    }
+    __addFilter(filter2) {
+      const filterIndex = this._filters.indexOf(filter2);
+      if (filterIndex === -1) {
+        this._filters.push(filter2);
+      }
+    }
+    __applyFilters() {
+      if (this.dataProvider && this.isAttached) {
+        this.clearCache();
+      }
+    }
+    _mapFilters() {
+      return this._filters.map((filter2) => {
+        return {
+          path: filter2.path,
+          value: filter2.value
+        };
+      });
+    }
+  };
+
+  // node_modules/@vaadin/grid/src/vaadin-grid-keyboard-navigation-mixin.js
+  var KeyboardNavigationMixin = (superClass) => class KeyboardNavigationMixin extends superClass {
+    static get properties() {
+      return {
+        _headerFocusable: {
+          type: Object,
+          observer: "_focusableChanged"
+        },
+        _itemsFocusable: {
+          type: Object,
+          observer: "_focusableChanged"
+        },
+        _footerFocusable: {
+          type: Object,
+          observer: "_focusableChanged"
+        },
+        _navigatingIsHidden: Boolean,
+        _focusedItemIndex: {
+          type: Number,
+          value: 0
+        },
+        _focusedColumnOrder: Number,
+        interacting: {
+          type: Boolean,
+          value: false,
+          reflectToAttribute: true,
+          readOnly: true,
+          observer: "_interactingChanged"
+        }
+      };
+    }
+    ready() {
+      super.ready();
+      if (this._ios || this._android) {
+        return;
+      }
+      this.addEventListener("keydown", this._onKeyDown);
+      this.addEventListener("keyup", this._onKeyUp);
+      this.addEventListener("focusin", this._onFocusIn);
+      this.addEventListener("focusout", this._onFocusOut);
+      this.$.table.addEventListener("focusin", this._onContentFocusIn.bind(this));
+      this.addEventListener("mousedown", () => {
+        this.toggleAttribute("navigating", false);
+        this._isMousedown = true;
+        this._focusedColumnOrder = void 0;
+      });
+      this.addEventListener("mouseup", () => {
+        this._isMousedown = false;
+      });
+    }
+    get __rowFocusMode() {
+      return this.__isRow(this._itemsFocusable) || this.__isRow(this._headerFocusable) || this.__isRow(this._footerFocusable);
+    }
+    set __rowFocusMode(value) {
+      ["_itemsFocusable", "_footerFocusable", "_headerFocusable"].forEach((focusable) => {
+        if (value && this.__isCell(this[focusable])) {
+          this[focusable] = this[focusable].parentElement;
+        } else if (!value && this.__isRow(this[focusable])) {
+          this[focusable] = this[focusable].firstElementChild;
+        }
+      });
+    }
+    _focusableChanged(focusable, oldFocusable) {
+      if (oldFocusable) {
+        oldFocusable.setAttribute("tabindex", "-1");
+      }
+      if (focusable) {
+        this._updateGridSectionFocusTarget(focusable);
+      }
+    }
+    _interactingChanged() {
+      this._updateGridSectionFocusTarget(this._headerFocusable);
+      this._updateGridSectionFocusTarget(this._itemsFocusable);
+      this._updateGridSectionFocusTarget(this._footerFocusable);
+    }
+    __updateItemsFocusable() {
+      if (!this._itemsFocusable) {
+        return;
+      }
+      const wasFocused = this.shadowRoot.activeElement === this._itemsFocusable;
+      this._getVisibleRows().forEach((row) => {
+        if (row.index === this._focusedItemIndex) {
+          if (this.__rowFocusMode) {
+            this._itemsFocusable = row;
+          } else if (this._itemsFocusable.parentElement) {
+            const cellIndex = [...this._itemsFocusable.parentElement.children].indexOf(this._itemsFocusable);
+            this._itemsFocusable = row.children[cellIndex];
+          }
+        }
+      });
+      if (wasFocused) {
+        this._itemsFocusable.focus();
+      }
+    }
+    _onKeyDown(e9) {
+      const key = e9.key;
+      let keyGroup;
+      switch (key) {
+        case "ArrowUp":
+        case "ArrowDown":
+        case "ArrowLeft":
+        case "ArrowRight":
+        case "PageUp":
+        case "PageDown":
+        case "Home":
+        case "End":
+          keyGroup = "Navigation";
+          break;
+        case "Enter":
+        case "Escape":
+        case "F2":
+          keyGroup = "Interaction";
+          break;
+        case "Tab":
+          keyGroup = "Tab";
+          break;
+        case " ":
+          keyGroup = "Space";
+          break;
+        default:
+          break;
+      }
+      this._detectInteracting(e9);
+      if (this.interacting && keyGroup !== "Interaction") {
+        keyGroup = void 0;
+      }
+      if (keyGroup) {
+        this[`_on${keyGroup}KeyDown`](e9, key);
+      }
+    }
+    _ensureScrolledToIndex(index) {
+      const targetRowInDom = [...this.$.items.children].find((child) => child.index === index);
+      if (!targetRowInDom) {
+        this.scrollToIndex(index);
+      } else {
+        this.__scrollIntoViewport(index);
+      }
+    }
+    __isRowExpandable(row) {
+      if (this.itemHasChildrenPath) {
+        const item = row._item;
+        return item && this.get(this.itemHasChildrenPath, item) && !this._isExpanded(item);
+      }
+    }
+    __isRowCollapsible(row) {
+      return this._isExpanded(row._item);
+    }
+    __isDetailsCell(element) {
+      return element.matches('[part~="details-cell"]');
+    }
+    __isCell(element) {
+      return element instanceof HTMLTableCellElement;
+    }
+    __isRow(element) {
+      return element instanceof HTMLTableRowElement;
+    }
+    __getIndexOfChildElement(el) {
+      return Array.prototype.indexOf.call(el.parentNode.children, el);
+    }
+    _onNavigationKeyDown(e9, key) {
+      e9.preventDefault();
+      const visibleItemsCount = this._lastVisibleIndex - this._firstVisibleIndex - 1;
+      let dx = 0, dy = 0;
+      switch (key) {
+        case "ArrowRight":
+          dx = this.__isRTL ? -1 : 1;
+          break;
+        case "ArrowLeft":
+          dx = this.__isRTL ? 1 : -1;
+          break;
+        case "Home":
+          if (this.__rowFocusMode) {
+            dy = -Infinity;
+          } else if (e9.ctrlKey) {
+            dy = -Infinity;
+          } else {
+            dx = -Infinity;
+          }
+          break;
+        case "End":
+          if (this.__rowFocusMode) {
+            dy = Infinity;
+          } else if (e9.ctrlKey) {
+            dy = Infinity;
+          } else {
+            dx = Infinity;
+          }
+          break;
+        case "ArrowDown":
+          dy = 1;
+          break;
+        case "ArrowUp":
+          dy = -1;
+          break;
+        case "PageDown":
+          dy = visibleItemsCount;
+          break;
+        case "PageUp":
+          dy = -visibleItemsCount;
+          break;
+        default:
+          break;
+      }
+      const activeRow = e9.composedPath().find((el) => this.__isRow(el));
+      const activeCell = e9.composedPath().find((el) => this.__isCell(el));
+      if (this.__rowFocusMode && !activeRow || !this.__rowFocusMode && !activeCell) {
+        return;
+      }
+      const forwardsKey = this.__isRTL ? "ArrowLeft" : "ArrowRight";
+      const backwardsKey = this.__isRTL ? "ArrowRight" : "ArrowLeft";
+      if (key === forwardsKey) {
+        if (this.__rowFocusMode) {
+          if (this.__isRowExpandable(activeRow)) {
+            this.expandItem(activeRow._item);
+            return;
+          }
+          this.__rowFocusMode = false;
+          this._onCellNavigation(activeRow.firstElementChild, 0, 0);
+          return;
+        }
+      } else if (key === backwardsKey) {
+        if (this.__rowFocusMode) {
+          if (this.__isRowCollapsible(activeRow)) {
+            this.collapseItem(activeRow._item);
+            return;
+          }
+        } else {
+          const activeRowCells = [...activeRow.children].sort((a3, b2) => a3._order - b2._order);
+          if (activeCell === activeRowCells[0] || this.__isDetailsCell(activeCell)) {
+            this.__rowFocusMode = true;
+            this._onRowNavigation(activeRow, 0);
+            return;
+          }
+        }
+      }
+      if (this.__rowFocusMode) {
+        this._onRowNavigation(activeRow, dy);
+      } else {
+        this._onCellNavigation(activeCell, dx, dy);
+      }
+    }
+    _onRowNavigation(activeRow, dy) {
+      const { dstRow } = this.__navigateRows(dy, activeRow);
+      if (dstRow) {
+        dstRow.focus();
+      }
+    }
+    __getIndexInGroup(row, bodyFallbackIndex) {
+      const rowGroup = row.parentNode;
+      if (rowGroup === this.$.items) {
+        return bodyFallbackIndex !== void 0 ? bodyFallbackIndex : row.index;
+      }
+      return this.__getIndexOfChildElement(row);
+    }
+    __navigateRows(dy, activeRow, activeCell) {
+      const currentRowIndex = this.__getIndexInGroup(activeRow, this._focusedItemIndex);
+      const activeRowGroup = activeRow.parentNode;
+      const maxRowIndex = (activeRowGroup === this.$.items ? this._effectiveSize : activeRowGroup.children.length) - 1;
+      let dstRowIndex = Math.max(0, Math.min(currentRowIndex + dy, maxRowIndex));
+      if (activeRowGroup !== this.$.items) {
+        if (dstRowIndex > currentRowIndex) {
+          while (dstRowIndex < maxRowIndex && activeRowGroup.children[dstRowIndex].hidden) {
+            dstRowIndex += 1;
+          }
+        } else if (dstRowIndex < currentRowIndex) {
+          while (dstRowIndex > 0 && activeRowGroup.children[dstRowIndex].hidden) {
+            dstRowIndex -= 1;
+          }
+        }
+        this.toggleAttribute("navigating", true);
+        return { dstRow: activeRowGroup.children[dstRowIndex] };
+      }
+      let dstIsRowDetails = false;
+      if (activeCell) {
+        const isRowDetails = this.__isDetailsCell(activeCell);
+        if (activeRowGroup === this.$.items) {
+          const item = activeRow._item;
+          const dstItem = this._cache.getItemForIndex(dstRowIndex);
+          if (isRowDetails) {
+            dstIsRowDetails = dy === 0;
+          } else {
+            dstIsRowDetails = dy === 1 && this._isDetailsOpened(item) || dy === -1 && dstRowIndex !== currentRowIndex && this._isDetailsOpened(dstItem);
+          }
+          if (dstIsRowDetails !== isRowDetails && (dy === 1 && dstIsRowDetails || dy === -1 && !dstIsRowDetails)) {
+            dstRowIndex = currentRowIndex;
+          }
+        }
+      }
+      this._ensureScrolledToIndex(dstRowIndex);
+      this._focusedItemIndex = dstRowIndex;
+      this.toggleAttribute("navigating", true);
+      return {
+        dstRow: [...activeRowGroup.children].find((el) => !el.hidden && el.index === dstRowIndex),
+        dstIsRowDetails
+      };
+    }
+    _onCellNavigation(activeCell, dx, dy) {
+      const activeRow = activeCell.parentNode;
+      const { dstRow, dstIsRowDetails } = this.__navigateRows(dy, activeRow, activeCell);
+      if (!dstRow) {
+        return;
+      }
+      const columnIndex = this.__getIndexOfChildElement(activeCell);
+      const isCurrentCellRowDetails = this.__isDetailsCell(activeCell);
+      const activeRowGroup = activeRow.parentNode;
+      const currentRowIndex = this.__getIndexInGroup(activeRow, this._focusedItemIndex);
+      if (this._focusedColumnOrder === void 0) {
+        if (isCurrentCellRowDetails) {
+          this._focusedColumnOrder = 0;
+        } else {
+          this._focusedColumnOrder = this._getColumns(activeRowGroup, currentRowIndex).filter((c3) => !c3.hidden)[columnIndex]._order;
+        }
+      }
+      if (dstIsRowDetails) {
+        const dstCell = [...dstRow.children].find((el) => this.__isDetailsCell(el));
+        dstCell.focus();
+      } else {
+        const dstRowIndex = this.__getIndexInGroup(dstRow, this._focusedItemIndex);
+        const dstColumns = this._getColumns(activeRowGroup, dstRowIndex).filter((c3) => !c3.hidden);
+        const dstSortedColumnOrders = dstColumns.map((c3) => c3._order).sort((b2, a3) => b2 - a3);
+        const maxOrderedColumnIndex = dstSortedColumnOrders.length - 1;
+        const orderedColumnIndex = dstSortedColumnOrders.indexOf(
+          dstSortedColumnOrders.slice(0).sort((b2, a3) => Math.abs(b2 - this._focusedColumnOrder) - Math.abs(a3 - this._focusedColumnOrder))[0]
+        );
+        const dstOrderedColumnIndex = dy === 0 && isCurrentCellRowDetails ? orderedColumnIndex : Math.max(0, Math.min(orderedColumnIndex + dx, maxOrderedColumnIndex));
+        if (dstOrderedColumnIndex !== orderedColumnIndex) {
+          this._focusedColumnOrder = void 0;
+        }
+        const columnIndexByOrder = dstColumns.reduce((acc, col, i5) => {
+          acc[col._order] = i5;
+          return acc;
+        }, {});
+        const dstColumnIndex = columnIndexByOrder[dstSortedColumnOrders[dstOrderedColumnIndex]];
+        const dstCell = dstRow.children[dstColumnIndex];
+        this._scrollHorizontallyToCell(dstCell);
+        dstCell.focus();
+      }
+    }
+    _onInteractionKeyDown(e9, key) {
+      const localTarget = e9.composedPath()[0];
+      const localTargetIsTextInput = localTarget.localName === "input" && !/^(button|checkbox|color|file|image|radio|range|reset|submit)$/i.test(localTarget.type);
+      let wantInteracting;
+      switch (key) {
+        case "Enter":
+          wantInteracting = this.interacting ? !localTargetIsTextInput : true;
+          break;
+        case "Escape":
+          wantInteracting = false;
+          break;
+        case "F2":
+          wantInteracting = !this.interacting;
+          break;
+        default:
+          break;
+      }
+      const { cell } = this._getGridEventLocation(e9);
+      if (this.interacting !== wantInteracting && cell !== null) {
+        if (wantInteracting) {
+          const focusTarget = cell._content.querySelector("[focus-target]") || [...cell._content.querySelectorAll("*")].find((node) => this._isFocusable(node));
+          if (focusTarget) {
+            e9.preventDefault();
+            focusTarget.focus();
+            this._setInteracting(true);
+            this.toggleAttribute("navigating", false);
+          }
+        } else {
+          e9.preventDefault();
+          this._focusedColumnOrder = void 0;
+          cell.focus();
+          this._setInteracting(false);
+          this.toggleAttribute("navigating", true);
+        }
+      }
+    }
+    _predictFocusStepTarget(srcElement, step) {
+      const tabOrder = [
+        this.$.table,
+        this._headerFocusable,
+        this._itemsFocusable,
+        this._footerFocusable,
+        this.$.focusexit
+      ];
+      let index = tabOrder.indexOf(srcElement);
+      index += step;
+      while (index >= 0 && index <= tabOrder.length - 1) {
+        let rowElement = tabOrder[index];
+        if (rowElement && !this.__rowFocusMode) {
+          rowElement = tabOrder[index].parentNode;
+        }
+        if (!rowElement || rowElement.hidden) {
+          index += step;
+        } else {
+          break;
+        }
+      }
+      return tabOrder[index];
+    }
+    _onTabKeyDown(e9) {
+      const focusTarget = this._predictFocusStepTarget(e9.composedPath()[0], e9.shiftKey ? -1 : 1);
+      if (!focusTarget) {
+        return;
+      }
+      e9.stopPropagation();
+      if (focusTarget === this.$.table) {
+        this.$.table.focus();
+      } else if (focusTarget === this.$.focusexit) {
+        this.$.focusexit.focus();
+      } else if (focusTarget === this._itemsFocusable) {
+        let itemsFocusTarget = focusTarget;
+        const targetRow = this.__isRow(focusTarget) ? focusTarget : focusTarget.parentNode;
+        this._ensureScrolledToIndex(this._focusedItemIndex);
+        if (targetRow.index !== this._focusedItemIndex && this.__isCell(focusTarget)) {
+          const columnIndex = Array.from(targetRow.children).indexOf(this._itemsFocusable);
+          const focusedItemRow = Array.from(this.$.items.children).find(
+            (row) => !row.hidden && row.index === this._focusedItemIndex
+          );
+          if (focusedItemRow) {
+            itemsFocusTarget = focusedItemRow.children[columnIndex];
+          }
+        }
+        e9.preventDefault();
+        itemsFocusTarget.focus();
+      } else {
+        e9.preventDefault();
+        focusTarget.focus();
+      }
+      this.toggleAttribute("navigating", true);
+    }
+    _onSpaceKeyDown(e9) {
+      e9.preventDefault();
+      const element = e9.composedPath()[0];
+      const isRow = this.__isRow(element);
+      if (isRow || !element._content || !element._content.firstElementChild) {
+        this.dispatchEvent(
+          new CustomEvent(isRow ? "row-activate" : "cell-activate", {
+            detail: {
+              model: this.__getRowModel(isRow ? element : element.parentElement)
+            }
+          })
+        );
+      }
+    }
+    _onKeyUp(e9) {
+      if (!/^( |SpaceBar)$/.test(e9.key) || this.interacting) {
+        return;
+      }
+      e9.preventDefault();
+      const cell = e9.composedPath()[0];
+      if (cell._content && cell._content.firstElementChild) {
+        const wasNavigating = this.hasAttribute("navigating");
+        cell._content.firstElementChild.click();
+        this.toggleAttribute("navigating", wasNavigating);
+      }
+    }
+    _onFocusIn(e9) {
+      if (!this._isMousedown) {
+        this.toggleAttribute("navigating", true);
+      }
+      const rootTarget = e9.composedPath()[0];
+      if (rootTarget === this.$.table || rootTarget === this.$.focusexit) {
+        this._predictFocusStepTarget(rootTarget, rootTarget === this.$.table ? 1 : -1).focus();
+        this._setInteracting(false);
+      } else {
+        this._detectInteracting(e9);
+      }
+    }
+    _onFocusOut(e9) {
+      this.toggleAttribute("navigating", false);
+      this._detectInteracting(e9);
+    }
+    _onContentFocusIn(e9) {
+      const { section, cell, row } = this._getGridEventLocation(e9);
+      this._detectInteracting(e9);
+      if (section && (cell || row)) {
+        this._activeRowGroup = section;
+        if (this.$.header === section) {
+          this._headerFocusable = this.__rowFocusMode ? row : cell;
+        } else if (this.$.items === section) {
+          this._itemsFocusable = this.__rowFocusMode ? row : cell;
+        } else if (this.$.footer === section) {
+          this._footerFocusable = this.__rowFocusMode ? row : cell;
+        }
+        if (cell) {
+          const context = this.getEventContext(e9);
+          cell.dispatchEvent(new CustomEvent("cell-focus", { bubbles: true, composed: true, detail: { context } }));
+        }
+      }
+      this._detectFocusedItemIndex(e9);
+    }
+    _detectInteracting(e9) {
+      const isInteracting = e9.composedPath().some((el) => el.localName === "vaadin-grid-cell-content");
+      this._setInteracting(isInteracting);
+      this.__updateHorizontalScrollPosition();
+    }
+    _detectFocusedItemIndex(e9) {
+      const { section, row } = this._getGridEventLocation(e9);
+      if (section === this.$.items) {
+        this._focusedItemIndex = row.index;
+      }
+    }
+    _updateGridSectionFocusTarget(focusTarget) {
+      if (!focusTarget) {
+        return;
+      }
+      const section = this._getGridSectionFromFocusTarget(focusTarget);
+      const isInteractingWithinActiveSection = this.interacting && section === this._activeRowGroup;
+      focusTarget.tabIndex = isInteractingWithinActiveSection ? -1 : 0;
+    }
+    _preventScrollerRotatingCellFocus(row, index) {
+      if (row.index === this._focusedItemIndex && this.hasAttribute("navigating") && this._activeRowGroup === this.$.items) {
+        this._navigatingIsHidden = true;
+        this.toggleAttribute("navigating", false);
+      }
+      if (index === this._focusedItemIndex && this._navigatingIsHidden) {
+        this._navigatingIsHidden = false;
+        this.toggleAttribute("navigating", true);
+      }
+    }
+    _getColumns(rowGroup, rowIndex) {
+      let columnTreeLevel = this._columnTree.length - 1;
+      if (rowGroup === this.$.header) {
+        columnTreeLevel = rowIndex;
+      } else if (rowGroup === this.$.footer) {
+        columnTreeLevel = this._columnTree.length - 1 - rowIndex;
+      }
+      return this._columnTree[columnTreeLevel];
+    }
+    __isValidFocusable(element) {
+      return this.$.table.contains(element) && element.offsetHeight;
+    }
+    _resetKeyboardNavigation() {
+      ["header", "footer"].forEach((section) => {
+        if (!this.__isValidFocusable(this[`_${section}Focusable`])) {
+          const firstVisibleRow = [...this.$[section].children].find((row) => row.offsetHeight);
+          const firstVisibleCell = firstVisibleRow ? [...firstVisibleRow.children].find((cell) => !cell.hidden) : null;
+          if (firstVisibleRow && firstVisibleCell) {
+            this[`_${section}Focusable`] = this.__rowFocusMode ? firstVisibleRow : firstVisibleCell;
+          }
+        }
+      });
+      if (!this.__isValidFocusable(this._itemsFocusable) && this.$.items.firstElementChild) {
+        const firstVisibleRow = this.__getFirstVisibleItem();
+        const firstVisibleCell = firstVisibleRow ? [...firstVisibleRow.children].find((cell) => !cell.hidden) : null;
+        if (firstVisibleCell && firstVisibleRow) {
+          delete this._focusedColumnOrder;
+          this._itemsFocusable = this.__rowFocusMode ? firstVisibleRow : firstVisibleCell;
+        }
+      } else {
+        this.__updateItemsFocusable();
+      }
+    }
+    _scrollHorizontallyToCell(dstCell) {
+      if (dstCell.hasAttribute("frozen") || dstCell.hasAttribute("frozen-to-end") || this.__isDetailsCell(dstCell)) {
+        return;
+      }
+      const dstCellRect = dstCell.getBoundingClientRect();
+      const dstRow = dstCell.parentNode;
+      const dstCellIndex = Array.from(dstRow.children).indexOf(dstCell);
+      const tableRect = this.$.table.getBoundingClientRect();
+      let leftBoundary = tableRect.left, rightBoundary = tableRect.right;
+      for (let i5 = dstCellIndex - 1; i5 >= 0; i5--) {
+        const cell = dstRow.children[i5];
+        if (cell.hasAttribute("hidden") || this.__isDetailsCell(cell)) {
+          continue;
+        }
+        if (cell.hasAttribute("frozen") || cell.hasAttribute("frozen-to-end")) {
+          leftBoundary = cell.getBoundingClientRect().right;
+          break;
+        }
+      }
+      for (let i5 = dstCellIndex + 1; i5 < dstRow.children.length; i5++) {
+        const cell = dstRow.children[i5];
+        if (cell.hasAttribute("hidden") || this.__isDetailsCell(cell)) {
+          continue;
+        }
+        if (cell.hasAttribute("frozen") || cell.hasAttribute("frozen-to-end")) {
+          rightBoundary = cell.getBoundingClientRect().left;
+          break;
+        }
+      }
+      if (dstCellRect.left < leftBoundary) {
+        this.$.table.scrollLeft += Math.round(dstCellRect.left - leftBoundary);
+      }
+      if (dstCellRect.right > rightBoundary) {
+        this.$.table.scrollLeft += Math.round(dstCellRect.right - rightBoundary);
+      }
+    }
+    _getGridEventLocation(e9) {
+      const path = e9.composedPath();
+      const tableIndex = path.indexOf(this.$.table);
+      const section = tableIndex >= 1 ? path[tableIndex - 1] : null;
+      const row = tableIndex >= 2 ? path[tableIndex - 2] : null;
+      const cell = tableIndex >= 3 ? path[tableIndex - 3] : null;
+      return {
+        section,
+        row,
+        cell
+      };
+    }
+    _getGridSectionFromFocusTarget(focusTarget) {
+      if (focusTarget === this._headerFocusable) {
+        return this.$.header;
+      }
+      if (focusTarget === this._itemsFocusable) {
+        return this.$.items;
+      }
+      if (focusTarget === this._footerFocusable) {
+        return this.$.footer;
+      }
+      return null;
+    }
+  };
+
+  // node_modules/@vaadin/grid/src/vaadin-grid-row-details-mixin.js
+  var RowDetailsMixin = (superClass) => class RowDetailsMixin extends superClass {
+    static get properties() {
+      return {
+        detailsOpenedItems: {
+          type: Array,
+          value: () => []
+        },
+        rowDetailsRenderer: Function,
+        _detailsCells: {
+          type: Array
+        }
+      };
+    }
+    static get observers() {
+      return [
+        "_detailsOpenedItemsChanged(detailsOpenedItems.*, rowDetailsRenderer)",
+        "_rowDetailsRendererChanged(rowDetailsRenderer)"
+      ];
+    }
+    ready() {
+      super.ready();
+      this._detailsCellResizeObserver = new ResizeObserver((entries) => {
+        entries.forEach(({ target: cell }) => {
+          this._updateDetailsCellHeight(cell.parentElement);
+        });
+        this.__virtualizer.__adapter._resizeHandler();
+      });
+    }
+    _rowDetailsRendererChanged(rowDetailsRenderer) {
+      if (!rowDetailsRenderer) {
+        return;
+      }
+      if (this._columnTree) {
+        Array.from(this.$.items.children).forEach((row) => {
+          if (!row.querySelector("[part~=details-cell]")) {
+            this._updateRow(row, this._columnTree[this._columnTree.length - 1]);
+            const isDetailsOpened = this._isDetailsOpened(row._item);
+            this._toggleDetailsCell(row, isDetailsOpened);
+          }
+        });
+      }
+    }
+    _detailsOpenedItemsChanged(changeRecord, rowDetailsRenderer) {
+      if (changeRecord.path === "detailsOpenedItems.length" || !changeRecord.value) {
+        return;
+      }
+      [...this.$.items.children].forEach((row) => {
+        if (row.hasAttribute("details-opened")) {
+          this._updateItem(row, row._item);
+          return;
+        }
+        if (rowDetailsRenderer && this._isDetailsOpened(row._item)) {
+          this._updateItem(row, row._item);
+        }
+      });
+    }
+    _configureDetailsCell(cell) {
+      cell.setAttribute("part", "cell details-cell");
+      cell.toggleAttribute("frozen", true);
+      this._detailsCellResizeObserver.observe(cell);
+    }
+    _toggleDetailsCell(row, detailsOpened) {
+      const cell = row.querySelector('[part~="details-cell"]');
+      if (!cell) {
+        return;
+      }
+      cell.hidden = !detailsOpened;
+      if (cell.hidden) {
+        return;
+      }
+      if (this.rowDetailsRenderer) {
+        cell._renderer = this.rowDetailsRenderer;
+      }
+    }
+    _updateDetailsCellHeight(row) {
+      const cell = row.querySelector('[part~="details-cell"]');
+      if (!cell) {
+        return;
+      }
+      if (cell.hidden) {
+        row.style.removeProperty("padding-bottom");
+      } else {
+        row.style.setProperty("padding-bottom", `${cell.offsetHeight}px`);
+      }
+    }
+    _updateDetailsCellHeights() {
+      [...this.$.items.children].forEach((row) => {
+        this._updateDetailsCellHeight(row);
+      });
+    }
+    _isDetailsOpened(item) {
+      return this.detailsOpenedItems && this._getItemIndexInArray(item, this.detailsOpenedItems) !== -1;
+    }
+    openItemDetails(item) {
+      if (!this._isDetailsOpened(item)) {
+        this.detailsOpenedItems = [...this.detailsOpenedItems, item];
+      }
+    }
+    closeItemDetails(item) {
+      if (this._isDetailsOpened(item)) {
+        this.detailsOpenedItems = this.detailsOpenedItems.filter((i5) => !this._itemsEqual(i5, item));
+      }
+    }
+  };
+
+  // node_modules/@vaadin/component-base/src/resize-mixin.js
+  var observer = new ResizeObserver((entries) => {
+    setTimeout(() => {
+      entries.forEach((entry) => {
+        if (entry.target.resizables) {
+          entry.target.resizables.forEach((resizable) => {
+            resizable._onResize(entry.contentRect);
+          });
+        } else {
+          entry.target._onResize(entry.contentRect);
+        }
+      });
+    });
+  });
+  var ResizeMixin = dedupingMixin(
+    (superclass) => class ResizeMixinClass extends superclass {
+      connectedCallback() {
+        super.connectedCallback();
+        observer.observe(this);
+        if (this._observeParent) {
+          const parent = this.parentNode instanceof ShadowRoot ? this.parentNode.host : this.parentNode;
+          if (!parent.resizables) {
+            parent.resizables = /* @__PURE__ */ new Set();
+            observer.observe(parent);
+          }
+          parent.resizables.add(this);
+          this.__parent = parent;
+        }
+      }
+      disconnectedCallback() {
+        super.disconnectedCallback();
+        observer.unobserve(this);
+        const parent = this.__parent;
+        if (this._observeParent && parent) {
+          const resizables = parent.resizables;
+          if (resizables) {
+            resizables.delete(this);
+            if (resizables.size === 0) {
+              observer.unobserve(parent);
+            }
+          }
+          this.__parent = null;
+        }
+      }
+      get _observeParent() {
+        return false;
+      }
+      _onResize(_contentRect) {
+      }
+      notifyResize() {
+        console.warn(
+          `WARNING: Since Vaadin 23, notifyResize() is deprecated. The component uses a ResizeObserver internally and doesn't need to be explicitly notified of resizes.`
+        );
+      }
+    }
+  );
+
+  // node_modules/@vaadin/grid/src/vaadin-grid-scroll-mixin.js
+  var timeouts = {
+    SCROLLING: 500
+  };
+  var ScrollMixin = (superClass) => class ScrollMixin extends ResizeMixin(superClass) {
+    static get properties() {
+      return {
+        _frozenCells: {
+          type: Array,
+          value: () => []
+        },
+        _frozenToEndCells: {
+          type: Array,
+          value: () => []
+        },
+        _rowWithFocusedElement: Element
+      };
+    }
+    get _scrollTop() {
+      return this.$.table.scrollTop;
+    }
+    set _scrollTop(top) {
+      this.$.table.scrollTop = top;
+    }
+    get _scrollLeft() {
+      return this.$.table.scrollLeft;
+    }
+    ready() {
+      super.ready();
+      this.scrollTarget = this.$.table;
+      this.$.items.addEventListener("focusin", (e9) => {
+        const itemsIndex = e9.composedPath().indexOf(this.$.items);
+        this._rowWithFocusedElement = e9.composedPath()[itemsIndex - 1];
+      });
+      this.$.items.addEventListener("focusout", () => {
+        this._rowWithFocusedElement = void 0;
+      });
+      this.$.table.addEventListener("scroll", () => this._afterScroll());
+    }
+    _onResize() {
+      this._updateOverflow();
+      this.__updateHorizontalScrollPosition();
+    }
+    scrollToIndex(index) {
+      index = Math.min(this._effectiveSize - 1, Math.max(0, index));
+      this.__virtualizer.scrollToIndex(index);
+      this.__scrollIntoViewport(index);
+    }
+    __scrollIntoViewport(index) {
+      const rowElement = [...this.$.items.children].find((child) => child.index === index);
+      if (rowElement) {
+        const dstRect = rowElement.getBoundingClientRect();
+        const footerTop = this.$.footer.getBoundingClientRect().top;
+        const headerBottom = this.$.header.getBoundingClientRect().bottom;
+        if (dstRect.bottom > footerTop) {
+          this.$.table.scrollTop += dstRect.bottom - footerTop;
+        } else if (dstRect.top < headerBottom) {
+          this.$.table.scrollTop -= headerBottom - dstRect.top;
+        }
+      }
+    }
+    _scheduleScrolling() {
+      if (!this._scrollingFrame) {
+        this._scrollingFrame = requestAnimationFrame(() => this.$.scroller.toggleAttribute("scrolling", true));
+      }
+      this._debounceScrolling = Debouncer.debounce(this._debounceScrolling, timeOut.after(timeouts.SCROLLING), () => {
+        cancelAnimationFrame(this._scrollingFrame);
+        delete this._scrollingFrame;
+        this.$.scroller.toggleAttribute("scrolling", false);
+      });
+    }
+    _afterScroll() {
+      this.__updateHorizontalScrollPosition();
+      if (!this.hasAttribute("reordering")) {
+        this._scheduleScrolling();
+      }
+      this._updateOverflow();
+    }
+    _updateOverflow() {
+      let overflow = "";
+      const table = this.$.table;
+      if (table.scrollTop < table.scrollHeight - table.clientHeight) {
+        overflow += " bottom";
+      }
+      if (table.scrollTop > 0) {
+        overflow += " top";
+      }
+      const scrollLeft = this.__getNormalizedScrollLeft(table);
+      if (scrollLeft > 0) {
+        overflow += " start";
+      }
+      if (scrollLeft < table.scrollWidth - table.clientWidth) {
+        overflow += " end";
+      }
+      if (this.__isRTL) {
+        overflow = overflow.replace(/start|end/gi, (matched) => {
+          return matched === "start" ? "end" : "start";
+        });
+      }
+      if (table.scrollLeft < table.scrollWidth - table.clientWidth) {
+        overflow += " right";
+      }
+      if (table.scrollLeft > 0) {
+        overflow += " left";
+      }
+      this._debounceOverflow = Debouncer.debounce(this._debounceOverflow, animationFrame, () => {
+        const value = overflow.trim();
+        if (value.length > 0 && this.getAttribute("overflow") !== value) {
+          this.setAttribute("overflow", value);
+        } else if (value.length === 0 && this.hasAttribute("overflow")) {
+          this.removeAttribute("overflow");
+        }
+      });
+    }
+    _frozenCellsChanged() {
+      this._debouncerCacheElements = Debouncer.debounce(this._debouncerCacheElements, microTask2, () => {
+        Array.from(this.shadowRoot.querySelectorAll('[part~="cell"]')).forEach((cell) => {
+          cell.style.transform = "";
+        });
+        this._frozenCells = Array.prototype.slice.call(this.$.table.querySelectorAll("[frozen]"));
+        this._frozenToEndCells = Array.prototype.slice.call(this.$.table.querySelectorAll("[frozen-to-end]"));
+        this.__updateHorizontalScrollPosition();
+      });
+      this._updateFrozenColumn();
+    }
+    _updateFrozenColumn() {
+      if (!this._columnTree) {
+        return;
+      }
+      const columnsRow = this._columnTree[this._columnTree.length - 1].slice(0);
+      columnsRow.sort((a3, b2) => {
+        return a3._order - b2._order;
+      });
+      let lastFrozen;
+      let firstFrozenToEnd;
+      for (let i5 = 0; i5 < columnsRow.length; i5++) {
+        const col = columnsRow[i5];
+        col._lastFrozen = false;
+        col._firstFrozenToEnd = false;
+        if (firstFrozenToEnd === void 0 && col.frozenToEnd && !col.hidden) {
+          firstFrozenToEnd = i5;
+        }
+        if (col.frozen && !col.hidden) {
+          lastFrozen = i5;
+        }
+      }
+      if (lastFrozen !== void 0) {
+        columnsRow[lastFrozen]._lastFrozen = true;
+      }
+      if (firstFrozenToEnd !== void 0) {
+        columnsRow[firstFrozenToEnd]._firstFrozenToEnd = true;
+      }
+    }
+    __updateHorizontalScrollPosition() {
+      const scrollWidth = this.$.table.scrollWidth;
+      const clientWidth = this.$.table.clientWidth;
+      const scrollLeft = Math.max(0, this.$.table.scrollLeft);
+      const normalizedScrollLeft = this.__getNormalizedScrollLeft(this.$.table);
+      const transform = `translate(${-scrollLeft}px, 0)`;
+      this.$.header.style.transform = transform;
+      this.$.footer.style.transform = transform;
+      this.$.items.style.transform = transform;
+      const x2 = this.__isRTL ? normalizedScrollLeft + clientWidth - scrollWidth : scrollLeft;
+      const transformFrozen = `translate(${x2}px, 0)`;
+      for (let i5 = 0; i5 < this._frozenCells.length; i5++) {
+        this._frozenCells[i5].style.transform = transformFrozen;
+      }
+      const remaining = this.__isRTL ? normalizedScrollLeft : scrollLeft + clientWidth - scrollWidth;
+      const transformFrozenToEnd = `translate(${remaining}px, 0)`;
+      for (let i5 = 0; i5 < this._frozenToEndCells.length; i5++) {
+        this._frozenToEndCells[i5].style.transform = transformFrozenToEnd;
+      }
+      if (this.hasAttribute("navigating") && this.__rowFocusMode) {
+        this.$.table.style.setProperty("--_grid-horizontal-scroll-position", `${-x2}px`);
+      }
+    }
+  };
+
+  // node_modules/@vaadin/grid/src/vaadin-grid-selection-mixin.js
+  var SelectionMixin = (superClass) => class SelectionMixin extends superClass {
+    static get properties() {
+      return {
+        selectedItems: {
+          type: Object,
+          notify: true,
+          value: () => []
+        },
+        __selectedKeys: {
+          type: Object,
+          computed: "__computeSelectedKeys(itemIdPath, selectedItems.*)"
+        }
+      };
+    }
+    static get observers() {
+      return ["__selectedItemsChanged(itemIdPath, selectedItems.*)"];
+    }
+    _isSelected(item) {
+      return this.__selectedKeys.has(this.getItemId(item));
+    }
+    selectItem(item) {
+      if (!this._isSelected(item)) {
+        this.selectedItems = [...this.selectedItems, item];
+      }
+    }
+    deselectItem(item) {
+      if (this._isSelected(item)) {
+        this.selectedItems = this.selectedItems.filter((i5) => !this._itemsEqual(i5, item));
+      }
+    }
+    _toggleItem(item) {
+      if (!this._isSelected(item)) {
+        this.selectItem(item);
+      } else {
+        this.deselectItem(item);
+      }
+    }
+    __selectedItemsChanged() {
+      this.requestContentUpdate();
+    }
+    __computeSelectedKeys(itemIdPath, selectedItems) {
+      const selected = selectedItems.base || [];
+      const selectedKeys = /* @__PURE__ */ new Set();
+      selected.forEach((item) => {
+        selectedKeys.add(this.getItemId(item));
+      });
+      return selectedKeys;
+    }
+  };
+
+  // node_modules/@vaadin/grid/src/vaadin-grid-sort-mixin.js
+  var defaultMultiSortPriority = "prepend";
+  var SortMixin = (superClass) => class SortMixin extends superClass {
+    static get properties() {
+      return {
+        multiSort: {
+          type: Boolean,
+          value: false
+        },
+        multiSortPriority: {
+          type: String,
+          value: () => defaultMultiSortPriority
+        },
+        _sorters: {
+          type: Array,
+          value: () => []
+        },
+        _previousSorters: {
+          type: Array,
+          value: () => []
+        }
+      };
+    }
+    static setDefaultMultiSortPriority(priority) {
+      defaultMultiSortPriority = ["append", "prepend"].includes(priority) ? priority : "prepend";
+    }
+    ready() {
+      super.ready();
+      this.addEventListener("sorter-changed", this._onSorterChanged);
+    }
+    _onSorterChanged(e9) {
+      const sorter = e9.target;
+      e9.stopPropagation();
+      sorter._grid = this;
+      this.__updateSorter(sorter);
+      this.__applySorters();
+    }
+    __removeSorters(sortersToRemove) {
+      if (sortersToRemove.length === 0) {
+        return;
+      }
+      this._sorters = this._sorters.filter((sorter) => sortersToRemove.indexOf(sorter) < 0);
+      if (this.multiSort) {
+        this.__updateSortOrders();
+      }
+      this.__applySorters();
+    }
+    __updateSortOrders() {
+      this._sorters.forEach((sorter, index) => {
+        sorter._order = this._sorters.length > 1 ? index : null;
+      });
+    }
+    __appendSorter(sorter) {
+      if (!sorter.direction) {
+        this._removeArrayItem(this._sorters, sorter);
+      } else if (!this._sorters.includes(sorter)) {
+        this._sorters.push(sorter);
+      }
+      this.__updateSortOrders();
+    }
+    __prependSorter(sorter) {
+      this._removeArrayItem(this._sorters, sorter);
+      if (sorter.direction) {
+        this._sorters.unshift(sorter);
+      }
+      this.__updateSortOrders();
+    }
+    __updateSorter(sorter) {
+      if (!sorter.direction && this._sorters.indexOf(sorter) === -1) {
+        return;
+      }
+      sorter._order = null;
+      if (this.multiSort) {
+        if (this.multiSortPriority === "append") {
+          this.__appendSorter(sorter);
+        } else {
+          this.__prependSorter(sorter);
+        }
+      } else if (sorter.direction) {
+        const otherSorters = this._sorters.filter((s5) => s5 !== sorter);
+        this._sorters = [sorter];
+        otherSorters.forEach((sorter2) => {
+          sorter2._order = null;
+          sorter2.direction = null;
+        });
+      }
+    }
+    __applySorters() {
+      if (this.dataProvider && this.isAttached && JSON.stringify(this._previousSorters) !== JSON.stringify(this._mapSorters())) {
+        this.clearCache();
+      }
+      this._a11yUpdateSorters();
+      this._previousSorters = this._mapSorters();
+    }
+    _mapSorters() {
+      return this._sorters.map((sorter) => {
+        return {
+          path: sorter.path,
+          direction: sorter.direction
+        };
+      });
+    }
+    _removeArrayItem(array, item) {
+      const index = array.indexOf(item);
+      if (index > -1) {
+        array.splice(index, 1);
+      }
+    }
+  };
+
+  // node_modules/@vaadin/grid/src/vaadin-grid-styling-mixin.js
+  var StylingMixin = (superClass) => class StylingMixin extends superClass {
+    static get properties() {
+      return {
+        cellClassNameGenerator: Function
+      };
+    }
+    static get observers() {
+      return ["__cellClassNameGeneratorChanged(cellClassNameGenerator)"];
+    }
+    __cellClassNameGeneratorChanged() {
+      this.generateCellClassNames();
+    }
+    generateCellClassNames() {
+      Array.from(this.$.items.children).filter((row) => !row.hidden && !row.hasAttribute("loading")).forEach((row) => this._generateCellClassNames(row, this.__getRowModel(row)));
+    }
+    _generateCellClassNames(row, model) {
+      Array.from(row.children).forEach((cell) => {
+        if (cell.__generatedClasses) {
+          cell.__generatedClasses.forEach((className) => cell.classList.remove(className));
+        }
+        if (this.cellClassNameGenerator) {
+          const result = this.cellClassNameGenerator(cell._column, model);
+          cell.__generatedClasses = result && result.split(" ").filter((className) => className.length > 0);
+          if (cell.__generatedClasses) {
+            cell.__generatedClasses.forEach((className) => cell.classList.add(className));
+          }
+        }
+      });
+    }
+  };
+
+  // node_modules/@vaadin/grid/src/vaadin-grid.js
+  var Grid = class extends ElementMixin2(
+    ThemableMixin(
+      DataProviderMixin(
+        ArrayDataProviderMixin(
+          DynamicColumnsMixin(
+            ActiveItemMixin(
+              ScrollMixin(
+                SelectionMixin(
+                  SortMixin(
+                    RowDetailsMixin(
+                      KeyboardNavigationMixin(
+                        A11yMixin(
+                          FilterMixin(
+                            ColumnReorderingMixin(
+                              ColumnResizingMixin(
+                                EventContextMixin(DragAndDropMixin(StylingMixin(TabindexMixin(PolymerElement))))
+                              )
+                            )
+                          )
+                        )
+                      )
+                    )
+                  )
+                )
+              )
+            )
+          )
+        )
+      )
+    )
+  ) {
+    static get template() {
+      return html`
+      <div
+        id="scroller"
+        safari$="[[_safari]]"
+        ios$="[[_ios]]"
+        loading$="[[loading]]"
+        column-reordering-allowed$="[[columnReorderingAllowed]]"
+      >
+        <table id="table" role="treegrid" aria-multiselectable="true" tabindex="0">
+          <caption id="sizer" part="row"></caption>
+          <thead id="header" role="rowgroup"></thead>
+          <tbody id="items" role="rowgroup"></tbody>
+          <tfoot id="footer" role="rowgroup"></tfoot>
+        </table>
+
+        <div part="reorder-ghost"></div>
+      </div>
+
+      <div id="focusexit" tabindex="0"></div>
+    `;
+    }
+    static get is() {
+      return "vaadin-grid";
+    }
+    static get observers() {
+      return [
+        "_columnTreeChanged(_columnTree, _columnTree.*)",
+        "_effectiveSizeChanged(_effectiveSize, __virtualizer, _hasData, _columnTree)"
+      ];
+    }
+    static get properties() {
+      return {
+        _safari: {
+          type: Boolean,
+          value: isSafari
+        },
+        _ios: {
+          type: Boolean,
+          value: isIOS
+        },
+        _firefox: {
+          type: Boolean,
+          value: isFirefox
+        },
+        _android: {
+          type: Boolean,
+          value: isAndroid
+        },
+        _touchDevice: {
+          type: Boolean,
+          value: isTouch
+        },
+        allRowsVisible: {
+          type: Boolean,
+          value: false,
+          reflectToAttribute: true
+        },
+        _recalculateColumnWidthOnceLoadingFinished: {
+          type: Boolean,
+          value: true
+        },
+        isAttached: {
+          value: false
+        },
+        __gridElement: {
+          type: Boolean,
+          value: true
+        }
+      };
+    }
+    constructor() {
+      super();
+      this.addEventListener("animationend", this._onAnimationEnd);
+    }
+    connectedCallback() {
+      super.connectedCallback();
+      this.isAttached = true;
+      this.recalculateColumnWidths();
+    }
+    disconnectedCallback() {
+      super.disconnectedCallback();
+      this.isAttached = false;
+    }
+    __getFirstVisibleItem() {
+      return this._getVisibleRows().find((row) => this._isInViewport(row));
+    }
+    get _firstVisibleIndex() {
+      const firstVisibleItem = this.__getFirstVisibleItem();
+      return firstVisibleItem ? firstVisibleItem.index : void 0;
+    }
+    __getLastVisibleItem() {
+      return this._getVisibleRows().reverse().find((row) => this._isInViewport(row));
+    }
+    get _lastVisibleIndex() {
+      const lastVisibleItem = this.__getLastVisibleItem();
+      return lastVisibleItem ? lastVisibleItem.index : void 0;
+    }
+    _isInViewport(item) {
+      const scrollTargetRect = this.$.table.getBoundingClientRect();
+      const itemRect = item.getBoundingClientRect();
+      const headerHeight = this.$.header.getBoundingClientRect().height;
+      const footerHeight = this.$.footer.getBoundingClientRect().height;
+      return itemRect.bottom > scrollTargetRect.top + headerHeight && itemRect.top < scrollTargetRect.bottom - footerHeight;
+    }
+    _getVisibleRows() {
+      return Array.from(this.$.items.children).filter((item) => !item.hidden).sort((a3, b2) => a3.index - b2.index);
+    }
+    ready() {
+      super.ready();
+      this.__virtualizer = new Virtualizer({
+        createElements: this._createScrollerRows.bind(this),
+        updateElement: this._updateScrollerItem.bind(this),
+        scrollContainer: this.$.items,
+        scrollTarget: this.$.table,
+        reorderElements: true
+      });
+      new ResizeObserver(() => setTimeout(() => this.__updateFooterPositioning())).observe(this.$.footer);
+      processTemplates(this);
+    }
+    attributeChangedCallback(name, oldValue, newValue) {
+      super.attributeChangedCallback(name, oldValue, newValue);
+      if (name === "dir") {
+        this.__isRTL = newValue === "rtl";
+      }
+    }
+    __getBodyCellCoordinates(cell) {
+      if (this.$.items.contains(cell) && cell.localName === "td") {
+        return {
+          item: cell.parentElement._item,
+          column: cell._column
+        };
+      }
+    }
+    __focusBodyCell({ item, column }) {
+      const row = this._getVisibleRows().find((row2) => row2._item === item);
+      const cell = row && [...row.children].find((cell2) => cell2._column === column);
+      if (cell) {
+        cell.focus();
+      }
+    }
+    _effectiveSizeChanged(effectiveSize, virtualizer, hasData, columnTree) {
+      if (virtualizer && hasData && columnTree) {
+        const cell = this.shadowRoot.activeElement;
+        const cellCoordinates = this.__getBodyCellCoordinates(cell);
+        virtualizer.size = effectiveSize;
+        virtualizer.update();
+        virtualizer.flush();
+        if (cellCoordinates && cell.parentElement.hidden) {
+          this.__focusBodyCell(cellCoordinates);
+        }
+        this._resetKeyboardNavigation();
+      }
+    }
+    __hasRowsWithClientHeight() {
+      return !!Array.from(this.$.items.children).filter((row) => row.clientHeight).length;
+    }
+    __itemsReceived() {
+      if (this._recalculateColumnWidthOnceLoadingFinished && !this._cache.isLoading() && this.__hasRowsWithClientHeight()) {
+        this._recalculateColumnWidthOnceLoadingFinished = false;
+        this.recalculateColumnWidths();
+      }
+    }
+    __getIntrinsicWidth(col) {
+      const initialWidth = col.width;
+      const initialFlexGrow = col.flexGrow;
+      col.width = "auto";
+      col.flexGrow = 0;
+      const width = col._allCells.filter((cell) => {
+        return !this.$.items.contains(cell) || this._isInViewport(cell.parentElement);
+      }).reduce((width2, cell) => {
+        return Math.max(width2, cell.offsetWidth + 1);
+      }, 0);
+      col.flexGrow = initialFlexGrow;
+      col.width = initialWidth;
+      return width;
+    }
+    __getDistributedWidth(col, innerColumn) {
+      if (col == null || col === this) {
+        return 0;
+      }
+      const columnWidth = Math.max(this.__getIntrinsicWidth(col), this.__getDistributedWidth(col.parentElement, col));
+      if (!innerColumn) {
+        return columnWidth;
+      }
+      const columnGroup = col;
+      const columnGroupWidth = columnWidth;
+      const sumOfWidthOfAllChildColumns = columnGroup._visibleChildColumns.map((col2) => this.__getIntrinsicWidth(col2)).reduce((sum, curr) => sum + curr, 0);
+      const extraNecessarySpaceForGridColumnGroup = Math.max(0, columnGroupWidth - sumOfWidthOfAllChildColumns);
+      const proportionOfExtraSpace = this.__getIntrinsicWidth(innerColumn) / sumOfWidthOfAllChildColumns;
+      const shareOfInnerColumnFromNecessaryExtraSpace = proportionOfExtraSpace * extraNecessarySpaceForGridColumnGroup;
+      return this.__getIntrinsicWidth(innerColumn) + shareOfInnerColumnFromNecessaryExtraSpace;
+    }
+    _recalculateColumnWidths(cols) {
+      this.__virtualizer.flush();
+      if (this._debouncerHiddenChanged) {
+        this._debouncerHiddenChanged.flush();
+      }
+      cols.forEach((col) => {
+        col.width = `${this.__getDistributedWidth(col)}px`;
+      });
+    }
+    recalculateColumnWidths() {
+      if (!this._columnTree) {
+        return;
+      }
+      if (this._cache.isLoading()) {
+        this._recalculateColumnWidthOnceLoadingFinished = true;
+      } else {
+        const cols = this._getColumns().filter((col) => !col.hidden && col.autoWidth);
+        this._recalculateColumnWidths(cols);
+      }
+    }
+    _createScrollerRows(count) {
+      const rows = [];
+      for (let i5 = 0; i5 < count; i5++) {
+        const row = document.createElement("tr");
+        row.setAttribute("part", "row");
+        row.setAttribute("role", "row");
+        row.setAttribute("tabindex", "-1");
+        if (this._columnTree) {
+          this._updateRow(row, this._columnTree[this._columnTree.length - 1], "body", false, true);
+        }
+        rows.push(row);
+      }
+      if (this._columnTree) {
+        this._columnTree[this._columnTree.length - 1].forEach(
+          (c3) => c3.isConnected && c3.notifyPath && c3.notifyPath("_cells.*", c3._cells)
+        );
+      }
+      beforeNextRender(this, () => {
+        this._updateFirstAndLastColumn();
+        this._resetKeyboardNavigation();
+        this._afterScroll();
+        this.__itemsReceived();
+      });
+      return rows;
+    }
+    _createCell(tagName) {
+      const contentId = this._contentIndex = this._contentIndex + 1 || 0;
+      const slotName = `vaadin-grid-cell-content-${contentId}`;
+      const cellContent = document.createElement("vaadin-grid-cell-content");
+      cellContent.setAttribute("slot", slotName);
+      const cell = document.createElement(tagName);
+      cell.id = slotName.replace("-content-", "-");
+      cell.setAttribute("tabindex", "-1");
+      cell.setAttribute("role", tagName === "td" ? "gridcell" : "columnheader");
+      const slot = document.createElement("slot");
+      slot.setAttribute("name", slotName);
+      cell.appendChild(slot);
+      cell._content = cellContent;
+      cellContent.addEventListener("mousedown", () => {
+        if (isChrome) {
+          const mouseUpListener = (event) => {
+            const contentContainsFocusedElement = cellContent.contains(this.getRootNode().activeElement);
+            const mouseUpWithinCell = event.composedPath().includes(cellContent);
+            if (!contentContainsFocusedElement && mouseUpWithinCell) {
+              cell.focus();
+            }
+            document.removeEventListener("mouseup", mouseUpListener, true);
+          };
+          document.addEventListener("mouseup", mouseUpListener, true);
+        } else {
+          setTimeout(() => {
+            if (!cellContent.contains(this.getRootNode().activeElement)) {
+              cell.focus();
+            }
+          });
+        }
+      });
+      return cell;
+    }
+    _updateRow(row, columns, section, isColumnRow, noNotify) {
+      section = section || "body";
+      const contentsFragment = document.createDocumentFragment();
+      Array.from(row.children).forEach((cell) => {
+        cell._vacant = true;
+      });
+      row.innerHTML = "";
+      columns.filter((column) => !column.hidden).forEach((column, index, cols) => {
+        let cell;
+        if (section === "body") {
+          column._cells = column._cells || [];
+          cell = column._cells.filter((cell2) => cell2._vacant)[0];
+          if (!cell) {
+            cell = this._createCell("td");
+            column._cells.push(cell);
+          }
+          cell.setAttribute("part", "cell body-cell");
+          row.appendChild(cell);
+          if (index === cols.length - 1 && this.rowDetailsRenderer) {
+            this._detailsCells = this._detailsCells || [];
+            const detailsCell = this._detailsCells.filter((cell2) => cell2._vacant)[0] || this._createCell("td");
+            if (this._detailsCells.indexOf(detailsCell) === -1) {
+              this._detailsCells.push(detailsCell);
+            }
+            if (!detailsCell._content.parentElement) {
+              contentsFragment.appendChild(detailsCell._content);
+            }
+            this._configureDetailsCell(detailsCell);
+            row.appendChild(detailsCell);
+            this._a11ySetRowDetailsCell(row, detailsCell);
+            detailsCell._vacant = false;
+          }
+          if (column.notifyPath && !noNotify) {
+            column.notifyPath("_cells.*", column._cells);
+          }
+        } else {
+          const tagName = section === "header" ? "th" : "td";
+          if (isColumnRow || column.localName === "vaadin-grid-column-group") {
+            cell = column[`_${section}Cell`] || this._createCell(tagName);
+            cell._column = column;
+            row.appendChild(cell);
+            column[`_${section}Cell`] = cell;
+          } else {
+            column._emptyCells = column._emptyCells || [];
+            cell = column._emptyCells.filter((cell2) => cell2._vacant)[0] || this._createCell(tagName);
+            cell._column = column;
+            row.appendChild(cell);
+            if (column._emptyCells.indexOf(cell) === -1) {
+              column._emptyCells.push(cell);
+            }
+          }
+          cell.setAttribute("part", `cell ${section}-cell`);
+          this.__updateHeaderFooterRowVisibility(row);
+        }
+        if (!cell._content.parentElement) {
+          contentsFragment.appendChild(cell._content);
+        }
+        cell._vacant = false;
+        cell._column = column;
+      });
+      this.appendChild(contentsFragment);
+      this._frozenCellsChanged();
+      this._updateFirstAndLastColumnForRow(row);
+    }
+    __updateHeaderFooterRowVisibility(row) {
+      if (!row) {
+        return;
+      }
+      const visibleRowCells = Array.from(row.children).filter((cell) => {
+        const column = cell._column;
+        if (column._emptyCells && column._emptyCells.indexOf(cell) > -1) {
+          return false;
+        }
+        if (row.parentElement === this.$.header) {
+          if (column.headerRenderer) {
+            return true;
+          }
+          if (column.header === null) {
+            return false;
+          }
+          if (column.path || column.header !== void 0) {
+            return true;
+          }
+        } else if (column.footerRenderer) {
+          return true;
+        }
+        return false;
+      });
+      if (row.hidden !== !visibleRowCells.length) {
+        row.hidden = !visibleRowCells.length;
+      }
+      this._resetKeyboardNavigation();
+    }
+    _updateScrollerItem(row, index) {
+      this._preventScrollerRotatingCellFocus(row, index);
+      if (!this._columnTree) {
+        return;
+      }
+      row.toggleAttribute("first", index === 0);
+      row.toggleAttribute("last", index === this._effectiveSize - 1);
+      row.toggleAttribute("odd", index % 2);
+      this._a11yUpdateRowRowindex(row, index);
+      this._getItem(index, row);
+    }
+    _columnTreeChanged(columnTree) {
+      this._renderColumnTree(columnTree);
+      this.recalculateColumnWidths();
+    }
+    _renderColumnTree(columnTree) {
+      Array.from(this.$.items.children).forEach(
+        (row) => this._updateRow(row, columnTree[columnTree.length - 1], null, false, true)
+      );
+      while (this.$.header.children.length < columnTree.length) {
+        const headerRow = document.createElement("tr");
+        headerRow.setAttribute("part", "row");
+        headerRow.setAttribute("role", "row");
+        headerRow.setAttribute("tabindex", "-1");
+        this.$.header.appendChild(headerRow);
+        const footerRow = document.createElement("tr");
+        footerRow.setAttribute("part", "row");
+        footerRow.setAttribute("role", "row");
+        footerRow.setAttribute("tabindex", "-1");
+        this.$.footer.appendChild(footerRow);
+      }
+      while (this.$.header.children.length > columnTree.length) {
+        this.$.header.removeChild(this.$.header.firstElementChild);
+        this.$.footer.removeChild(this.$.footer.firstElementChild);
+      }
+      Array.from(this.$.header.children).forEach(
+        (headerRow, index) => this._updateRow(headerRow, columnTree[index], "header", index === columnTree.length - 1)
+      );
+      Array.from(this.$.footer.children).forEach(
+        (footerRow, index) => this._updateRow(footerRow, columnTree[columnTree.length - 1 - index], "footer", index === 0)
+      );
+      this._updateRow(this.$.sizer, columnTree[columnTree.length - 1]);
+      this._resizeHandler();
+      this._frozenCellsChanged();
+      this._updateFirstAndLastColumn();
+      this._resetKeyboardNavigation();
+      this._a11yUpdateHeaderRows();
+      this._a11yUpdateFooterRows();
+      this.__updateFooterPositioning();
+      this.generateCellClassNames();
+    }
+    __updateFooterPositioning() {
+      if (this._firefox && parseFloat(navigator.userAgent.match(/Firefox\/(\d{2,3}.\d)/)[1]) < 99) {
+        this.$.items.style.paddingBottom = 0;
+        if (!this.allRowsVisible) {
+          this.$.items.style.paddingBottom = `${this.$.footer.offsetHeight}px`;
+        }
+      }
+    }
+    _updateItem(row, item) {
+      row._item = item;
+      const model = this.__getRowModel(row);
+      this._toggleDetailsCell(row, model.detailsOpened);
+      this._a11yUpdateRowLevel(row, model.level);
+      this._a11yUpdateRowSelected(row, model.selected);
+      row.toggleAttribute("expanded", model.expanded);
+      row.toggleAttribute("selected", model.selected);
+      row.toggleAttribute("details-opened", model.detailsOpened);
+      this._generateCellClassNames(row, model);
+      this._filterDragAndDrop(row, model);
+      Array.from(row.children).forEach((cell) => {
+        if (cell._renderer) {
+          const owner = cell._column || this;
+          cell._renderer.call(owner, cell._content, owner, model);
+        }
+      });
+      this._updateDetailsCellHeight(row);
+      this._a11yUpdateRowExpanded(row, model.expanded);
+    }
+    _resizeHandler() {
+      this._updateDetailsCellHeights();
+      this.__updateFooterPositioning();
+      this.__updateHorizontalScrollPosition();
+    }
+    _onAnimationEnd(e9) {
+      if (e9.animationName.indexOf("vaadin-grid-appear") === 0) {
+        e9.stopPropagation();
+        this.__itemsReceived();
+        requestAnimationFrame(() => {
+          this.__scrollToPendingIndex();
+        });
+      }
+    }
+    __getRowModel(row) {
+      return {
+        index: row.index,
+        item: row._item,
+        level: this._getIndexLevel(row.index),
+        expanded: this._isExpanded(row._item),
+        selected: this._isSelected(row._item),
+        detailsOpened: !!this.rowDetailsRenderer && this._isDetailsOpened(row._item)
+      };
+    }
+    requestContentUpdate() {
+      if (this._columnTree) {
+        this._columnTree.forEach((level) => {
+          level.forEach((column) => {
+            if (column._renderHeaderAndFooter) {
+              column._renderHeaderAndFooter();
+            }
+          });
+        });
+        this.__updateVisibleRows();
+      }
+    }
+    __updateVisibleRows(start, end) {
+      if (this.__virtualizer) {
+        this.__virtualizer.update(start, end);
+      }
+    }
+    notifyResize() {
+      console.warn(
+        `WARNING: Since Vaadin 22, notifyResize() is deprecated. The component uses a ResizeObserver internally and doesn't need to be explicitly notified of resizes.`
+      );
+    }
+  };
+  customElements.define(Grid.is, Grid);
+
+  // node_modules/@vaadin/grid/src/vaadin-grid-column-group.js
+  var GridColumnGroup = class extends ColumnBaseMixin(PolymerElement) {
+    static get is() {
+      return "vaadin-grid-column-group";
+    }
+    static get properties() {
+      return {
+        _childColumns: {
+          value() {
+            return this._getChildColumns(this);
+          }
+        },
+        flexGrow: {
+          type: Number,
+          readOnly: true
+        },
+        width: {
+          type: String,
+          readOnly: true
+        },
+        _visibleChildColumns: Array,
+        _colSpan: Number,
+        _rootColumns: Array
+      };
+    }
+    static get observers() {
+      return [
+        "_groupFrozenChanged(frozen, _rootColumns)",
+        "_groupFrozenToEndChanged(frozenToEnd, _rootColumns)",
+        "_groupHiddenChanged(hidden)",
+        "_colSpanChanged(_colSpan, _headerCell, _footerCell)",
+        "_groupOrderChanged(_order, _rootColumns)",
+        "_groupReorderStatusChanged(_reorderStatus, _rootColumns)",
+        "_groupResizableChanged(resizable, _rootColumns)"
+      ];
+    }
+    connectedCallback() {
+      super.connectedCallback();
+      this._addNodeObserver();
+      this._updateFlexAndWidth();
+    }
+    disconnectedCallback() {
+      super.disconnectedCallback();
+      if (this._observer) {
+        this._observer.disconnect();
+      }
+    }
+    _columnPropChanged(path, value) {
+      if (path === "hidden") {
+        this._preventHiddenSynchronization = true;
+        this._updateVisibleChildColumns(this._childColumns);
+        this._preventHiddenSynchronization = false;
+      }
+      if (/flexGrow|width|hidden|_childColumns/.test(path)) {
+        this._updateFlexAndWidth();
+      }
+      if (path === "frozen") {
+        this.frozen = this.frozen || value;
+      }
+      if (path === "lastFrozen") {
+        this._lastFrozen = this._lastFrozen || value;
+      }
+      if (path === "frozenToEnd") {
+        this.frozenToEnd = this.frozenToEnd || value;
+      }
+      if (path === "firstFrozenToEnd") {
+        this._firstFrozenToEnd = this._firstFrozenToEnd || value;
+      }
+    }
+    _groupOrderChanged(order, rootColumns) {
+      if (rootColumns) {
+        const _rootColumns = rootColumns.slice(0);
+        if (!order) {
+          _rootColumns.forEach((column) => {
+            column._order = 0;
+          });
+          return;
+        }
+        const trailingZeros = /(0+)$/.exec(order).pop().length;
+        const childCountDigits = ~~(Math.log(rootColumns.length) / Math.LN10) + 1;
+        const scope = 10 ** (trailingZeros - childCountDigits);
+        if (_rootColumns[0] && _rootColumns[0]._order) {
+          _rootColumns.sort((a3, b2) => a3._order - b2._order);
+        }
+        updateColumnOrders(_rootColumns, scope, order);
+      }
+    }
+    _groupReorderStatusChanged(reorderStatus, rootColumns) {
+      if (reorderStatus === void 0 || rootColumns === void 0) {
+        return;
+      }
+      rootColumns.forEach((column) => {
+        column._reorderStatus = reorderStatus;
+      });
+    }
+    _groupResizableChanged(resizable, rootColumns) {
+      if (resizable === void 0 || rootColumns === void 0) {
+        return;
+      }
+      rootColumns.forEach((column) => {
+        column.resizable = resizable;
+      });
+    }
+    _updateVisibleChildColumns(childColumns) {
+      this._visibleChildColumns = Array.prototype.filter.call(childColumns, (col) => !col.hidden);
+      this._colSpan = this._visibleChildColumns.length;
+      this._updateAutoHidden();
+    }
+    _updateFlexAndWidth() {
+      if (!this._visibleChildColumns) {
+        return;
+      }
+      if (this._visibleChildColumns.length > 0) {
+        const width = this._visibleChildColumns.reduce((prev, curr) => {
+          prev += ` + ${(curr.width || "0px").replace("calc", "")}`;
+          return prev;
+        }, "").substring(3);
+        this._setWidth(`calc(${width})`);
+      } else {
+        this._setWidth("0px");
+      }
+      this._setFlexGrow(Array.prototype.reduce.call(this._visibleChildColumns, (prev, curr) => prev + curr.flexGrow, 0));
+    }
+    _groupFrozenChanged(frozen, rootColumns) {
+      if (rootColumns === void 0 || frozen === void 0) {
+        return;
+      }
+      if (frozen !== false) {
+        Array.from(rootColumns).forEach((col) => {
+          col.frozen = frozen;
+        });
+      }
+    }
+    _groupFrozenToEndChanged(frozenToEnd, rootColumns) {
+      if (rootColumns === void 0 || frozenToEnd === void 0) {
+        return;
+      }
+      if (frozenToEnd !== false) {
+        Array.from(rootColumns).forEach((col) => {
+          col.frozenToEnd = frozenToEnd;
+        });
+      }
+    }
+    _groupHiddenChanged(hidden) {
+      if (hidden || this.__groupHiddenInitialized) {
+        this._synchronizeHidden();
+      }
+      this.__groupHiddenInitialized = true;
+    }
+    _updateAutoHidden() {
+      const wasAutoHidden = this._autoHidden;
+      this._autoHidden = (this._visibleChildColumns || []).length === 0;
+      if (wasAutoHidden || this._autoHidden) {
+        this.hidden = this._autoHidden;
+      }
+    }
+    _synchronizeHidden() {
+      if (this._childColumns && !this._preventHiddenSynchronization) {
+        this._childColumns.forEach((column) => {
+          column.hidden = this.hidden;
+        });
+      }
+    }
+    _colSpanChanged(colSpan, headerCell, footerCell) {
+      if (headerCell) {
+        headerCell.setAttribute("colspan", colSpan);
+        if (this._grid) {
+          this._grid._a11yUpdateCellColspan(headerCell, colSpan);
+        }
+      }
+      if (footerCell) {
+        footerCell.setAttribute("colspan", colSpan);
+        if (this._grid) {
+          this._grid._a11yUpdateCellColspan(footerCell, colSpan);
+        }
+      }
+    }
+    _getChildColumns(el) {
+      return FlattenedNodesObserver.getFlattenedNodes(el).filter(this._isColumnElement);
+    }
+    _addNodeObserver() {
+      this._observer = new FlattenedNodesObserver(this, (info) => {
+        if (info.addedNodes.filter(this._isColumnElement).length > 0 || info.removedNodes.filter(this._isColumnElement).length > 0) {
+          this._preventHiddenSynchronization = true;
+          this._rootColumns = this._getChildColumns(this);
+          this._childColumns = this._rootColumns;
+          this._updateVisibleChildColumns(this._childColumns);
+          this._preventHiddenSynchronization = false;
+          microTask2.run(() => {
+            if (this._grid && this._grid._updateColumnTree) {
+              this._grid._updateColumnTree();
+            }
+          });
+        }
+      });
+      this._observer.flush();
+    }
+    _isColumnElement(node) {
+      return node.nodeType === Node.ELEMENT_NODE && /\bcolumn\b/.test(node.localName);
+    }
+  };
+  customElements.define(GridColumnGroup.is, GridColumnGroup);
+
+  // node_modules/@vaadin/input-container/theme/lumo/vaadin-input-container-styles.js
+  registerStyles(
+    "vaadin-input-container",
+    i`
+    :host {
+      border-radius: var(--lumo-border-radius-m);
+      background-color: var(--lumo-contrast-10pct);
+      padding: 0 calc(0.375em + var(--lumo-border-radius-m) / 4 - 1px);
+      font-weight: 500;
+      line-height: 1;
+      position: relative;
+      cursor: text;
+      box-sizing: border-box;
+    }
+
+    /* Used for hover and activation effects */
+    :host::after {
+      content: '';
+      position: absolute;
+      top: 0;
+      right: 0;
+      bottom: 0;
+      left: 0;
+      border-radius: inherit;
+      pointer-events: none;
+      background-color: var(--lumo-contrast-50pct);
+      opacity: 0;
+      transition: transform 0.15s, opacity 0.2s;
+      transform-origin: 100% 0;
+    }
+
+    ::slotted(:not([slot$='fix'])) {
+      cursor: inherit;
+      min-height: var(--lumo-text-field-size, var(--lumo-size-m));
+      padding: 0 0.25em;
+      --_lumo-text-field-overflow-mask-image: linear-gradient(to left, transparent, #000 1.25em);
+      -webkit-mask-image: var(--_lumo-text-field-overflow-mask-image);
+      mask-image: var(--_lumo-text-field-overflow-mask-image);
+    }
+
+    /* Read-only */
+    :host([readonly]) {
+      color: var(--lumo-secondary-text-color);
+      background-color: transparent;
+      cursor: default;
+    }
+
+    :host([readonly])::after {
+      background-color: transparent;
+      opacity: 1;
+      border: 1px dashed var(--lumo-contrast-30pct);
+    }
+
+    /* Disabled */
+    :host([disabled]) {
+      background-color: var(--lumo-contrast-5pct);
+    }
+
+    :host([disabled]) ::slotted(*) {
+      color: var(--lumo-disabled-text-color);
+      -webkit-text-fill-color: var(--lumo-disabled-text-color);
+    }
+
+    /* Invalid */
+    :host([invalid]) {
+      background-color: var(--lumo-error-color-10pct);
+    }
+
+    :host([invalid])::after {
+      background-color: var(--lumo-error-color-50pct);
+    }
+
+    /* Slotted icons */
+    ::slotted(iron-icon),
+    ::slotted(vaadin-icon) {
+      color: var(--lumo-contrast-60pct);
+      width: var(--lumo-icon-size-m);
+      height: var(--lumo-icon-size-m);
+    }
+
+    /* Vaadin icons are based on a 16x16 grid (unlike Lumo and Material icons with 24x24), so they look too big by default */
+    ::slotted(iron-icon[icon^='vaadin:']),
+    ::slotted(vaadin-icon[icon^='vaadin:']) {
+      padding: 0.25em;
+      box-sizing: border-box !important;
+    }
+
+    /* Text align */
+    :host([dir='rtl']) ::slotted(:not([slot$='fix'])) {
+      --_lumo-text-field-overflow-mask-image: linear-gradient(to right, transparent, #000 1.25em);
+    }
+
+    @-moz-document url-prefix() {
+      :host([dir='rtl']) ::slotted(:not([slot$='fix'])) {
+        mask-image: var(--_lumo-text-field-overflow-mask-image);
+      }
+    }
+
+    :host([theme~='align-left']) ::slotted(:not([slot$='fix'])) {
+      text-align: start;
+      --_lumo-text-field-overflow-mask-image: none;
+    }
+
+    :host([theme~='align-center']) ::slotted(:not([slot$='fix'])) {
+      text-align: center;
+      --_lumo-text-field-overflow-mask-image: none;
+    }
+
+    :host([theme~='align-right']) ::slotted(:not([slot$='fix'])) {
+      text-align: end;
+      --_lumo-text-field-overflow-mask-image: none;
+    }
+
+    @-moz-document url-prefix() {
+      /* Firefox is smart enough to align overflowing text to right */
+      :host([theme~='align-right']) ::slotted(:not([slot$='fix'])) {
+        --_lumo-text-field-overflow-mask-image: linear-gradient(to right, transparent 0.25em, #000 1.5em);
+      }
+    }
+
+    @-moz-document url-prefix() {
+      /* Firefox is smart enough to align overflowing text to right */
+      :host([theme~='align-left']) ::slotted(:not([slot$='fix'])) {
+        --_lumo-text-field-overflow-mask-image: linear-gradient(to left, transparent 0.25em, #000 1.5em);
+      }
+    }
+
+    /* RTL specific styles */
+    :host([dir='rtl'])::after {
+      transform-origin: 0% 0;
+    }
+
+    :host([theme~='align-left'][dir='rtl']) ::slotted(:not([slot$='fix'])) {
+      --_lumo-text-field-overflow-mask-image: none;
+    }
+
+    :host([theme~='align-center'][dir='rtl']) ::slotted(:not([slot$='fix'])) {
+      --_lumo-text-field-overflow-mask-image: none;
+    }
+
+    :host([theme~='align-right'][dir='rtl']) ::slotted(:not([slot$='fix'])) {
+      --_lumo-text-field-overflow-mask-image: none;
+    }
+
+    @-moz-document url-prefix() {
+      /* Firefox is smart enough to align overflowing text to right */
+      :host([theme~='align-right'][dir='rtl']) ::slotted(:not([slot$='fix'])) {
+        --_lumo-text-field-overflow-mask-image: linear-gradient(to right, transparent 0.25em, #000 1.5em);
+      }
+    }
+
+    @-moz-document url-prefix() {
+      /* Firefox is smart enough to align overflowing text to right */
+      :host([theme~='align-left'][dir='rtl']) ::slotted(:not([slot$='fix'])) {
+        --_lumo-text-field-overflow-mask-image: linear-gradient(to left, transparent 0.25em, #000 1.5em);
+      }
+    }
+  `,
+    { moduleId: "lumo-input-container" }
+  );
+
+  // node_modules/@vaadin/input-container/src/vaadin-input-container.js
+  var InputContainer = class extends ThemableMixin(DirMixin(PolymerElement)) {
+    static get is() {
+      return "vaadin-input-container";
+    }
+    static get template() {
+      return html`
+      <style>
+        :host {
+          display: flex;
+          align-items: center;
+          flex: 0 1 auto;
+        }
+
+        :host([hidden]) {
+          display: none !important;
+        }
+
+        /* Reset the native input styles */
+        ::slotted(input) {
+          -webkit-appearance: none;
+          -moz-appearance: none;
+          flex: auto;
+          white-space: nowrap;
+          overflow: hidden;
+          width: 100%;
+          height: 100%;
+          outline: none;
+          margin: 0;
+          padding: 0;
+          border: 0;
+          border-radius: 0;
+          min-width: 0;
+          font: inherit;
+          line-height: normal;
+          color: inherit;
+          background-color: transparent;
+          /* Disable default invalid style in Firefox */
+          box-shadow: none;
+        }
+
+        ::slotted(*) {
+          flex: none;
+        }
+
+        ::slotted(:is(input, textarea))::placeholder {
+          /* Use ::slotted(input:placeholder-shown) in themes to style the placeholder. */
+          /* because ::slotted(...)::placeholder does not work in Safari. */
+          font: inherit;
+          color: inherit;
+          /* Override default opacity in Firefox */
+          opacity: 1;
+        }
+      </style>
+      <slot name="prefix"></slot>
+      <slot></slot>
+      <slot name="suffix"></slot>
+    `;
+    }
+    static get properties() {
+      return {
+        disabled: {
+          type: Boolean,
+          reflectToAttribute: true
+        },
+        readonly: {
+          type: Boolean,
+          reflectToAttribute: true
+        },
+        invalid: {
+          type: Boolean,
+          reflectToAttribute: true
+        }
+      };
+    }
+    ready() {
+      super.ready();
+      this.addEventListener("pointerdown", (event) => {
+        if (event.target === this) {
+          event.preventDefault();
+        }
+      });
+      this.addEventListener("click", (event) => {
+        if (event.target === this) {
+          this.shadowRoot.querySelector("slot:not([name])").assignedNodes({ flatten: true }).forEach((node) => node.focus && node.focus());
+        }
+      });
+    }
+  };
+  customElements.define(InputContainer.is, InputContainer);
+
+  // node_modules/@vaadin/vaadin-lumo-styles/mixins/field-button.js
+  var fieldButton = i`
+  [part$='button'] {
+    flex: none;
+    width: 1em;
+    height: 1em;
+    line-height: 1;
+    font-size: var(--lumo-icon-size-m);
+    text-align: center;
+    color: var(--lumo-contrast-60pct);
+    transition: 0.2s color;
+    cursor: var(--lumo-clickable-cursor);
+  }
+
+  [part$='button']:hover {
+    color: var(--lumo-contrast-90pct);
+  }
+
+  :host([disabled]) [part$='button'],
+  :host([readonly]) [part$='button'] {
+    color: var(--lumo-contrast-20pct);
+    cursor: default;
+  }
+
+  [part$='button']::before {
+    font-family: 'lumo-icons';
+    display: block;
+  }
+`;
+  registerStyles("", fieldButton, { moduleId: "lumo-field-button" });
+
+  // node_modules/@vaadin/vaadin-lumo-styles/mixins/helper.js
+  var helper = i`
+  :host([has-helper]) [part='helper-text']::before {
+    content: '';
+    display: block;
+    height: 0.4em;
+  }
+
+  [part='helper-text'] {
+    display: block;
+    color: var(--lumo-secondary-text-color);
+    font-size: var(--lumo-font-size-xs);
+    line-height: var(--lumo-line-height-xs);
+    margin-left: calc(var(--lumo-border-radius-m) / 4);
+    transition: color 0.2s;
+  }
+
+  :host(:hover:not([readonly])) [part='helper-text'] {
+    color: var(--lumo-body-text-color);
+  }
+
+  :host([disabled]) [part='helper-text'] {
+    color: var(--lumo-disabled-text-color);
+    -webkit-text-fill-color: var(--lumo-disabled-text-color);
+  }
+
+  :host([has-helper][theme~='helper-above-field']) [part='helper-text']::before {
+    display: none;
+  }
+
+  :host([has-helper][theme~='helper-above-field']) [part='helper-text']::after {
+    content: '';
+    display: block;
+    height: 0.4em;
+  }
+
+  :host([has-helper][theme~='helper-above-field']) [part='label'] {
+    order: 0;
+    padding-bottom: 0.4em;
+  }
+
+  :host([has-helper][theme~='helper-above-field']) [part='helper-text'] {
+    order: 1;
+  }
+
+  :host([has-helper][theme~='helper-above-field']) [part='label'] + * {
+    order: 2;
+  }
+
+  :host([has-helper][theme~='helper-above-field']) [part='error-message'] {
+    order: 3;
+  }
+`;
+
+  // node_modules/@vaadin/vaadin-lumo-styles/mixins/required-field.js
+  var requiredField = i`
+  [part='label'] {
+    align-self: flex-start;
+    color: var(--lumo-secondary-text-color);
+    font-weight: 500;
+    font-size: var(--lumo-font-size-s);
+    margin-left: calc(var(--lumo-border-radius-m) / 4);
+    transition: color 0.2s;
+    line-height: 1;
+    padding-right: 1em;
+    padding-bottom: 0.5em;
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    position: relative;
+    max-width: 100%;
+    box-sizing: border-box;
+  }
+
+  :host([has-label])::before {
+    margin-top: calc(var(--lumo-font-size-s) * 1.5);
+  }
+
+  :host([has-label][theme~='small'])::before {
+    margin-top: calc(var(--lumo-font-size-xs) * 1.5);
+  }
+
+  :host([has-label]) {
+    padding-top: var(--lumo-space-m);
+  }
+
+  :host([required]) [part='required-indicator']::after {
+    content: var(--lumo-required-field-indicator, '•');
+    transition: opacity 0.2s;
+    color: var(--lumo-required-field-indicator-color, var(--lumo-primary-text-color));
+    position: absolute;
+    right: 0;
+    width: 1em;
+    text-align: center;
+  }
+
+  :host([invalid]) [part='required-indicator']::after {
+    color: var(--lumo-required-field-indicator-color, var(--lumo-error-text-color));
+  }
+
+  [part='error-message'] {
+    margin-left: calc(var(--lumo-border-radius-m) / 4);
+    font-size: var(--lumo-font-size-xs);
+    line-height: var(--lumo-line-height-xs);
+    color: var(--lumo-error-text-color);
+    will-change: max-height;
+    transition: 0.4s max-height;
+    max-height: 5em;
+  }
+
+  :host([has-error-message]) [part='error-message']::before,
+  :host([has-error-message]) [part='error-message']::after {
+    content: '';
+    display: block;
+    height: 0.4em;
+  }
+
+  :host(:not([invalid])) [part='error-message'] {
+    max-height: 0;
+    overflow: hidden;
+  }
+
+  /* RTL specific styles */
+
+  :host([dir='rtl']) [part='label'] {
+    margin-left: 0;
+    margin-right: calc(var(--lumo-border-radius-m) / 4);
+  }
+
+  :host([dir='rtl']) [part='label'] {
+    padding-left: 1em;
+    padding-right: 0;
+  }
+
+  :host([dir='rtl']) [part='required-indicator']::after {
+    right: auto;
+    left: 0;
+  }
+
+  :host([dir='rtl']) [part='error-message'] {
+    margin-left: 0;
+    margin-right: calc(var(--lumo-border-radius-m) / 4);
+  }
+`;
+  registerStyles("", requiredField, { moduleId: "lumo-required-field" });
+
+  // node_modules/@vaadin/vaadin-lumo-styles/mixins/input-field-shared.js
+  var inputField = i`
+  :host {
+    --lumo-text-field-size: var(--lumo-size-m);
+    color: var(--lumo-body-text-color);
+    font-size: var(--lumo-font-size-m);
+    font-family: var(--lumo-font-family);
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    -webkit-tap-highlight-color: transparent;
+    padding: var(--lumo-space-xs) 0;
+  }
+
+  :host::before {
+    height: var(--lumo-text-field-size);
+    box-sizing: border-box;
+    display: inline-flex;
+    align-items: center;
+  }
+
+  :host([focused]:not([readonly])) [part='label'] {
+    color: var(--lumo-primary-text-color);
+  }
+
+  :host([focused]) [part='input-field'] ::slotted(:is(input, textarea)) {
+    -webkit-mask-image: none;
+    mask-image: none;
+  }
+
+  ::slotted(:is(input, textarea):placeholder-shown) {
+    color: var(--lumo-secondary-text-color);
+  }
+
+  /* Hover */
+  :host(:hover:not([readonly]):not([focused])) [part='label'] {
+    color: var(--lumo-body-text-color);
+  }
+
+  :host(:hover:not([readonly]):not([focused])) [part='input-field']::after {
+    opacity: 0.1;
+  }
+
+  /* Touch device adjustment */
+  @media (pointer: coarse) {
+    :host(:hover:not([readonly]):not([focused])) [part='label'] {
+      color: var(--lumo-secondary-text-color);
+    }
+
+    :host(:hover:not([readonly]):not([focused])) [part='input-field']::after {
+      opacity: 0;
+    }
+
+    :host(:active:not([readonly]):not([focused])) [part='input-field']::after {
+      opacity: 0.2;
+    }
+  }
+
+  /* Trigger when not focusing using the keyboard */
+  :host([focused]:not([focus-ring]):not([readonly])) [part='input-field']::after {
+    transform: scaleX(0);
+    transition-duration: 0.15s, 1s;
+  }
+
+  /* Focus-ring */
+  :host([focus-ring]) [part='input-field'] {
+    box-shadow: 0 0 0 2px var(--lumo-primary-color-50pct);
+  }
+
+  /* Read-only and disabled */
+  :host(:is([readonly], [disabled])) ::slotted(:is(input, textarea):placeholder-shown) {
+    opacity: 0;
+  }
+
+  /* Disabled style */
+  :host([disabled]) {
+    pointer-events: none;
+  }
+
+  :host([disabled]) [part='label'],
+  :host([disabled]) [part='input-field'] ::slotted(*) {
+    color: var(--lumo-disabled-text-color);
+    -webkit-text-fill-color: var(--lumo-disabled-text-color);
+  }
+
+  /* Invalid style */
+  :host([invalid][focus-ring]) [part='input-field'] {
+    box-shadow: 0 0 0 2px var(--lumo-error-color-50pct);
+  }
+
+  :host([input-prevented]) [part='input-field'] {
+    animation: shake 0.15s infinite;
+  }
+
+  @keyframes shake {
+    25% {
+      transform: translateX(4px);
+    }
+    75% {
+      transform: translateX(-4px);
+    }
+  }
+
+  /* Small theme */
+  :host([theme~='small']) {
+    font-size: var(--lumo-font-size-s);
+    --lumo-text-field-size: var(--lumo-size-s);
+  }
+
+  :host([theme~='small']) [part='label'] {
+    font-size: var(--lumo-font-size-xs);
+  }
+
+  :host([theme~='small']) [part='error-message'] {
+    font-size: var(--lumo-font-size-xxs);
+  }
+
+  /* Slotted content */
+  [part='input-field'] ::slotted(:not(iron-icon):not(vaadin-icon):not(input):not(textarea)) {
+    color: var(--lumo-secondary-text-color);
+    font-weight: 400;
+  }
+
+  [part='clear-button']::before {
+    content: var(--lumo-icons-cross);
+  }
+`;
+  var inputFieldShared = [requiredField, fieldButton, helper, inputField];
+  registerStyles("", inputFieldShared, {
+    moduleId: "lumo-input-field-shared-styles"
+  });
+
+  // node_modules/@vaadin/text-field/theme/lumo/vaadin-text-field-styles.js
+  registerStyles("vaadin-text-field", inputFieldShared, {
+    moduleId: "lumo-text-field-styles"
+  });
+
+  // node_modules/@vaadin/field-base/src/error-controller.js
+  var ErrorController = class extends SlotController {
+    constructor(host) {
+      super(
+        host,
+        "error-message",
+        () => document.createElement("div"),
+        (_host, node) => {
+          this.__updateErrorId(node);
+          this.__updateHasError();
+        },
+        true
+      );
+    }
+    get errorId() {
+      return this.node && this.node.id;
+    }
+    setErrorMessage(errorMessage) {
+      this.errorMessage = errorMessage;
+      this.__updateHasError();
+    }
+    setInvalid(invalid) {
+      this.invalid = invalid;
+      this.__updateHasError();
+    }
+    initCustomNode(errorNode) {
+      this.__updateErrorId(errorNode);
+      if (errorNode.textContent && !this.errorMessage) {
+        this.errorMessage = errorNode.textContent.trim();
+      }
+      this.__updateHasError();
+    }
+    teardownNode(node) {
+      let errorNode = this.getSlotChild();
+      if (!errorNode && node !== this.defaultNode) {
+        errorNode = this.attachDefaultNode();
+        this.initNode(errorNode);
+      }
+      this.__updateHasError();
+    }
+    __isNotEmpty(error) {
+      return Boolean(error && error.trim() !== "");
+    }
+    __updateHasError() {
+      const errorNode = this.node;
+      const hasError = Boolean(this.invalid && this.__isNotEmpty(this.errorMessage));
+      if (errorNode) {
+        errorNode.textContent = hasError ? this.errorMessage : "";
+        errorNode.hidden = !hasError;
+        if (hasError) {
+          errorNode.setAttribute("role", "alert");
+        } else {
+          errorNode.removeAttribute("role");
+        }
+      }
+      this.host.toggleAttribute("has-error-message", hasError);
+    }
+    __updateErrorId(errorNode) {
+      if (!errorNode.id) {
+        errorNode.id = this.defaultId;
+      }
+    }
+  };
+
+  // node_modules/@vaadin/component-base/src/dom-utils.js
+  function deserializeAttributeValue(value) {
+    if (!value) {
+      return /* @__PURE__ */ new Set();
+    }
+    return new Set(value.split(" "));
+  }
+  function serializeAttributeValue(values) {
+    return [...values].join(" ");
+  }
+  function addValueToAttribute(element, attr, value) {
+    const values = deserializeAttributeValue(element.getAttribute(attr));
+    values.add(value);
+    element.setAttribute(attr, serializeAttributeValue(values));
+  }
+  function removeValueFromAttribute(element, attr, value) {
+    const values = deserializeAttributeValue(element.getAttribute(attr));
+    values.delete(value);
+    if (values.size === 0) {
+      element.removeAttribute(attr);
+      return;
+    }
+    element.setAttribute(attr, serializeAttributeValue(values));
+  }
+
+  // node_modules/@vaadin/field-base/src/field-aria-controller.js
+  var FieldAriaController = class {
+    constructor(host) {
+      this.host = host;
+      this.__required = false;
+    }
+    setTarget(target) {
+      this.__target = target;
+      this.__setAriaRequiredAttribute(this.__required);
+      this.__setLabelIdToAriaAttribute(this.__labelId);
+      this.__setErrorIdToAriaAttribute(this.__errorId);
+      this.__setHelperIdToAriaAttribute(this.__helperId);
+    }
+    setRequired(required) {
+      this.__setAriaRequiredAttribute(required);
+      this.__required = required;
+    }
+    setLabelId(labelId) {
+      this.__setLabelIdToAriaAttribute(labelId, this.__labelId);
+      this.__labelId = labelId;
+    }
+    setErrorId(errorId) {
+      this.__setErrorIdToAriaAttribute(errorId, this.__errorId);
+      this.__errorId = errorId;
+    }
+    setHelperId(helperId) {
+      this.__setHelperIdToAriaAttribute(helperId, this.__helperId);
+      this.__helperId = helperId;
+    }
+    get __isGroupField() {
+      return this.__target === this.host;
+    }
+    __setLabelIdToAriaAttribute(labelId, oldLabelId) {
+      this.__setAriaAttributeId("aria-labelledby", labelId, oldLabelId);
+    }
+    __setErrorIdToAriaAttribute(errorId, oldErrorId) {
+      if (this.__isGroupField) {
+        this.__setAriaAttributeId("aria-labelledby", errorId, oldErrorId);
+      } else {
+        this.__setAriaAttributeId("aria-describedby", errorId, oldErrorId);
+      }
+    }
+    __setHelperIdToAriaAttribute(helperId, oldHelperId) {
+      if (this.__isGroupField) {
+        this.__setAriaAttributeId("aria-labelledby", helperId, oldHelperId);
+      } else {
+        this.__setAriaAttributeId("aria-describedby", helperId, oldHelperId);
+      }
+    }
+    __setAriaRequiredAttribute(required) {
+      if (!this.__target) {
+        return;
+      }
+      if (["input", "textarea"].includes(this.__target.localName)) {
+        return;
+      }
+      if (required) {
+        this.__target.setAttribute("aria-required", "true");
+      } else {
+        this.__target.removeAttribute("aria-required");
+      }
+    }
+    __setAriaAttributeId(attr, newId, oldId) {
+      if (!this.__target) {
+        return;
+      }
+      if (oldId) {
+        removeValueFromAttribute(this.__target, attr, oldId);
+      }
+      if (newId) {
+        addValueToAttribute(this.__target, attr, newId);
+      }
+    }
+  };
+
+  // node_modules/@vaadin/field-base/src/helper-controller.js
+  var HelperController = class extends SlotController {
+    constructor(host) {
+      super(host, "helper", null, null, true);
+    }
+    get helperId() {
+      return this.node && this.node.id;
+    }
+    initCustomNode(helperNode) {
+      this.__updateHelperId(helperNode);
+      this.__observeHelper(helperNode);
+      const hasHelper = this.__hasHelper(helperNode);
+      this.__toggleHasHelper(hasHelper);
+    }
+    teardownNode(_node) {
+      if (this.__helperIdObserver) {
+        this.__helperIdObserver.disconnect();
+      }
+      const helperNode = this.getSlotChild();
+      if (helperNode && helperNode !== this.defaultNode) {
+        const hasHelper = this.__hasHelper(helperNode);
+        this.__toggleHasHelper(hasHelper);
+      } else {
+        this.__applyDefaultHelper(this.helperText, helperNode);
+      }
+    }
+    setHelperText(helperText) {
+      this.helperText = helperText;
+      const helperNode = this.getSlotChild();
+      if (!helperNode || helperNode === this.defaultNode) {
+        this.__applyDefaultHelper(helperText, helperNode);
+      }
+    }
+    __hasHelper(helperNode) {
+      if (!helperNode) {
+        return false;
+      }
+      return helperNode.children.length > 0 || this.__isNotEmpty(helperNode.textContent);
+    }
+    __isNotEmpty(helperText) {
+      return helperText && helperText.trim() !== "";
+    }
+    __applyDefaultHelper(helperText, helperNode) {
+      const hasHelperText = this.__isNotEmpty(helperText);
+      if (hasHelperText && !helperNode) {
+        this.slotFactory = () => document.createElement("div");
+        helperNode = this.attachDefaultNode();
+        this.__updateHelperId(helperNode);
+        this.__observeHelper(helperNode);
+      }
+      if (helperNode) {
+        helperNode.textContent = helperText;
+      }
+      this.__toggleHasHelper(hasHelperText);
+    }
+    __observeHelper(helperNode) {
+      this.__helperObserver = new MutationObserver((mutations) => {
+        mutations.forEach((mutation) => {
+          const target = mutation.target;
+          const isHelperMutation = target === this.node;
+          if (mutation.type === "attributes") {
+            if (isHelperMutation && target.id !== this.defaultId) {
+              this.__updateHelperId(target);
+            }
+          } else if (isHelperMutation || target.parentElement === this.node) {
+            const hasHelper = this.__hasHelper(this.node);
+            this.__toggleHasHelper(hasHelper);
+          }
+        });
+      });
+      this.__helperObserver.observe(helperNode, {
+        attributes: true,
+        attributeFilter: ["id"],
+        childList: true,
+        subtree: true,
+        characterData: true
+      });
+    }
+    __toggleHasHelper(hasHelper) {
+      this.host.toggleAttribute("has-helper", hasHelper);
+      this.dispatchEvent(
+        new CustomEvent("helper-changed", {
+          detail: {
+            hasHelper,
+            node: this.node
+          }
+        })
+      );
+    }
+    __updateHelperId(helperNode) {
+      if (!helperNode.id) {
+        helperNode.id = this.defaultId;
+      }
+    }
+  };
+
+  // node_modules/@vaadin/field-base/src/validate-mixin.js
+  var ValidateMixin = dedupingMixin(
+    (superclass) => class ValidateMixinClass extends superclass {
+      static get properties() {
+        return {
+          invalid: {
+            type: Boolean,
+            reflectToAttribute: true,
+            notify: true,
+            value: false
+          },
+          required: {
+            type: Boolean,
+            reflectToAttribute: true
+          }
+        };
+      }
+      validate() {
+        const isValid = this.checkValidity();
+        this._setInvalid(!isValid);
+        this.dispatchEvent(new CustomEvent("validated", { detail: { valid: isValid } }));
+        return isValid;
+      }
+      checkValidity() {
+        return !this.required || !!this.value;
+      }
+      _setInvalid(invalid) {
+        if (this._shouldSetInvalid(invalid)) {
+          this.invalid = invalid;
+        }
+      }
+      _shouldSetInvalid(_invalid) {
+        return true;
+      }
+    }
+  );
+
+  // node_modules/@vaadin/field-base/src/field-mixin.js
+  var FieldMixin = (superclass) => class FieldMixinClass extends ValidateMixin(LabelMixin(ControllerMixin(superclass))) {
+    static get properties() {
+      return {
+        ariaTarget: {
+          type: Object,
+          observer: "_ariaTargetChanged"
+        },
+        errorMessage: {
+          type: String,
+          observer: "_errorMessageChanged"
+        },
+        helperText: {
+          type: String,
+          observer: "_helperTextChanged"
+        }
+      };
+    }
+    static get observers() {
+      return ["_invalidChanged(invalid)", "_requiredChanged(required)"];
+    }
+    get _errorId() {
+      return this._errorController.errorId;
+    }
+    get _errorNode() {
+      return this._errorController.node;
+    }
+    get _helperId() {
+      return this._helperController.helperId;
+    }
+    get _helperNode() {
+      return this._helperController.node;
+    }
+    constructor() {
+      super();
+      this._fieldAriaController = new FieldAriaController(this);
+      this._helperController = new HelperController(this);
+      this._errorController = new ErrorController(this);
+      this._labelController.addEventListener("label-changed", (event) => {
+        const { hasLabel, node } = event.detail;
+        this.__labelChanged(hasLabel, node);
+      });
+      this._helperController.addEventListener("helper-changed", (event) => {
+        const { hasHelper, node } = event.detail;
+        this.__helperChanged(hasHelper, node);
+      });
+    }
+    ready() {
+      super.ready();
+      this.addController(this._fieldAriaController);
+      this.addController(this._helperController);
+      this.addController(this._errorController);
+    }
+    __helperChanged(hasHelper, helperNode) {
+      if (hasHelper) {
+        this._fieldAriaController.setHelperId(helperNode.id);
+      } else {
+        this._fieldAriaController.setHelperId(null);
+      }
+    }
+    __labelChanged(hasLabel, labelNode) {
+      if (hasLabel) {
+        this._fieldAriaController.setLabelId(labelNode.id);
+      } else {
+        this._fieldAriaController.setLabelId(null);
+      }
+    }
+    _errorMessageChanged(errorMessage) {
+      this._errorController.setErrorMessage(errorMessage);
+    }
+    _helperTextChanged(helperText) {
+      this._helperController.setHelperText(helperText);
+    }
+    _ariaTargetChanged(target) {
+      if (target) {
+        this._fieldAriaController.setTarget(target);
+      }
+    }
+    _requiredChanged(required) {
+      this._fieldAriaController.setRequired(required);
+    }
+    _invalidChanged(invalid) {
+      this._errorController.setInvalid(invalid);
+      setTimeout(() => {
+        if (invalid) {
+          this._fieldAriaController.setErrorId(this._errorController.errorId);
+        } else {
+          this._fieldAriaController.setErrorId(null);
+        }
+      });
+    }
+  };
+
+  // node_modules/@vaadin/field-base/src/input-constraints-mixin.js
+  var InputConstraintsMixin = dedupingMixin(
+    (superclass) => class InputConstraintsMixinClass extends DelegateStateMixin(ValidateMixin(InputMixin(superclass))) {
+      static get constraints() {
+        return ["required"];
+      }
+      static get delegateAttrs() {
+        return [...super.delegateAttrs, "required"];
+      }
+      ready() {
+        super.ready();
+        this._createConstraintsObserver();
+      }
+      checkValidity() {
+        if (this.inputElement && this._hasValidConstraints(this.constructor.constraints.map((c3) => this[c3]))) {
+          return this.inputElement.checkValidity();
+        }
+        return !this.invalid;
+      }
+      _hasValidConstraints(constraints) {
+        return constraints.some((c3) => this.__isValidConstraint(c3));
+      }
+      _createConstraintsObserver() {
+        this._createMethodObserver(`_constraintsChanged(stateTarget, ${this.constructor.constraints.join(", ")})`);
+      }
+      _constraintsChanged(stateTarget, ...constraints) {
+        if (!stateTarget) {
+          return;
+        }
+        const hasConstraints = this._hasValidConstraints(constraints);
+        const isLastConstraintRemoved = this.__previousHasConstraints && !hasConstraints;
+        if ((this._hasValue || this.invalid) && hasConstraints) {
+          this.validate();
+        } else if (isLastConstraintRemoved) {
+          this._setInvalid(false);
+        }
+        this.__previousHasConstraints = hasConstraints;
+      }
+      _onChange(event) {
+        event.stopPropagation();
+        this.validate();
+        this.dispatchEvent(
+          new CustomEvent("change", {
+            detail: {
+              sourceEvent: event
+            },
+            bubbles: event.bubbles,
+            cancelable: event.cancelable
+          })
+        );
+      }
+      __isValidConstraint(constraint) {
+        return Boolean(constraint) || constraint === 0;
+      }
+    }
+  );
+
+  // node_modules/@vaadin/field-base/src/slot-styles-mixin.js
+  var stylesMap = /* @__PURE__ */ new WeakMap();
+  function getRootStyles(root2) {
+    if (!stylesMap.has(root2)) {
+      stylesMap.set(root2, /* @__PURE__ */ new Set());
+    }
+    return stylesMap.get(root2);
+  }
+  function insertStyles(styles, root2) {
+    const style2 = document.createElement("style");
+    style2.textContent = styles;
+    if (root2 === document) {
+      document.head.appendChild(style2);
+    } else {
+      root2.insertBefore(style2, root2.firstChild);
+    }
+  }
+  var SlotStylesMixin = dedupingMixin(
+    (superclass) => class SlotStylesMixinClass extends superclass {
+      get slotStyles() {
+        return {};
+      }
+      connectedCallback() {
+        super.connectedCallback();
+        this.__applySlotStyles();
+      }
+      __applySlotStyles() {
+        const root2 = this.getRootNode();
+        const rootStyles = getRootStyles(root2);
+        this.slotStyles.forEach((styles) => {
+          if (!rootStyles.has(styles)) {
+            insertStyles(styles, root2);
+            rootStyles.add(styles);
+          }
+        });
+      }
+    }
+  );
+
+  // node_modules/@vaadin/field-base/src/input-control-mixin.js
+  var InputControlMixin = (superclass) => class InputControlMixinClass extends SlotStylesMixin(
+    DelegateFocusMixin(InputConstraintsMixin(FieldMixin(KeyboardMixin(superclass))))
+  ) {
+    static get properties() {
+      return {
+        allowedCharPattern: {
+          type: String,
+          observer: "_allowedCharPatternChanged"
+        },
+        autoselect: {
+          type: Boolean,
+          value: false
+        },
+        clearButtonVisible: {
+          type: Boolean,
+          reflectToAttribute: true,
+          value: false
+        },
+        name: {
+          type: String,
+          reflectToAttribute: true
+        },
+        placeholder: {
+          type: String,
+          reflectToAttribute: true
+        },
+        readonly: {
+          type: Boolean,
+          value: false,
+          reflectToAttribute: true
+        },
+        title: {
+          type: String,
+          reflectToAttribute: true
+        }
+      };
+    }
+    static get delegateAttrs() {
+      return [...super.delegateAttrs, "name", "type", "placeholder", "readonly", "invalid", "title"];
+    }
+    constructor() {
+      super();
+      this._boundOnPaste = this._onPaste.bind(this);
+      this._boundOnDrop = this._onDrop.bind(this);
+      this._boundOnBeforeInput = this._onBeforeInput.bind(this);
+    }
+    get clearElement() {
+      console.warn(`Please implement the 'clearElement' property in <${this.localName}>`);
+      return null;
+    }
+    get slotStyles() {
+      return [
+        `
+          :is(input[slot='input'], textarea[slot='textarea'])::placeholder {
+            font: inherit;
+            color: inherit;
+          }
+        `
+      ];
+    }
+    ready() {
+      super.ready();
+      if (this.clearElement) {
+        this.clearElement.addEventListener("click", (e9) => this._onClearButtonClick(e9));
+      }
+    }
+    _onClearButtonClick(event) {
+      event.preventDefault();
+      this.inputElement.focus();
+      this.__clear();
+    }
+    _onFocus(event) {
+      super._onFocus(event);
+      if (this.autoselect && this.inputElement) {
+        this.inputElement.select();
+      }
+    }
+    _onEscape(event) {
+      super._onEscape(event);
+      if (this.clearButtonVisible && !!this.value) {
+        event.stopPropagation();
+        this.__clear();
+      }
+    }
+    _onChange(event) {
+      event.stopPropagation();
+      this.validate();
+      this.dispatchEvent(
+        new CustomEvent("change", {
+          detail: {
+            sourceEvent: event
+          },
+          bubbles: event.bubbles,
+          cancelable: event.cancelable
+        })
+      );
+    }
+    __clear() {
+      this.clear();
+      this.inputElement.dispatchEvent(new Event("input", { bubbles: true, composed: true }));
+      this.inputElement.dispatchEvent(new Event("change", { bubbles: true }));
+    }
+    _addInputListeners(input) {
+      super._addInputListeners(input);
+      input.addEventListener("paste", this._boundOnPaste);
+      input.addEventListener("drop", this._boundOnDrop);
+      input.addEventListener("beforeinput", this._boundOnBeforeInput);
+    }
+    _removeInputListeners(input) {
+      super._removeInputListeners(input);
+      input.removeEventListener("paste", this._boundOnPaste);
+      input.removeEventListener("drop", this._boundOnDrop);
+      input.removeEventListener("beforeinput", this._boundOnBeforeInput);
+    }
+    _onKeyDown(event) {
+      super._onKeyDown(event);
+      if (this.allowedCharPattern && !this.__shouldAcceptKey(event)) {
+        event.preventDefault();
+        this._markInputPrevented();
+      }
+    }
+    _markInputPrevented() {
+      this.setAttribute("input-prevented", "");
+      this._preventInputDebouncer = Debouncer.debounce(this._preventInputDebouncer, timeOut.after(200), () => {
+        this.removeAttribute("input-prevented");
+      });
+    }
+    __shouldAcceptKey(event) {
+      return event.metaKey || event.ctrlKey || !event.key || event.key.length !== 1 || this.__allowedCharRegExp.test(event.key);
+    }
+    _onPaste(e9) {
+      if (this.allowedCharPattern) {
+        const pastedText = e9.clipboardData.getData("text");
+        if (!this.__allowedTextRegExp.test(pastedText)) {
+          e9.preventDefault();
+          this._markInputPrevented();
+        }
+      }
+    }
+    _onDrop(e9) {
+      if (this.allowedCharPattern) {
+        const draggedText = e9.dataTransfer.getData("text");
+        if (!this.__allowedTextRegExp.test(draggedText)) {
+          e9.preventDefault();
+          this._markInputPrevented();
+        }
+      }
+    }
+    _onBeforeInput(e9) {
+      if (this.allowedCharPattern && e9.data && !this.__allowedTextRegExp.test(e9.data)) {
+        e9.preventDefault();
+        this._markInputPrevented();
+      }
+    }
+    _allowedCharPatternChanged(charPattern) {
+      if (charPattern) {
+        try {
+          this.__allowedCharRegExp = new RegExp(`^${charPattern}$`);
+          this.__allowedTextRegExp = new RegExp(`^${charPattern}*$`);
+        } catch (e9) {
+          console.error(e9);
+        }
+      }
+    }
+  };
+
+  // node_modules/@vaadin/field-base/src/input-field-mixin.js
+  var InputFieldMixin = (superclass) => class InputFieldMixinClass extends InputControlMixin(superclass) {
+    static get properties() {
+      return {
+        autocomplete: {
+          type: String
+        },
+        autocorrect: {
+          type: String
+        },
+        autocapitalize: {
+          type: String
+        }
+      };
+    }
+    static get delegateAttrs() {
+      return [...super.delegateAttrs, "autocapitalize", "autocomplete", "autocorrect"];
+    }
+    _inputElementChanged(input) {
+      super._inputElementChanged(input);
+      if (input) {
+        if (input.value && input.value !== this.value) {
+          console.warn(`Please define value on the <${this.localName}> component!`);
+          input.value = "";
+        }
+        if (this.value) {
+          input.value = this.value;
+        }
+      }
+    }
+    get __data() {
+      return this.__dataValue || {};
+    }
+    set __data(value) {
+      this.__dataValue = value;
+    }
+    _setFocused(focused) {
+      super._setFocused(focused);
+      if (!focused) {
+        this.validate();
+      }
+    }
+    _onInput(event) {
+      super._onInput(event);
+      if (this.invalid) {
+        this.validate();
+      }
+    }
+    _valueChanged(newValue, oldValue) {
+      super._valueChanged(newValue, oldValue);
+      if (oldValue === void 0) {
+        return;
+      }
+      if (this.invalid) {
+        this.validate();
+      }
+    }
+  };
+
+  // node_modules/@vaadin/field-base/src/pattern-mixin.js
+  var PatternMixin = (superclass) => class PatternMixinClass extends InputConstraintsMixin(superclass) {
+    static get properties() {
+      return {
+        pattern: {
+          type: String
+        },
+        preventInvalidInput: {
+          type: Boolean,
+          observer: "_preventInvalidInputChanged"
+        }
+      };
+    }
+    static get delegateAttrs() {
+      return [...super.delegateAttrs, "pattern"];
+    }
+    static get constraints() {
+      return [...super.constraints, "pattern"];
+    }
+    _checkInputValue() {
+      if (this.preventInvalidInput) {
+        const input = this.inputElement;
+        if (input && input.value.length > 0 && !this.checkValidity()) {
+          input.value = this.value || "";
+          this.setAttribute("input-prevented", "");
+          this._inputDebouncer = Debouncer.debounce(this._inputDebouncer, timeOut.after(200), () => {
+            this.removeAttribute("input-prevented");
+          });
+        }
+      }
+    }
+    _onInput(event) {
+      this._checkInputValue();
+      super._onInput(event);
+    }
+    _preventInvalidInputChanged(preventInvalidInput) {
+      if (preventInvalidInput) {
+        console.warn(
+          `WARNING: Since Vaadin 23.2, "preventInvalidInput" is deprecated. Please use "allowedCharPattern" instead.`
+        );
+      }
+    }
+  };
+
+  // node_modules/@vaadin/field-base/src/styles/clear-button-styles.js
+  var clearButton = i`
+  [part='clear-button'] {
+    display: none;
+    cursor: default;
+  }
+
+  [part='clear-button']::before {
+    content: '✕';
+  }
+
+  :host([clear-button-visible][has-value]:not([disabled]):not([readonly])) [part='clear-button'] {
+    display: block;
+  }
+`;
+
+  // node_modules/@vaadin/field-base/src/styles/field-shared-styles.js
+  var fieldShared = i`
+  :host {
+    display: inline-flex;
+    outline: none;
+  }
+
+  :host::before {
+    content: '\\2003';
+    width: 0;
+    display: inline-block;
+    /* Size and position this element on the same vertical position as the input-field element
+          to make vertical align for the host element work as expected */
+  }
+
+  :host([hidden]) {
+    display: none !important;
+  }
+
+  :host(:not([has-label])) [part='label'] {
+    display: none;
+  }
+`;
+
+  // node_modules/@vaadin/field-base/src/styles/input-field-container-styles.js
+  var inputFieldContainer = i`
+  [class$='container'] {
+    display: flex;
+    flex-direction: column;
+    min-width: 100%;
+    max-width: 100%;
+    width: var(--vaadin-field-default-width, 12em);
+  }
+`;
+
+  // node_modules/@vaadin/field-base/src/styles/input-field-shared-styles.js
+  var inputFieldShared2 = [fieldShared, inputFieldContainer, clearButton];
+
+  // node_modules/@vaadin/text-field/src/vaadin-text-field.js
+  registerStyles("vaadin-text-field", inputFieldShared2, { moduleId: "vaadin-text-field-styles" });
+  var TextField = class extends PatternMixin(InputFieldMixin(ThemableMixin(ElementMixin2(PolymerElement)))) {
+    static get is() {
+      return "vaadin-text-field";
+    }
+    static get template() {
+      return html`
+      <style>
+        [part='input-field'] {
+          flex-grow: 0;
+        }
+      </style>
+
+      <div class="vaadin-field-container">
+        <div part="label">
+          <slot name="label"></slot>
+          <span part="required-indicator" aria-hidden="true" on-click="focus"></span>
+        </div>
+
+        <vaadin-input-container
+          part="input-field"
+          readonly="[[readonly]]"
+          disabled="[[disabled]]"
+          invalid="[[invalid]]"
+          theme$="[[_theme]]"
+        >
+          <slot name="prefix" slot="prefix"></slot>
+          <slot name="input"></slot>
+          <slot name="suffix" slot="suffix"></slot>
+          <div id="clearButton" part="clear-button" slot="suffix" aria-hidden="true"></div>
+        </vaadin-input-container>
+
+        <div part="helper-text">
+          <slot name="helper"></slot>
+        </div>
+
+        <div part="error-message">
+          <slot name="error-message"></slot>
+        </div>
+      </div>
+    `;
+    }
+    static get properties() {
+      return {
+        maxlength: {
+          type: Number
+        },
+        minlength: {
+          type: Number
+        }
+      };
+    }
+    static get delegateAttrs() {
+      return [...super.delegateAttrs, "maxlength", "minlength"];
+    }
+    static get constraints() {
+      return [...super.constraints, "maxlength", "minlength"];
+    }
+    constructor() {
+      super();
+      this._setType("text");
+    }
+    get clearElement() {
+      return this.$.clearButton;
+    }
+    ready() {
+      super.ready();
+      this.addController(
+        new InputController(this, (input) => {
+          this._setInputElement(input);
+          this._setFocusElement(input);
+          this.stateTarget = input;
+          this.ariaTarget = input;
+        })
+      );
+      this.addController(new LabelledInputController(this.inputElement, this._labelController));
+    }
+  };
+  customElements.define(TextField.is, TextField);
+
+  // node_modules/@vaadin/grid/src/vaadin-grid-filter.js
+  var GridFilter = class extends class extends PolymerElement {
+  } {
+    static get template() {
+      return html`
+      <style>
+        :host {
+          display: inline-flex;
+          max-width: 100%;
+        }
+
+        #filter {
+          width: 100%;
+          box-sizing: border-box;
+        }
+      </style>
+      <slot name="filter">
+        <vaadin-text-field id="filter" value="{{value}}"></vaadin-text-field>
+      </slot>
+    `;
+    }
+    static get is() {
+      return "vaadin-grid-filter";
+    }
+    static get properties() {
+      return {
+        path: String,
+        value: {
+          type: String,
+          notify: true
+        },
+        _connected: Boolean
+      };
+    }
+    connectedCallback() {
+      super.connectedCallback();
+      this._connected = true;
+    }
+    static get observers() {
+      return ["_filterChanged(path, value, _connected)"];
+    }
+    ready() {
+      super.ready();
+      const child = this.firstElementChild;
+      if (child && child.getAttribute("slot") !== "filter") {
+        console.warn('Make sure you have assigned slot="filter" to the child elements of <vaadin-grid-filter>');
+        child.setAttribute("slot", "filter");
+      }
+    }
+    _filterChanged(path, value, connected) {
+      if (path === void 0 || value === void 0 || !connected) {
+        return;
+      }
+      if (this._previousValue === void 0 && value === "") {
+        return;
+      }
+      this._previousValue = value;
+      this._debouncerFilterChanged = Debouncer.debounce(this._debouncerFilterChanged, timeOut.after(200), () => {
+        this.dispatchEvent(new CustomEvent("filter-changed", { bubbles: true }));
+      });
+    }
+    focus() {
+      this.$.filter.focus();
+    }
+  };
+  customElements.define(GridFilter.is, GridFilter);
+
+  // node_modules/@vaadin/grid/src/vaadin-grid-filter-column.js
+  var GridFilterColumn = class extends GridColumn {
+    static get is() {
+      return "vaadin-grid-filter-column";
+    }
+    static get properties() {
+      return {
+        path: String,
+        header: String
+      };
+    }
+    static get observers() {
+      return ["_onHeaderRendererOrBindingChanged(_headerRenderer, _headerCell, path, header, _filterValue)"];
+    }
+    constructor() {
+      super();
+      this.__boundOnFilterValueChanged = this.__onFilterValueChanged.bind(this);
+    }
+    _defaultHeaderRenderer(root2, _column) {
+      let filter2 = root2.firstElementChild;
+      let textField = filter2 ? filter2.firstElementChild : void 0;
+      if (!filter2) {
+        filter2 = document.createElement("vaadin-grid-filter");
+        textField = document.createElement("vaadin-text-field");
+        textField.setAttribute("slot", "filter");
+        textField.setAttribute("theme", "small");
+        textField.setAttribute("style", "max-width: 100%;");
+        textField.setAttribute("focus-target", "");
+        textField.addEventListener("value-changed", this.__boundOnFilterValueChanged);
+        filter2.appendChild(textField);
+        root2.appendChild(filter2);
+      }
+      filter2.path = this.path;
+      filter2.value = this._filterValue;
+      textField.__rendererValue = this._filterValue;
+      textField.value = this._filterValue;
+      textField.label = this.__getHeader(this.header, this.path);
+    }
+    _computeHeaderRenderer() {
+      return this._defaultHeaderRenderer;
+    }
+    __onFilterValueChanged(e9) {
+      if (e9.detail.value === e9.target.__rendererValue) {
+        return;
+      }
+      this._filterValue = e9.detail.value;
+    }
+    __getHeader(header, path) {
+      if (header) {
+        return header;
+      }
+      if (path) {
+        return this._generateHeader(path);
+      }
+    }
+  };
+  customElements.define(GridFilterColumn.is, GridFilterColumn);
+
+  // node_modules/@vaadin/grid/src/vaadin-grid-selection-column.js
+  var GridSelectionColumn = class extends GridColumn {
+    static get is() {
+      return "vaadin-grid-selection-column";
+    }
+    static get properties() {
+      return {
+        width: {
+          type: String,
+          value: "58px"
+        },
+        flexGrow: {
+          type: Number,
+          value: 0
+        },
+        selectAll: {
+          type: Boolean,
+          value: false,
+          notify: true
+        },
+        autoSelect: {
+          type: Boolean,
+          value: false
+        },
+        __indeterminate: Boolean,
+        __previousActiveItem: Object,
+        __selectAllHidden: Boolean
+      };
+    }
+    static get observers() {
+      return [
+        "__onSelectAllChanged(selectAll)",
+        "_onHeaderRendererOrBindingChanged(_headerRenderer, _headerCell, path, header, selectAll, __indeterminate, __selectAllHidden)"
+      ];
+    }
+    constructor() {
+      super();
+      this.__boundOnActiveItemChanged = this.__onActiveItemChanged.bind(this);
+      this.__boundOnDataProviderChanged = this.__onDataProviderChanged.bind(this);
+      this.__boundOnSelectedItemsChanged = this.__onSelectedItemsChanged.bind(this);
+    }
+    disconnectedCallback() {
+      this._grid.removeEventListener("active-item-changed", this.__boundOnActiveItemChanged);
+      this._grid.removeEventListener("data-provider-changed", this.__boundOnDataProviderChanged);
+      this._grid.removeEventListener("filter-changed", this.__boundOnSelectedItemsChanged);
+      this._grid.removeEventListener("selected-items-changed", this.__boundOnSelectedItemsChanged);
+      super.disconnectedCallback();
+    }
+    connectedCallback() {
+      super.connectedCallback();
+      if (this._grid) {
+        this._grid.addEventListener("active-item-changed", this.__boundOnActiveItemChanged);
+        this._grid.addEventListener("data-provider-changed", this.__boundOnDataProviderChanged);
+        this._grid.addEventListener("filter-changed", this.__boundOnSelectedItemsChanged);
+        this._grid.addEventListener("selected-items-changed", this.__boundOnSelectedItemsChanged);
+      }
+    }
+    _defaultHeaderRenderer(root2, _column) {
+      let checkbox = root2.firstElementChild;
+      if (!checkbox) {
+        checkbox = document.createElement("vaadin-checkbox");
+        checkbox.setAttribute("aria-label", "Select All");
+        checkbox.classList.add("vaadin-grid-select-all-checkbox");
+        checkbox.addEventListener("checked-changed", this.__onSelectAllCheckedChanged.bind(this));
+        root2.appendChild(checkbox);
+      }
+      const checked = this.__isChecked(this.selectAll, this.__indeterminate);
+      checkbox.__rendererChecked = checked;
+      checkbox.checked = checked;
+      checkbox.hidden = this.__selectAllHidden;
+      checkbox.indeterminate = this.__indeterminate;
+    }
+    _defaultRenderer(root2, _column, { item, selected }) {
+      let checkbox = root2.firstElementChild;
+      if (!checkbox) {
+        checkbox = document.createElement("vaadin-checkbox");
+        checkbox.setAttribute("aria-label", "Select Row");
+        checkbox.addEventListener("checked-changed", this.__onSelectRowCheckedChanged.bind(this));
+        root2.appendChild(checkbox);
+      }
+      checkbox.__item = item;
+      checkbox.__rendererChecked = selected;
+      checkbox.checked = selected;
+    }
+    __onSelectAllChanged(selectAll) {
+      if (selectAll === void 0 || !this._grid) {
+        return;
+      }
+      if (!this.__selectAllInitialized) {
+        this.__selectAllInitialized = true;
+        return;
+      }
+      if (this._selectAllChangeLock) {
+        return;
+      }
+      if (selectAll && this.__hasArrayDataProvider()) {
+        this.__withFilteredItemsArray((items) => {
+          this._grid.selectedItems = items;
+        });
+      } else {
+        this._grid.selectedItems = [];
+      }
+    }
+    __arrayContains(a3, b2) {
+      return Array.isArray(a3) && Array.isArray(b2) && b2.every((i5) => a3.includes(i5));
+    }
+    __onSelectAllCheckedChanged(e9) {
+      if (e9.target.checked === e9.target.__rendererChecked) {
+        return;
+      }
+      this.selectAll = this.__indeterminate || e9.target.checked;
+    }
+    __onSelectRowCheckedChanged(e9) {
+      if (e9.target.checked === e9.target.__rendererChecked) {
+        return;
+      }
+      if (e9.target.checked) {
+        this._grid.selectItem(e9.target.__item);
+      } else {
+        this._grid.deselectItem(e9.target.__item);
+      }
+    }
+    __isChecked(selectAll, indeterminate) {
+      return indeterminate || selectAll;
+    }
+    __onActiveItemChanged(e9) {
+      const activeItem = e9.detail.value;
+      if (this.autoSelect) {
+        const item = activeItem || this.__previousActiveItem;
+        if (item) {
+          this._grid._toggleItem(item);
+        }
+      }
+      this.__previousActiveItem = activeItem;
+    }
+    __hasArrayDataProvider() {
+      return Array.isArray(this._grid.items) && !!this._grid.dataProvider;
+    }
+    __onSelectedItemsChanged() {
+      this._selectAllChangeLock = true;
+      if (this.__hasArrayDataProvider()) {
+        this.__withFilteredItemsArray((items) => {
+          if (!this._grid.selectedItems.length) {
+            this.selectAll = false;
+            this.__indeterminate = false;
+          } else if (this.__arrayContains(this._grid.selectedItems, items)) {
+            this.selectAll = true;
+            this.__indeterminate = false;
+          } else {
+            this.selectAll = false;
+            this.__indeterminate = true;
+          }
+        });
+      }
+      this._selectAllChangeLock = false;
+    }
+    __onDataProviderChanged() {
+      this.__selectAllHidden = !Array.isArray(this._grid.items);
+    }
+    __withFilteredItemsArray(callback) {
+      const params = {
+        page: 0,
+        pageSize: Infinity,
+        sortOrders: [],
+        filters: this._grid._mapFilters()
+      };
+      this._grid.dataProvider(params, (items) => callback(items));
+    }
+  };
+  customElements.define(GridSelectionColumn.is, GridSelectionColumn);
+
+  // node_modules/@vaadin/grid/theme/lumo/vaadin-grid-sorter-styles.js
+  registerStyles(
+    "vaadin-grid-sorter",
+    i`
+    :host {
+      justify-content: flex-start;
+      align-items: baseline;
+      -webkit-user-select: none;
+      -moz-user-select: none;
+      user-select: none;
+      cursor: var(--lumo-clickable-cursor);
+    }
+
+    [part='content'] {
+      display: inline-block;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+
+    [part='indicators'] {
+      margin-left: var(--lumo-space-s);
+    }
+
+    [part='indicators']::before {
+      transform: scale(0.8);
+    }
+
+    :host(:not([direction]):not(:hover)) [part='indicators'] {
+      color: var(--lumo-tertiary-text-color);
+    }
+
+    :host([direction]) {
+      color: var(--lumo-primary-text-color);
+    }
+
+    [part='order'] {
+      font-size: var(--lumo-font-size-xxs);
+      line-height: 1;
+    }
+
+    /* RTL specific styles */
+
+    :host([dir='rtl']) [part='indicators'] {
+      margin-right: var(--lumo-space-s);
+      margin-left: 0;
+    }
+  `,
+    { moduleId: "lumo-grid-sorter" }
+  );
+
+  // node_modules/@vaadin/grid/src/vaadin-grid-sorter.js
+  var template2 = document.createElement("template");
+  template2.innerHTML = `
+  <style>
+    @font-face {
+      font-family: 'vaadin-grid-sorter-icons';
+      src: url(data:application/font-woff;charset=utf-8;base64,d09GRgABAAAAAAQwAA0AAAAABuwAAQAAAAAAAAAAAAAAAAAAAAAAAAAAAABGRlRNAAAEFAAAABkAAAAcfep+mUdERUYAAAP4AAAAHAAAAB4AJwAOT1MvMgAAAZgAAAA/AAAAYA8TBPpjbWFwAAAB7AAAAFUAAAFeF1fZ4mdhc3AAAAPwAAAACAAAAAgAAAAQZ2x5ZgAAAlgAAABcAAAAnMvguMloZWFkAAABMAAAAC8AAAA2C5Ap72hoZWEAAAFgAAAAHQAAACQGbQPHaG10eAAAAdgAAAAUAAAAHAoAAABsb2NhAAACRAAAABIAAAASAIwAYG1heHAAAAGAAAAAFgAAACAACwAKbmFtZQAAArQAAAECAAACZxWCgKhwb3N0AAADuAAAADUAAABZCrApUXicY2BkYGAA4rDECVrx/DZfGbhZGEDgyqNPOxH0/wNMq5kPALkcDEwgUQBWRA0dAHicY2BkYGA+8P8AAwMLAwgwrWZgZEAFbABY4QM8AAAAeJxjYGRgYOAAQiYGEICQSAAAAi8AFgAAeJxjYGY6yziBgZWBgWkm0xkGBoZ+CM34msGYkZMBFTAKoAkwODAwvmRiPvD/AIMDMxCD1CDJKjAwAgBktQsXAHicY2GAAMZQCM0EwqshbAALxAEKeJxjYGBgZoBgGQZGBhCIAPIYwXwWBhsgzcXAwcAEhIwMCi+Z/v/9/x+sSuElA4T9/4k4K1gHFwMMMILMY2QDYmaoABOQYGJABUA7WBiGNwAAJd4NIQAAAAAAAAAACAAIABAAGAAmAEAATgAAeJyNjLENgDAMBP9tIURJwQCMQccSZgk2i5fIYBDAidJjycXr7x5EPwE2wY8si7jmyBNXGo/bNBerxJNrpxhbO3/fEFpx8ZICpV+ghxJ74fAMe+h7Ox14AbrsHB14nK2QQWrDMBRER4mTkhQK3ZRQKOgCNk7oGQqhhEIX2WSlWEI1BAlkJ5CDdNsj5Ey9Rncdi38ES+jzNJo/HwTgATcoDEthhY3wBHc4CE+pfwsX5F/hGe7Vo/AcK/UhvMSz+mGXKhZU6pww8ISz3oWn1BvhgnwTnuEJf8Jz1OpFeIlX9YULDLdFi4ASHolkSR0iuYdjLak1vAequBhj21D61Nqyi6l3qWybGPjySbPHGScGJl6dP58MYcQRI0bts7mjebBqrFENH7t3qWtj0OuqHnXcW7b0HOTZFnKryRGW2hFX1m0O2vEM3opNMfTau+CS6Z3Vx6veNnEXY6jwDxhsc2gAAHicY2BiwA84GBgYmRiYGJkZmBlZGFkZ2djScyoLMgzZS/MyDQwMwLSrpYEBlIbxjQDrzgsuAAAAAAEAAf//AA94nGNgZGBg4AFiMSBmYmAEQnYgZgHzGAAD6wA2eJxjYGBgZACCKyoz1cD0o087YTQATOcIewAAAA==) format('woff');
+      font-weight: normal;
+      font-style: normal;
+    }
+  </style>
+`;
+  document.head.appendChild(template2.content);
+  var GridSorter = class extends ThemableMixin(DirMixin(PolymerElement)) {
+    static get template() {
+      return html`
+      <style>
+        :host {
+          display: inline-flex;
+          cursor: pointer;
+          max-width: 100%;
+        }
+
+        [part='content'] {
+          flex: 1 1 auto;
+        }
+
+        [part='indicators'] {
+          position: relative;
+          align-self: center;
+          flex: none;
+        }
+
+        [part='order'] {
+          display: inline;
+          vertical-align: super;
+        }
+
+        [part='indicators']::before {
+          font-family: 'vaadin-grid-sorter-icons';
+          display: inline-block;
+        }
+
+        :host(:not([direction])) [part='indicators']::before {
+          content: '\\e901';
+        }
+
+        :host([direction='asc']) [part='indicators']::before {
+          content: '\\e900';
+        }
+
+        :host([direction='desc']) [part='indicators']::before {
+          content: '\\e902';
+        }
+      </style>
+
+      <div part="content">
+        <slot></slot>
+      </div>
+      <div part="indicators">
+        <span part="order">[[_getDisplayOrder(_order)]]</span>
+      </div>
+    `;
+    }
+    static get is() {
+      return "vaadin-grid-sorter";
+    }
+    static get properties() {
+      return {
+        path: String,
+        direction: {
+          type: String,
+          reflectToAttribute: true,
+          notify: true,
+          value: null
+        },
+        _order: {
+          type: Number,
+          value: null
+        },
+        _isConnected: {
+          type: Boolean,
+          observer: "__isConnectedChanged"
+        }
+      };
+    }
+    static get observers() {
+      return ["_pathOrDirectionChanged(path, direction)"];
+    }
+    ready() {
+      super.ready();
+      this.addEventListener("click", this._onClick.bind(this));
+    }
+    connectedCallback() {
+      super.connectedCallback();
+      this._isConnected = true;
+    }
+    disconnectedCallback() {
+      super.disconnectedCallback();
+      this._isConnected = false;
+      if (!this.parentNode && this._grid) {
+        this._grid.__removeSorters([this]);
+      }
+    }
+    _pathOrDirectionChanged() {
+      this.__dispatchSorterChangedEvenIfPossible();
+    }
+    __isConnectedChanged(newValue, oldValue) {
+      if (oldValue === false) {
+        return;
+      }
+      this.__dispatchSorterChangedEvenIfPossible();
+    }
+    __dispatchSorterChangedEvenIfPossible() {
+      if (this.path === void 0 || this.direction === void 0 || !this._isConnected) {
+        return;
+      }
+      this.dispatchEvent(new CustomEvent("sorter-changed", { bubbles: true, composed: true }));
+    }
+    _getDisplayOrder(order) {
+      return order === null ? "" : order + 1;
+    }
+    _onClick(e9) {
+      const activeElement = this.getRootNode().activeElement;
+      if (this !== activeElement && this.contains(activeElement)) {
+        return;
+      }
+      e9.preventDefault();
+      if (this.direction === "asc") {
+        this.direction = "desc";
+      } else if (this.direction === "desc") {
+        this.direction = null;
+      } else {
+        this.direction = "asc";
+      }
+    }
+  };
+  customElements.define(GridSorter.is, GridSorter);
+
+  // node_modules/@vaadin/grid/src/vaadin-grid-sort-column.js
+  var GridSortColumn = class extends GridColumn {
+    static get is() {
+      return "vaadin-grid-sort-column";
+    }
+    static get properties() {
+      return {
+        path: String,
+        direction: {
+          type: String,
+          notify: true
+        }
+      };
+    }
+    static get observers() {
+      return ["_onHeaderRendererOrBindingChanged(_headerRenderer, _headerCell, path, header, direction)"];
+    }
+    constructor() {
+      super();
+      this.__boundOnDirectionChanged = this.__onDirectionChanged.bind(this);
+    }
+    _defaultHeaderRenderer(root2, _column) {
+      let sorter = root2.firstElementChild;
+      if (!sorter) {
+        sorter = document.createElement("vaadin-grid-sorter");
+        sorter.addEventListener("direction-changed", this.__boundOnDirectionChanged);
+        root2.appendChild(sorter);
+      }
+      sorter.path = this.path;
+      sorter.__rendererDirection = this.direction;
+      sorter.direction = this.direction;
+      sorter.textContent = this.__getHeader(this.header, this.path);
+    }
+    _computeHeaderRenderer() {
+      return this._defaultHeaderRenderer;
+    }
+    __onDirectionChanged(e9) {
+      if (e9.detail.value === e9.target.__rendererDirection) {
+        return;
+      }
+      this.direction = e9.detail.value;
+    }
+    __getHeader(header, path) {
+      if (header) {
+        return header;
+      }
+      if (path) {
+        return this._generateHeader(path);
+      }
+    }
+  };
+  customElements.define(GridSortColumn.is, GridSortColumn);
+
+  // node_modules/@vaadin/grid/theme/lumo/vaadin-grid-tree-toggle-styles.js
+  registerStyles(
+    "vaadin-grid-tree-toggle",
+    i`
+    :host {
+      --vaadin-grid-tree-toggle-level-offset: 2em;
+      align-items: center;
+      vertical-align: middle;
+      margin-left: calc(var(--lumo-space-s) * -1);
+      -webkit-tap-highlight-color: transparent;
+    }
+
+    :host(:not([leaf])) {
+      cursor: default;
+    }
+
+    [part='toggle'] {
+      display: inline-block;
+      font-size: 1.5em;
+      line-height: 1;
+      width: 1em;
+      height: 1em;
+      text-align: center;
+      color: var(--lumo-contrast-50pct);
+      cursor: var(--lumo-clickable-cursor);
+      /* Increase touch target area */
+      padding: calc(1em / 3);
+      margin: calc(1em / -3);
+    }
+
+    :host(:not([dir='rtl'])) [part='toggle'] {
+      margin-right: 0;
+    }
+
+    @media (hover: hover) {
+      :host(:hover) [part='toggle'] {
+        color: var(--lumo-contrast-80pct);
+      }
+    }
+
+    [part='toggle']::before {
+      font-family: 'lumo-icons';
+      display: inline-block;
+      height: 100%;
+    }
+
+    :host(:not([expanded])) [part='toggle']::before {
+      content: var(--lumo-icons-angle-right);
+    }
+
+    :host([expanded]) [part='toggle']::before {
+      content: var(--lumo-icons-angle-right);
+      transform: rotate(90deg);
+    }
+
+    /* Experimental support for hierarchy connectors, using an unsupported selector */
+    :host([theme~='connectors']) #level-spacer {
+      position: relative;
+      z-index: -1;
+      font-size: 1em;
+      height: 1.5em;
+    }
+
+    :host([theme~='connectors']) #level-spacer::before {
+      display: block;
+      content: '';
+      margin-top: calc(var(--lumo-space-m) * -1);
+      height: calc(var(--lumo-space-m) + 3em);
+      background-image: linear-gradient(
+        to right,
+        transparent calc(var(--vaadin-grid-tree-toggle-level-offset) - 1px),
+        var(--lumo-contrast-10pct) calc(var(--vaadin-grid-tree-toggle-level-offset) - 1px)
+      );
+      background-size: var(--vaadin-grid-tree-toggle-level-offset) var(--vaadin-grid-tree-toggle-level-offset);
+      background-position: calc(var(--vaadin-grid-tree-toggle-level-offset) / 2 - 2px) 0;
+    }
+
+    /* RTL specific styles */
+
+    :host([dir='rtl']) {
+      margin-left: 0;
+      margin-right: calc(var(--lumo-space-s) * -1);
+    }
+
+    :host([dir='rtl']) [part='toggle'] {
+      margin-left: 0;
+    }
+
+    :host([dir='rtl'][expanded]) [part='toggle']::before {
+      transform: rotate(-90deg);
+    }
+
+    :host([dir='rtl'][theme~='connectors']) #level-spacer::before {
+      background-image: linear-gradient(
+        to left,
+        transparent calc(var(--vaadin-grid-tree-toggle-level-offset) - 1px),
+        var(--lumo-contrast-10pct) calc(var(--vaadin-grid-tree-toggle-level-offset) - 1px)
+      );
+      background-position: calc(100% - (var(--vaadin-grid-tree-toggle-level-offset) / 2 - 2px)) 0;
+    }
+
+    :host([dir='rtl']:not([expanded])) [part='toggle']::before,
+    :host([dir='rtl'][expanded]) [part='toggle']::before {
+      content: var(--lumo-icons-angle-left);
+    }
+  `,
+    { moduleId: "lumo-grid-tree-toggle" }
+  );
+
+  // node_modules/@vaadin/grid/src/vaadin-grid-tree-toggle.js
+  var template3 = document.createElement("template");
+  template3.innerHTML = `
+  <style>
+    @font-face {
+      font-family: "vaadin-grid-tree-icons";
+      src: url(data:application/font-woff;charset=utf-8;base64,d09GRgABAAAAAAQkAA0AAAAABrwAAQAAAAAAAAAAAAAAAAAAAAAAAAAAAABGRlRNAAAECAAAABoAAAAcgHwa6EdERUYAAAPsAAAAHAAAAB4AJwAOT1MvMgAAAZQAAAA/AAAAYA8TBIJjbWFwAAAB8AAAAFUAAAFeGJvXWmdhc3AAAAPkAAAACAAAAAgAAAAQZ2x5ZgAAAlwAAABLAAAAhIrPOhFoZWFkAAABMAAAACsAAAA2DsJI02hoZWEAAAFcAAAAHQAAACQHAgPHaG10eAAAAdQAAAAZAAAAHAxVAgBsb2NhAAACSAAAABIAAAASAIAAVG1heHAAAAF8AAAAGAAAACAACgAFbmFtZQAAAqgAAAECAAACTwflzbdwb3N0AAADrAAAADYAAABZQ7Ajh3icY2BkYGAA4twv3Vfi+W2+MnCzMIDANSOmbGSa2YEZRHEwMIEoAAoiB6sAeJxjYGRgYD7w/wADAwsDCDA7MDAyoAI2AFEEAtIAAAB4nGNgZGBg4GBgZgDRDAxMDGgAAAGbABB4nGNgZp7JOIGBlYGBaSbTGQYGhn4IzfiawZiRkwEVMAqgCTA4MDA+38d84P8BBgdmIAapQZJVYGAEAGc/C54AeJxjYYAAxlAIzQTELAwMBxgZGB0ACy0BYwAAAHicY2BgYGaAYBkGRgYQiADyGMF8FgYbIM3FwMHABISMDArP9/3/+/8/WJXC8z0Q9v8nEp5gHVwMMMAIMo+RDYiZoQJMQIKJARUA7WBhGN4AACFKDtoAAAAAAAAAAAgACAAQABgAJgA0AEIAAHichYvBEYBADAKBVHBjBT4swl9KS2k05o0XHd/yW1hAfBFwCv9sIlJu3nZaNS3PXAaXXHI8Lge7DlzF7C1RgXc7xkK6+gvcD2URmQB4nK2RQWoCMRiFX3RUqtCli65yADModOMBLLgQSqHddRFnQghIAnEUvEA3vUUP0LP0Fj1G+yb8R5iEhO9/ef/7FwFwj28o9EthiVp4hBlehcfUP4Ur8o/wBAv8CU+xVFvhOR7UB7tUdUdlVRJ6HnHWTnhM/V24In8JT5j/KzzFSi2E53hUz7jCcrcIiDDwyKSW1JEct2HdIPH1DFytbUM0PofWdNk5E5oUqb/Q6HHBiVGZpfOXkyUMEj5IyBuNmYZQjBobfsuassvnkKLe1OuBBj0VQ8cRni2xjLWsHaM0jrjx3peYA0/vrdmUYqe9iy7bzrX6eNP7Jh1SijX+AaUVbB8AAHicY2BiwA84GBgYmRiYGJkZmBlZGFkZ2djScyoLMgzZS/MyDQwMwLSruZMzlHaB0q4A76kLlwAAAAEAAf//AA94nGNgZGBg4AFiMSBmYmAEQnYgZgHzGAAD6wA2eJxjYGBgZACCKxJigiD6mhFTNowGACmcA/8AAA==) format('woff');
+      font-weight: normal;
+      font-style: normal;
+    }
+  </style>
+`;
+  document.head.appendChild(template3.content);
+  var GridTreeToggle = class extends ThemableMixin(DirMixin(PolymerElement)) {
+    static get template() {
+      return html`
+      <style>
+        :host {
+          display: inline-flex;
+          align-items: baseline;
+          max-width: 100%;
+
+          /* CSS API for :host */
+          --vaadin-grid-tree-toggle-level-offset: 1em;
+          --_collapsed-icon: '\\e7be\\00a0';
+        }
+
+        :host([dir='rtl']) {
+          --_collapsed-icon: '\\e7bd\\00a0';
+        }
+
+        :host([hidden]) {
+          display: none !important;
+        }
+
+        :host(:not([leaf])) {
+          cursor: pointer;
+        }
+
+        #level-spacer,
+        [part='toggle'] {
+          flex: none;
+        }
+
+        #level-spacer {
+          display: inline-block;
+          width: calc(var(---level, '0') * var(--vaadin-grid-tree-toggle-level-offset));
+        }
+
+        [part='toggle']::before {
+          font-family: 'vaadin-grid-tree-icons';
+          line-height: 1em; /* make icon font metrics not affect baseline */
+        }
+
+        :host(:not([expanded])) [part='toggle']::before {
+          content: var(--_collapsed-icon);
+        }
+
+        :host([expanded]) [part='toggle']::before {
+          content: '\\e7bc\\00a0'; /* icon glyph + single non-breaking space */
+        }
+
+        :host([leaf]) [part='toggle'] {
+          visibility: hidden;
+        }
+
+        slot {
+          display: block;
+          overflow: hidden;
+          text-overflow: ellipsis;
+        }
+      </style>
+
+      <span id="level-spacer"></span>
+      <span part="toggle"></span>
+      <slot></slot>
+    `;
+    }
+    static get is() {
+      return "vaadin-grid-tree-toggle";
+    }
+    static get properties() {
+      return {
+        level: {
+          type: Number,
+          value: 0,
+          observer: "_levelChanged"
+        },
+        leaf: {
+          type: Boolean,
+          value: false,
+          reflectToAttribute: true
+        },
+        expanded: {
+          type: Boolean,
+          value: false,
+          reflectToAttribute: true,
+          notify: true
+        }
+      };
+    }
+    ready() {
+      super.ready();
+      this.addEventListener("click", (e9) => this._onClick(e9));
+    }
+    _onClick(e9) {
+      if (this.leaf) {
+        return;
+      }
+      if (isFocusable(e9.target)) {
+        return;
+      }
+      e9.preventDefault();
+      this.expanded = !this.expanded;
+    }
+    _levelChanged(level) {
+      const value = Number(level).toString();
+      this.style.setProperty("---level", value);
+    }
+  };
+  customElements.define(GridTreeToggle.is, GridTreeToggle);
+
+  // node_modules/@vaadin/grid/src/vaadin-grid-tree-column.js
+  var GridTreeColumn = class extends GridColumn {
+    static get is() {
+      return "vaadin-grid-tree-column";
+    }
+    static get properties() {
+      return {
+        path: String,
+        itemHasChildrenPath: {
+          type: String,
+          observer: "_itemHasChildrenPathChanged"
+        }
+      };
+    }
+    static get observers() {
+      return ["_onRendererOrBindingChanged(_renderer, _cells, _cells.*, path, itemHasChildrenPath)"];
+    }
+    constructor() {
+      super();
+      this.__boundOnExpandedChanged = this.__onExpandedChanged.bind(this);
+    }
+    __defaultRenderer(root2, _column, { item, expanded, level }) {
+      let toggle = root2.firstElementChild;
+      if (!toggle) {
+        toggle = document.createElement("vaadin-grid-tree-toggle");
+        toggle.addEventListener("expanded-changed", this.__boundOnExpandedChanged);
+        root2.appendChild(toggle);
+      }
+      toggle.__item = item;
+      toggle.__rendererExpanded = expanded;
+      toggle.expanded = expanded;
+      toggle.leaf = this.__isLeafItem(item, this._grid.itemHasChildrenPath);
+      toggle.textContent = this.__getToggleContent(this.path, item);
+      toggle.level = level;
+    }
+    _computeRenderer() {
+      return this.__defaultRenderer;
+    }
+    _itemHasChildrenPathChanged(itemHasChildrenPath) {
+      if (itemHasChildrenPath) {
+        console.warn(
+          `WARNING: Since Vaadin 23, itemHasChildrenPath on <vaadin-grid-tree-column> is deprecated. Please set this property on the <vaadin-grid> instead.`
+        );
+        if (this._grid) {
+          this._grid.itemHasChildrenPath = itemHasChildrenPath;
+        }
+      }
+    }
+    __onExpandedChanged(e9) {
+      if (e9.detail.value === e9.target.__rendererExpanded) {
+        return;
+      }
+      if (e9.detail.value) {
+        this._grid.expandItem(e9.target.__item);
+      } else {
+        this._grid.collapseItem(e9.target.__item);
+      }
+    }
+    __isLeafItem(item, itemHasChildrenPath) {
+      return !item || !item[itemHasChildrenPath];
+    }
+    __getToggleContent(path, item) {
+      return path && this.get(path, item);
+    }
+  };
+  customElements.define(GridTreeColumn.is, GridTreeColumn);
+
+  // src/Grid.ts
+  var Grid2 = class extends s4 {
+    constructor() {
+      super(...arguments);
+      this.gridOptsJson = "";
+    }
+    render() {
+      console.log("json:");
+      console.dir(this.gridOptsJson);
+      const gridOpts = JSON.parse(this.gridOptsJson);
+      const cols = gridOpts.Columns;
+      const items = gridOpts.Rows.map((row) => {
+        const rowMap = {};
+        row.forEach((cellValue, i5) => {
+          const col = cols[i5];
+          rowMap[col] = cellValue;
+        });
+        return rowMap;
+      });
+      console.log("items:");
+      console.dir(items);
+      return y`
+    <vaadin-grid .items="${items}">
+      ${cols.map((col) => y`<vaadin-grid-column path="${col}"></vaadin-grid-column>`)}
+    </vaadin-grid>`;
+    }
+  };
+  __decorateClass([
+    e5()
+  ], Grid2.prototype, "gridOptsJson", 2);
+  Grid2 = __decorateClass([
+    e4("itk-grid")
+  ], Grid2);
 })();
 /*! showdown v 2.1.0 - 21-04-2022 */
+/**
+ * @fileoverview
+ * @suppress {checkPrototypalTypes}
+ * @license Copyright (c) 2017 The Polymer Project Authors. All rights reserved.
+ * This code may only be used under the BSD style license found at
+ * http://polymer.github.io/LICENSE.txt The complete set of authors may be found
+ * at http://polymer.github.io/AUTHORS.txt The complete set of contributors may
+ * be found at http://polymer.github.io/CONTRIBUTORS.txt Code distributed by
+ * Google as part of the polymer project is also subject to an additional IP
+ * rights grant found at http://polymer.github.io/PATENTS.txt
+ */
+/**
+ * @license
+ * Copyright (c) 2016 - 2022 Vaadin Ltd.
+ * This program is available under Apache License Version 2.0, available at https://vaadin.com/license/
+ */
+/**
+ * @license
+ * Copyright (c) 2016 The Polymer Project Authors. All rights reserved.
+ * This code may only be used under the BSD style license found at http://polymer.github.io/LICENSE.txt
+ * The complete set of authors may be found at http://polymer.github.io/AUTHORS.txt
+ * The complete set of contributors may be found at http://polymer.github.io/CONTRIBUTORS.txt
+ * Code distributed by Google as part of the polymer project is also
+ * subject to an additional IP rights grant found at http://polymer.github.io/PATENTS.txt
+ */
+/**
+ * @license
+ * Copyright (c) 2017 - 2022 Vaadin Ltd.
+ * This program is available under Apache License Version 2.0, available at https://vaadin.com/license/
+ */
+/**
+ * @license
+ * Copyright (c) 2017 The Polymer Project Authors. All rights reserved.
+ * This code may only be used under the BSD style license found at http://polymer.github.io/LICENSE.txt
+ * The complete set of authors may be found at http://polymer.github.io/AUTHORS.txt
+ * The complete set of contributors may be found at http://polymer.github.io/CONTRIBUTORS.txt
+ * Code distributed by Google as part of the polymer project is also
+ * subject to an additional IP rights grant found at http://polymer.github.io/PATENTS.txt
+ */
+/**
+ * @license
+ * Copyright (c) 2021 - 2022 Vaadin Ltd.
+ * This program is available under Apache License Version 2.0, available at https://vaadin.com/license/
+ */
+/**
+ * @license
+ * Copyright (c) 2021 - 2022 Vaadin Ltd..
+ * This program is available under Apache License Version 2.0, available at https://vaadin.com/license/
+ */
 /**
  * @license
  * Copyright 2017 Google LLC
@@ -4359,3 +17829,12 @@
  * Copyright 2021 Google LLC
  * SPDX-License-Identifier: BSD-3-Clause
  */
+/**
+@license
+Copyright (c) 2017 The Polymer Project Authors. All rights reserved.
+This code may only be used under the BSD style license found at http://polymer.github.io/LICENSE.txt
+The complete set of authors may be found at http://polymer.github.io/AUTHORS.txt
+The complete set of contributors may be found at http://polymer.github.io/CONTRIBUTORS.txt
+Code distributed by Google as part of the polymer project is also
+subject to an additional IP rights grant found at http://polymer.github.io/PATENTS.txt
+*/
