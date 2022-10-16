@@ -16,6 +16,7 @@ export class FormLayout extends LitElement {
     console.log("here 9")
     return html`
     <vaadin-form-layout .responsiveSteps="${this.responsiveSteps}">
+      <slot></slot>
     </vaadin-form-layout>`
   }
 }
