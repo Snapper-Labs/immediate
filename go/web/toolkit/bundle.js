@@ -3955,18 +3955,8 @@
   var x = Symbol.for("lit-noChange");
   var b = Symbol.for("lit-nothing");
   var T = /* @__PURE__ */ new WeakMap();
-  var A = (t4, i5, s5) => {
-    var e9, o7;
-    const n6 = null !== (e9 = null == s5 ? void 0 : s5.renderBefore) && void 0 !== e9 ? e9 : i5;
-    let l5 = n6._$litPart$;
-    if (void 0 === l5) {
-      const t5 = null !== (o7 = null == s5 ? void 0 : s5.renderBefore) && void 0 !== o7 ? o7 : null;
-      n6._$litPart$ = l5 = new S2(i5.insertBefore(r3(), t5), t5, void 0, null != s5 ? s5 : {});
-    }
-    return l5._$AI(t4), l5;
-  };
-  var E = h2.createTreeWalker(h2, 129, null, false);
-  var C = (t4, i5) => {
+  var A = h2.createTreeWalker(h2, 129, null, false);
+  var E = (t4, i5) => {
     const s5 = t4.length - 1, n6 = [];
     let h3, r4 = 2 === i5 ? "<svg>" : "", d3 = v;
     for (let i6 = 0; i6 < s5; i6++) {
@@ -3982,17 +3972,17 @@
       throw Error("invalid template strings array");
     return [void 0 !== e3 ? e3.createHTML(u2) : u2, n6];
   };
-  var P = class {
+  var C = class {
     constructor({ strings: t4, _$litType$: i5 }, e9) {
       let l5;
       this.parts = [];
       let h3 = 0, d3 = 0;
-      const u2 = t4.length - 1, c3 = this.parts, [v2, a3] = C(t4, i5);
-      if (this.el = P.createElement(v2, e9), E.currentNode = this.el.content, 2 === i5) {
+      const u2 = t4.length - 1, c3 = this.parts, [v2, a3] = E(t4, i5);
+      if (this.el = C.createElement(v2, e9), A.currentNode = this.el.content, 2 === i5) {
         const t5 = this.el.content, i6 = t5.firstChild;
         i6.remove(), t5.append(...i6.childNodes);
       }
-      for (; null !== (l5 = E.nextNode()) && c3.length < u2; ) {
+      for (; null !== (l5 = A.nextNode()) && c3.length < u2; ) {
         if (1 === l5.nodeType) {
           if (l5.hasAttributes()) {
             const t5 = [];
@@ -4001,7 +3991,7 @@
                 const s5 = a3[d3++];
                 if (t5.push(i6), void 0 !== s5) {
                   const t6 = l5.getAttribute(s5.toLowerCase() + "$lit$").split(o3), i7 = /([.?@])?(.*)/.exec(s5);
-                  c3.push({ type: 1, index: h3, name: i7[2], strings: t6, ctor: "." === i7[1] ? R : "?" === i7[1] ? H : "@" === i7[1] ? I : M });
+                  c3.push({ type: 1, index: h3, name: i7[2], strings: t6, ctor: "." === i7[1] ? M : "?" === i7[1] ? k : "@" === i7[1] ? H : S2 });
                 } else
                   c3.push({ type: 6, index: h3 });
               }
@@ -4013,7 +4003,7 @@
             if (i6 > 0) {
               l5.textContent = s3 ? s3.emptyScript : "";
               for (let s5 = 0; s5 < i6; s5++)
-                l5.append(t5[s5], r3()), E.nextNode(), c3.push({ type: 2, index: ++h3 });
+                l5.append(t5[s5], r3()), A.nextNode(), c3.push({ type: 2, index: ++h3 });
               l5.append(t5[i6], r3());
             }
           }
@@ -4033,17 +4023,17 @@
       return s5.innerHTML = t4, s5;
     }
   };
-  function V(t4, i5, s5 = t4, e9) {
+  function P(t4, i5, s5 = t4, e9) {
     var o7, n6, l5, h3;
     if (i5 === x)
       return i5;
-    let r4 = void 0 !== e9 ? null === (o7 = s5._$Cl) || void 0 === o7 ? void 0 : o7[e9] : s5._$Cu;
+    let r4 = void 0 !== e9 ? null === (o7 = s5._$Co) || void 0 === o7 ? void 0 : o7[e9] : s5._$Cl;
     const u2 = d2(i5) ? void 0 : i5._$litDirective$;
-    return (null == r4 ? void 0 : r4.constructor) !== u2 && (null === (n6 = null == r4 ? void 0 : r4._$AO) || void 0 === n6 || n6.call(r4, false), void 0 === u2 ? r4 = void 0 : (r4 = new u2(t4), r4._$AT(t4, s5, e9)), void 0 !== e9 ? (null !== (l5 = (h3 = s5)._$Cl) && void 0 !== l5 ? l5 : h3._$Cl = [])[e9] = r4 : s5._$Cu = r4), void 0 !== r4 && (i5 = V(t4, r4._$AS(t4, i5.values), r4, e9)), i5;
+    return (null == r4 ? void 0 : r4.constructor) !== u2 && (null === (n6 = null == r4 ? void 0 : r4._$AO) || void 0 === n6 || n6.call(r4, false), void 0 === u2 ? r4 = void 0 : (r4 = new u2(t4), r4._$AT(t4, s5, e9)), void 0 !== e9 ? (null !== (l5 = (h3 = s5)._$Co) && void 0 !== l5 ? l5 : h3._$Co = [])[e9] = r4 : s5._$Cl = r4), void 0 !== r4 && (i5 = P(t4, r4._$AS(t4, i5.values), r4, e9)), i5;
   }
-  var N = class {
+  var V = class {
     constructor(t4, i5) {
-      this.v = [], this._$AN = void 0, this._$AD = t4, this._$AM = i5;
+      this.u = [], this._$AN = void 0, this._$AD = t4, this._$AM = i5;
     }
     get parentNode() {
       return this._$AM.parentNode;
@@ -4051,34 +4041,34 @@
     get _$AU() {
       return this._$AM._$AU;
     }
-    p(t4) {
+    v(t4) {
       var i5;
       const { el: { content: s5 }, parts: e9 } = this._$AD, o7 = (null !== (i5 = null == t4 ? void 0 : t4.creationScope) && void 0 !== i5 ? i5 : h2).importNode(s5, true);
-      E.currentNode = o7;
-      let n6 = E.nextNode(), l5 = 0, r4 = 0, d3 = e9[0];
+      A.currentNode = o7;
+      let n6 = A.nextNode(), l5 = 0, r4 = 0, d3 = e9[0];
       for (; void 0 !== d3; ) {
         if (l5 === d3.index) {
           let i6;
-          2 === d3.type ? i6 = new S2(n6, n6.nextSibling, this, t4) : 1 === d3.type ? i6 = new d3.ctor(n6, d3.name, d3.strings, this, t4) : 6 === d3.type && (i6 = new L(n6, this, t4)), this.v.push(i6), d3 = e9[++r4];
+          2 === d3.type ? i6 = new N(n6, n6.nextSibling, this, t4) : 1 === d3.type ? i6 = new d3.ctor(n6, d3.name, d3.strings, this, t4) : 6 === d3.type && (i6 = new I(n6, this, t4)), this.u.push(i6), d3 = e9[++r4];
         }
-        l5 !== (null == d3 ? void 0 : d3.index) && (n6 = E.nextNode(), l5++);
+        l5 !== (null == d3 ? void 0 : d3.index) && (n6 = A.nextNode(), l5++);
       }
       return o7;
     }
-    m(t4) {
+    p(t4) {
       let i5 = 0;
-      for (const s5 of this.v)
+      for (const s5 of this.u)
         void 0 !== s5 && (void 0 !== s5.strings ? (s5._$AI(t4, s5, i5), i5 += s5.strings.length - 2) : s5._$AI(t4[i5])), i5++;
     }
   };
-  var S2 = class {
+  var N = class {
     constructor(t4, i5, s5, e9) {
       var o7;
-      this.type = 2, this._$AH = b, this._$AN = void 0, this._$AA = t4, this._$AB = i5, this._$AM = s5, this.options = e9, this._$C_ = null === (o7 = null == e9 ? void 0 : e9.isConnected) || void 0 === o7 || o7;
+      this.type = 2, this._$AH = b, this._$AN = void 0, this._$AA = t4, this._$AB = i5, this._$AM = s5, this.options = e9, this._$Cm = null === (o7 = null == e9 ? void 0 : e9.isConnected) || void 0 === o7 || o7;
     }
     get _$AU() {
       var t4, i5;
-      return null !== (i5 = null === (t4 = this._$AM) || void 0 === t4 ? void 0 : t4._$AU) && void 0 !== i5 ? i5 : this._$C_;
+      return null !== (i5 = null === (t4 = this._$AM) || void 0 === t4 ? void 0 : t4._$AU) && void 0 !== i5 ? i5 : this._$Cm;
     }
     get parentNode() {
       let t4 = this._$AA.parentNode;
@@ -4092,37 +4082,37 @@
       return this._$AB;
     }
     _$AI(t4, i5 = this) {
-      t4 = V(this, t4, i5), d2(t4) ? t4 === b || null == t4 || "" === t4 ? (this._$AH !== b && this._$AR(), this._$AH = b) : t4 !== this._$AH && t4 !== x && this.$(t4) : void 0 !== t4._$litType$ ? this.T(t4) : void 0 !== t4.nodeType ? this.k(t4) : c2(t4) ? this.O(t4) : this.$(t4);
+      t4 = P(this, t4, i5), d2(t4) ? t4 === b || null == t4 || "" === t4 ? (this._$AH !== b && this._$AR(), this._$AH = b) : t4 !== this._$AH && t4 !== x && this.g(t4) : void 0 !== t4._$litType$ ? this.$(t4) : void 0 !== t4.nodeType ? this.T(t4) : c2(t4) ? this.k(t4) : this.g(t4);
     }
-    S(t4, i5 = this._$AB) {
+    O(t4, i5 = this._$AB) {
       return this._$AA.parentNode.insertBefore(t4, i5);
     }
-    k(t4) {
-      this._$AH !== t4 && (this._$AR(), this._$AH = this.S(t4));
+    T(t4) {
+      this._$AH !== t4 && (this._$AR(), this._$AH = this.O(t4));
+    }
+    g(t4) {
+      this._$AH !== b && d2(this._$AH) ? this._$AA.nextSibling.data = t4 : this.T(h2.createTextNode(t4)), this._$AH = t4;
     }
     $(t4) {
-      this._$AH !== b && d2(this._$AH) ? this._$AA.nextSibling.data = t4 : this.k(h2.createTextNode(t4)), this._$AH = t4;
-    }
-    T(t4) {
       var i5;
-      const { values: s5, _$litType$: e9 } = t4, o7 = "number" == typeof e9 ? this._$AC(t4) : (void 0 === e9.el && (e9.el = P.createElement(e9.h, this.options)), e9);
+      const { values: s5, _$litType$: e9 } = t4, o7 = "number" == typeof e9 ? this._$AC(t4) : (void 0 === e9.el && (e9.el = C.createElement(e9.h, this.options)), e9);
       if ((null === (i5 = this._$AH) || void 0 === i5 ? void 0 : i5._$AD) === o7)
-        this._$AH.m(s5);
+        this._$AH.p(s5);
       else {
-        const t5 = new N(o7, this), i6 = t5.p(this.options);
-        t5.m(s5), this.k(i6), this._$AH = t5;
+        const t5 = new V(o7, this), i6 = t5.v(this.options);
+        t5.p(s5), this.T(i6), this._$AH = t5;
       }
     }
     _$AC(t4) {
       let i5 = T.get(t4.strings);
-      return void 0 === i5 && T.set(t4.strings, i5 = new P(t4)), i5;
+      return void 0 === i5 && T.set(t4.strings, i5 = new C(t4)), i5;
     }
-    O(t4) {
+    k(t4) {
       u(this._$AH) || (this._$AH = [], this._$AR());
       const i5 = this._$AH;
       let s5, e9 = 0;
       for (const o7 of t4)
-        e9 === i5.length ? i5.push(s5 = new S2(this.S(r3()), this.S(r3()), this, this.options)) : s5 = i5[e9], s5._$AI(o7), e9++;
+        e9 === i5.length ? i5.push(s5 = new N(this.O(r3()), this.O(r3()), this, this.options)) : s5 = i5[e9], s5._$AI(o7), e9++;
       e9 < i5.length && (this._$AR(s5 && s5._$AB.nextSibling, e9), i5.length = e9);
     }
     _$AR(t4 = this._$AA.nextSibling, i5) {
@@ -4134,10 +4124,10 @@
     }
     setConnected(t4) {
       var i5;
-      void 0 === this._$AM && (this._$C_ = t4, null === (i5 = this._$AP) || void 0 === i5 || i5.call(this, t4));
+      void 0 === this._$AM && (this._$Cm = t4, null === (i5 = this._$AP) || void 0 === i5 || i5.call(this, t4));
     }
   };
-  var M = class {
+  var S2 = class {
     constructor(t4, i5, s5, e9, o7) {
       this.type = 1, this._$AH = b, this._$AN = void 0, this.element = t4, this.name = i5, this._$AM = e9, this.options = o7, s5.length > 2 || "" !== s5[0] || "" !== s5[1] ? (this._$AH = Array(s5.length - 1).fill(new String()), this.strings = s5) : this._$AH = b;
     }
@@ -4151,43 +4141,43 @@
       const o7 = this.strings;
       let n6 = false;
       if (void 0 === o7)
-        t4 = V(this, t4, i5, 0), n6 = !d2(t4) || t4 !== this._$AH && t4 !== x, n6 && (this._$AH = t4);
+        t4 = P(this, t4, i5, 0), n6 = !d2(t4) || t4 !== this._$AH && t4 !== x, n6 && (this._$AH = t4);
       else {
         const e10 = t4;
         let l5, h3;
         for (t4 = o7[0], l5 = 0; l5 < o7.length - 1; l5++)
-          h3 = V(this, e10[s5 + l5], i5, l5), h3 === x && (h3 = this._$AH[l5]), n6 || (n6 = !d2(h3) || h3 !== this._$AH[l5]), h3 === b ? t4 = b : t4 !== b && (t4 += (null != h3 ? h3 : "") + o7[l5 + 1]), this._$AH[l5] = h3;
+          h3 = P(this, e10[s5 + l5], i5, l5), h3 === x && (h3 = this._$AH[l5]), n6 || (n6 = !d2(h3) || h3 !== this._$AH[l5]), h3 === b ? t4 = b : t4 !== b && (t4 += (null != h3 ? h3 : "") + o7[l5 + 1]), this._$AH[l5] = h3;
       }
-      n6 && !e9 && this.P(t4);
+      n6 && !e9 && this.j(t4);
     }
-    P(t4) {
+    j(t4) {
       t4 === b ? this.element.removeAttribute(this.name) : this.element.setAttribute(this.name, null != t4 ? t4 : "");
     }
   };
-  var R = class extends M {
+  var M = class extends S2 {
     constructor() {
       super(...arguments), this.type = 3;
     }
-    P(t4) {
+    j(t4) {
       this.element[this.name] = t4 === b ? void 0 : t4;
     }
   };
-  var k = s3 ? s3.emptyScript : "";
-  var H = class extends M {
+  var R = s3 ? s3.emptyScript : "";
+  var k = class extends S2 {
     constructor() {
       super(...arguments), this.type = 4;
     }
-    P(t4) {
-      t4 && t4 !== b ? this.element.setAttribute(this.name, k) : this.element.removeAttribute(this.name);
+    j(t4) {
+      t4 && t4 !== b ? this.element.setAttribute(this.name, R) : this.element.removeAttribute(this.name);
     }
   };
-  var I = class extends M {
+  var H = class extends S2 {
     constructor(t4, i5, s5, e9, o7) {
       super(t4, i5, s5, e9, o7), this.type = 5;
     }
     _$AI(t4, i5 = this) {
       var s5;
-      if ((t4 = null !== (s5 = V(this, t4, i5, 0)) && void 0 !== s5 ? s5 : b) === x)
+      if ((t4 = null !== (s5 = P(this, t4, i5, 0)) && void 0 !== s5 ? s5 : b) === x)
         return;
       const e9 = this._$AH, o7 = t4 === b && e9 !== b || t4.capture !== e9.capture || t4.once !== e9.once || t4.passive !== e9.passive, n6 = t4 !== b && (e9 === b || o7);
       o7 && this.element.removeEventListener(this.name, this, e9), n6 && this.element.addEventListener(this.name, this, t4), this._$AH = t4;
@@ -4197,7 +4187,7 @@
       "function" == typeof this._$AH ? this._$AH.call(null !== (s5 = null === (i5 = this.options) || void 0 === i5 ? void 0 : i5.host) && void 0 !== s5 ? s5 : this.element, t4) : this._$AH.handleEvent(t4);
     }
   };
-  var L = class {
+  var I = class {
     constructor(t4, i5, s5) {
       this.element = t4, this.type = 6, this._$AN = void 0, this._$AM = i5, this.options = s5;
     }
@@ -4205,11 +4195,21 @@
       return this._$AM._$AU;
     }
     _$AI(t4) {
-      V(this, t4);
+      P(this, t4);
     }
   };
-  var Z = i2.litHtmlPolyfillSupport;
-  null == Z || Z(P, S2), (null !== (t2 = i2.litHtmlVersions) && void 0 !== t2 ? t2 : i2.litHtmlVersions = []).push("2.3.1");
+  var z = i2.litHtmlPolyfillSupport;
+  null == z || z(C, N), (null !== (t2 = i2.litHtmlVersions) && void 0 !== t2 ? t2 : i2.litHtmlVersions = []).push("2.4.0");
+  var Z = (t4, i5, s5) => {
+    var e9, o7;
+    const n6 = null !== (e9 = null == s5 ? void 0 : s5.renderBefore) && void 0 !== e9 ? e9 : i5;
+    let l5 = n6._$litPart$;
+    if (void 0 === l5) {
+      const t5 = null !== (o7 = null == s5 ? void 0 : s5.renderBefore) && void 0 !== o7 ? o7 : null;
+      n6._$litPart$ = l5 = new N(i5.insertBefore(r3(), t5), t5, void 0, null != s5 ? s5 : {});
+    }
+    return l5._$AI(t4), l5;
+  };
 
   // node_modules/lit-element/lit-element.js
   var l3;
@@ -4225,7 +4225,7 @@
     }
     update(t4) {
       const i5 = this.render();
-      this.hasUpdated || (this.renderOptions.isConnected = this.isConnected), super.update(t4), this._$Do = A(i5, this.renderRoot, this.renderOptions);
+      this.hasUpdated || (this.renderOptions.isConnected = this.isConnected), super.update(t4), this._$Do = Z(i5, this.renderRoot, this.renderOptions);
     }
     connectedCallback() {
       var t4;
@@ -4356,7 +4356,7 @@
   // node_modules/@vaadin/vaadin-lumo-styles/version.js
   var Lumo = class extends HTMLElement {
     static get version() {
-      return "23.2.2";
+      return "23.2.5";
     }
   };
   customElements.define("vaadin-lumo-styles", Lumo);
@@ -7856,6 +7856,37 @@
   // node_modules/@polymer/polymer/polymer-element.js
   var PolymerElement = ElementMixin(HTMLElement);
 
+  // node_modules/@vaadin/component-base/src/disabled-mixin.js
+  var DisabledMixin = dedupingMixin(
+    (superclass) => class DisabledMixinClass extends superclass {
+      static get properties() {
+        return {
+          disabled: {
+            type: Boolean,
+            value: false,
+            observer: "_disabledChanged",
+            reflectToAttribute: true
+          }
+        };
+      }
+      _disabledChanged(disabled) {
+        this._setAriaDisabled(disabled);
+      }
+      _setAriaDisabled(disabled) {
+        if (disabled) {
+          this.setAttribute("aria-disabled", "true");
+        } else {
+          this.removeAttribute("aria-disabled");
+        }
+      }
+      click() {
+        if (!this.disabled) {
+          super.click();
+        }
+      }
+    }
+  );
+
   // node_modules/@vaadin/component-base/src/async.js
   var microtaskCurrHandle2 = 0;
   var microtaskLastHandle2 = 0;
@@ -8494,37 +8525,6 @@
     }
   }
 
-  // node_modules/@vaadin/component-base/src/disabled-mixin.js
-  var DisabledMixin = dedupingMixin(
-    (superclass) => class DisabledMixinClass extends superclass {
-      static get properties() {
-        return {
-          disabled: {
-            type: Boolean,
-            value: false,
-            observer: "_disabledChanged",
-            reflectToAttribute: true
-          }
-        };
-      }
-      _disabledChanged(disabled) {
-        this._setAriaDisabled(disabled);
-      }
-      _setAriaDisabled(disabled) {
-        if (disabled) {
-          this.setAttribute("aria-disabled", "true");
-        } else {
-          this.removeAttribute("aria-disabled");
-        }
-      }
-      click() {
-        if (!this.disabled) {
-          super.click();
-        }
-      }
-    }
-  );
-
   // node_modules/@vaadin/component-base/src/keyboard-mixin.js
   var KeyboardMixin = dedupingMixin(
     (superclass) => class KeyboardMixinClass extends superclass {
@@ -8805,12 +8805,12 @@
       document.body.removeChild(dummy);
       return cachedType;
     }
-    static getNormalizedScrollLeft(scrollType3, direction, element) {
+    static getNormalizedScrollLeft(scrollType2, direction, element) {
       const { scrollLeft } = element;
-      if (direction !== "rtl" || !scrollType3) {
+      if (direction !== "rtl" || !scrollType2) {
         return scrollLeft;
       }
-      switch (scrollType3) {
+      switch (scrollType2) {
         case "negative":
           return element.scrollWidth - element.clientWidth + scrollLeft;
         case "reverse":
@@ -8819,12 +8819,12 @@
           return scrollLeft;
       }
     }
-    static setNormalizedScrollLeft(scrollType3, direction, element, scrollLeft) {
-      if (direction !== "rtl" || !scrollType3) {
+    static setNormalizedScrollLeft(scrollType2, direction, element, scrollLeft) {
+      if (direction !== "rtl" || !scrollType2) {
         element.scrollLeft = scrollLeft;
         return;
       }
-      switch (scrollType3) {
+      switch (scrollType2) {
         case "negative":
           element.scrollLeft = element.clientWidth - element.scrollWidth + scrollLeft;
           break;
@@ -8885,7 +8885,7 @@
     }
     connectedCallback() {
       super.connectedCallback();
-      if (!this.hasAttribute("dir")) {
+      if (!this.hasAttribute("dir") || this.__restoreSubscription) {
         this.__subscribe();
         alignDirs(this, getDocumentDir(), null);
       }
@@ -8903,13 +8903,13 @@
         this.__subscribe();
         alignDirs(this, documentDir, newValue);
       } else if (newDiffValue) {
-        this.__subscribe(false);
+        this.__unsubscribe();
       }
     }
     disconnectedCallback() {
       super.disconnectedCallback();
-      this.__subscribe(false);
-      this.removeAttribute("dir");
+      this.__restoreSubscription = directionSubscribers.includes(this);
+      this.__unsubscribe();
     }
     _valueToNodeAttribute(node, value, attribute) {
       if (attribute === "dir" && value === "" && !node.hasAttribute("dir")) {
@@ -8924,12 +8924,13 @@
         super._attributeToProperty(attribute, value, type);
       }
     }
-    __subscribe(push = true) {
-      if (push) {
-        if (!directionSubscribers.includes(this)) {
-          directionSubscribers.push(this);
-        }
-      } else if (directionSubscribers.includes(this)) {
+    __subscribe() {
+      if (!directionSubscribers.includes(this)) {
+        directionSubscribers.push(this);
+      }
+    }
+    __unsubscribe() {
+      if (directionSubscribers.includes(this)) {
         directionSubscribers.splice(directionSubscribers.indexOf(this), 1);
       }
     }
@@ -8953,7 +8954,7 @@
   var registered = /* @__PURE__ */ new Set();
   var ElementMixin2 = (superClass) => class VaadinElementMixin extends DirMixin(superClass) {
     static get version() {
-      return "23.2.2";
+      return "23.2.5";
     }
     static finalize() {
       super.finalize();
@@ -12066,6 +12067,9 @@ Please use <label slot="label"> wrapper or the label property instead.`
         );
       }
       this.__previousScrollTop = this._scrollTop;
+      if (this._scrollTop === 0 && this.firstVisibleIndex !== 0) {
+        this._scrollTop = 1;
+      }
     }
     __onWheel(e9) {
       if (e9.ctrlKey || this._hasScrolledAncestor(e9.target, e9.deltaX, e9.deltaY)) {
@@ -15358,11 +15362,32 @@ Please use <label slot="label"> wrapper or the label property instead.`
       }
       this._setFlexGrow(Array.prototype.reduce.call(this._visibleChildColumns, (prev, curr) => prev + curr.flexGrow, 0));
     }
+    __scheduleAutoFreezeWarning(columns, frozenProp) {
+      if (this._grid) {
+        const frozenAttr = frozenProp.replace(/([A-Z])/g, "-$1").toLowerCase();
+        const firstColumnFrozen = columns[0][frozenProp] || columns[0].hasAttribute(frozenAttr);
+        const allSameFrozen = columns.every((column) => {
+          return (column[frozenProp] || column.hasAttribute(frozenAttr)) === firstColumnFrozen;
+        });
+        if (!allSameFrozen) {
+          this._grid.__autoFreezeWarningDebouncer = Debouncer.debounce(
+            this._grid.__autoFreezeWarningDebouncer,
+            animationFrame,
+            () => {
+              console.warn(
+                `WARNING: Joining ${frozenProp} and non-${frozenProp} Grid columns inside the same column group! This will automatically freeze all the joined columns to avoid rendering issues. If this was intentional, consider marking each joined column explicitly as ${frozenProp}. Otherwise, exclude the ${frozenProp} columns from the joined group.`
+              );
+            }
+          );
+        }
+      }
+    }
     _groupFrozenChanged(frozen, rootColumns) {
       if (rootColumns === void 0 || frozen === void 0) {
         return;
       }
       if (frozen !== false) {
+        this.__scheduleAutoFreezeWarning(rootColumns, "frozen");
         Array.from(rootColumns).forEach((col) => {
           col.frozen = frozen;
         });
@@ -15373,6 +15398,7 @@ Please use <label slot="label"> wrapper or the label property instead.`
         return;
       }
       if (frozenToEnd !== false) {
+        this.__scheduleAutoFreezeWarning(rootColumns, "frozenToEnd");
         Array.from(rootColumns).forEach((col) => {
           col.frozenToEnd = frozenToEnd;
         });
@@ -15438,7 +15464,7 @@ Please use <label slot="label"> wrapper or the label property instead.`
   };
   customElements.define(GridColumnGroup.is, GridColumnGroup);
 
-  // node_modules/@vaadin/grid/node_modules/@vaadin/input-container/theme/lumo/vaadin-input-container-styles.js
+  // node_modules/@vaadin/input-container/theme/lumo/vaadin-input-container-styles.js
   registerStyles(
     "vaadin-input-container",
     i`
@@ -15599,7 +15625,7 @@ Please use <label slot="label"> wrapper or the label property instead.`
     { moduleId: "lumo-input-container" }
   );
 
-  // node_modules/@vaadin/grid/node_modules/@vaadin/input-container/src/vaadin-input-container.js
+  // node_modules/@vaadin/input-container/src/vaadin-input-container.js
   var InputContainer = class extends ThemableMixin(DirMixin(PolymerElement)) {
     static get is() {
       return "vaadin-input-container";
@@ -15998,7 +16024,7 @@ Please use <label slot="label"> wrapper or the label property instead.`
     moduleId: "lumo-input-field-shared-styles"
   });
 
-  // node_modules/@vaadin/grid/node_modules/@vaadin/text-field/theme/lumo/vaadin-text-field-styles.js
+  // node_modules/@vaadin/text-field/theme/lumo/vaadin-text-field-styles.js
   registerStyles("vaadin-text-field", inputFieldShared, {
     moduleId: "lumo-text-field-styles"
   });
@@ -16813,7 +16839,7 @@ Please use <label slot="label"> wrapper or the label property instead.`
   // node_modules/@vaadin/field-base/src/styles/input-field-shared-styles.js
   var inputFieldShared2 = [fieldShared, inputFieldContainer, clearButton];
 
-  // node_modules/@vaadin/grid/node_modules/@vaadin/text-field/src/vaadin-text-field.js
+  // node_modules/@vaadin/text-field/src/vaadin-text-field.js
   registerStyles("vaadin-text-field", inputFieldShared2, { moduleId: "vaadin-text-field-styles" });
   var TextField = class extends PatternMixin(InputFieldMixin(ThemableMixin(ElementMixin2(PolymerElement)))) {
     static get is() {
@@ -17440,7 +17466,7 @@ Please use <label slot="label"> wrapper or the label property instead.`
       --vaadin-grid-tree-toggle-level-offset: 2em;
       align-items: center;
       vertical-align: middle;
-      margin-left: calc(var(--lumo-space-s) * -1);
+      transform: translateX(calc(var(--lumo-space-s) * -1));
       -webkit-tap-highlight-color: transparent;
     }
 
@@ -17764,179 +17790,8 @@ Please use <label slot="label"> wrapper or the label property instead.`
     e4("itk-grid")
   ], Grid2);
 
-  // node_modules/@vaadin/form-layout/node_modules/@vaadin/vaadin-lumo-styles/version.js
-  var Lumo2 = class extends HTMLElement {
-    static get version() {
-      return "23.2.3";
-    }
-  };
-  customElements.define("vaadin-lumo-styles", Lumo2);
-
-  // node_modules/@vaadin/form-layout/node_modules/@vaadin/vaadin-themable-mixin/vaadin-theme-property-mixin.js
-  var ThemePropertyMixin2 = (superClass) => class VaadinThemePropertyMixin extends superClass {
-    static get properties() {
-      return {
-        theme: {
-          type: String,
-          reflectToAttribute: true,
-          observer: "__deprecatedThemePropertyChanged"
-        },
-        _theme: {
-          type: String,
-          readOnly: true
-        }
-      };
-    }
-    __deprecatedThemePropertyChanged(theme) {
-      this._set_theme(theme);
-    }
-  };
-
-  // node_modules/@vaadin/form-layout/node_modules/@vaadin/vaadin-themable-mixin/vaadin-themable-mixin.js
-  var themeRegistry2 = [];
-  function registerStyles2(themeFor, styles, options = {}) {
-    if (themeFor) {
-      if (hasThemes2(themeFor)) {
-        console.warn(`The custom element definition for "${themeFor}"
-      was finalized before a style module was registered.
-      Make sure to add component specific style modules before
-      importing the corresponding custom element.`);
-      }
-    }
-    styles = flattenStyles2(styles);
-    if (window.Vaadin && window.Vaadin.styleModules) {
-      window.Vaadin.styleModules.registerStyles(themeFor, styles, options);
-    } else {
-      themeRegistry2.push({
-        themeFor,
-        styles,
-        include: options.include,
-        moduleId: options.moduleId
-      });
-    }
-  }
-  function getAllThemes2() {
-    if (window.Vaadin && window.Vaadin.styleModules) {
-      return window.Vaadin.styleModules.getAllThemes();
-    }
-    return themeRegistry2;
-  }
-  function matchesThemeFor2(themeFor, tagName) {
-    return (themeFor || "").split(" ").some((themeForToken) => {
-      return new RegExp(`^${themeForToken.split("*").join(".*")}$`).test(tagName);
-    });
-  }
-  function getIncludePriority2(moduleName = "") {
-    let includePriority = 0;
-    if (moduleName.startsWith("lumo-") || moduleName.startsWith("material-")) {
-      includePriority = 1;
-    } else if (moduleName.startsWith("vaadin-")) {
-      includePriority = 2;
-    }
-    return includePriority;
-  }
-  function flattenStyles2(styles = []) {
-    return [styles].flat(Infinity).filter((style2) => {
-      if (style2 instanceof o) {
-        return true;
-      }
-      console.warn("An item in styles is not of type CSSResult. Use `unsafeCSS` or `css`.");
-      return false;
-    });
-  }
-  function getIncludedStyles2(theme) {
-    const includedStyles = [];
-    if (theme.include) {
-      [].concat(theme.include).forEach((includeModuleId) => {
-        const includedTheme = getAllThemes2().find((s5) => s5.moduleId === includeModuleId);
-        if (includedTheme) {
-          includedStyles.push(...getIncludedStyles2(includedTheme), ...includedTheme.styles);
-        } else {
-          console.warn(`Included moduleId ${includeModuleId} not found in style registry`);
-        }
-      }, theme.styles);
-    }
-    return includedStyles;
-  }
-  function addStylesToTemplate2(styles, template4) {
-    const styleEl = document.createElement("style");
-    styleEl.innerHTML = styles.map((style2) => style2.cssText).join("\n");
-    template4.content.appendChild(styleEl);
-  }
-  function getThemes2(tagName) {
-    const defaultModuleName = `${tagName}-default-theme`;
-    const themes = getAllThemes2().filter((theme) => theme.moduleId !== defaultModuleName && matchesThemeFor2(theme.themeFor, tagName)).map((theme) => ({
-      ...theme,
-      styles: [...getIncludedStyles2(theme), ...theme.styles],
-      includePriority: getIncludePriority2(theme.moduleId)
-    })).sort((themeA, themeB) => themeB.includePriority - themeA.includePriority);
-    if (themes.length > 0) {
-      return themes;
-    }
-    return getAllThemes2().filter((theme) => theme.moduleId === defaultModuleName);
-  }
-  function hasThemes2(tagName) {
-    return classHasThemes2(customElements.get(tagName));
-  }
-  function classHasThemes2(elementClass) {
-    return elementClass && Object.prototype.hasOwnProperty.call(elementClass, "__themes");
-  }
-  var ThemableMixin2 = (superClass) => class VaadinThemableMixin extends ThemePropertyMixin2(superClass) {
-    static finalize() {
-      super.finalize();
-      if (this.elementStyles) {
-        return;
-      }
-      const template4 = this.prototype._template;
-      if (!template4 || classHasThemes2(this)) {
-        return;
-      }
-      addStylesToTemplate2(this.getStylesForThis(), template4);
-    }
-    static finalizeStyles(styles) {
-      const themeStyles = this.getStylesForThis();
-      return styles ? [...super.finalizeStyles(styles), ...themeStyles] : themeStyles;
-    }
-    static getStylesForThis() {
-      const parent = Object.getPrototypeOf(this.prototype);
-      const inheritedThemes = (parent ? parent.constructor.__themes : []) || [];
-      this.__themes = [...inheritedThemes, ...getThemes2(this.is)];
-      const themeStyles = this.__themes.flatMap((theme) => theme.styles);
-      return themeStyles.filter((style2, index) => index === themeStyles.lastIndexOf(style2));
-    }
-  };
-
-  // node_modules/@vaadin/form-layout/node_modules/@vaadin/vaadin-lumo-styles/spacing.js
-  var spacing2 = i`
-  :host {
-    /* Square */
-    --lumo-space-xs: 0.25rem;
-    --lumo-space-s: 0.5rem;
-    --lumo-space-m: 1rem;
-    --lumo-space-l: 1.5rem;
-    --lumo-space-xl: 2.5rem;
-
-    /* Wide */
-    --lumo-space-wide-xs: calc(var(--lumo-space-xs) / 2) var(--lumo-space-xs);
-    --lumo-space-wide-s: calc(var(--lumo-space-s) / 2) var(--lumo-space-s);
-    --lumo-space-wide-m: calc(var(--lumo-space-m) / 2) var(--lumo-space-m);
-    --lumo-space-wide-l: calc(var(--lumo-space-l) / 2) var(--lumo-space-l);
-    --lumo-space-wide-xl: calc(var(--lumo-space-xl) / 2) var(--lumo-space-xl);
-
-    /* Tall */
-    --lumo-space-tall-xs: var(--lumo-space-xs) calc(var(--lumo-space-xs) / 2);
-    --lumo-space-tall-s: var(--lumo-space-s) calc(var(--lumo-space-s) / 2);
-    --lumo-space-tall-m: var(--lumo-space-m) calc(var(--lumo-space-m) / 2);
-    --lumo-space-tall-l: var(--lumo-space-l) calc(var(--lumo-space-l) / 2);
-    --lumo-space-tall-xl: var(--lumo-space-xl) calc(var(--lumo-space-xl) / 2);
-  }
-`;
-  var $tpl6 = document.createElement("template");
-  $tpl6.innerHTML = `<style>${spacing2.toString().replace(":host", "html")}</style>`;
-  document.head.appendChild($tpl6.content);
-
   // node_modules/@vaadin/form-layout/theme/lumo/vaadin-form-layout-styles.js
-  registerStyles2(
+  registerStyles(
     "vaadin-form-layout",
     i`
     :host {
@@ -17946,353 +17801,8 @@ Please use <label slot="label"> wrapper or the label property instead.`
     { moduleId: "lumo-form-layout" }
   );
 
-  // node_modules/@vaadin/form-layout/node_modules/@vaadin/component-base/src/async.js
-  var microtaskLastHandle3 = 0;
-  var microtaskCallbacks3 = [];
-  var microtaskScheduled3 = false;
-  var microtaskNode3 = document.createTextNode("");
-  new window.MutationObserver(microtaskFlush3).observe(microtaskNode3, { characterData: true });
-  function microtaskFlush3() {
-    microtaskScheduled3 = false;
-    const len = microtaskCallbacks3.length;
-    for (let i5 = 0; i5 < len; i5++) {
-      const cb = microtaskCallbacks3[i5];
-      if (cb) {
-        try {
-          cb();
-        } catch (e9) {
-          setTimeout(() => {
-            throw e9;
-          });
-        }
-      }
-    }
-    microtaskCallbacks3.splice(0, len);
-    microtaskLastHandle3 += len;
-  }
-  var idlePeriod2 = {
-    run(fn) {
-      return window.requestIdleCallback ? window.requestIdleCallback(fn) : window.setTimeout(fn, 16);
-    },
-    cancel(handle) {
-      if (window.cancelIdleCallback) {
-        window.cancelIdleCallback(handle);
-      } else {
-        window.clearTimeout(handle);
-      }
-    }
-  };
-
-  // node_modules/@vaadin/form-layout/node_modules/@vaadin/component-base/src/debounce.js
-  var Debouncer2 = class {
-    static debounce(debouncer, asyncModule, callback) {
-      if (debouncer instanceof Debouncer2) {
-        debouncer._cancelAsync();
-      } else {
-        debouncer = new Debouncer2();
-      }
-      debouncer.setConfig(asyncModule, callback);
-      return debouncer;
-    }
-    constructor() {
-      this._asyncModule = null;
-      this._callback = null;
-      this._timer = null;
-    }
-    setConfig(asyncModule, callback) {
-      this._asyncModule = asyncModule;
-      this._callback = callback;
-      this._timer = this._asyncModule.run(() => {
-        this._timer = null;
-        debouncerQueue2.delete(this);
-        this._callback();
-      });
-    }
-    cancel() {
-      if (this.isActive()) {
-        this._cancelAsync();
-        debouncerQueue2.delete(this);
-      }
-    }
-    _cancelAsync() {
-      if (this.isActive()) {
-        this._asyncModule.cancel(this._timer);
-        this._timer = null;
-      }
-    }
-    flush() {
-      if (this.isActive()) {
-        this.cancel();
-        this._callback();
-      }
-    }
-    isActive() {
-      return this._timer != null;
-    }
-  };
-  var debouncerQueue2 = /* @__PURE__ */ new Set();
-  function enqueueDebouncer2(debouncer) {
-    debouncerQueue2.add(debouncer);
-  }
-
-  // node_modules/@vaadin/form-layout/node_modules/@vaadin/component-base/src/dir-helper.js
-  var DirHelper2 = class {
-    static detectScrollType() {
-      const dummy = document.createElement("div");
-      dummy.textContent = "ABCD";
-      dummy.dir = "rtl";
-      dummy.style.fontSize = "14px";
-      dummy.style.width = "4px";
-      dummy.style.height = "1px";
-      dummy.style.position = "absolute";
-      dummy.style.top = "-1000px";
-      dummy.style.overflow = "scroll";
-      document.body.appendChild(dummy);
-      let cachedType = "reverse";
-      if (dummy.scrollLeft > 0) {
-        cachedType = "default";
-      } else {
-        dummy.scrollLeft = 2;
-        if (dummy.scrollLeft < 2) {
-          cachedType = "negative";
-        }
-      }
-      document.body.removeChild(dummy);
-      return cachedType;
-    }
-    static getNormalizedScrollLeft(scrollType3, direction, element) {
-      const { scrollLeft } = element;
-      if (direction !== "rtl" || !scrollType3) {
-        return scrollLeft;
-      }
-      switch (scrollType3) {
-        case "negative":
-          return element.scrollWidth - element.clientWidth + scrollLeft;
-        case "reverse":
-          return element.scrollWidth - element.clientWidth - scrollLeft;
-        default:
-          return scrollLeft;
-      }
-    }
-    static setNormalizedScrollLeft(scrollType3, direction, element, scrollLeft) {
-      if (direction !== "rtl" || !scrollType3) {
-        element.scrollLeft = scrollLeft;
-        return;
-      }
-      switch (scrollType3) {
-        case "negative":
-          element.scrollLeft = element.clientWidth - element.scrollWidth + scrollLeft;
-          break;
-        case "reverse":
-          element.scrollLeft = element.scrollWidth - element.clientWidth - scrollLeft;
-          break;
-        default:
-          element.scrollLeft = scrollLeft;
-          break;
-      }
-    }
-  };
-
-  // node_modules/@vaadin/form-layout/node_modules/@vaadin/component-base/src/dir-mixin.js
-  var directionSubscribers2 = [];
-  function directionUpdater2() {
-    const documentDir = getDocumentDir2();
-    directionSubscribers2.forEach((element) => {
-      alignDirs2(element, documentDir);
-    });
-  }
-  var scrollType2;
-  var directionObserver2 = new MutationObserver(directionUpdater2);
-  directionObserver2.observe(document.documentElement, { attributes: true, attributeFilter: ["dir"] });
-  function alignDirs2(element, documentDir, elementDir = element.getAttribute("dir")) {
-    if (documentDir) {
-      element.setAttribute("dir", documentDir);
-    } else if (elementDir != null) {
-      element.removeAttribute("dir");
-    }
-  }
-  function getDocumentDir2() {
-    return document.documentElement.getAttribute("dir");
-  }
-  var DirMixin2 = (superClass) => class VaadinDirMixin extends superClass {
-    static get properties() {
-      return {
-        dir: {
-          type: String,
-          value: "",
-          reflectToAttribute: true,
-          converter: {
-            fromAttribute: (attr) => {
-              return !attr ? "" : attr;
-            },
-            toAttribute: (prop) => {
-              return prop === "" ? null : prop;
-            }
-          }
-        }
-      };
-    }
-    static finalize() {
-      super.finalize();
-      if (!scrollType2) {
-        scrollType2 = DirHelper2.detectScrollType();
-      }
-    }
-    connectedCallback() {
-      super.connectedCallback();
-      if (!this.hasAttribute("dir")) {
-        this.__subscribe();
-        alignDirs2(this, getDocumentDir2(), null);
-      }
-    }
-    attributeChangedCallback(name, oldValue, newValue) {
-      super.attributeChangedCallback(name, oldValue, newValue);
-      if (name !== "dir") {
-        return;
-      }
-      const documentDir = getDocumentDir2();
-      const newValueEqlDocDir = newValue === documentDir && directionSubscribers2.indexOf(this) === -1;
-      const newValueEmptied = !newValue && oldValue && directionSubscribers2.indexOf(this) === -1;
-      const newDiffValue = newValue !== documentDir && oldValue === documentDir;
-      if (newValueEqlDocDir || newValueEmptied) {
-        this.__subscribe();
-        alignDirs2(this, documentDir, newValue);
-      } else if (newDiffValue) {
-        this.__subscribe(false);
-      }
-    }
-    disconnectedCallback() {
-      super.disconnectedCallback();
-      this.__subscribe(false);
-      this.removeAttribute("dir");
-    }
-    _valueToNodeAttribute(node, value, attribute) {
-      if (attribute === "dir" && value === "" && !node.hasAttribute("dir")) {
-        return;
-      }
-      super._valueToNodeAttribute(node, value, attribute);
-    }
-    _attributeToProperty(attribute, value, type) {
-      if (attribute === "dir" && !value) {
-        this.dir = "";
-      } else {
-        super._attributeToProperty(attribute, value, type);
-      }
-    }
-    __subscribe(push = true) {
-      if (push) {
-        if (!directionSubscribers2.includes(this)) {
-          directionSubscribers2.push(this);
-        }
-      } else if (directionSubscribers2.includes(this)) {
-        directionSubscribers2.splice(directionSubscribers2.indexOf(this), 1);
-      }
-    }
-    __getNormalizedScrollLeft(element) {
-      return DirHelper2.getNormalizedScrollLeft(scrollType2, this.getAttribute("dir") || "ltr", element);
-    }
-    __setNormalizedScrollLeft(element, scrollLeft) {
-      return DirHelper2.setNormalizedScrollLeft(scrollType2, this.getAttribute("dir") || "ltr", element, scrollLeft);
-    }
-  };
-
-  // node_modules/@vaadin/form-layout/node_modules/@vaadin/component-base/src/element-mixin.js
-  setCancelSyntheticClickEvents(false);
-  window.Vaadin = window.Vaadin || {};
-  window.Vaadin.registrations = window.Vaadin.registrations || [];
-  window.Vaadin.developmentModeCallback = window.Vaadin.developmentModeCallback || {};
-  window.Vaadin.developmentModeCallback["vaadin-usage-statistics"] = function() {
-    usageStatistics();
-  };
-  var statsJob2;
-  var registered2 = /* @__PURE__ */ new Set();
-  var ElementMixin3 = (superClass) => class VaadinElementMixin extends DirMixin2(superClass) {
-    static get version() {
-      return "23.2.3";
-    }
-    static finalize() {
-      super.finalize();
-      const { is } = this;
-      if (is && !registered2.has(is)) {
-        window.Vaadin.registrations.push(this);
-        registered2.add(is);
-        if (window.Vaadin.developmentModeCallback) {
-          statsJob2 = Debouncer2.debounce(statsJob2, idlePeriod2, () => {
-            window.Vaadin.developmentModeCallback["vaadin-usage-statistics"]();
-          });
-          enqueueDebouncer2(statsJob2);
-        }
-      }
-    }
-    constructor() {
-      super();
-      if (document.doctype === null) {
-        console.warn(
-          'Vaadin components require the "standards mode" declaration. Please add <!DOCTYPE html> to the HTML document.'
-        );
-      }
-    }
-  };
-
-  // node_modules/@vaadin/form-layout/node_modules/@vaadin/component-base/src/resize-mixin.js
-  var observer2 = new ResizeObserver((entries) => {
-    setTimeout(() => {
-      entries.forEach((entry) => {
-        if (entry.target.resizables) {
-          entry.target.resizables.forEach((resizable) => {
-            resizable._onResize(entry.contentRect);
-          });
-        } else {
-          entry.target._onResize(entry.contentRect);
-        }
-      });
-    });
-  });
-  var ResizeMixin2 = dedupingMixin(
-    (superclass) => class ResizeMixinClass extends superclass {
-      connectedCallback() {
-        super.connectedCallback();
-        observer2.observe(this);
-        if (this._observeParent) {
-          const parent = this.parentNode instanceof ShadowRoot ? this.parentNode.host : this.parentNode;
-          if (!parent.resizables) {
-            parent.resizables = /* @__PURE__ */ new Set();
-            observer2.observe(parent);
-          }
-          parent.resizables.add(this);
-          this.__parent = parent;
-        }
-      }
-      disconnectedCallback() {
-        super.disconnectedCallback();
-        observer2.unobserve(this);
-        const parent = this.__parent;
-        if (this._observeParent && parent) {
-          const resizables = parent.resizables;
-          if (resizables) {
-            resizables.delete(this);
-            if (resizables.size === 0) {
-              observer2.unobserve(parent);
-            }
-          }
-          this.__parent = null;
-        }
-      }
-      get _observeParent() {
-        return false;
-      }
-      _onResize(_contentRect) {
-      }
-      notifyResize() {
-        console.warn(
-          `WARNING: Since Vaadin 23, notifyResize() is deprecated. The component uses a ResizeObserver internally and doesn't need to be explicitly notified of resizes.`
-        );
-      }
-    }
-  );
-
   // node_modules/@vaadin/form-layout/src/vaadin-form-layout.js
-  var FormLayout = class extends ResizeMixin2(ElementMixin3(ThemableMixin2(PolymerElement))) {
+  var FormLayout = class extends ResizeMixin(ElementMixin2(ThemableMixin(PolymerElement))) {
     static get template() {
       return html`
       <style>
@@ -18570,6 +18080,7 @@ Please use <label slot="label"> wrapper or the label property instead.`
       ];
     }
     render() {
+      console.log("here 9");
       return y`
     <vaadin-form-layout .responsiveSteps="${this.responsiveSteps}">
     </vaadin-form-layout>`;
@@ -18642,6 +18153,11 @@ Please use <label slot="label"> wrapper or the label property instead.`
 /**
  * @license
  * Copyright 2021 Google LLC
+ * SPDX-License-Identifier: BSD-3-Clause
+ */
+/**
+ * @license
+ * Copyright 2022 Google LLC
  * SPDX-License-Identifier: BSD-3-Clause
  */
 /**
