@@ -18,6 +18,8 @@ func TextField(ui *immgo.RenderNode, label string, options ...TextFieldOptions) 
 		Properties: immgo.Properties{
 			Attributes: immgo.Attributes{
 				"label": label,
+				// I'm not exactly sure why this doesn't happen automatically. Hacking it for now.
+				"style": "width: calc(99.9% - 0rem); margin-left: 0px; margin-right: 0px;",
 			},
 			EventHandlers: immgo.EventHandlers{},
 		},

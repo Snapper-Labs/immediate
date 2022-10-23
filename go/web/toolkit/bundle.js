@@ -18083,7 +18083,7 @@ Please use <label slot="label"> wrapper or the label property instead.`
       console.log("here 9");
       return y`
     <vaadin-form-layout .responsiveSteps="${this.responsiveSteps}">
-      <slot></slot>
+      <slot style="width: calc(99.9% - 0rem); margin-left: 0px; margin-right: 0px;"></slot>
     </vaadin-form-layout>`;
     }
   };

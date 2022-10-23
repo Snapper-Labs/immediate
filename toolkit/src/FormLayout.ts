@@ -13,8 +13,14 @@ export class FormLayout extends LitElement {
   ];
 
   render() {
-    console.log("here 9")
     return html`
+    <style>
+      :host {
+        display: block;
+        max-width: 100%;
+        align-self: stretch;
+      }
+    </style>
     <vaadin-form-layout .responsiveSteps="${this.responsiveSteps}">
       <slot></slot>
     </vaadin-form-layout>`
