@@ -3,6 +3,7 @@ package web
 import (
 	"encoding/json"
 	"errors"
+	"sync"
 
 	log "github.com/sirupsen/logrus"
 	"github.com/gorilla/websocket"
@@ -89,6 +90,7 @@ func Notify[A any](peer *Peer, method string, args A) error {
 type Peer struct {
 	transport Transport
 	handlers map[string]RequestHandler
+	pendingLock sync.Mutex
 	pending map[int]chan json.RawMessage
 	nextId int
 }
@@ -128,6 +130,8 @@ func (this *Peer) Request(method string, args json.RawMessage) (chan json.RawMes
 	}
 
 	retchan := make(chan json.RawMessage)
+	this.pendingLock.Lock()
+	defer this.pendingLock.Unlock()
 	this.pending[id] = retchan
 
 	return retchan, nil
@@ -221,6 +225,8 @@ func (this *Peer) Serve() error {
 			return err
 		}
 
+		this.pendingLock.Lock()
+		defer this.pendingLock.Unlock()
 		pending, exists := this.pending[*response.Id]
 		if !exists {
 			return errors.New("No pending channel")

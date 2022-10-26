@@ -10,14 +10,17 @@ import (
 	sevengui "github.com/snapper-labs/immediate/go/web/examples/7gui"
 	prdiff "github.com/snapper-labs/immediate/go/web/examples/pr_diff"
 	toolkitdemo "github.com/snapper-labs/immediate/go/web/examples/toolkit-demo"
-	"github.com/snapper-labs/immediate/go/web/intool"
+	"github.com/snapper-labs/immediate/go/web/toolkit"
 )
 
 type app struct{}
 
 func (this *app) Render(ui *immgo.RenderNode, doc *web.Document) {
-	if !intool.Initialize(ui) {
-		intool.Text(ui, "Loading...")
+	initialized, setInitialized := immgo.State(ui, false)
+	toolkit.Initialize(ui, func() { setInitialized(true) })
+
+	if !*initialized {
+		toolkit.Markdown(ui, "Loading...")
 		return
 	}
 
@@ -40,7 +43,7 @@ func (this *app) Render(ui *immgo.RenderNode, doc *web.Document) {
 		endSha := currentURL.Query().Get("endSha")
 		prdiff.Render(ui, startSha, endSha)
 	default:
-		intool.Text(ui, fmt.Sprintf("Unknown path: %s", currentURL.Path))
+		toolkit.Markdown(ui, fmt.Sprintf("Unknown path: %s", currentURL.Path))
 	}
 }
 
