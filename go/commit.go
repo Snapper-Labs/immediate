@@ -2,6 +2,8 @@ package immgo
 
 import (
 	"fmt"
+
+	log "github.com/sirupsen/logrus"
 )
 
 func Commit(renderNode *RenderNode, hostNode HostNode, hostTree HostTree) error {
@@ -35,9 +37,16 @@ func Commit(renderNode *RenderNode, hostNode HostNode, hostTree HostTree) error 
 
 		if !matched {
 			// clean up shadow node
-			f, exists := shadowNode.data.Properties.EventHandlers[ImmgoUnmount]
+			effects, exists := shadowNode.data.Properties.Attributes[ImmgoUnmount]
 			if exists {
-				f(struct{}{})
+				eff, ok := effects.(*Effects)
+				if !ok {
+					log.Debug("Error: unmount effects is not of type *Effects")
+				} else {
+					for _, effect := range eff.Get() {
+						effect()
+					}
+				}
 			}
 			
 			shadowNode.RemoveChildAt(index - removed)

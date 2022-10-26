@@ -4,14 +4,27 @@ import (
 	"github.com/apkumar/go-option"
 )
 
-// helpers.go contains a set of helper methods that provides ergonomic
-// implementations of common needs.
+// helpers.go implements various "hooks" and helper functions that are common
+// needs in immgo applications.
 //
-// It's worth noting that all of these methods could be implemented against the
-// public API of the shadow tree / render tree. They are not "special" from the
-// perspective of the core framework.
+// Many of these functions are inspired by React hooks, but contain some
+// important differences.
 
-// Scheduler returns a function that can be used to schedule effects.
+
+// AddEffects adds `f` to the list of effects to be run before the next render
+// starts. The effect will only be called once.
+//
+// Note that adding an effect, if there are no current effects in the tree, will
+// *schedule* a render as well.
+func AddEffect(node *RenderNode, f EffectFunc) {
+	node.data.description.Properties.Attributes[ImmgoEffects].(*Effects).Add(f)
+}
+
+// Schedule ensures that a render is scheduled to run.
+func Schedule(node *RenderNode) {
+	AddEffect(node, func() {})
+}
+
 func Scheduler(node *RenderNode) func(f EffectFunc) {
 	effects := NewEffects()
 
@@ -48,8 +61,6 @@ func State[T any](node *RenderNode, defaultState T, options ...StateOptions) (*T
 		Properties: Properties{Attributes: Attributes{}},
 	}
 
-	schedule := Scheduler(node)
-
 	renderNode := Render(node, desc)
 	shadowNode := renderNode.data.match
 
@@ -58,7 +69,7 @@ func State[T any](node *RenderNode, defaultState T, options ...StateOptions) (*T
 		renderNode.data.description.Properties.Attributes["_state"] = val
 
 		setState := func(newValue T) {
-			schedule(func() {
+			AddEffect(renderNode, func() {
 				*val = newValue
 			})
 		}
@@ -70,7 +81,7 @@ func State[T any](node *RenderNode, defaultState T, options ...StateOptions) (*T
 		r := shadowNode.data.Properties.Attributes["_state"].(*T)
 
 		setState := func(newValue T) {
-			schedule(func() {
+			AddEffect(renderNode, func() {
 				*r = newValue
 			})
 		}
@@ -79,20 +90,12 @@ func State[T any](node *RenderNode, defaultState T, options ...StateOptions) (*T
 	}
 }
 
-type ChangedOptions struct {
-	Key string
+// Created returns whether the element was just constructed. 
+func Created(node *RenderNode) bool {
+	return node.data.match == nil
 }
 
-func Changed[T comparable](parent *RenderNode, val T, options ...ChangedOptions) bool {
-	opts := option.Merge(options...)
-
-	state, setState := State(parent, val, StateOptions{opts.Key})
-	curr := *state
-	setState(val)
-
-	if curr == val {
-		return false
-	} else {
-		return true
-	}
+// AddDestructor adds a function to be called when the element is unmounted.
+func AddDestructor(node *RenderNode, f EffectFunc) {
+	node.data.description.Properties.Attributes[ImmgoUnmount].(*Effects).Add(f)
 }
