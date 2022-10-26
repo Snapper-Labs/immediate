@@ -11,6 +11,11 @@ func Render(parentNode *RenderNode, description ElementDescription) *RenderNode 
 
 	renderNode := &RenderNode{}
 	renderNode.data.description = description
+
+	// Add an empty effects list.
+	renderNode.data.description.Properties.Attributes[ImmgoEffects] = NewEffects()
+	renderNode.data.description.Properties.Attributes[ImmgoUnmount] = NewEffects()
+
 	renderNode.data.match = match(parentNode, renderNode)
 	parentNode.AppendChild(renderNode)
 

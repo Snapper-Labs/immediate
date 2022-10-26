@@ -2,10 +2,8 @@
 
 On this page, we will go through the core concepts of immediate. Many of the
 concepts will feel familiar to those who have used libraries like React, but
-there are important differences as well. 
-
-Note that much of the terminology used in Immediate comes from the DOM, since
-that is our primary rendering target.
+there are important differences as well. You'll notice that much of the
+terminology used in Immediate comes from the DOM.
 
 ## Rendering Elements
 
@@ -15,8 +13,8 @@ The most basic immediate application looks something like this:
 package main
 
 import (
-	"github.com/apkumar/immediate/go"
-	"github.com/apkumar/immediate/go/web"
+	"github.com/snapper-labs/immediate/go"
+	"github.com/snapper-labs/immediate/go/web"
 )
 
 func HelloWorld(root *immgo.RenderNode) {
@@ -35,12 +33,12 @@ func HelloWorld(root *immgo.RenderNode) {
 
 type app struct {}
 
-func (this *app) Render(root *immgo.RenderNode, doc *immgo_web.Document) {
+func (this *app) Render(root *immgo.RenderNode, doc *web.Document) {
 	HelloWorld(root)
 }
 
 func main() {
-	immgo_web.Serve("localhost:8081", &app{})
+	web.Mount("localhost:8081", &app{})
 }
 ```
 
@@ -54,47 +52,53 @@ World". There are a few things to note:
 - `HelloWorld` takes an `*immgo.RenderNode` as an argument, and passes that to
   `Render`. We'll talk about render nodes more as we proceed in this tutorial.
 
-- `app`'s render function additionally takes an `*immgo_web.Document` as an
-  argument. We won't use it in this tutorial, as it's specific to `immgo_web`;
-  you can think of it as an RPC interface to the browser's `document`.
+- `app`'s render function additionally takes an `*web.Document` as an
+  argument. You can think of it as an RPC interface to the browser's `document`;
+  we'll use it later in this tutorial.
 
 - We provided `Render` with an `ElementDescription`, not an instantiated
   element. This is a key concept in immediate -- in your application, you
   describe what you want the UI to look like, and immediate figures out how to
   make that happen.
 
-- `HelloWorld` does not _return_ element descriptions, but rather invokes the
-  `Render` function with element descriptions as arguments. This is in contrast
-  to similar frameworks like React; we will see what we gain by this approach
-  later, when we talk about encapsulating state.
+- `HelloWorld` does not _return_ element descriptions (as in, for example,
+  React), but rather invokes the `Render` function with element descriptions as
+  arguments. This is in contrast to similar frameworks like React; we will see
+  what we gain by this approach later, when we talk about encapsulating state.
 
-Rendering that div looks like a lot of boilerplate, but we wanted to
-show the low-level `Render` API -- in practice, you'll use helper functions
-rather than `Render` directly. In our case, `immgo_web` provides the helpful
-`Text` function, so we can rewrite our app like so:
+Rendering that div looks like a lot of boilerplate, but we wanted to show the
+low-level `Render` API -- in practice, you'll use helper functions rather than
+`Render` directly. In our case, the `web` package provides the helpful `Div` function:
 
 ``` golang
-package main
-
-import (
-	"github.com/apkumar/immediate/go"
-	"github.com/apkumar/immediate/go/web"
-)
-
 func HelloWorld(root *immgo.RenderNode) {
-        immgo_web.Text(root, "Hello, World")
-}
-
-type app struct {}
-
-func (this *app) Render(root *immgo.RenderNode, doc *immgo_web.Document) {
-	HelloWorld(root)
-}
-
-func main() {
-	immgo_web.Serve("localhost:8081", &app{})
+        web.Div(root, web.DivOptions {
+                TextContent: "Hello, World",
+        })
 }
 ```
+
+!!! note
+
+    The `web` package provides a set of functions that wrap the basic DOM elements
+    provided by the browser. In practice, we expect most developers will use the
+    `toolkit` package, which provides a set of higher-level building blocks for
+    creating internal tools. However, in this tutorial, in order to focus on a
+    conceptual understanding of Immediate, we will stick to components provided by
+    the `web` package.
+
+
+Since we'll be displaying simple text content often in this tutorial, let's make
+a quick helper function to do so:
+
+``` golang
+func Text(root *immgo.RenderNode, content string) {
+        web.Div(root, web.DivOptions {
+                TextContent: content,
+        })
+}
+```
+
 
 ## Rendering Hierarchy
 
@@ -112,13 +116,13 @@ import (
 )
 
 func HelloWorld(root *immgo.RenderNode) {
-	backgroundDiv := immgo_web.Div(root, immgo_web.DivOptions {
-		Style: immgo_web.Style {
+	backgroundDiv := web.Div(root, web.DivOptions {
+		Style: web.Style {
 			BackgroundColor: option.Some("green"),
 		},
 	})
 
-	immgo_web.Text(backgroundDiv, "Hello, World")
+        Text(root, "Hello, World")
 }
 ```
 
@@ -128,42 +132,61 @@ func HelloWorld(root *immgo.RenderNode) {
     better zero values for various configuration structs.
 
 Notice how we store the render node returned by `Div` in the variable
-`backgroundDiv`, and then pass _that_ to `immgo_web.Text`, rather than passing
+`backgroundDiv`, and then pass _that_ to `web.Text`, rather than passing
 `root`, as we did before.
 
 ## Updating Elements
 
 Element descriptions are immutable. To update the UI, you don't explicitly
 modify an element; instead, you produce a new render tree, with new element
-descriptions, that describes what you want your new UI to look like. In order to
-produce a new render tree, we have to inform the Immediate runtime that
-something has changed and that we would like our Render function to be called
-again.
-
-We can modify our Text call in the following way:
+descriptions, that describes what you want your new UI to look like. Consider
+the following modification to our `HelloWorld` function:
 
 ``` golang
-immgo_web.Text(
-	backgroundDiv,
-	fmt.Sprintf("Hello, it is %s", time.Now().Format(time.UnixDate)),
-)
+func HelloWorld(root *immgo.RenderNode) {
+	backgroundDiv := web.Div(root, web.DivOptions {
+		Style: web.Style {
+			BackgroundColor: option.Some("green"),
+		},
+	})
 
-schedule := immgo.Scheduler(backgroundDiv)
-
-// Inform Immediate that we want a re-render soon.
-go func() {
-  time.Sleep(33 * time.Millisecond)
-  schedule(func(){})
-}()
+        Text(
+          root, 
+          fmt.Sprintf("Hello, it is %s", time.Now().Format(time.UnixDate))
+        )
+}
 ```
 
-When you run this code, you should see a ticking timer! 
+If you run this code, you'll notice that nothing is changing. The reason is that
+Immediate has no way of knowing that a re-render would produce a different
+render tree; we could simply re-render the application all the time, but this
+would be too much of a performance hit for mostly-unchanging applications.
+Instead, we need some way of informing Immediate that a re-render is necessary.
+We can do this with `immgo.Schedule`:
+
+``` golang
+func HelloWorld(root *immgo.RenderNode) {
+	backgroundDiv := web.Div(root, web.DivOptions {
+		Style: web.Style {
+			BackgroundColor: option.Some("green"),
+		},
+	})
+
+        Text(
+          root, 
+          fmt.Sprintf("Hello, it is %s", time.Now().Format(time.UnixDate))
+        )
+
+        immgo.Schedule(root)
+}
+```
+
 
 !!! note
 
-    We are showing this use of `immgo.Scheduler` to give a sense of how the
+    We are showing this use of `immgo.Schedule` to give a sense of how the
     Immediate runtime works under the hood. In practice, we don't expect users
-    to have to use `immgo.Scheduler` directly; as we proceed, we'll see how the
+    to have to use `immgo.Schedule` directly; as we proceed, we'll see how the
     framework provides higher-level abstractions that schedule updates
     appropriately.
 
@@ -194,8 +217,8 @@ func HelloWorld(root *immgo.RenderNode, clicked *int) {
 		oddOrEven = "even"
 	}
 
-	immgo_web.Text(root, oddOrEven)
-	immgo_web.Button(root, onClick, immgo_web.ButtonOptions { Label: "Click Me" })
+	Text(root, oddOrEven)
+	web.Button(root, onClick, web.ButtonOptions { Label: "Click Me" })
 }
 
 
@@ -203,7 +226,7 @@ type app struct {
         int clicked
 }
 
-func (this *app) Render(root *immgo.RenderNode, doc *immgo_web.Document) {
+func (this *app) Render(root *immgo.RenderNode, doc *web.Document) {
 	HelloWorld(root, &this.clicked)
 }
 ```
@@ -239,7 +262,7 @@ func CounterButton(root *immgo.RenderNode) string {
 		setClicked(*clicked + 1)
 	}
 
-	immgo_web.Button(root, onClick, immgo_web.ButtonOptions { Label: "Click me" })
+	web.Button(root, onClick, web.ButtonOptions { Label: "Click me" })
 
 	oddOrEven := "odd"
 	if *clicked % 2 == 0 {
@@ -251,7 +274,7 @@ func CounterButton(root *immgo.RenderNode) string {
 
 func HelloWorld(root *immgo.RenderNode, clicked *int) {
 	oddOrEven := CounterButton(root)
-	immgo_web.Text(root, oddOrEven)
+	web.Text(root, oddOrEven)
 }
 ```
 
@@ -260,14 +283,14 @@ to hoist it up via callbacks. This allows us to implement, for example, a Button
 API that will be familiar to those used to immediate-mode GUI:
 
 ``` golang
-func ImmediateButton(root *immgo.RenderNode, options ...immgo_web.ButtonOptions) bool {
+func ImmediateButton(root *immgo.RenderNode, options ...web.ButtonOptions) bool {
 	clicked, setClicked := immgo.State(root, false)
 
 	onClick := func() {
 		setClicked(true)
 	}
 
-	immgo_web.Button(root, onClick, options...)
+	web.Button(root, onClick, options...)
 
 	returnValue := *clicked
 	setClicked(false)
@@ -280,3 +303,20 @@ Most of the low-level built-in components like Button prefer the event-handler
 style API, since that's closer to how Immediate works under the hood; but it is
 easy to create immediate-mode APIs such as `ImmediateButton` above if you
 prefer.
+
+## Working With the Element Lifecycle
+
+Because the user-facing Immediate API deals with element _descriptions_, rather
+than the elements themselves, we must provide explicit ways for developers to
+hook into lifecycle events such as element creation and destruction. These take
+the form of `immgo.Created` and `immgo.AddDestructor`:
+
+``` golang
+text := Text(root, "Some text")
+if immgo.Created(text) {
+        // Do something on creation.
+
+        // Clean it up on destruction
+        immgo.AddDestructor(func() {})
+}
+```
