@@ -72,24 +72,24 @@ func main() {
 	}
 
 	restartCommand := func() error {
-		lastCmd := cmd
-
 		// Spawn the command at the next index
 		nextIndex := (currIndex + 1) % len(ports)
-		cmd = NewCommand(ports[nextIndex], *command)
+		nextCmd := NewCommand(ports[nextIndex], *command)
 
-		if err := cmd.Start(5 * time.Second); err != nil {
+		if err := nextCmd.Start(5 * time.Second); err != nil {
 			return err
 		}
 
 		// Switch the index to the new command.
+		lastCmd := cmd
+		cmd = nextCmd
 		currIndex = nextIndex
 		restartProxy()
 
 		// Kill the old command.
 		if lastCmd != nil {
 			if err := lastCmd.Kill(); err != nil {
-				return err
+				return fmt.Errorf("Error killing: %v", err)
 			}
 		}
 		return nil
@@ -144,7 +144,7 @@ func main() {
 		}
 	}()
 
-	go w.Start(time.Millisecond * 100)
+	go w.Start(time.Millisecond * 300)
 
 
 	http.HandleFunc("/events", func(w http.ResponseWriter, r *http.Request) {
