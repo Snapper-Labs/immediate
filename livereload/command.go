@@ -23,10 +23,12 @@ type Command struct {
 	cmd *exec.Cmd
 	command string
 	port uint32
+
+	doneErr *error
 }
 
 func NewCommand(port uint32, command string) *Command {
-	return &Command{cmd: nil, command: command, port: port}
+	return &Command{cmd: nil, command: command, port: port, doneErr: nil}
 }
 
 func (this *Command) Start(timeout time.Duration) error {
@@ -51,8 +53,13 @@ func (this *Command) Start(timeout time.Duration) error {
 
 	this.cmd = cmd
 
+	go func() {
+		err := this.cmd.Wait()
+		this.doneErr = &err
+	}()
+
 	// Wait for the process to begin listening on the port
-	if err := waitUntilListening(this.port, timeout); err != nil {
+	if err := this.waitUntilListening(timeout); err != nil {
 		return err
 	}
 
@@ -64,11 +71,18 @@ func (this *Command) Kill() error {
 		return fmt.Errorf("This command was never started.")
 	}
 
+	if (this.doneErr != nil) {
+		log.Debugf("Command already finished: %v", *this.doneErr)
+		// No need to kill the process, it's already done.
+		return nil
+	}
+
 	// Kill the process group, which will kill all of the children as well.
 	return syscall.Kill(-this.cmd.Process.Pid, syscall.SIGKILL)
 }
 
-func waitUntilListening(port uint32, timeout time.Duration) error {
+func (this *Command) waitUntilListening(timeout time.Duration) error {
+	port := this.port
 	start := time.Now()
 	for {
 		// Check if the port is listening
@@ -83,6 +97,14 @@ func waitUntilListening(port uint32, timeout time.Duration) error {
 			if time.Now().Sub(start) > timeout {
 				return fmt.Errorf("Timed out waiting for port %d to listen", port)
 			}
+
+			// Check if the process is done.
+			if (this.doneErr != nil) {
+				return fmt.Errorf("Process exited before listening on port %d (%v)", port, *this.doneErr)
+			}
+
+			// Sleep a bit.
+			time.Sleep(300 * time.Millisecond)
 		}
 	}
 }
