@@ -8,7 +8,9 @@ clean:
 	rm -rf ../web/node_modules yarn.lock
 	rm -rf ../toolkit/node_modules yarn.lock
 
+run-examples: bundle
+	cd web/examples && go run ./.
+
 bundle: web/main.js web/toolkit/bundle.js
 
 .PHONY: web/main.js web/toolkit/bundle.js
-

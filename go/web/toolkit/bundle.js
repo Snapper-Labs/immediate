@@ -18080,10 +18080,16 @@ Please use <label slot="label"> wrapper or the label property instead.`
       ];
     }
     render() {
-      console.log("here 9");
       return y`
-    <vaadin-form-layout .responsiveSteps="${this.responsiveSteps}">
-      <slot style="width: calc(99.9% - 0rem); margin-left: 0px; margin-right: 0px;"></slot>
+    <style>
+      :host {
+        display: block;
+        max-width: 100%;
+        align-self: stretch;
+      }
+    </style>
+    <vaadin-form-layout>
+      <slot></slot>
     </vaadin-form-layout>`;
     }
   };

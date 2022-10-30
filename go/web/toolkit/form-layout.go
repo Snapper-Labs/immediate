@@ -14,7 +14,7 @@ func FormLayout(ui *immgo.RenderNode, options ...FormLayoutOptions) *immgo.Rende
 	opts := option.Merge(options...)
 
 	desc := immgo.ElementDescription{
-		Kind: "itk-form-layout",
+		Kind: "vaadin-form-layout",
 		Key:  opts.Key,
 		Properties: immgo.Properties{
 			Attributes:    immgo.Attributes{},
