@@ -5,8 +5,10 @@
   "license": "MIT",
   "dependencies": {
     "@types/showdown": "^2.0.0",
+    "@vaadin/button": "^23.2.7",
     "@vaadin/form-layout": "^23.2.3",
     "@vaadin/grid": "^23.2.2",
+    "@vaadin/progress-bar": "^23.2.7",
     "@vaadin/text-field": "^23.2.3",
     "@vaadin/vertical-layout": "^23.2.2",
     "lit": "^2.3.1",

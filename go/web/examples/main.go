@@ -1,9 +1,9 @@
 package main
 
 import (
-	"os"
 	"fmt"
 	"net/url"
+	"os"
 
 	immgo "github.com/snapper-labs/immediate/go"
 	"github.com/snapper-labs/immediate/go/web"
@@ -16,13 +16,7 @@ import (
 type app struct{}
 
 func (this *app) Render(ui *immgo.RenderNode, doc *web.Document) {
-	initialized, setInitialized := immgo.State(ui, false)
-	toolkit.Initialize(ui, func() { setInitialized(true) })
-
-	if !*initialized {
-		toolkit.Markdown(ui, "Loading...")
-		return
-	}
+	toolkit.Initialize(ui, func() {})
 
 	currentURL, setURL := immgo.State(ui, url.URL{})
 

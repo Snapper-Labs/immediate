@@ -4340,7 +4340,7 @@
       this.label = "";
     }
     render() {
-      return y`<button @click=${this._onClick}>${this.label}</button>`;
+      return y`<vaadin-button @click=${this._onClick}>${this.label}</button>`;
     }
     _onClick(e9) {
       this.dispatchEvent(e9);
@@ -4356,7 +4356,7 @@
   // node_modules/@vaadin/vaadin-lumo-styles/version.js
   var Lumo = class extends HTMLElement {
     static get version() {
-      return "23.2.5";
+      return "23.2.7";
     }
   };
   customElements.define("vaadin-lumo-styles", Lumo);
@@ -4447,10 +4447,10 @@
     }
     return includedStyles;
   }
-  function addStylesToTemplate(styles, template4) {
+  function addStylesToTemplate(styles, template5) {
     const styleEl = document.createElement("style");
     styleEl.innerHTML = styles.map((style2) => style2.cssText).join("\n");
-    template4.content.appendChild(styleEl);
+    template5.content.appendChild(styleEl);
   }
   function getThemes(tagName) {
     const defaultModuleName = `${tagName}-default-theme`;
@@ -4476,11 +4476,11 @@
       if (this.elementStyles) {
         return;
       }
-      const template4 = this.prototype._template;
-      if (!template4 || classHasThemes(this)) {
+      const template5 = this.prototype._template;
+      if (!template5 || classHasThemes(this)) {
         return;
       }
-      addStylesToTemplate(this.getStylesForThis(), template4);
+      addStylesToTemplate(this.getStylesForThis(), template5);
     }
     static finalizeStyles(styles) {
       const themeStyles = this.getStylesForThis();
@@ -5328,10 +5328,10 @@
     if (m2._styles === void 0) {
       const styles = [];
       styles.push(..._stylesFromModuleImports(m2));
-      const template4 = m2.querySelector("template");
-      if (template4) {
+      const template5 = m2.querySelector("template");
+      if (template5) {
         styles.push(...stylesFromTemplate(
-          template4,
+          template5,
           m2.assetpath
         ));
       }
@@ -5339,10 +5339,10 @@
     }
     return m2._styles;
   }
-  function stylesFromTemplate(template4, baseURI) {
-    if (!template4._styles) {
+  function stylesFromTemplate(template5, baseURI) {
+    if (!template5._styles) {
       const styles = [];
-      const e$ = template4.content.querySelectorAll("style");
+      const e$ = template5.content.querySelectorAll("style");
       for (let i5 = 0; i5 < e$.length; i5++) {
         let e9 = e$[i5];
         let include = e9.getAttribute(INCLUDE_ATTR);
@@ -5356,9 +5356,9 @@
         }
         styles.push(e9);
       }
-      template4._styles = styles;
+      template5._styles = styles;
     }
-    return template4._styles;
+    return template5._styles;
   }
   function stylesFromModuleImports(moduleId) {
     let m2 = importModule(moduleId);
@@ -5957,22 +5957,22 @@
   var TemplateStamp = dedupingMixin(
     (superClass) => {
       class TemplateStamp2 extends superClass {
-        static _parseTemplate(template4, outerTemplateInfo) {
-          if (!template4._templateInfo) {
-            let templateInfo = template4._templateInfo = {};
+        static _parseTemplate(template5, outerTemplateInfo) {
+          if (!template5._templateInfo) {
+            let templateInfo = template5._templateInfo = {};
             templateInfo.nodeInfoList = [];
             templateInfo.nestedTemplate = Boolean(outerTemplateInfo);
-            templateInfo.stripWhiteSpace = outerTemplateInfo && outerTemplateInfo.stripWhiteSpace || template4.hasAttribute && template4.hasAttribute("strip-whitespace");
+            templateInfo.stripWhiteSpace = outerTemplateInfo && outerTemplateInfo.stripWhiteSpace || template5.hasAttribute && template5.hasAttribute("strip-whitespace");
             this._parseTemplateContent(
-              template4,
+              template5,
               templateInfo,
               { parent: null }
             );
           }
-          return template4._templateInfo;
+          return template5._templateInfo;
         }
-        static _parseTemplateContent(template4, templateInfo, nodeInfo) {
-          return this._parseTemplateNode(template4.content, templateInfo, nodeInfo);
+        static _parseTemplateContent(template5, templateInfo, nodeInfo) {
+          return this._parseTemplateNode(template5.content, templateInfo, nodeInfo);
         }
         static _parseTemplateNode(node, templateInfo, nodeInfo) {
           let noted = false;
@@ -6053,17 +6053,17 @@
           }
           return false;
         }
-        static _contentForTemplate(template4) {
-          let templateInfo = template4._templateInfo;
-          return templateInfo && templateInfo.content || template4.content;
+        static _contentForTemplate(template5) {
+          let templateInfo = template5._templateInfo;
+          return templateInfo && templateInfo.content || template5.content;
         }
-        _stampTemplate(template4, templateInfo) {
-          if (template4 && !template4.content && window.HTMLTemplateElement && HTMLTemplateElement.decorate) {
-            HTMLTemplateElement.decorate(template4);
+        _stampTemplate(template5, templateInfo) {
+          if (template5 && !template5.content && window.HTMLTemplateElement && HTMLTemplateElement.decorate) {
+            HTMLTemplateElement.decorate(template5);
           }
-          templateInfo = templateInfo || this.constructor._parseTemplate(template4);
+          templateInfo = templateInfo || this.constructor._parseTemplate(template5);
           let nodeInfo = templateInfo.nodeInfoList;
-          let content = templateInfo.content || template4.content;
+          let content = templateInfo.content || template5.content;
           let dom = document.importNode(content, true);
           dom.__noInsertionPoint = !templateInfo.hasInsertionPoint;
           let nodes = dom.nodeList = new Array(nodeInfo.length);
@@ -7142,11 +7142,11 @@
       static createComputedProperty(property, expression, dynamicFn) {
         this.prototype._createComputedProperty(property, expression, dynamicFn);
       }
-      static bindTemplate(template4) {
-        return this.prototype._bindTemplate(template4);
+      static bindTemplate(template5) {
+        return this.prototype._bindTemplate(template5);
       }
-      _bindTemplate(template4, instanceBinding) {
-        let templateInfo = this.constructor._parseTemplate(template4);
+      _bindTemplate(template5, instanceBinding) {
+        let templateInfo = this.constructor._parseTemplate(template5);
         let wasPreBound = this.__preBoundTemplateInfo == templateInfo;
         if (!wasPreBound) {
           for (let prop in templateInfo.propertyEffects) {
@@ -7159,7 +7159,7 @@
           if (!this.__templateInfo) {
             this.__templateInfo = templateInfo;
           } else {
-            const parent = template4._parentTemplateInfo || this.__templateInfo;
+            const parent = template5._parentTemplateInfo || this.__templateInfo;
             const previous = parent.lastChild;
             templateInfo.parent = parent;
             parent.lastChild = templateInfo;
@@ -7182,10 +7182,10 @@
         let propEffects = effects[prop] = effects[prop] || [];
         propEffects.push(effect);
       }
-      _stampTemplate(template4, templateInfo) {
-        templateInfo = templateInfo || this._bindTemplate(template4, true);
+      _stampTemplate(template5, templateInfo) {
+        templateInfo = templateInfo || this._bindTemplate(template5, true);
         hostStack.push(this);
-        let dom = super._stampTemplate(template4, templateInfo);
+        let dom = super._stampTemplate(template5, templateInfo);
         hostStack.pop();
         templateInfo.nodeList = dom.nodeList;
         if (!templateInfo.wasPreBound) {
@@ -7560,16 +7560,16 @@
       }
       proto2._addPropertyToAttributeMap(name);
     }
-    function processElementStyles(klass, template4, is, baseURI) {
+    function processElementStyles(klass, template5, is, baseURI) {
       if (!builtCSS) {
-        const templateStyles = template4.content.querySelectorAll("style");
-        const stylesWithImports = stylesFromTemplate(template4);
+        const templateStyles = template5.content.querySelectorAll("style");
+        const stylesWithImports = stylesFromTemplate(template5);
         const linkedStyles = stylesFromModuleImports(is);
-        const firstTemplateChild = template4.content.firstElementChild;
+        const firstTemplateChild = template5.content.firstElementChild;
         for (let idx = 0; idx < linkedStyles.length; idx++) {
           let s5 = linkedStyles[idx];
           s5.textContent = klass._processStyleText(s5.textContent, baseURI);
-          template4.content.insertBefore(s5, firstTemplateChild);
+          template5.content.insertBefore(s5, firstTemplateChild);
         }
         let templateStyleIndex = 0;
         for (let i5 = 0; i5 < stylesWithImports.length; i5++) {
@@ -7585,10 +7585,10 @@
         }
       }
       if (window.ShadyCSS) {
-        window.ShadyCSS.prepareTemplate(template4, is);
+        window.ShadyCSS.prepareTemplate(template5, is);
       }
       if (useAdoptedStyleSheetsWithBuiltCSS && builtCSS && supportsAdoptingStyleSheets) {
-        const styles = template4.content.querySelectorAll("style");
+        const styles = template5.content.querySelectorAll("style");
         if (styles) {
           let css = "";
           Array.from(styles).forEach((s5) => {
@@ -7601,14 +7601,14 @@
       }
     }
     function getTemplateFromDomModule(is) {
-      let template4 = null;
+      let template5 = null;
       if (is && (!strictTemplatePolicy || allowTemplateFromDomModule)) {
-        template4 = DomModule.import(is, "template");
-        if (strictTemplatePolicy && !template4) {
+        template5 = DomModule.import(is, "template");
+        if (strictTemplatePolicy && !template5) {
           throw new Error(`strictTemplatePolicy: expecting dom-module or null template for ${is}`);
         }
       }
-      return template4;
+      return template5;
     }
     class PolymerElement2 extends polymerElementBase {
       static get polymerElementVersion() {
@@ -7623,16 +7623,16 @@
         this._prepareTemplate();
       }
       static _prepareTemplate() {
-        let template4 = this.template;
-        if (template4) {
-          if (typeof template4 === "string") {
+        let template5 = this.template;
+        if (template5) {
+          if (typeof template5 === "string") {
             console.error("template getter must return HTMLTemplateElement");
-            template4 = null;
+            template5 = null;
           } else if (!legacyOptimizations) {
-            template4 = template4.cloneNode(true);
+            template5 = template5.cloneNode(true);
           }
         }
-        this.prototype._template = template4;
+        this.prototype._template = template5;
       }
       static createProperties(props) {
         for (let p2 in props) {
@@ -7715,13 +7715,13 @@
         return resolveCss(cssText, baseURI);
       }
       static _finalizeTemplate(is) {
-        const template4 = this.prototype._template;
-        if (template4 && !template4.__polymerFinalized) {
-          template4.__polymerFinalized = true;
+        const template5 = this.prototype._template;
+        if (template5 && !template5.__polymerFinalized) {
+          template5.__polymerFinalized = true;
           const importPath = this.importPath;
           const baseURI = importPath ? resolveUrl(importPath) : "";
-          processElementStyles(this, template4, is, baseURI);
-          this.prototype._bindTemplate(template4);
+          processElementStyles(this, template5, is, baseURI);
+          this.prototype._bindTemplate(template5);
         }
       }
       connectedCallback() {
@@ -7775,11 +7775,11 @@
         }
         return resolveUrl(url, base2);
       }
-      static _parseTemplateContent(template4, templateInfo, nodeInfo) {
+      static _parseTemplateContent(template5, templateInfo, nodeInfo) {
         templateInfo.dynamicFns = templateInfo.dynamicFns || this._properties;
         return polymerElementBase._parseTemplateContent.call(
           this,
-          template4,
+          template5,
           templateInfo,
           nodeInfo
         );
@@ -7836,7 +7836,7 @@
   }
   var html = function html2(strings, ...values) {
     assertValidTemplateStringParameters(strings, values);
-    const template4 = document.createElement("template");
+    const template5 = document.createElement("template");
     let value = values.reduce(
       (acc, v2, idx) => acc + htmlValue(v2) + strings[idx + 1],
       strings[0]
@@ -7844,8 +7844,8 @@
     if (policy) {
       value = policy.createHTML(value);
     }
-    template4.innerHTML = value;
-    return template4;
+    template5.innerHTML = value;
+    return template5;
   };
   var assertValidTemplateStringParameters = (strings, values) => {
     if (!Array.isArray(strings) || !Array.isArray(strings.raw) || values.length !== strings.length - 1) {
@@ -8041,8 +8041,8 @@
       }
       return Boolean(buttons & 1);
     }
-    const button = ev.button === void 0 ? 0 : ev.button;
-    return button === 0;
+    const button2 = ev.button === void 0 ? 0 : ev.button;
+    return button2 === 0;
   }
   function isSyntheticClick(ev) {
     if (ev.type === "click") {
@@ -8954,7 +8954,7 @@
   var registered = /* @__PURE__ */ new Set();
   var ElementMixin2 = (superClass) => class VaadinElementMixin extends DirMixin(superClass) {
     static get version() {
-      return "23.2.5";
+      return "23.2.7";
     }
     static finalize() {
       super.finalize();
@@ -11928,6 +11928,7 @@ Please use <label slot="label"> wrapper or the label property instead.`
       const elementHeight = el.offsetHeight;
       if (elementHeight === 0) {
         el.style.paddingTop = `${this.__placeholderHeight}px`;
+        requestAnimationFrame(() => this._resizeHandler());
       } else {
         this.__elementHeightQueue.push(elementHeight);
         this.__elementHeightQueue.shift();
@@ -16230,7 +16231,7 @@ Please use <label slot="label"> wrapper or the label property instead.`
       if (!helperNode) {
         return false;
       }
-      return helperNode.children.length > 0 || this.__isNotEmpty(helperNode.textContent);
+      return helperNode.children.length > 0 || helperNode.nodeType === Node.ELEMENT_NODE && customElements.get(helperNode.localName) || this.__isNotEmpty(helperNode.textContent);
     }
     __isNotEmpty(helperText) {
       return helperText && helperText.trim() !== "";
@@ -18069,6 +18070,749 @@ Please use <label slot="label"> wrapper or the label property instead.`
     }
   };
   customElements.define(FormLayout.is, FormLayout);
+
+  // node_modules/@vaadin/button/theme/lumo/vaadin-button-styles.js
+  var button = i`
+  :host {
+    /* Sizing */
+    --lumo-button-size: var(--lumo-size-m);
+    min-width: calc(var(--lumo-button-size) * 2);
+    height: var(--lumo-button-size);
+    padding: 0 calc(var(--lumo-button-size) / 3 + var(--lumo-border-radius-m) / 2);
+    margin: var(--lumo-space-xs) 0;
+    box-sizing: border-box;
+    /* Style */
+    font-family: var(--lumo-font-family);
+    font-size: var(--lumo-font-size-m);
+    font-weight: 500;
+    color: var(--_lumo-button-color, var(--lumo-primary-text-color));
+    background-color: var(--_lumo-button-background-color, var(--lumo-contrast-5pct));
+    border-radius: var(--lumo-border-radius-m);
+    cursor: var(--lumo-clickable-cursor);
+    -webkit-tap-highlight-color: transparent;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
+
+  /* Set only for the internal parts so we don’t affect the host vertical alignment */
+  [part='label'],
+  [part='prefix'],
+  [part='suffix'] {
+    line-height: var(--lumo-line-height-xs);
+  }
+
+  [part='label'] {
+    padding: calc(var(--lumo-button-size) / 6) 0;
+  }
+
+  :host([theme~='small']) {
+    font-size: var(--lumo-font-size-s);
+    --lumo-button-size: var(--lumo-size-s);
+  }
+
+  :host([theme~='large']) {
+    font-size: var(--lumo-font-size-l);
+    --lumo-button-size: var(--lumo-size-l);
+  }
+
+  /* For interaction states */
+  :host::before,
+  :host::after {
+    content: '';
+    /* We rely on the host always being relative */
+    position: absolute;
+    z-index: 1;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    background-color: currentColor;
+    border-radius: inherit;
+    opacity: 0;
+    pointer-events: none;
+  }
+
+  /* Hover */
+
+  @media (any-hover: hover) {
+    :host(:hover)::before {
+      opacity: 0.02;
+    }
+  }
+
+  /* Active */
+
+  :host::after {
+    transition: opacity 1.4s, transform 0.1s;
+    filter: blur(8px);
+  }
+
+  :host([active])::before {
+    opacity: 0.05;
+    transition-duration: 0s;
+  }
+
+  :host([active])::after {
+    opacity: 0.1;
+    transition-duration: 0s, 0s;
+    transform: scale(0);
+  }
+
+  /* Keyboard focus */
+
+  :host([focus-ring]) {
+    box-shadow: 0 0 0 2px var(--lumo-primary-color-50pct);
+  }
+
+  :host([theme~='primary'][focus-ring]) {
+    box-shadow: 0 0 0 1px var(--lumo-base-color), 0 0 0 3px var(--lumo-primary-color-50pct);
+  }
+
+  /* Types (primary, tertiary, tertiary-inline */
+
+  :host([theme~='tertiary']),
+  :host([theme~='tertiary-inline']) {
+    background-color: transparent !important;
+    min-width: 0;
+  }
+
+  :host([theme~='tertiary']) {
+    padding: 0 calc(var(--lumo-button-size) / 6);
+  }
+
+  :host([theme~='tertiary-inline'])::before {
+    display: none;
+  }
+
+  :host([theme~='tertiary-inline']) {
+    margin: 0;
+    height: auto;
+    padding: 0;
+    line-height: inherit;
+    font-size: inherit;
+  }
+
+  :host([theme~='tertiary-inline']) [part='label'] {
+    padding: 0;
+    overflow: visible;
+    line-height: inherit;
+  }
+
+  :host([theme~='primary']) {
+    background-color: var(--_lumo-button-primary-background-color, var(--lumo-primary-color));
+    color: var(--_lumo-button-primary-color, var(--lumo-primary-contrast-color));
+    font-weight: 600;
+    min-width: calc(var(--lumo-button-size) * 2.5);
+  }
+
+  :host([theme~='primary'])::before {
+    background-color: black;
+  }
+
+  @media (any-hover: hover) {
+    :host([theme~='primary']:hover)::before {
+      opacity: 0.05;
+    }
+  }
+
+  :host([theme~='primary'][active])::before {
+    opacity: 0.1;
+  }
+
+  :host([theme~='primary'][active])::after {
+    opacity: 0.2;
+  }
+
+  /* Colors (success, error, contrast) */
+
+  :host([theme~='success']) {
+    color: var(--lumo-success-text-color);
+  }
+
+  :host([theme~='success'][theme~='primary']) {
+    background-color: var(--lumo-success-color);
+    color: var(--lumo-success-contrast-color);
+  }
+
+  :host([theme~='error']) {
+    color: var(--lumo-error-text-color);
+  }
+
+  :host([theme~='error'][theme~='primary']) {
+    background-color: var(--lumo-error-color);
+    color: var(--lumo-error-contrast-color);
+  }
+
+  :host([theme~='contrast']) {
+    color: var(--lumo-contrast);
+  }
+
+  :host([theme~='contrast'][theme~='primary']) {
+    background-color: var(--lumo-contrast);
+    color: var(--lumo-base-color);
+  }
+
+  /* Disabled state. Keep selectors after other color variants. */
+
+  :host([disabled]) {
+    pointer-events: none;
+    color: var(--lumo-disabled-text-color);
+  }
+
+  :host([theme~='primary'][disabled]) {
+    background-color: var(--lumo-contrast-30pct);
+    color: var(--lumo-base-color);
+  }
+
+  :host([theme~='primary'][disabled]) [part] {
+    opacity: 0.7;
+  }
+
+  /* Icons */
+
+  [part] ::slotted(vaadin-icon),
+  [part] ::slotted(iron-icon) {
+    display: inline-block;
+    width: var(--lumo-icon-size-m);
+    height: var(--lumo-icon-size-m);
+  }
+
+  /* Vaadin icons are based on a 16x16 grid (unlike Lumo and Material icons with 24x24), so they look too big by default */
+  [part] ::slotted(vaadin-icon[icon^='vaadin:']),
+  [part] ::slotted(iron-icon[icon^='vaadin:']) {
+    padding: 0.25em;
+    box-sizing: border-box !important;
+  }
+
+  [part='prefix'] {
+    margin-left: -0.25em;
+    margin-right: 0.25em;
+  }
+
+  [part='suffix'] {
+    margin-left: 0.25em;
+    margin-right: -0.25em;
+  }
+
+  /* Icon-only */
+
+  :host([theme~='icon']:not([theme~='tertiary-inline'])) {
+    min-width: var(--lumo-button-size);
+    padding-left: calc(var(--lumo-button-size) / 4);
+    padding-right: calc(var(--lumo-button-size) / 4);
+  }
+
+  :host([theme~='icon']) [part='prefix'],
+  :host([theme~='icon']) [part='suffix'] {
+    margin-left: 0;
+    margin-right: 0;
+  }
+
+  /* RTL specific styles */
+
+  :host([dir='rtl']) [part='prefix'] {
+    margin-left: 0.25em;
+    margin-right: -0.25em;
+  }
+
+  :host([dir='rtl']) [part='suffix'] {
+    margin-left: -0.25em;
+    margin-right: 0.25em;
+  }
+
+  :host([dir='rtl'][theme~='icon']) [part='prefix'],
+  :host([dir='rtl'][theme~='icon']) [part='suffix'] {
+    margin-left: 0;
+    margin-right: 0;
+  }
+`;
+  registerStyles("vaadin-button", button, { moduleId: "lumo-button" });
+
+  // node_modules/@vaadin/button/src/vaadin-button-mixin.js
+  var ButtonMixin = (superClass) => class ButtonMixinClass extends ActiveMixin(TabindexMixin(FocusMixin(superClass))) {
+    static get properties() {
+      return {
+        tabindex: {
+          value: 0
+        }
+      };
+    }
+    get _activeKeys() {
+      return ["Enter", " "];
+    }
+    ready() {
+      super.ready();
+      if (!this.hasAttribute("role")) {
+        this.setAttribute("role", "button");
+      }
+    }
+    _onKeyDown(event) {
+      super._onKeyDown(event);
+      if (this._activeKeys.includes(event.key)) {
+        event.preventDefault();
+        this.click();
+      }
+    }
+  };
+
+  // node_modules/@vaadin/button/src/vaadin-button.js
+  var Button2 = class extends ButtonMixin(ElementMixin2(ThemableMixin(PolymerElement))) {
+    static get is() {
+      return "vaadin-button";
+    }
+    static get template() {
+      return html`
+      <style>
+        :host {
+          display: inline-block;
+          position: relative;
+          outline: none;
+          white-space: nowrap;
+          -webkit-user-select: none;
+          -moz-user-select: none;
+          user-select: none;
+        }
+
+        :host([hidden]) {
+          display: none !important;
+        }
+
+        /* Aligns the button with form fields when placed on the same line.
+          Note, to make it work, the form fields should have the same "::before" pseudo-element. */
+        .vaadin-button-container::before {
+          content: '\\2003';
+          display: inline-block;
+          width: 0;
+          max-height: 100%;
+        }
+
+        .vaadin-button-container {
+          display: inline-flex;
+          align-items: center;
+          justify-content: center;
+          text-align: center;
+          width: 100%;
+          height: 100%;
+          min-height: inherit;
+          text-shadow: inherit;
+        }
+
+        [part='prefix'],
+        [part='suffix'] {
+          flex: none;
+        }
+
+        [part='label'] {
+          white-space: nowrap;
+          overflow: hidden;
+          text-overflow: ellipsis;
+        }
+      </style>
+      <div class="vaadin-button-container">
+        <span part="prefix">
+          <slot name="prefix"></slot>
+        </span>
+        <span part="label">
+          <slot></slot>
+        </span>
+        <span part="suffix">
+          <slot name="suffix"></slot>
+        </span>
+      </div>
+    `;
+    }
+  };
+  customElements.define(Button2.is, Button2);
+
+  // node_modules/@vaadin/progress-bar/theme/lumo/vaadin-progress-bar-styles.js
+  registerStyles(
+    "vaadin-progress-bar",
+    i`
+    :host {
+      height: calc(var(--lumo-size-l) / 10);
+      margin: var(--lumo-space-s) 0;
+    }
+
+    [part='bar'] {
+      border-radius: var(--lumo-border-radius-m);
+      background-color: var(--lumo-contrast-10pct);
+    }
+
+    [part='value'] {
+      border-radius: var(--lumo-border-radius-m);
+      background-color: var(--lumo-primary-color);
+      /* Use width instead of transform to preserve border radius */
+      transform: none;
+      width: calc(var(--vaadin-progress-value) * 100%);
+      will-change: width;
+      transition: 0.1s width linear;
+    }
+
+    /* Indeterminate mode */
+    :host([indeterminate]) [part='value'] {
+      --lumo-progress-indeterminate-progress-bar-background: linear-gradient(
+        to right,
+        var(--lumo-primary-color-10pct) 10%,
+        var(--lumo-primary-color)
+      );
+      --lumo-progress-indeterminate-progress-bar-background-reverse: linear-gradient(
+        to left,
+        var(--lumo-primary-color-10pct) 10%,
+        var(--lumo-primary-color)
+      );
+      width: 100%;
+      background-color: transparent !important;
+      background-image: var(--lumo-progress-indeterminate-progress-bar-background);
+      opacity: 0.75;
+      will-change: transform;
+      animation: vaadin-progress-indeterminate 1.6s infinite cubic-bezier(0.645, 0.045, 0.355, 1);
+    }
+
+    @keyframes vaadin-progress-indeterminate {
+      0% {
+        transform: scaleX(0.015);
+        transform-origin: 0% 0%;
+      }
+
+      25% {
+        transform: scaleX(0.4);
+      }
+
+      50% {
+        transform: scaleX(0.015);
+        transform-origin: 100% 0%;
+        background-image: var(--lumo-progress-indeterminate-progress-bar-background);
+      }
+
+      50.1% {
+        transform: scaleX(0.015);
+        transform-origin: 100% 0%;
+        background-image: var(--lumo-progress-indeterminate-progress-bar-background-reverse);
+      }
+
+      75% {
+        transform: scaleX(0.4);
+      }
+
+      100% {
+        transform: scaleX(0.015);
+        transform-origin: 0% 0%;
+        background-image: var(--lumo-progress-indeterminate-progress-bar-background-reverse);
+      }
+    }
+
+    :host(:not([aria-valuenow])) [part='value']::before,
+    :host([indeterminate]) [part='value']::before {
+      content: '';
+      display: block;
+      width: 100%;
+      height: 100%;
+      border-radius: inherit;
+      background-color: var(--lumo-primary-color);
+      will-change: opacity;
+      animation: vaadin-progress-pulse3 1.6s infinite cubic-bezier(0.645, 0.045, 0.355, 1);
+    }
+
+    @keyframes vaadin-progress-pulse3 {
+      0% {
+        opacity: 1;
+      }
+
+      10% {
+        opacity: 0;
+      }
+
+      40% {
+        opacity: 0;
+      }
+
+      50% {
+        opacity: 1;
+      }
+
+      50.1% {
+        opacity: 1;
+      }
+
+      60% {
+        opacity: 0;
+      }
+
+      90% {
+        opacity: 0;
+      }
+
+      100% {
+        opacity: 1;
+      }
+    }
+
+    /* Contrast color */
+    :host([theme~='contrast']) [part='value'],
+    :host([theme~='contrast']) [part='value']::before {
+      background-color: var(--lumo-contrast-80pct);
+      --lumo-progress-indeterminate-progress-bar-background: linear-gradient(
+        to right,
+        var(--lumo-contrast-5pct) 10%,
+        var(--lumo-contrast-80pct)
+      );
+      --lumo-progress-indeterminate-progress-bar-background-reverse: linear-gradient(
+        to left,
+        var(--lumo-contrast-5pct) 10%,
+        var(--lumo-contrast-60pct)
+      );
+    }
+
+    /* Error color */
+    :host([theme~='error']) [part='value'],
+    :host([theme~='error']) [part='value']::before {
+      background-color: var(--lumo-error-color);
+      --lumo-progress-indeterminate-progress-bar-background: linear-gradient(
+        to right,
+        var(--lumo-error-color-10pct) 10%,
+        var(--lumo-error-color)
+      );
+      --lumo-progress-indeterminate-progress-bar-background-reverse: linear-gradient(
+        to left,
+        var(--lumo-error-color-10pct) 10%,
+        var(--lumo-error-color)
+      );
+    }
+
+    /* Primary color */
+    :host([theme~='success']) [part='value'],
+    :host([theme~='success']) [part='value']::before {
+      background-color: var(--lumo-success-color);
+      --lumo-progress-indeterminate-progress-bar-background: linear-gradient(
+        to right,
+        var(--lumo-success-color-10pct) 10%,
+        var(--lumo-success-color)
+      );
+      --lumo-progress-indeterminate-progress-bar-background-reverse: linear-gradient(
+        to left,
+        var(--lumo-success-color-10pct) 10%,
+        var(--lumo-success-color)
+      );
+    }
+
+    /* RTL specific styles */
+    :host([indeterminate][dir='rtl']) [part='value'] {
+      --lumo-progress-indeterminate-progress-bar-background: linear-gradient(
+        to left,
+        var(--lumo-primary-color-10pct) 10%,
+        var(--lumo-primary-color)
+      );
+      --lumo-progress-indeterminate-progress-bar-background-reverse: linear-gradient(
+        to right,
+        var(--lumo-primary-color-10pct) 10%,
+        var(--lumo-primary-color)
+      );
+      animation: vaadin-progress-indeterminate-rtl 1.6s infinite cubic-bezier(0.355, 0.045, 0.645, 1);
+    }
+
+    :host(:not([aria-valuenow])[dir='rtl']) [part='value']::before,
+    :host([indeterminate][dir='rtl']) [part='value']::before {
+      animation: vaadin-progress-pulse3 1.6s infinite cubic-bezier(0.355, 0.045, 0.645, 1);
+    }
+
+    @keyframes vaadin-progress-indeterminate-rtl {
+      0% {
+        transform: scaleX(0.015);
+        transform-origin: 100% 0%;
+      }
+
+      25% {
+        transform: scaleX(0.4);
+      }
+
+      50% {
+        transform: scaleX(0.015);
+        transform-origin: 0% 0%;
+        background-image: var(--lumo-progress-indeterminate-progress-bar-background);
+      }
+
+      50.1% {
+        transform: scaleX(0.015);
+        transform-origin: 0% 0%;
+        background-image: var(--lumo-progress-indeterminate-progress-bar-background-reverse);
+      }
+
+      75% {
+        transform: scaleX(0.4);
+      }
+
+      100% {
+        transform: scaleX(0.015);
+        transform-origin: 100% 0%;
+        background-image: var(--lumo-progress-indeterminate-progress-bar-background-reverse);
+      }
+    }
+
+    /* Contrast color */
+    :host([theme~='contrast'][dir='rtl']) [part='value'],
+    :host([theme~='contrast'][dir='rtl']) [part='value']::before {
+      --lumo-progress-indeterminate-progress-bar-background: linear-gradient(
+        to left,
+        var(--lumo-contrast-5pct) 10%,
+        var(--lumo-contrast-80pct)
+      );
+      --lumo-progress-indeterminate-progress-bar-background-reverse: linear-gradient(
+        to right,
+        var(--lumo-contrast-5pct) 10%,
+        var(--lumo-contrast-60pct)
+      );
+    }
+
+    /* Error color */
+    :host([theme~='error'][dir='rtl']) [part='value'],
+    :host([theme~='error'][dir='rtl']) [part='value']::before {
+      --lumo-progress-indeterminate-progress-bar-background: linear-gradient(
+        to left,
+        var(--lumo-error-color-10pct) 10%,
+        var(--lumo-error-color)
+      );
+      --lumo-progress-indeterminate-progress-bar-background-reverse: linear-gradient(
+        to right,
+        var(--lumo-error-color-10pct) 10%,
+        var(--lumo-error-color)
+      );
+    }
+
+    /* Primary color */
+    :host([theme~='success'][dir='rtl']) [part='value'],
+    :host([theme~='success'][dir='rtl']) [part='value']::before {
+      --lumo-progress-indeterminate-progress-bar-background: linear-gradient(
+        to left,
+        var(--lumo-success-color-10pct) 10%,
+        var(--lumo-success-color)
+      );
+      --lumo-progress-indeterminate-progress-bar-background-reverse: linear-gradient(
+        to right,
+        var(--lumo-success-color-10pct) 10%,
+        var(--lumo-success-color)
+      );
+    }
+  `,
+    { moduleId: "lumo-progress-bar" }
+  );
+  var template4 = document.createElement("template");
+  template4.innerHTML = `
+  <style>
+    @keyframes vaadin-progress-pulse3 {
+      0% { opacity: 1; }
+      10% { opacity: 0; }
+      40% { opacity: 0; }
+      50% { opacity: 1; }
+      50.1% { opacity: 1; }
+      60% { opacity: 0; }
+      90% { opacity: 0; }
+      100% { opacity: 1; }
+    }
+  </style>
+`;
+  document.head.appendChild(template4.content);
+
+  // node_modules/@vaadin/progress-bar/src/vaadin-progress-mixin.js
+  var ProgressMixin = (superClass) => class VaadinProgressMixin extends superClass {
+    static get properties() {
+      return {
+        value: {
+          type: Number,
+          observer: "_valueChanged"
+        },
+        min: {
+          type: Number,
+          value: 0,
+          observer: "_minChanged"
+        },
+        max: {
+          type: Number,
+          value: 1,
+          observer: "_maxChanged"
+        },
+        indeterminate: {
+          type: Boolean,
+          value: false,
+          reflectToAttribute: true
+        }
+      };
+    }
+    static get observers() {
+      return ["_normalizedValueChanged(value, min, max)"];
+    }
+    ready() {
+      super.ready();
+      this.setAttribute("role", "progressbar");
+    }
+    _normalizedValueChanged(value, min, max) {
+      const newNormalizedValue = this._normalizeValue(value, min, max);
+      this.style.setProperty("--vaadin-progress-value", newNormalizedValue);
+    }
+    _valueChanged(newV) {
+      this.setAttribute("aria-valuenow", newV);
+    }
+    _minChanged(newV) {
+      this.setAttribute("aria-valuemin", newV);
+    }
+    _maxChanged(newV) {
+      this.setAttribute("aria-valuemax", newV);
+    }
+    _normalizeValue(value, min, max) {
+      let nV;
+      if (!value && value !== 0) {
+        nV = 0;
+      } else if (min >= max) {
+        nV = 1;
+      } else {
+        nV = (value - min) / (max - min);
+        nV = Math.min(Math.max(nV, 0), 1);
+      }
+      return nV;
+    }
+  };
+
+  // node_modules/@vaadin/progress-bar/src/vaadin-progress-bar.js
+  var ProgressBar = class extends ElementMixin2(ThemableMixin(ProgressMixin(PolymerElement))) {
+    static get template() {
+      return html`
+      <style>
+        :host {
+          display: block;
+          width: 100%; /* prevent collapsing inside non-stretching column flex */
+          height: 8px;
+        }
+
+        :host([hidden]) {
+          display: none !important;
+        }
+
+        [part='bar'] {
+          height: 100%;
+        }
+
+        [part='value'] {
+          height: 100%;
+          transform-origin: 0 50%;
+          transform: scaleX(var(--vaadin-progress-value));
+        }
+
+        /* RTL specific styles */
+
+        :host([dir='rtl']) [part='value'] {
+          transform-origin: 100% 50%;
+        }
+      </style>
+
+      <div part="bar">
+        <div part="value"></div>
+      </div>
+    `;
+    }
+    static get is() {
+      return "vaadin-progress-bar";
+    }
+  };
+  customElements.define(ProgressBar.is, ProgressBar);
 })();
 /*! showdown v 2.1.0 - 21-04-2022 */
 /**

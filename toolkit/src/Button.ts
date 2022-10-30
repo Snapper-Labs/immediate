@@ -7,7 +7,7 @@ export class Button extends LitElement {
   label: string = '';
 
   render() {
-    return html`<button @click=${this._onClick}>${this.label}</button>`
+    return html`<vaadin-button @click=${this._onClick}>${this.label}</button>`
   }
 
   private _onClick(e: any /* TODO */) {

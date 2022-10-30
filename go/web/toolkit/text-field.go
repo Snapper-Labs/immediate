@@ -9,8 +9,10 @@ type TextFieldOptions struct {
 	Key string
 }
 
-func TextField(ui *immgo.RenderNode, label string, options ...TextFieldOptions) {
+func TextField(ui *immgo.RenderNode, label string, options ...TextFieldOptions) string {
 	opts := option.Merge(options...)
+
+	value, setValue := immgo.State(ui, "")
 
 	desc := immgo.ElementDescription{
 		Kind: "vaadin-text-field",
@@ -18,12 +20,17 @@ func TextField(ui *immgo.RenderNode, label string, options ...TextFieldOptions) 
 		Properties: immgo.Properties{
 			Attributes: immgo.Attributes{
 				"label": label,
-				// I'm not exactly sure why this doesn't happen automatically. Hacking it for now.
-				"style": "width: calc(99.9% - 0rem); margin-left: 0px; margin-right: 0px;",
+				"value": *value,
 			},
-			EventHandlers: immgo.EventHandlers{},
+			EventHandlers: immgo.EventHandlers{
+				"change": func(evt interface{}) {
+					setValue(evt.(map[string]interface{})["targetValue"].(string))
+				},
+			},
 		},
 	}
 
 	immgo.Render(ui, desc)
+
+	return *value
 }

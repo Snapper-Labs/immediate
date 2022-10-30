@@ -10,7 +10,6 @@ import (
 // Many of these functions are inspired by React hooks, but contain some
 // important differences.
 
-
 // AddEffects adds `f` to the list of effects to be run before the next render
 // starts. The effect will only be called once.
 //
@@ -58,7 +57,7 @@ func State[T any](node *RenderNode, defaultState T, options ...StateOptions) (*T
 	desc := ElementDescription{
 		Kind:       "hook",
 		Key:        opts.Key,
-		Properties: Properties{Attributes: Attributes{}},
+		Properties: Properties{Attributes: Attributes{"style": "display: none"}},
 	}
 
 	renderNode := Render(node, desc)
@@ -90,7 +89,7 @@ func State[T any](node *RenderNode, defaultState T, options ...StateOptions) (*T
 	}
 }
 
-// Created returns whether the element was just constructed. 
+// Created returns whether the element was just constructed.
 func Created(node *RenderNode) bool {
 	return node.data.match == nil
 }

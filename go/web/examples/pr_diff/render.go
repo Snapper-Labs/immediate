@@ -6,6 +6,8 @@ import (
 	"os"
 	"strings"
 
+	"github.com/samber/lo"
+
 	"github.com/google/go-github/v47/github"
 	"golang.org/x/oauth2"
 
@@ -16,34 +18,53 @@ import (
 
 func Render(ui *immgo.RenderNode, startSha string, endSha string) {
 	intool.Initialize(ui)
-
 	toolkit.Initialize(ui, func() {})
+
+	commits, setCommits := immgo.State(ui, []*CommitWithPulls{}, immgo.StateOptions{Key: "commits"})
+	loading, setLoading := immgo.State(ui, false, immgo.StateOptions{Key: "loading"})
 
 	container := intool.Container(ui)
 	intool.Markdown(container, intool.MarkdownOptions{Content: "## PR Diff"})
 
 	formLayout := toolkit.FormLayout(container)
-	toolkit.TextField(formLayout, "Start Commit")
-	toolkit.TextField(formLayout, "End Commit")
-
-	rowsData := [][]string{}
-	commits := GetCommitInfo(startSha, endSha)
-	for _, c := range commits {
-		prNum := ""
-		descr := messagePrefix(*c.Commit.Commit.Message, 10)
-		sha := *c.Commit.SHA
-		if c.Pulls != nil && len(c.Pulls) > 0 {
-			prNum = fmt.Sprintf("%d", *c.Pulls[0].Number)
-			descr = *c.Pulls[0].Title
+	startCommit := toolkit.TextField(formLayout, "Start Commit")
+	endCommit := toolkit.TextField(formLayout, "End Commit")
+	toolkit.Button(formLayout, "Update", toolkit.ButtonOptions{OnClick: func() {
+		if startCommit != "" && endCommit != "" {
+			lo.Async(func() error {
+				setLoading(true)
+				commits := GetCommitInfo(startSha, endSha)
+				fmt.Printf("Got %d commits\n", len(commits))
+				setCommits(commits)
+				setLoading(false)
+				return nil
+			})
 		}
-		rowData := []string{sha[:8], prNum, descr}
-		rowsData = append(rowsData, rowData)
-	}
+	}})
 
-	toolkit.Grid(container, toolkit.GridOptions{
-		Columns: []string{"SHA", "PR", "Description"},
-		Rows:    rowsData,
-	})
+	fmt.Printf("Loading %#v\n", *loading)
+
+	if *loading {
+		toolkit.ProgressBar(container, toolkit.ProgressBarOptions{Indeterminate: true})
+	} else {
+		rowsData := [][]string{}
+		for _, c := range *commits {
+			prNum := ""
+			descr := messagePrefix(*c.Commit.Commit.Message, 10)
+			sha := *c.Commit.SHA
+			if c.Pulls != nil && len(c.Pulls) > 0 {
+				prNum = fmt.Sprintf("%d", *c.Pulls[0].Number)
+				descr = *c.Pulls[0].Title
+			}
+			rowData := []string{sha[:8], prNum, descr}
+			rowsData = append(rowsData, rowData)
+		}
+
+		toolkit.Grid(container, toolkit.GridOptions{
+			Columns: []string{"SHA", "PR", "Description"},
+			Rows:    rowsData,
+		})
+	}
 }
 
 type CommitWithPulls struct {
