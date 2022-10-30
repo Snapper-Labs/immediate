@@ -1,6 +1,7 @@
 package web
 
 import (
+	"encoding/json"
 	"github.com/snapper-labs/immediate/go"
 )
 
@@ -219,54 +220,31 @@ func (this *DocumentHostTree) createPropertyUpdateForNode(node immgo.HostNode, p
 
 	currProps := this.nodeToProps[node]
 	for k,v := range props.Attributes {
-		switch tv := v.(type) {
-		case string:
-			curr, exists := currProps.Attributes[k]
-			if exists {
-				currString, ok := curr.(string)
-				if ok {
-					if currString == tv {
-						continue
-					}
-				}
-			}
-
-			update.NewAttributes = append(update.NewAttributes, KeyValue{Key:k, Value:tv})
-		case bool:
-			// bools are translated into the existence or not of an attribute.
-
-			curr, exists := currProps.Attributes[k]
-			if exists {
-				currBool, ok := curr.(bool)
-				if ok {
-					if currBool == tv {
-						continue
-					}
-				}
-			}
-
-			if tv {
-				update.NewAttributes = append(update.NewAttributes, KeyValue{Key:k, Value:""})
-			} else {
-				update.RemovedAttributes = append(update.RemovedAttributes, k)
-			}
-		case Style:
-			curr, exists := currProps.Attributes[k]
-			if exists {
-				currStyle, ok := curr.(Style)
-				if ok {
-					if currStyle == tv {
-						continue
-					}
-				}
-			}
-
-			update.NewAttributes = append(update.NewAttributes, KeyValue{Key:k, Value:tv.String()})
-
-
-		default:
-			// pass
+		// Prop updates are serialized as JSON and sent over the wire. However,
+		// if the JSON from the current props exactly matches the JSON from the
+		// new props, we don't need to send the update.
+		//
+		// TODO: Is it safe to do reflect.DeepEqual here, rather than
+		// JSON-serialization matching?
+		newJson, err := json.Marshal(v)
+		if err != nil {
+			continue
 		}
+
+		curr, exists := currProps.Attributes[k]
+		if exists {
+			// check if the serialization matches
+			currJson, err := json.Marshal(curr)
+			if err != nil {
+				continue 
+			}
+
+			if string(currJson) == string(newJson) {
+				continue
+			}
+		}
+
+		update.NewAttributes = append(update.NewAttributes, KeyValue{Key:k, Value:string(newJson)})
 	}
 
 	for k := range currProps.Attributes {
