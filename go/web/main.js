@@ -1,4 +1,3 @@
-"use strict";
 (() => {
   var __defProp = Object.defineProperty;
   var __getOwnPropSymbols = Object.getOwnPropertySymbols;
@@ -165,12 +164,18 @@
       if (elem) {
         propertiesUpdate.newAttributes.forEach((kv) => {
           const k = kv.key;
-          const val = kv.value;
+          const val = JSON.parse(kv.value);
           if (SPECIAL_ATTRIBUTES.has(k)) {
             elem[k] = val;
             return;
           }
-          elem.setAttribute(k, val);
+          if (val === true) {
+            elem.setAttribute(k, "");
+          } else if (val === false) {
+            elem.removeAttribute(k);
+          } else {
+            elem.setAttribute(k, val);
+          }
         });
         propertiesUpdate.removedAttributes.forEach((k) => {
           elem.removeAttribute(k);
