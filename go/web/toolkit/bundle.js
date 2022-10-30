@@ -18069,27 +18069,6 @@ Please use <label slot="label"> wrapper or the label property instead.`
     }
   };
   customElements.define(FormLayout.is, FormLayout);
-
-  // src/FormLayout.ts
-  var FormLayout2 = class extends s4 {
-    constructor() {
-      super(...arguments);
-      this.responsiveSteps = [
-        { minWidth: 0, columns: 1 },
-        { minWidth: "500px", columns: 2 }
-      ];
-    }
-    render() {
-      console.log("here 9");
-      return y`
-    <vaadin-form-layout .responsiveSteps="${this.responsiveSteps}">
-      <slot></slot>
-    </vaadin-form-layout>`;
-    }
-  };
-  FormLayout2 = __decorateClass([
-    e4("itk-form-layout")
-  ], FormLayout2);
 })();
 /*! showdown v 2.1.0 - 21-04-2022 */
 /**
