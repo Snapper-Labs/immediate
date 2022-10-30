@@ -1,6 +1,5 @@
 import { html } from 'lit-html';
 import './button.css';
-import '../FormLayout';
 import '@vaadin/text-field'
 import '@vaadin/form-layout'
 
