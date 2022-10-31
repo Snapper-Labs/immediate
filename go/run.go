@@ -96,3 +96,50 @@ func Run(ctx context.Context, hostTree HostTree, render RenderFunc) error {
 		}
 	}
 }
+
+// Driver attaches an immgo application to a node in a HostTree and exposes
+// methods to drive the immgo render loop.
+type Driver struct {
+	hostTree HostTree
+	hostRoot HostNode
+	render RenderFunc
+	shadowRoot *ShadowNode
+	isFirstRender bool
+}
+
+func NewDriver(hostTree HostTree, hostRoot HostNode, render RenderFunc) *Driver {
+	drv := &Driver{
+		hostTree: hostTree,
+		hostRoot: hostRoot,
+		render: render,
+		isFirstRender: true,
+	}
+
+	drv.shadowRoot = NewShadowNode("root", "root", Properties{})
+
+	return drv
+}
+
+func (this *Driver) Update(forceRender bool) error {
+	if err := Update(this.hostTree, this.hostRoot, this.shadowRoot, this.render, forceRender || this.isFirstRender); err != nil {
+		return err
+	}
+
+	this.isFirstRender = false
+	return nil
+}
+
+func (this *Driver) Loop(ctx context.Context) error {
+	for {
+		select {
+		case <-ctx.Done():
+			return ctx.Err()
+		default:
+			if err := this.Update(false); err != nil {
+				return err
+			}
+
+			time.Sleep(33 * time.Millisecond)
+		}
+	}
+}

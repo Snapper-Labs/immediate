@@ -29,15 +29,14 @@ func TestRendererSimple(t *testing.T) {
 	}
 
 	hostTree := NewInmemHostTree()
-	hostRoot, err := hostTree.CreateNode("root")
-	check(err)
+	drv := NewDriver(hostTree, hostTree.GetRoot(), renderFunc)
 
-	shadowRoot := NewShadowNode("root", "root", Properties{})
-
-	Update(hostTree, hostRoot, shadowRoot, renderFunc, true)
+	// The first update should render the entire tree, since it's the first
+	// render.
+	check(drv.Update(false))
 
 	// check the tree
-	hostRootRef := hostTree.GetNodeRef(hostRoot)
+	hostRootRef := hostTree.GetNodeRef(hostTree.GetRoot())
 
 	// 2 children (the two divs)
 	if len(hostRootRef.Children()) != 2 {
@@ -56,7 +55,15 @@ func TestRendererSimple(t *testing.T) {
 	// ensure we re-use the same nodes after a second render.
 	childrenBefore := hostRootRef.Children()
 
-	Update(hostTree, hostRoot, shadowRoot, renderFunc, true)
+	// This should _not even trigger a render_, since there are no effects.
+	check(drv.Update(false))
+	if state.numRender != 1 {
+		t.Errorf("Expected numRender to be 1, got %d", state.numRender)
+	}
+
+	// This should trigger a render (since we're forcing it), but nothing should
+	// change yet.
+	check(drv.Update(true))
 	childrenAfter := hostRootRef.Children()
 
 	for index := range childrenBefore {
@@ -65,8 +72,8 @@ func TestRendererSimple(t *testing.T) {
 		}
 	}
 
-	// another render should clear out all the children.
-	Update(hostTree, hostRoot, shadowRoot, renderFunc, true)
+	// another forced render should clear out all the children.
+	check(drv.Update(true))
 	childrenAfter = hostRootRef.Children()
 	if len(childrenAfter) != 0 {
 		t.Errorf("Expected nodes to be removed; %d", len(childrenAfter))
