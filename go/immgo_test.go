@@ -2,6 +2,7 @@ package immgo
 
 import (
 	"testing"
+	"time"
 )
 
 func check(err error) {
@@ -29,15 +30,14 @@ func TestRendererSimple(t *testing.T) {
 	}
 
 	hostTree := NewInmemHostTree()
-	hostRoot, err := hostTree.CreateNode("root")
-	check(err)
+	drv := NewDriver(hostTree, hostTree.GetRoot(), renderFunc)
 
-	shadowRoot := NewShadowNode("root", "root", Properties{})
-
-	Update(hostTree, hostRoot, shadowRoot, renderFunc, true)
+	// The first update should render the entire tree, since it's the first
+	// render.
+	check(drv.Update(false))
 
 	// check the tree
-	hostRootRef := hostTree.GetNodeRef(hostRoot)
+	hostRootRef := hostTree.GetNodeRef(hostTree.GetRoot())
 
 	// 2 children (the two divs)
 	if len(hostRootRef.Children()) != 2 {
@@ -56,7 +56,15 @@ func TestRendererSimple(t *testing.T) {
 	// ensure we re-use the same nodes after a second render.
 	childrenBefore := hostRootRef.Children()
 
-	Update(hostTree, hostRoot, shadowRoot, renderFunc, true)
+	// This should _not even trigger a render_, since there are no effects.
+	check(drv.Update(false))
+	if state.numRender != 1 {
+		t.Errorf("Expected numRender to be 1, got %d", state.numRender)
+	}
+
+	// This should trigger a render (since we're forcing it), but nothing should
+	// change yet.
+	check(drv.Update(true))
 	childrenAfter := hostRootRef.Children()
 
 	for index := range childrenBefore {
@@ -65,10 +73,98 @@ func TestRendererSimple(t *testing.T) {
 		}
 	}
 
-	// another render should clear out all the children.
-	Update(hostTree, hostRoot, shadowRoot, renderFunc, true)
+	// another forced render should clear out all the children.
+	check(drv.Update(true))
 	childrenAfter = hostRootRef.Children()
 	if len(childrenAfter) != 0 {
 		t.Errorf("Expected nodes to be removed; %d", len(childrenAfter))
+	}
+}
+
+func TestStateSimple(t *testing.T) {
+	renderFunc := func(parent *RenderNode) {
+		count, setCount := State(parent, 0)
+
+		// This should trigger a re-render.
+		//
+		// Note that state changes show up _after_ the end of the render.
+		setCount(*count + 1)
+		Render(parent, ElementDescription { Kind: "test", Properties: Properties { Attributes: Attributes { "count": *count } } })
+	}
+
+	hostTree := NewInmemHostTree()
+	drv := NewDriver(hostTree, hostTree.GetRoot(), renderFunc)
+
+	check(drv.Update(false))
+
+	// check the tree
+	hostRootRef := hostTree.GetNodeRef(hostTree.GetRoot())
+	if len(hostRootRef.Children()) != 2 {
+		t.Errorf("Expected 1 child, got %d", len(hostRootRef.Children()))
+	}
+
+	if hostRootRef.Children()[1].data.properties.Attributes["count"].(int) != 0 {
+		t.Errorf("Expected count to be 1, got %d", hostRootRef.Children()[1].data.properties.Attributes["count"].(int))
+	}
+
+	check(drv.Update(false))
+	check(drv.Update(false))
+
+	if hostRootRef.Children()[1].data.properties.Attributes["count"].(int) != 2 {
+		t.Errorf("Expected count to be 1, got %d", hostRootRef.Children()[1].data.properties.Attributes["count"].(int))
+	}
+}
+
+func TestStateAsync(t *testing.T) {
+	renderFunc := func(parent *RenderNode) {
+		count, setCount := State(parent, 0)
+
+		go func() {
+			time.Sleep(100 * time.Millisecond)
+			setCount(*count + 1)
+		}()
+
+		Render(parent, ElementDescription { Kind: "test", Properties: Properties { Attributes: Attributes { "count": *count } } })
+	}
+
+	hostTree := NewInmemHostTree()
+	drv := NewDriver(hostTree, hostTree.GetRoot(), renderFunc)
+
+	check(drv.Update(false))
+
+	// check the tree
+	hostRootRef := hostTree.GetNodeRef(hostTree.GetRoot())
+	if len(hostRootRef.Children()) != 2 {
+		t.Errorf("Expected 1 child, got %d", len(hostRootRef.Children()))
+	}
+
+	if hostRootRef.Children()[1].data.properties.Attributes["count"].(int) != 0 {
+		t.Errorf("Expected count to be 1, got %d", hostRootRef.Children()[1].data.properties.Attributes["count"].(int))
+	}
+
+	// wait 200 ms so we know the async set has been called.
+	time.Sleep(200 * time.Millisecond)
+
+	check(drv.Update(false))
+	if hostRootRef.Children()[1].data.properties.Attributes["count"].(int) != 1 {
+		t.Errorf("Expected count to be 1, got %d", hostRootRef.Children()[1].data.properties.Attributes["count"].(int))
+	}
+
+	// regression test: an async call that calls AddEffect _after_ a subsequent
+	// render was not triggering a rerender, because the subsequent render would
+	// overwrite the *Effects pointer in the ShadowNode with a new one.
+
+	// Now wait 50ms and force a render
+	time.Sleep(50 * time.Millisecond)
+	check(drv.Update(true))
+
+	// Wait another 60ms and the async call from before should have been done,
+	// causing another render to be queued up.
+	time.Sleep(60 * time.Millisecond)
+	check(drv.Update(false))
+
+	// Now count should be 2.
+	if hostRootRef.Children()[1].data.properties.Attributes["count"].(int) != 2 {
+		t.Errorf("Expected count to be 2, got %d", hostRootRef.Children()[1].data.properties.Attributes["count"].(int))
 	}
 }

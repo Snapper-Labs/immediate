@@ -10,6 +10,7 @@ import (
 type InmemHostTree struct {
 	nodes map[HostNode]*Node[InmemHostNodeData]
 	nextNodeId int
+	root HostNode
 }
 
 type InmemHostNodeData struct {
@@ -18,10 +19,17 @@ type InmemHostNodeData struct {
 }
 
 func NewInmemHostTree() *InmemHostTree {
-	return &InmemHostTree {
+	ht := &InmemHostTree {
 		nodes: make(map[HostNode]*Node[InmemHostNodeData]),
 		nextNodeId: 0,
 	}
+
+	ht.root, _ = ht.CreateNode("root")
+	return ht
+}
+
+func (this *InmemHostTree) GetRoot() HostNode {
+	return this.root
 }
 
 func (this *InmemHostTree) BeginFrame() {
