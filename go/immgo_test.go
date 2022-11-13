@@ -147,6 +147,24 @@ func TestStateAsync(t *testing.T) {
 
 	check(drv.Update(false))
 	if hostRootRef.Children()[1].data.properties.Attributes["count"].(int) != 1 {
+		t.Errorf("Expected count to be 1, got %d", hostRootRef.Children()[1].data.properties.Attributes["count"].(int))
+	}
+
+	// regression test: an async call that calls AddEffect _after_ a subsequent
+	// render was not triggering a rerender, because the subsequent render would
+	// overwrite the *Effects pointer in the ShadowNode with a new one.
+
+	// Now wait 50ms and force a render
+	time.Sleep(50 * time.Millisecond)
+	check(drv.Update(true))
+
+	// Wait another 60ms and the async call from before should have been done,
+	// causing another render to be queued up.
+	time.Sleep(60 * time.Millisecond)
+	check(drv.Update(false))
+
+	// Now count should be 2.
+	if hostRootRef.Children()[1].data.properties.Attributes["count"].(int) != 2 {
 		t.Errorf("Expected count to be 2, got %d", hostRootRef.Children()[1].data.properties.Attributes["count"].(int))
 	}
 }
