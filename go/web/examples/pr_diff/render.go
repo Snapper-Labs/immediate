@@ -6,7 +6,10 @@ import (
 	"os"
 	"strings"
 
+	"github.com/samber/lo"
+
 	"github.com/google/go-github/v47/github"
+	log "github.com/sirupsen/logrus"
 	"golang.org/x/oauth2"
 
 	immgo "github.com/snapper-labs/immediate/go"
@@ -16,34 +19,51 @@ import (
 
 func Render(ui *immgo.RenderNode, startSha string, endSha string) {
 	intool.Initialize(ui)
-
 	toolkit.Initialize(ui, func() {})
+
+	commits, setCommits := immgo.State(ui, []*CommitWithPulls{}, immgo.StateOptions{Key: "commits"})
+	loading, setLoading := immgo.State(ui, false, immgo.StateOptions{Key: "loading"})
 
 	container := intool.Container(ui)
 	intool.Markdown(container, intool.MarkdownOptions{Content: "## PR Diff"})
 
 	formLayout := toolkit.FormLayout(container)
-	toolkit.TextField(formLayout, "Start Commit")
-	toolkit.TextField(formLayout, "End Commit")
-
-	rowsData := [][]string{}
-	commits := GetCommitInfo(startSha, endSha)
-	for _, c := range commits {
-		prNum := ""
-		descr := messagePrefix(*c.Commit.Commit.Message, 10)
-		sha := *c.Commit.SHA
-		if c.Pulls != nil && len(c.Pulls) > 0 {
-			prNum = fmt.Sprintf("%d", *c.Pulls[0].Number)
-			descr = *c.Pulls[0].Title
+	startCommit := toolkit.TextField(formLayout, "Start Commit")
+	endCommit := toolkit.TextField(formLayout, "End Commit")
+	toolkit.Button(formLayout, "Update", toolkit.ButtonOptions{OnClick: func() {
+		if startCommit != "" && endCommit != "" {
+			lo.Async(func() error {
+				setLoading(true)
+				commits := GetCommitInfo(startCommit, endCommit)
+				log.Debugf("Got %d commits\n", len(commits))
+				setCommits(commits)
+				setLoading(false)
+				return nil
+			})
 		}
-		rowData := []string{sha[:8], prNum, descr}
-		rowsData = append(rowsData, rowData)
-	}
+	}})
 
-	toolkit.Grid(container, toolkit.GridOptions{
-		Columns: []string{"SHA", "PR", "Description"},
-		Rows:    rowsData,
-	})
+	if *loading {
+		toolkit.ProgressBar(container, toolkit.ProgressBarOptions{Indeterminate: true})
+	} else {
+		rowsData := [][]string{}
+		for _, c := range *commits {
+			prNum := ""
+			descr := messagePrefix(*c.Commit.Commit.Message, 10)
+			sha := *c.Commit.SHA
+			if c.Pulls != nil && len(c.Pulls) > 0 {
+				prNum = fmt.Sprintf("%d", *c.Pulls[0].Number)
+				descr = *c.Pulls[0].Title
+			}
+			rowData := []string{sha[:8], prNum, descr}
+			rowsData = append(rowsData, rowData)
+		}
+
+		toolkit.Grid(container, toolkit.GridOptions{
+			Columns: []string{"SHA", "PR", "Description"},
+			Rows:    rowsData,
+		})
+	}
 }
 
 type CommitWithPulls struct {
@@ -51,22 +71,19 @@ type CommitWithPulls struct {
 	Pulls  []*github.PullRequest
 }
 
-var commitInfo []*CommitWithPulls
-
 func GetCommitInfo(startSha string, endSha string) []*CommitWithPulls {
-	if commitInfo == nil {
-		ts := oauth2.StaticTokenSource(
-			&oauth2.Token{AccessToken: os.Getenv("GITHUB_API_KEY")},
-		)
-		tc := oauth2.NewClient(context.TODO(), ts)
-		client := github.NewClient(tc)
+	var commitInfo []*CommitWithPulls
+	ts := oauth2.StaticTokenSource(
+		&oauth2.Token{AccessToken: os.Getenv("GITHUB_API_KEY")},
+	)
+	tc := oauth2.NewClient(context.TODO(), ts)
+	client := github.NewClient(tc)
 
-		commitWithPulls, err := ListCommitWithPulls(client, startSha, endSha)
-		if err != nil {
-			panic(err)
-		}
-		commitInfo = commitWithPulls
+	commitWithPulls, err := ListCommitWithPulls(client, startSha, endSha)
+	if err != nil {
+		panic(err)
 	}
+	commitInfo = commitWithPulls
 
 	return commitInfo
 }
@@ -105,6 +122,9 @@ func ListCommits(client *github.Client, startSha string, endSha string) ([]*gith
 	if err != nil {
 		return nil, err
 	}
+
+	log.Debugf("Got %d commits\n", len(commits))
+
 	return FilterCommitRange(commits, startSha, endSha), nil
 }
 

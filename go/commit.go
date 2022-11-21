@@ -3,6 +3,7 @@ package immgo
 import (
 	"fmt"
 
+	"github.com/go-test/deep"
 	log "github.com/sirupsen/logrus"
 )
 
@@ -10,6 +11,10 @@ func Commit(renderNode *RenderNode, hostNode HostNode, hostTree HostTree) error 
 	shadowNode := renderNode.data.match
 	if shadowNode == nil {
 		return fmt.Errorf("Internal Library Error")
+	}
+
+	if diff := deep.Equal(renderNode.data.description.Properties, shadowNode.data.Properties); diff != nil {
+		log.Debugf("%#v", diff)
 	}
 
 	// update our properties
@@ -44,19 +49,19 @@ func Commit(renderNode *RenderNode, hostNode HostNode, hostTree HostTree) error 
 					log.Debug("Error: unmount effects is not of type *Effects")
 				} else {
 					for _, effect := range eff.Get() {
-						effect()
+						effect.Func()
 					}
 				}
 			}
-			
+
 			shadowNode.RemoveChildAt(index - removed)
-			err := hostTree.RemoveChildAt(hostNode, index - removed)
+			err := hostTree.RemoveChildAt(hostNode, index-removed)
 			if err != nil {
 				return err
 			}
 			hostTree.DestroyNode(hostChildren[index])
 			removed += 1
-		} 
+		}
 	}
 
 	// note that we do not need to consider re-ordering of children here, as the
@@ -78,7 +83,7 @@ func Commit(renderNode *RenderNode, hostNode HostNode, hostTree HostTree) error 
 			if err != nil {
 				return err
 			}
-		} 
+		}
 	}
 
 	// recurse down the shadow tree.
@@ -100,4 +105,3 @@ func Commit(renderNode *RenderNode, hostNode HostNode, hostTree HostTree) error 
 
 	return nil
 }
-
