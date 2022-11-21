@@ -6,13 +6,14 @@ import (
 )
 
 type TextFieldOptions struct {
-	Key string
+	Key   string
+	Value string
 }
 
 func TextField(ui *immgo.RenderNode, label string, options ...TextFieldOptions) string {
 	opts := option.Merge(options...)
 
-	value, setValue := immgo.State(ui, "")
+	value, setValue := immgo.State(ui, opts.Value)
 
 	desc := immgo.ElementDescription{
 		Kind: "vaadin-text-field",

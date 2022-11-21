@@ -4,6 +4,7 @@ import (
 	"context"
 	"time"
 
+	"github.com/samber/lo"
 	log "github.com/sirupsen/logrus"
 )
 
@@ -19,7 +20,8 @@ func findEffects(shadowRoot *ShadowNode) []EffectFunc {
 				log.Debug("_immgo_effects attribute was not an instance of *immgo.Effects.")
 				return
 			}
-			effects = append(effects, eff.Get()...)
+			effectFuncs := lo.Map(eff.Get(), func(item Effect, i int) EffectFunc { return item.Func })
+			effects = append(effects, effectFuncs...)
 			eff.Clear()
 		}
 	}
@@ -46,7 +48,6 @@ func rerender(hostTree HostTree, hostRoot HostNode, shadowRoot *ShadowNode, rend
 	return nil
 }
 
-
 func Update(hostTree HostTree, hostRoot HostNode, shadowRoot *ShadowNode, render RenderFunc, forceRender bool) error {
 	// Handle events.
 	err := hostTree.TriggerEvent()
@@ -70,7 +71,6 @@ func Update(hostTree HostTree, hostRoot HostNode, shadowRoot *ShadowNode, render
 
 	return nil
 }
-
 
 func Run(ctx context.Context, hostTree HostTree, render RenderFunc) error {
 	hostTree.BeginFrame()

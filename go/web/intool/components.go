@@ -206,7 +206,7 @@ func GridColumn(parent *immgo.RenderNode, options ...GridColumnOptions) *immgo.R
 }
 
 func Initialize(ui *immgo.RenderNode) bool {
-	numLoaded, setNumLoaded := immgo.State(ui, 0)
+	numLoaded, setNumLoaded := immgo.State(ui, 0, immgo.StateOptions{Key: "numLoaded"})
 
 	onLoad := func() {
 		setNumLoaded(*numLoaded + 1)

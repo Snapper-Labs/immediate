@@ -36,7 +36,7 @@ func match(parentNode *RenderNode, renderNode *RenderNode) *ShadowNode {
 	renderChildren := parentNode.Children()
 
 	firstEligibleIndex := 0
-	for idx, shadowChild := range shadowChildren  {
+	for idx, shadowChild := range shadowChildren {
 		hasMatch := false
 		for _, renderChild := range renderChildren {
 			if renderChild.data.match == shadowChild {
@@ -53,7 +53,6 @@ func match(parentNode *RenderNode, renderNode *RenderNode) *ShadowNode {
 		return nil
 	}
 
-
 	for _, shadowChild := range shadowChildren[firstEligibleIndex:] {
 		keyOne := shadowChild.data.fullkey
 		keyTwo := renderNode.data.description.fullkey
@@ -68,7 +67,7 @@ func match(parentNode *RenderNode, renderNode *RenderNode) *ShadowNode {
 func getFullKey(desc ElementDescription) string {
 	keyParts := []string{desc.Kind, desc.Key}
 
-	maxFrames := 10 
+	maxFrames := 10
 	frameBuff := make([]uintptr, maxFrames)
 	// skip Callers, getFullKey, and Render.
 	nCallers := runtime.Callers(3, frameBuff)

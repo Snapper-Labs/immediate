@@ -11,6 +11,7 @@ require (
 )
 
 require (
+	github.com/go-test/deep v1.0.8
 	github.com/golang/protobuf v1.5.2 // indirect
 	github.com/google/go-querystring v1.1.0 // indirect
 	github.com/samber/lo v1.33.0 // indirect

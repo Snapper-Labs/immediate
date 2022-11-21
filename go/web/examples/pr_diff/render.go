@@ -9,6 +9,7 @@ import (
 	"github.com/samber/lo"
 
 	"github.com/google/go-github/v47/github"
+	log "github.com/sirupsen/logrus"
 	"golang.org/x/oauth2"
 
 	immgo "github.com/snapper-labs/immediate/go"
@@ -33,16 +34,14 @@ func Render(ui *immgo.RenderNode, startSha string, endSha string) {
 		if startCommit != "" && endCommit != "" {
 			lo.Async(func() error {
 				setLoading(true)
-				commits := GetCommitInfo(startSha, endSha)
-				fmt.Printf("Got %d commits\n", len(commits))
+				commits := GetCommitInfo(startCommit, endCommit)
+				log.Debugf("Got %d commits\n", len(commits))
 				setCommits(commits)
 				setLoading(false)
 				return nil
 			})
 		}
 	}})
-
-	fmt.Printf("Loading %#v\n", *loading)
 
 	if *loading {
 		toolkit.ProgressBar(container, toolkit.ProgressBarOptions{Indeterminate: true})
@@ -72,22 +71,19 @@ type CommitWithPulls struct {
 	Pulls  []*github.PullRequest
 }
 
-var commitInfo []*CommitWithPulls
-
 func GetCommitInfo(startSha string, endSha string) []*CommitWithPulls {
-	if commitInfo == nil {
-		ts := oauth2.StaticTokenSource(
-			&oauth2.Token{AccessToken: os.Getenv("GITHUB_API_KEY")},
-		)
-		tc := oauth2.NewClient(context.TODO(), ts)
-		client := github.NewClient(tc)
+	var commitInfo []*CommitWithPulls
+	ts := oauth2.StaticTokenSource(
+		&oauth2.Token{AccessToken: os.Getenv("GITHUB_API_KEY")},
+	)
+	tc := oauth2.NewClient(context.TODO(), ts)
+	client := github.NewClient(tc)
 
-		commitWithPulls, err := ListCommitWithPulls(client, startSha, endSha)
-		if err != nil {
-			panic(err)
-		}
-		commitInfo = commitWithPulls
+	commitWithPulls, err := ListCommitWithPulls(client, startSha, endSha)
+	if err != nil {
+		panic(err)
 	}
+	commitInfo = commitWithPulls
 
 	return commitInfo
 }
@@ -126,6 +122,9 @@ func ListCommits(client *github.Client, startSha string, endSha string) ([]*gith
 	if err != nil {
 		return nil, err
 	}
+
+	log.Debugf("Got %d commits\n", len(commits))
+
 	return FilterCommitRange(commits, startSha, endSha), nil
 }
 

@@ -5,6 +5,7 @@ import (
 	"net/url"
 	"os"
 
+	log "github.com/sirupsen/logrus"
 	immgo "github.com/snapper-labs/immediate/go"
 	"github.com/snapper-labs/immediate/go/web"
 	sevengui "github.com/snapper-labs/immediate/go/web/examples/7gui"
@@ -18,14 +19,18 @@ type app struct{}
 func (this *app) Render(ui *immgo.RenderNode, doc *web.Document) {
 	toolkit.Initialize(ui, func() {})
 
-	currentURL, setURL := immgo.State(ui, url.URL{})
+	currentURL, setURL := immgo.State(ui, url.URL{}, immgo.StateOptions{Key: "currentURL"})
+	firstRun, setFirstRun := immgo.State(ui, true, immgo.StateOptions{Key: "firstRun"})
 
-	go func() {
-		latestURL, err := doc.GetURL()
-		if err == nil && latestURL != currentURL {
-			setURL(*latestURL)
-		}
-	}()
+	if *firstRun {
+		go func() {
+			setFirstRun(false)
+			latestURL, err := doc.GetURL()
+			if err == nil && latestURL != currentURL {
+				setURL(*latestURL)
+			}
+		}()
+	}
 
 	switch currentURL.Path {
 	case "/7gui":
@@ -43,6 +48,7 @@ func (this *app) Render(ui *immgo.RenderNode, doc *web.Document) {
 
 func main() {
 	port := os.Getenv("PORT")
+	log.SetLevel(log.DebugLevel)
 	if port == "" {
 		port = "8081"
 	}
