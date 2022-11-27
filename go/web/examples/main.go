@@ -11,6 +11,7 @@ import (
 	sevengui "github.com/snapper-labs/immediate/go/web/examples/7gui"
 	prdiff "github.com/snapper-labs/immediate/go/web/examples/pr_diff"
 	toolkitdemo "github.com/snapper-labs/immediate/go/web/examples/toolkit-demo"
+	vmkill "github.com/snapper-labs/immediate/go/web/examples/vm_kill"
 	"github.com/snapper-labs/immediate/go/web/toolkit"
 )
 
@@ -41,6 +42,8 @@ func (this *app) Render(ui *immgo.RenderNode, doc *web.Document) {
 		startSha := currentURL.Query().Get("startSha")
 		endSha := currentURL.Query().Get("endSha")
 		prdiff.Render(ui, startSha, endSha)
+	case "/vm-kill":
+		vmkill.Render(ui)
 	default:
 		toolkit.Markdown(ui, fmt.Sprintf("Unknown path: %s", currentURL.Path))
 	}
